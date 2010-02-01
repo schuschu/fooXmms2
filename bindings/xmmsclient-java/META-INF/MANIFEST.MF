@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: XMMS2 Client Plug-in
+Bundle-SymbolicName: se.fnord.xmms2.client
+Bundle-Version: 1.0.0
+Export-Package: se.fnord.xmms2.client;uses:="se.fnord.xmms2.client.internal",
+ se.fnord.xmms2.client.commands;uses:="se.fnord.xmms2.types,se.fnord.xmms2.client.internal,se.fnord.xmms2.client",
+ se.fnord.xmms2.client.commands.utils;uses:="se.fnord.xmms2.client,se.fnord.xmms2.client.commands",
+ se.fnord.xmms2.client.types
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
