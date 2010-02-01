@@ -1,12 +1,14 @@
 package org.dyndns.schuschu.xmms2client;
 
+import java.util.Observer;
+
 import se.fnord.xmms2.client.types.CollectionExpression;
 
 /**
  * @author schuschu
  * 
  */
-public interface FooInterfaceBackend {
+public interface FooInterfaceBackend extends Observer {
 
 	/**
 	 * Used to refresh oneself and if necessary ones next element
@@ -22,7 +24,7 @@ public interface FooInterfaceBackend {
 	 * 
 	 * @param baseConetent
 	 */
-	public void setBaseConetent(CollectionExpression baseConetent);
+//	public void setBaseConetent(CollectionExpression baseConetent);
 
 	/**
 	 * Used to apply all filters to baseContent and push it to next element
@@ -35,13 +37,6 @@ public interface FooInterfaceBackend {
 	public void setToAll();
 
 	/**
-	 * used to set next element
-	 * 
-	 * @param next
-	 */
-	public void setNext(FooInterfaceViewElement next);
-
-	/**
 	 * getter function for the CollectionExpression filteredConent
 	 * 
 	 * @return
@@ -49,15 +44,22 @@ public interface FooInterfaceBackend {
 	public CollectionExpression getFilteredConetent();
 
 	/**
-	 * setter function for the CollectionExpression filteredContent
-	 * 
-	 * @param filteredConetent
-	 */
-	public void setFilteredConetent(CollectionExpression filteredConetent);
-
-	/**
 	 * enqueues the current selection (filteredContent) to active playlist
 	 */
 	public void enqueuSelection();
+	
+	/**
+	 * getter function for the FooInterfaceBackend contentProvider
+	 * 
+	 * @return
+	 */
+	public FooPluginBackendBase getContentProvider();
+	
+	/**
+	 * setter function for the FooInterfaceBackend contentProvider
+	 * 
+	 * @param contentProvider
+	 */
+	public void setContentProvider(FooPluginBackendBase contentProvider);
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
@@ -19,8 +20,8 @@ import se.fnord.xmms2.client.types.CollectionType;
  * @author schuschu
  * 
  */
-public class FooPluginBackendPlaylist implements Serializable,
-		FooInterfaceBackend {
+public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
+		Serializable {
 
 	/**
 	 * this List contains all values which will be usable by this list it should
@@ -49,13 +50,10 @@ public class FooPluginBackendPlaylist implements Serializable,
 	private String[] playlistDatabase;
 
 	/**
-	 * This is the next Element where the content filtered by this list will be
-	 * displayed. The content is updated when the baseContent is changed or
-	 * generateFilteredContent is called
+	 * This is the Backend which provides the baseContent.
+	 * 
 	 */
-	// TODO: observer pattern or reverse current oder (notify next to pull not
-	// push without notice)
-	private FooInterfaceViewElement next;
+	private FooPluginBackendBase contentProvider;
 
 	/**
 	 * executeFilterCommand builds the xmms2-command for filtering the
@@ -139,9 +137,13 @@ public class FooPluginBackendPlaylist implements Serializable,
 			e.printStackTrace();
 		}
 
-		if (next != null) {
-			next.getBackend().setBaseConetent(filteredConetent);
-		}
+		setChanged();
+		notifyObservers();
+
+		/*
+		 * if (next != null) {
+		 * next.getBackend().setBaseConetent(filteredConetent); }
+		 */
 	}
 
 	/**
@@ -160,9 +162,11 @@ public class FooPluginBackendPlaylist implements Serializable,
 				.setContent(new Vector<String>(Arrays
 						.asList(getPlaylistDatabase())));
 
-		if (next != null) {
-			next.getBackend().refresh();
-		}
+		setChanged();
+
+		/*
+		 * if (next != null) { next.getBackend().refresh(); }
+		 */
 	}
 
 	/**
@@ -189,7 +193,7 @@ public class FooPluginBackendPlaylist implements Serializable,
 		this.view = view;
 		this.playlistDatabase = null;
 		this.setClient(client);
-		this.setNext(null);
+		
 		// There can only be one...
 		view.setSingleSelectionMode();
 	}
@@ -209,7 +213,6 @@ public class FooPluginBackendPlaylist implements Serializable,
 	 * @return
 	 */
 	public CollectionExpression getFilteredConetent() {
-		generateFilteredContent();
 		return filteredConetent;
 	}
 
@@ -240,24 +243,6 @@ public class FooPluginBackendPlaylist implements Serializable,
 		this.client = client;
 	}
 
-	/**
-	 * setter function for the FooPluginViewElementList next
-	 * 
-	 * @param next
-	 */
-	public void setNext(FooInterfaceViewElement next) {
-		this.next = next;
-	}
-
-	/**
-	 * getter function for the FooPluginViewElementList next
-	 * 
-	 * @return
-	 */
-	public FooInterfaceViewElement getNext() {
-		return next;
-	}
-
 	@Override
 	public void enqueuSelection() {
 		Command c = Playlist.load(playlistDatabase[view.getIndices()[0]]);
@@ -277,5 +262,23 @@ public class FooPluginBackendPlaylist implements Serializable,
 
 	public void setPlaylistDatabase(String[] playlistDatabase) {
 		this.playlistDatabase = playlistDatabase;
+	}
+
+	@Override
+	public FooPluginBackendBase getContentProvider() {
+		return contentProvider;
+	}
+
+	@Override
+	public void setContentProvider(FooPluginBackendBase contentProvider) {
+		this.contentProvider = contentProvider;
+		contentProvider.addObserver(this);
+
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		contentProvider.getFilteredConetent();
+
 	}
 }

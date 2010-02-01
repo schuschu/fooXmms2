@@ -6,7 +6,7 @@ import java.util.Vector;
  * @author schuschu
  * 
  */
-public interface FooInterfaceViewElement {
+public interface FooInterfaceViewElement{
 
 	/**
 	 * gets the currently selected indices(or index) normally by calling the
@@ -30,14 +30,14 @@ public interface FooInterfaceViewElement {
 	 * 
 	 * @param backend
 	 */
-	public void setBackend(FooInterfaceBackend backend);
+	public void setBackend(FooPluginBackendBase backend);
 
 	/**
 	 * gets the elements backend. (no use for this found yet...)
 	 * 
 	 * @return
 	 */
-	public FooInterfaceBackend getBackend();
+	public FooPluginBackendBase getBackend();
 	
 	public void setSingleSelectionMode();
 }

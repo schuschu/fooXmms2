@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client;
 
 import se.fnord.xmms2.client.Client;
+
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -22,33 +23,32 @@ import javax.swing.JComboBox;
 public class FooPluginViewElementComboBox extends JComboBox implements
 		FooInterfaceViewElement {
 
-
 	/**
 	 * I have no idea what that stupid thing is for...
 	 */
 	private static final long serialVersionUID = 3504234292360728173L;
-	
+
 	/**
 	 * All the information processing xmms2connection etc is done there
 	 */
-	private FooInterfaceBackend backend; 
+	private FooPluginBackendBase backend;
 
 	/**
 	 * Default constructor
 	 */
-	public FooPluginViewElementComboBox(){
-		
+	public FooPluginViewElementComboBox() {
+
 	}
-		
+
 	/**
 	 * Constructor using a already defined backend
 	 * 
 	 * @param backend
 	 */
-	public FooPluginViewElementComboBox(FooInterfaceBackend backend){
+	public FooPluginViewElementComboBox(FooPluginBackendBase backend) {
 		setBackend(backend);
 	}
-	
+
 	/**
 	 * Constructor creating its own FooPluginBackendMedia
 	 * 
@@ -56,11 +56,12 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	 * @param filter
 	 * @param client
 	 */
-	public FooPluginViewElementComboBox(String format, String filter, Client client) {
-			super();
-			setBackend(new FooPluginBackendMedia(format, filter, client, this));
+	public FooPluginViewElementComboBox(String format, String filter,
+			Client client) {
+		super();
+		setBackend(new FooPluginBackendMedia(format, filter, client, this));
 	}
-		
+
 	@Override
 	public int[] getIndices() {
 		int[] indecies = new int[1];
@@ -70,22 +71,22 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 
 	@Override
 	public void setContent(Vector<String> content) {
-		
+
 		super.removeAllItems();
 
 		for (String text : content) {
 			super.addItem(text);
 		}
-		
+
 	}
-	
+
 	@Override
-	public void setBackend(FooInterfaceBackend backend) {
+	public void setBackend(FooPluginBackendBase backend) {
 		this.backend = backend;
 	}
 
 	@Override
-	public FooInterfaceBackend getBackend() {
+	public FooPluginBackendBase getBackend() {
 		return backend;
 	}
 
@@ -93,6 +94,5 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	public void setSingleSelectionMode() {
 		// nothing to do
 	}
-
 
 }

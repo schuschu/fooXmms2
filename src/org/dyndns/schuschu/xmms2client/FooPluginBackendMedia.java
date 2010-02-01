@@ -3,6 +3,7 @@ package org.dyndns.schuschu.xmms2client;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 import java.util.Vector;
 
 import se.fnord.xmms2.client.Client;
@@ -20,7 +21,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * @author schuschu
  * 
  */
-public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend {
+public class FooPluginBackendMedia extends FooPluginBackendBase implements Serializable {
 
 	/**
 	 * this List contains all values which will be usable by this list it should
@@ -75,11 +76,10 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 	private List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
 
 	/**
-	 * This is the next Element where the content filtered by this list will be
-	 * displayed. The content is updated when the baseContent is changed or
-	 * generateFilteredContent is called
+	 * This is the Backend which provides the baseContent.
+	 * 
 	 */
-	private FooInterfaceViewElement next;
+	private FooPluginBackendBase contentProvider;
 
 	/**
 	 * createContent converts a List of Dicts to a Vector of Strings using a
@@ -210,9 +210,14 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 			e.printStackTrace();
 		}
 
-		if (next != null) {
-			next.getBackend().setBaseConetent(filteredConetent);
-		}
+		
+		setChanged();
+		notifyObservers();
+
+		/*
+		 * if (next != null) {
+		 * next.getBackend().setBaseConetent(filteredConetent); }
+		 */
 
 	}
 
@@ -232,9 +237,14 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 
 		view.setContent(content);
 
+		setChanged();
+		notifyObservers();
+		
+		/*
 		if (next != null) {
 			next.getBackend().refresh();
 		}
+		*/
 	}
 
 	/**
@@ -264,12 +274,11 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 		this.setFormat(format);
 		this.baseConetent = CollectionBuilder.getEmptyExpression();
 		this.setClient(client);
-		this.setNext(null);
 		this.setOrderBy(query_fields);
 		// this.setOrderBy(Arrays.asList(new String[] { filter }));
 	}
-	
-	public void evaluateFields(String format){
+
+	public void evaluateFields(String format) {
 		// TODO: need to find a better way to do this! Don't understand regex
 		// that well
 		Vector<String> possible = new Vector<String>();
@@ -300,7 +309,7 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 	 */
 	public void setFormat(String format) {
 		Vector<String> newQuery = new Vector<String>();
-		
+
 		evaluateFields(format);
 
 		for (String match : POSSIBLE_VALUES) {
@@ -338,9 +347,7 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 	public void setBaseConetent(CollectionExpression baseConetent) {
 		this.baseConetent = baseConetent;
 		refresh();
-		if (next != null) {
-			generateFilteredContent();
-		}
+		generateFilteredContent();
 	}
 
 	/**
@@ -349,7 +356,6 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 	 * @return
 	 */
 	public CollectionExpression getFilteredConetent() {
-		generateFilteredContent();
 		return filteredConetent;
 	}
 
@@ -435,24 +441,6 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 	}
 
 	/**
-	 * setter function for the FooPluginViewElementList next
-	 * 
-	 * @param next
-	 */
-	public void setNext(FooInterfaceViewElement next) {
-		this.next = next;
-	}
-
-	/**
-	 * getter function for the FooPluginViewElementList next
-	 * 
-	 * @return
-	 */
-	public FooInterfaceViewElement getNext() {
-		return next;
-	}
-
-	/**
 	 * setter function for the String filter
 	 * 
 	 * @param filter
@@ -516,5 +504,21 @@ public class FooPluginBackendMedia implements Serializable, FooInterfaceBackend 
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+
+	@Override
+	public FooPluginBackendBase getContentProvider() {
+		return contentProvider;
+	}
+
+	@Override
+	public void setContentProvider(FooPluginBackendBase contentProvider) {
+		this.contentProvider = contentProvider;
+		contentProvider.addObserver(this);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.setBaseConetent(contentProvider.getFilteredConetent());
 	}
 }

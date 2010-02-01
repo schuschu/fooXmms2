@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client;
 
 import se.fnord.xmms2.client.Client;
+
 import java.util.Vector;
 
 import javax.swing.JList;
@@ -31,7 +32,7 @@ public class FooPluginViewElementList extends JList implements
 	/**
 	 * All the information processing xmms2connection etc is done there
 	 */
-	private FooInterfaceBackend backend;
+	private FooPluginBackendBase backend;
 
 	/**
 	 * Default constructor
@@ -45,7 +46,7 @@ public class FooPluginViewElementList extends JList implements
 	 * 
 	 * @param backend
 	 */
-	public FooPluginViewElementList(FooInterfaceBackend backend) {
+	public FooPluginViewElementList(FooPluginBackendBase backend) {
 		setBackend(backend);
 	}
 
@@ -73,12 +74,12 @@ public class FooPluginViewElementList extends JList implements
 	}
 
 	@Override
-	public void setBackend(FooInterfaceBackend backend) {
+	public void setBackend(FooPluginBackendBase backend) {
 		this.backend = backend;
 	}
 
 	@Override
-	public FooInterfaceBackend getBackend() {
+	public FooPluginBackendBase getBackend() {
 		return backend;
 	}
 

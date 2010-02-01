@@ -77,13 +77,13 @@ public class FooPluginWindowDefault extends JFrame {
 			}
 		});
 		// here starts the magic (content chaining)
-		fpVeCbPlaylist.getBackend().setToAll();
-		fpVeCbPlaylist.getBackend().setNext(fpVeLiPlaylist);
 		fpVeLiArtist.getBackend().setToAll();
-		fpVeLiArtist.getBackend().setNext(fpVeLiAlbum);
-		fpVeLiAlbum.getBackend().setNext(fpVeLiTrack);
-		fpVeLiTrack.getBackend().setNext(null);
-
+		
+		fpVeLiAlbum.getBackend().setContentProvider(fpVeLiArtist.getBackend());
+		fpVeLiTrack.getBackend().setContentProvider(fpVeLiAlbum.getBackend());
+		
+		fpVeLiPlaylist.getBackend().setContentProvider(fpVeCbPlaylist.getBackend());
+		
 		// TODO: workaround to load content on startup;
 		fpVeCbPlaylist.getBackend().refresh();		
 	}
