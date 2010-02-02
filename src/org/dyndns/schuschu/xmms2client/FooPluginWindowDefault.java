@@ -4,11 +4,16 @@ import se.fnord.xmms2.client.Client;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
+import java.awt.AWTKeyStroke;
 import java.awt.GridLayout;
+import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author schuschu
@@ -87,6 +92,37 @@ public class FooPluginWindowDefault extends JFrame {
 
 		// TODO: workaround to load content on startup;
 		fpVeCbPlaylist.getBackend().refresh();
+
+		// ensure artist list gets focus
+		// atm unneeded because ArtistList is first element in layout
+		/*
+		this.addWindowFocusListener(new WindowAdapter() {
+		    public void windowGainedFocus(WindowEvent e) {
+		        fpVeLiArtist.requestFocusInWindow();
+		    }
+		});
+		*/
+
+		// TODO: create own FocusTraversalPolicy
+		// extend set of focus traversal keys
+		Set<AWTKeyStroke> forwardKeys = getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
+		Set<AWTKeyStroke> newForwardKeys = new HashSet<AWTKeyStroke>(forwardKeys);
+		newForwardKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
+
+		Set<AWTKeyStroke> backwardKeys = getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
+		Set<AWTKeyStroke> newBackwardKeys = new HashSet<AWTKeyStroke>(backwardKeys);
+		newBackwardKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
+		
+		fpVeLiArtist.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiArtist.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeLiAlbum.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiAlbum.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeLiTrack.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiTrack.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeCbPlaylist.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeCbPlaylist.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeLiPlaylist.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiPlaylist.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
 	}
 
 	/**
@@ -229,24 +265,35 @@ public class FooPluginWindowDefault extends JFrame {
 		if (fpVeLiPlaylist == null) {
 			fpVeLiPlaylist = new FooPluginViewElementList();
 			
-			FooPluginBackendMedia back = new FooPluginBackendMedia("%id%: %artist%- %title%" , "title", client,fpVeLiPlaylist);
+			FooPluginBackendMedia back = new FooPluginBackendMedia("%id%: %artist% - %title%" , "title", client,fpVeLiPlaylist);
 			back.setPlaylist_mode(true);
 					
 			fpVeLiPlaylist.setBackend(back);
 			fpVeLiPlaylist.addKeyListener(new KeyListener() {
 
 				@Override
-				public void keyTyped(KeyEvent e) {
-					fpVeLiPlaylist.getBackend().playSelection();
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
-
-				@Override
 				public void keyPressed(KeyEvent e) {
+					// TODO: playback & playlist editing
+					if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+						System.out.println ("focus left panel");
+					}
+
+					if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+						System.out.println ("delete selected entry");
+					}
+
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						System.out.println ("play selected entry");
+					}
+					
 				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {}
+
+				@Override
+				public void keyTyped(KeyEvent e) {}
+
 			});
 
 		}

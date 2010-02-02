@@ -28,7 +28,7 @@ public class FooPluginViewTrayicon {
 		SystemTray tray = SystemTray.getSystemTray();
 
 		// sadly only supports gif, jpg or png
-		Image image = Toolkit.getDefaultToolkit().getImage("xmms2-48.png");
+		Image image = Toolkit.getDefaultToolkit().getImage("pixmaps/xmms2-48.png");
 
 		MouseListener mouseListener = new MouseListener() {
 
