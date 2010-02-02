@@ -18,6 +18,7 @@ public class Loader {
 	public static void main (String[] args) {
 		
 		// TODO: add debug flag
+		// TODO: get a git howto
 
 		// set default host
 		String host = new String("127.0.0.1");
