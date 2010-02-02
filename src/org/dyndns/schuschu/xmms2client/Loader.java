@@ -1,5 +1,7 @@
 package org.dyndns.schuschu.xmms2client;
 
+import java.awt.SystemTray;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
 
@@ -62,7 +64,13 @@ public class Loader {
 		client.start();
 
 		FooPluginWindowDefault main = new FooPluginWindowDefault(client);
-		main.setVisible(true);
+
+		if (SystemTray.isSupported()) {
+			@SuppressWarnings("unused")
+			FooPluginViewTrayicon trayicon = new FooPluginViewTrayicon(main);
+		} else {
+			main.setVisible(true);
+		}
 	}
 
 	/**
