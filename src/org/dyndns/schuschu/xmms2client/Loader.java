@@ -68,7 +68,7 @@ public class Loader {
 
 		if (SystemTray.isSupported()) {
 			@SuppressWarnings("unused")
-			FooPluginViewTrayicon trayicon = new FooPluginViewTrayicon(main);
+			FooPluginViewTrayicon trayicon = new FooPluginViewTrayicon(main, client);
 		} else {
 			main.setVisible(true);
 		}
