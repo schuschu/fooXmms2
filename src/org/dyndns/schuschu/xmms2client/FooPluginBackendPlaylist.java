@@ -14,7 +14,6 @@ import se.fnord.xmms2.client.commands.Playlist;
 import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionNamespace;
-import se.fnord.xmms2.client.types.CollectionType;
 
 /**
  * @author schuschu
@@ -22,14 +21,6 @@ import se.fnord.xmms2.client.types.CollectionType;
  */
 public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 		Serializable {
-
-	/**
-	 * this List contains all values which will be usable by this list it should
-	 * by possible to be modified by all ViewElements in the client. Maybe a
-	 * different position for this list is needed
-	 */
-	static List<String> POSSIBLE_VALUES = Arrays.asList(new String[] {
-			"artist", "album", "date", "title" });
 
 	/**
 	 * I have no idea what that stupid thing is for...
@@ -46,8 +37,10 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 
 	private CollectionExpression filteredConetent;
 
-	// TODO: unify these?
 	private String[] playlistDatabase;
+
+	private List<Integer> playListOrder;
+	
 
 	/**
 	 * This is the Backend which provides the baseContent.
@@ -65,34 +58,20 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 	 * @throws InterruptedException
 	 *             but i don't know why :)
 	 */
-	public void executeFilterCommand(int[] indices) throws InterruptedException {
+	public void executeFilterCommand() throws InterruptedException {
 
-		if (indices.length == 0 || indices[0] != -1) {
+		Command command = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
 
-			Vector<CollectionExpression> ops = new Vector<CollectionExpression>();
-			CollectionBuilder operand = new CollectionBuilder();
-			CollectionBuilder master = new CollectionBuilder();
-			master.setType(CollectionType.UNION);
+		List<Integer> ids = command.executeSync(client);
 
-			for (int index : indices) {
-				if (playlistDatabase[index] != null) {
-					Command command = Playlist
-							.listEntries(playlistDatabase[index].toString());
+		CollectionBuilder cb = new CollectionBuilder();
+		cb.addIds(ids);
+		CollectionExpression ce = cb.build();
 
-					List<Integer> ids = command.executeSync(client);
+		playListOrder = ids;
+		
+		setFilteredConetent(ce);
 
-					operand.setType(CollectionType.IDLIST);
-					operand.addIds(ids);
-					ops.add(operand.build());
-				}
-			}
-			master.addOps(ops);
-
-			setFilteredConetent(master.build());
-
-		} else {
-			setFilteredConetent(CollectionBuilder.getEmptyExpression());
-		}
 	}
 
 	/**
@@ -131,7 +110,7 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 	public void generateFilteredContent() {
 
 		try {
-			executeFilterCommand(view.getIndices());
+			executeFilterCommand();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
@@ -193,7 +172,7 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 		this.view = view;
 		this.playlistDatabase = null;
 		this.setClient(client);
-		
+
 		// There can only be one...
 		view.setSingleSelectionMode();
 	}
@@ -242,7 +221,7 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 	public void setClient(Client client) {
 		this.client = client;
 	}
-
+	
 	@Override
 	public void enqueuSelection() {
 		Command c = Playlist.load(playlistDatabase[view.getIndices()[0]]);
@@ -254,6 +233,11 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void playSelection() {
+		// TODO: find use for this
 	}
 
 	public String[] getPlaylistDatabase() {
@@ -281,4 +265,13 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 		contentProvider.getFilteredConetent();
 
 	}
+
+	public void setPlayListOrder(List<Integer> playListOrder) {
+		this.playListOrder = playListOrder;
+	}
+
+	public List<Integer> getPlayListOrder() {
+		return playListOrder;
+	}
+
 }

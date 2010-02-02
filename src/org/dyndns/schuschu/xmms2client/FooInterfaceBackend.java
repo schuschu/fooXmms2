@@ -48,6 +48,8 @@ public interface FooInterfaceBackend extends Observer {
 	 */
 	public void enqueuSelection();
 	
+	public void playSelection();
+	
 	/**
 	 * getter function for the FooInterfaceBackend contentProvider
 	 * 

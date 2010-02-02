@@ -2,7 +2,9 @@ package org.dyndns.schuschu.xmms2client;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -10,6 +12,7 @@ import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
+import se.fnord.xmms2.client.commands.Playback;
 import se.fnord.xmms2.client.commands.Playlist;
 import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionExpression;
@@ -21,7 +24,8 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * @author schuschu
  * 
  */
-public class FooPluginBackendMedia extends FooPluginBackendBase implements Serializable {
+public class FooPluginBackendMedia extends FooPluginBackendBase implements
+		Serializable {
 
 	/**
 	 * this List contains all values which will be usable by this list it should
@@ -73,6 +77,9 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements Seria
 	private CollectionExpression baseConetent;
 	private CollectionExpression filteredConetent;
 
+	// TODO: remove this dirty hack
+	private boolean playlist_mode;
+
 	private List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
 
 	/**
@@ -93,8 +100,40 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements Seria
 	private Vector<String> createContent(List<Dict> Database) {
 		Vector<String> Content = new Vector<String>();
 
-		for (Dict token : Database) {
-			Content.add(createTokenString(format, token));
+		// TODO: fix this hell of a hack
+		if (playlist_mode) {
+			FooPluginBackendPlaylist hack = (FooPluginBackendPlaylist) contentProvider;
+
+			List<Integer> ids = hack.getPlayListOrder();
+
+			try {
+
+				for (int id : ids) {
+
+					CollectionBuilder cb = new CollectionBuilder();
+					cb.setType(CollectionType.IDLIST);
+					cb.addId(id);
+
+					Command c = Collection.query(new InfoQuery(cb.build(), 0,
+							0, Arrays.asList(new String[0]), query_fields,
+							Arrays.asList(new String[0])));
+
+					List<Dict> all = c.executeSync(client);
+
+					for (Dict token : all) {
+						Content.add(createTokenString(format, token));
+					}
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} else {
+
+			for (Dict token : Database) {
+				Content.add(createTokenString(format, token));
+			}
 		}
 
 		return Content;
@@ -210,7 +249,6 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements Seria
 			e.printStackTrace();
 		}
 
-		
 		setChanged();
 		notifyObservers();
 
@@ -239,12 +277,10 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements Seria
 
 		setChanged();
 		notifyObservers();
-		
+
 		/*
-		if (next != null) {
-			next.getBackend().refresh();
-		}
-		*/
+		 * if (next != null) { next.getBackend().refresh(); }
+		 */
 	}
 
 	/**
@@ -507,6 +543,28 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements Seria
 	}
 
 	@Override
+	public void playSelection() {
+
+		int[] ids = view.getIndices();
+
+		if (ids.length == 1) {
+
+			Command cs = Playlist.setPos(ids[0]);
+			Command cp = Playback.tickle();
+			try {
+
+				cs.executeSync(client);
+				cp.executeSync(client);
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	@Override
 	public FooPluginBackendBase getContentProvider() {
 		return contentProvider;
 	}
@@ -520,5 +578,13 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements Seria
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBaseConetent(contentProvider.getFilteredConetent());
+	}
+
+	public void setPlaylist_mode(boolean playlist_mode) {
+		this.playlist_mode = playlist_mode;
+	}
+
+	public boolean isPlaylist_mode() {
+		return playlist_mode;
 	}
 }

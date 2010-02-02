@@ -78,14 +78,15 @@ public class FooPluginWindowDefault extends JFrame {
 		});
 		// here starts the magic (content chaining)
 		fpVeLiArtist.getBackend().setToAll();
-		
+
 		fpVeLiAlbum.getBackend().setContentProvider(fpVeLiArtist.getBackend());
 		fpVeLiTrack.getBackend().setContentProvider(fpVeLiAlbum.getBackend());
-		
-		fpVeLiPlaylist.getBackend().setContentProvider(fpVeCbPlaylist.getBackend());
-		
+
+		fpVeLiPlaylist.getBackend().setContentProvider(
+				fpVeCbPlaylist.getBackend());
+
 		// TODO: workaround to load content on startup;
-		fpVeCbPlaylist.getBackend().refresh();		
+		fpVeCbPlaylist.getBackend().refresh();
 	}
 
 	/**
@@ -226,8 +227,28 @@ public class FooPluginWindowDefault extends JFrame {
 	 */
 	private FooPluginViewElementList getFpVeLiPlaylist() {
 		if (fpVeLiPlaylist == null) {
-			fpVeLiPlaylist = new FooPluginViewElementList("%artist% - %title%",
-					"title", client);
+			fpVeLiPlaylist = new FooPluginViewElementList();
+			
+			FooPluginBackendMedia back = new FooPluginBackendMedia("%id%: %artist%- %title%" , "title", client,fpVeLiPlaylist);
+			back.setPlaylist_mode(true);
+					
+			fpVeLiPlaylist.setBackend(back);
+			fpVeLiPlaylist.addKeyListener(new KeyListener() {
+
+				@Override
+				public void keyTyped(KeyEvent e) {
+					fpVeLiPlaylist.getBackend().playSelection();
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+				}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+				}
+			});
+
 		}
 		return fpVeLiPlaylist;
 	}
