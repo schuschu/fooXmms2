@@ -2,11 +2,18 @@ package org.dyndns.schuschu.xmms2client;
 
 import java.awt.AWTException;
 import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import se.fnord.xmms2.client.Client;
+import se.fnord.xmms2.client.commands.Playback;
 
 
 /**
@@ -22,7 +29,7 @@ public class FooPluginViewTrayicon {
 	 *        instance of main window
 	 * 
 	 */
-	public FooPluginViewTrayicon(final FooPluginWindowDefault window) {
+	public FooPluginViewTrayicon(final FooPluginWindowDefault window, final Client client) {
 
 		//
 		SystemTray tray = SystemTray.getSystemTray();
@@ -58,6 +65,43 @@ public class FooPluginViewTrayicon {
 
 		icon.setImageAutoSize(true);
 		icon.addMouseListener(mouseListener);
+
+		PopupMenu popup = new PopupMenu();
+		MenuItem miPlay = new MenuItem("Play");
+		miPlay.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Playback.play().executeSync(client);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		MenuItem miStop = new MenuItem("Stop");
+		miStop.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Playback.stop().executeSync(client);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		MenuItem miExit = new MenuItem("Exit");
+		miExit.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		popup.add(miPlay);
+		popup.add(miStop);
+		popup.add(miExit);
+		icon.setPopupMenu(popup);
 
 		try {
 			tray.add(icon);
