@@ -283,7 +283,7 @@ public class FooPluginWindowDefault extends JFrame {
 					}
 
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						System.out.println ("play selected entry");
+						fpVeLiPlaylist.getBackend().playSelection();
 					}
 					
 				}

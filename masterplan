@@ -1,0 +1,19 @@
+******************************************************************************
+*                              schuschus part                                *
+******************************************************************************
+
+This part is about the things that are wrong in the current version:
+
+  The action architecture: different backends have different actions,
+  forcing a playlist backend to have a play selected action is imply wrong
+  -> a keypress event will be send to the backends actionhandler(?) and 
+     will there do whatever it is supposed to do
+  
+  The plugin architecture: there is no plugin architecture. in a later
+  release this project will be moved to a plugin framework 
+  -> http://jpf.sourceforge.net/index.html or a similar framework
+  
+  The configuration architecture: there is no configuration architecture.
+  in a later release a xml based configuration file will be created in 
+  the xmms2 client directory (or closer to the client?)
+  -> utfg  
