@@ -9,33 +9,82 @@ import se.fnord.xmms2.client.ClientFactory;
  */
 public class Loader {
 	
-	final static int ERROR_INVALID_PORT = -1;
-	final static int ERROR_INVALID_DEBUGLEVEL = -2;
-
 	/**
+	 * parses command line arguments
+	 * initializes main window
+	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 		
-		//TODO: Change to more parameters for ip, protocol etc 
-		int port=0;
-		for(String st : args) {
-			if(st.startsWith("-p=") && port!=-1){
-				port = Integer.parseInt(st.substring(3));
-				if(port<=0 || port>65535) {
-					System.out.println("Invalid Port!");
-					System.exit(ERROR_INVALID_PORT);
+		// TODO: add debug flag
+
+		// set default host
+		String host = new String("127.0.0.1");
+		// set default port
+		int port = 9667;
+
+		// parsing command line arguments
+		// if argument is invalid, drop user shit and assume default
+		for (int run = 0; run < args.length; run++) {
+			String trial_host = null;
+
+			// check whether host has been explity specified 
+			if (args[run].equals("--host") || args[run].equals("-h")) {
+				trial_host = new String (args[run + 1]);
+
+				if (validIPAddress(trial_host)) {
+					host = trial_host;
+				}
+			}
+			
+			// check whether port has been explity specified 
+			if (args[run].equals("--port") || args[run].equals("-p")) {
+				int trial_port = 0;
+
+				try {
+					trial_port = Integer.parseInt(args[run + 1]);
+				}
+				catch (NumberFormatException e) {}
+				catch (ArrayIndexOutOfBoundsException e) {}
+
+				// check port range
+				if ((trial_port > 0) && (trial_port < 65535)) {
+					port = trial_port;
 				}
 			}
 		}
-		
+
 		Client client = ClientFactory
-				.create("MyClient", "tcp://127.0.0.1:"+port);
+				.create("fooXmms2", "tcp://" + host + ":" + port);
 
 		client.start();
 
 		FooPluginWindowDefault main = new FooPluginWindowDefault(client);
 		main.setVisible(true);
+	}
 
+	/**
+	 * checks whether an ip address is valid
+	 * 
+	 * @param ip
+	 * @return boolean
+	 */
+	public final static boolean validIPAddress (String ip) {
+	    String[] octets = ip.split("\\.");
+
+	    if (octets.length != 4) {
+	        return false;
+	    }
+
+	    for (String octet : octets) {
+	        int i = Integer.parseInt(octet);
+
+	        if ((i < 0) || (i > 255)) {
+	            return false;
+	        }
+	    }
+
+	    return true;
 	}
 }
