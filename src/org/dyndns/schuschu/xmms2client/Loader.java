@@ -19,6 +19,7 @@ public class Loader {
 		
 		// TODO: add debug flag
 		// TODO: get a git howto
+		// TODO: find tims super duper merging tool
 
 		// set default host
 		String host = new String("127.0.0.1");
