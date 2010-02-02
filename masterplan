@@ -8,6 +8,15 @@ This part is about the things that are wrong in the current version:
   forcing a playlist backend to have a play selected action is imply wrong
   -> a keypress event will be send to the backends actionhandler(?) and 
      will there do whatever it is supposed to do
+     
+  The definition of "defaults". God damn it is annoying during testing if 
+  that stupid window doesn't show up until i klick that trayicon.
+  I don't care what anybody says the default port is, ether parse the config
+  file or throw a error, don't set it randomly to something I don't use
+  
+  The trayicon. upload the damn png and do something about transparency
+  -> https://jdic.dev.java.net/ is somewhere mentioned to have a better 
+     trayicon
   
   The plugin architecture: there is no plugin architecture. in a later
   release this project will be moved to a plugin framework 
