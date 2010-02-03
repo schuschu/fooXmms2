@@ -14,7 +14,7 @@ This part is about the things that are wrong in the current version:
   port is, ether parse the config file or throw a error, don't set it 
   randomly to something I don't use
   
-  The trayicon. no interface, starts itself, sanity in loader!
+  The trayicon. Still only awt trayicon... 
   -> https://jdic.dev.java.net/ branch trayicon, so far no success
   
   The plugin architecture: there is no plugin architecture. in a later
