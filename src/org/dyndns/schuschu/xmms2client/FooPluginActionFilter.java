@@ -5,13 +5,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import se.fnord.xmms2.client.Client;
-
 public class FooPluginActionFilter implements FooInterfaceAction {
 
-	private Client client;
 	private FooPluginBackendMedia backend;
-	private FooInterfaceViewElement view;
 
 	KeyAdapter key = new KeyAdapter() {
 
@@ -47,39 +43,25 @@ public class FooPluginActionFilter implements FooInterfaceAction {
 		backend.enqueuSelection();
 	}
 
+	public FooPluginActionFilter() {
+	}
+
 	public FooPluginActionFilter(FooPluginBackendMedia backend) {
-		initialize(backend, backend.getView());
-	}
-
-	public FooPluginActionFilter(FooPluginBackendMedia backend,
-			FooInterfaceViewElement view) {
-		initialize(backend, view);
-	}
-
-	private void initialize(FooPluginBackendMedia backend,
-			FooInterfaceViewElement view) {
-
-		setClient(client);
 		setBackend(backend);
-		setView(view);
 	}
 
 	public void addListeners() {
-		view.addKeyListener(key);
-		view.addMouseListener(mouse);
+		if (backend != null) {
+			backend.getView().addKeyListener(key);
+			backend.getView().addMouseListener(mouse);
+		}
 	}
 
 	public void removeListeners() {
-		view.removeKeyListener(key);
-		view.removeMouseListener(mouse);
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Client getClient() {
-		return client;
+		if (backend != null) {
+			backend.getView().removeKeyListener(key);
+			backend.getView().removeMouseListener(mouse);
+		}
 	}
 
 	public void setBackend(FooPluginBackendMedia backend) {
@@ -89,13 +71,4 @@ public class FooPluginActionFilter implements FooInterfaceAction {
 	public FooPluginBackendMedia getBackend() {
 		return backend;
 	}
-
-	public void setView(FooInterfaceViewElement view) {
-		this.view = view;
-	}
-
-	public FooInterfaceViewElement getView() {
-		return view;
-	}
-
 }

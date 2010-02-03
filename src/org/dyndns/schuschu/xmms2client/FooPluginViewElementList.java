@@ -24,8 +24,6 @@ public class FooPluginViewElementList extends JList implements
 	 */
 	private FooInterfaceBackend backend;
 
-	private FooInterfaceAction action_manager;
-
 	/**
 	 * Default constructor
 	 */
@@ -90,17 +88,6 @@ public class FooPluginViewElementList extends JList implements
 	@Override
 	public void setSingleSelectionMode() {
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	}
-
-	@Override
-	public void setActionManager(FooInterfaceAction action) {
-		this.action_manager = action;
-		action_manager.addListeners();
-	}
-
-	@Override
-	public FooInterfaceAction getActionManager() {
-		return action_manager;
 	}
 
 	@Override

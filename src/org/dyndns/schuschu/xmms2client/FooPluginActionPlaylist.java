@@ -5,13 +5,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import se.fnord.xmms2.client.Client;
-
 public class FooPluginActionPlaylist implements FooInterfaceAction {
 
-	private Client client;
 	private FooPluginBackendMediaPlaylist backend;
-	private FooInterfaceViewElement view;
 
 	KeyAdapter key = new KeyAdapter() {
 
@@ -51,38 +47,21 @@ public class FooPluginActionPlaylist implements FooInterfaceAction {
 	}
 
 	public FooPluginActionPlaylist(FooPluginBackendMediaPlaylist backend) {
-		initialize(backend, backend.getView());
-	}
-
-	public FooPluginActionPlaylist(FooPluginBackendMediaPlaylist backend,
-			FooInterfaceViewElement view) {
-		initialize(backend, view);
-	}
-
-	private void initialize(FooPluginBackendMediaPlaylist backend,
-			FooInterfaceViewElement view) {
-
-		setClient(client);
-		setBackend(backend);
-		setView(view);
+		this.setBackend(backend);
 	}
 
 	public void addListeners() {
-		view.addKeyListener(key);
-		view.addMouseListener(mouse);
+		if (backend != null) {
+			backend.getView().addKeyListener(key);
+			backend.getView().addMouseListener(mouse);
+		}
 	}
 
 	public void removeListeners() {
-		view.removeKeyListener(key);
-		view.removeMouseListener(mouse);
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Client getClient() {
-		return client;
+		if (backend != null) {
+			backend.getView().removeKeyListener(key);
+			backend.getView().removeMouseListener(mouse);
+		}
 	}
 
 	public void setBackend(FooPluginBackendMediaPlaylist backend) {
@@ -92,13 +71,4 @@ public class FooPluginActionPlaylist implements FooInterfaceAction {
 	public FooPluginBackendMediaPlaylist getBackend() {
 		return backend;
 	}
-
-	public void setView(FooInterfaceViewElement view) {
-		this.view = view;
-	}
-
-	public FooInterfaceViewElement getView() {
-		return view;
-	}
-
 }

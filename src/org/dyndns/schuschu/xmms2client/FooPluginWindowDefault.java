@@ -72,6 +72,7 @@ public class FooPluginWindowDefault extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+
 		this.setContentPane(getJPanel());
 		this.setTitle(getWindow_title());
 		this.setBounds(new Rectangle(0, 0, WIDTH + (3 * BOARDER), HEIGHT));
@@ -89,7 +90,7 @@ public class FooPluginWindowDefault extends JFrame {
 		fpVeLiPlaylist.getBackend().setContentProvider(
 				fpVeCbPlaylist.getBackend());
 
-		// TODO: workaround to load content on startup;
+		// TODO: remove workaround to load content on startup;
 		fpVeCbPlaylist.getBackend().refresh();
 
 		// ensure artist list gets focus
@@ -172,7 +173,7 @@ public class FooPluginWindowDefault extends JFrame {
 			fpVeLiArtist.setBackend(backend);
 
 			FooPluginActionFilter action = new FooPluginActionFilter(backend);
-			fpVeLiArtist.setActionManager(action);
+			action.addListeners();
 
 		}
 		return fpVeLiArtist;
@@ -187,13 +188,13 @@ public class FooPluginWindowDefault extends JFrame {
 		if (fpVeLiAlbum == null) {
 			fpVeLiAlbum = new FooPluginViewElementList();
 
-			// I still prefer album (date) but i don't realy care that much			
+			// I still prefer album (date) but i don't realy care that much
 			FooPluginBackendMedia backend = new FooPluginBackendMedia(
 					"%date% - %album%", "album", client, fpVeLiAlbum);
 			fpVeLiAlbum.setBackend(backend);
 
 			FooPluginActionFilter action = new FooPluginActionFilter(backend);
-			fpVeLiAlbum.setActionManager(action);
+			action.addListeners();
 
 		}
 		return fpVeLiAlbum;
@@ -213,7 +214,7 @@ public class FooPluginWindowDefault extends JFrame {
 			fpVeLiTrack.setBackend(backend);
 
 			FooPluginActionFilter action = new FooPluginActionFilter(backend);
-			fpVeLiTrack.setActionManager(action);
+			action.addListeners();
 		}
 		return fpVeLiTrack;
 	}
@@ -234,7 +235,7 @@ public class FooPluginWindowDefault extends JFrame {
 
 			FooPluginActionPlaylist action = new FooPluginActionPlaylist(
 					backend);
-			fpVeLiTrack.setActionManager(action);
+			action.addListeners();
 		}
 		return fpVeLiPlaylist;
 	}

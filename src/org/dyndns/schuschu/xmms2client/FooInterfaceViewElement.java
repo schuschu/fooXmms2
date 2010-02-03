@@ -41,10 +41,6 @@ public interface FooInterfaceViewElement{
 	 */
 	public FooInterfaceBackend getBackend();
 	
-	public void setActionManager(FooInterfaceAction action);
-	
-	public FooInterfaceAction getActionManager();
-	
 	public void addKeyListener(KeyListener key);
 	
 	public void removeKeyListener(KeyListener key);

@@ -24,8 +24,6 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	 */
 	private FooInterfaceBackend backend;
 
-	private FooInterfaceAction action_manager;
-
 	/**
 	 * Default constructor
 	 */
@@ -96,17 +94,6 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	@Override
 	public void setSingleSelectionMode() {
 		// nothing to do
-	}
-
-	@Override
-	public void setActionManager(FooInterfaceAction action) {
-		this.action_manager = action;
-
-	}
-
-	@Override
-	public FooInterfaceAction getActionManager() {
-		return action_manager;
 	}
 
 	@Override
