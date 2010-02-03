@@ -1,7 +1,5 @@
 package org.dyndns.schuschu.xmms2client;
 
-import java.awt.SystemTray;
-
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
 
