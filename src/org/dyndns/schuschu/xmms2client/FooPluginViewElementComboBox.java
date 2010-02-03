@@ -7,16 +7,6 @@ import java.util.Vector;
 
 import javax.swing.JComboBox;
 
-/*
- * TODO:
- * - better way to set POSSIBLE Values, either a global variable (not in list) some static vodoo or by parsing the format string 
- * - migrate to java plugin framework
- * - add Extensionpoints for doubleclick==enter action
- * - add Extensionpoints to integrate into Panels Extensionpoint
- * - add Extensionpoint for next Element
- * - sleep
- */
-
 /**
  * @author schuschu
  * 
