@@ -25,9 +25,9 @@ public class FooPluginWindowDefault extends JFrame {
 	 */
 	private static final long serialVersionUID = -8692328843233503738L;
 
-	final static int WIDTH = 600;
-	final static int HEIGHT = 400;
-	final static int BOARDER = 5;
+	final static int WIDTH = 1000;
+	final static int HEIGHT = 600;
+	final static int BOARDER = 2;
 
 	private static String window_title = "fooXmms2";
 
