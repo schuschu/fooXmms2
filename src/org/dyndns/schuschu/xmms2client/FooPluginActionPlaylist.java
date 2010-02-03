@@ -22,6 +22,7 @@ public class FooPluginActionPlaylist implements FooInterfaceAction {
 				play();
 				break;
 			case KeyEvent.VK_DELETE:
+				backend.removeSelection();
 				break;
 			default:
 				super.keyTyped(e);

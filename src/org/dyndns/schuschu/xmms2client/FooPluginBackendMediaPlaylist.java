@@ -55,7 +55,8 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 		
 		try {
 			c.executeSync(getClient());
-			refresh();
+			// TODO: replace with broadcast!
+			getContentProvider().generateFilteredContent();
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
