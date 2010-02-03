@@ -58,7 +58,7 @@ public class Loader {
 			}
 
 			// check if the window is supposed to go into tray directly
-			if (args[run].equals("--hiden") || args[run].equals("-h")) {
+			if (args[run].equals("--icon") || args[run].equals("-i")) {
 				hidden = true;
 			}
 		}
