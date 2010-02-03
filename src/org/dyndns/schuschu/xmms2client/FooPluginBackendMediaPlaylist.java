@@ -33,10 +33,12 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 		if (ids.length == 1) {
 
 			Command cs = Playlist.setPos(ids[0]);
-			Command cp = Playback.tickle();
+			Command ct = Playback.tickle();
+			Command cp = Playback.play();
 			try {
 
 				cs.executeSync(getClient());
+				ct.executeSync(getClient());
 				cp.executeSync(getClient());
 
 			} catch (InterruptedException e) {
