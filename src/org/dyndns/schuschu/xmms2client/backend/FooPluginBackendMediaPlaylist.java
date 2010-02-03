@@ -1,8 +1,10 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.backend;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
+
+import org.dyndns.schuschu.xmms2client.view.element.FooInterfaceViewElement;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Collection;

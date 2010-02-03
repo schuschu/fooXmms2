@@ -1,8 +1,10 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.Vector;
+
+import org.dyndns.schuschu.xmms2client.backend.FooInterfaceBackend;
 
 /**
  * @author schuschu

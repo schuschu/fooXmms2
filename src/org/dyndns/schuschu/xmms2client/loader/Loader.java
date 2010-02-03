@@ -1,4 +1,8 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.loader;
+
+import org.dyndns.schuschu.xmms2client.view.tray.FooInterfaceViewTray;
+import org.dyndns.schuschu.xmms2client.view.tray.FooPluginViewTrayicon;
+import org.dyndns.schuschu.xmms2client.view.window.FooPluginWindowDefault;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;

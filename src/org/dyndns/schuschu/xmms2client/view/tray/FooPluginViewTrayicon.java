@@ -1,19 +1,21 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.view.tray;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import org.dyndns.schuschu.xmms2client.action.playback.FooPluginActionPlaybackExit;
+import org.dyndns.schuschu.xmms2client.action.playback.FooPluginActionPlaybackPlay;
+import org.dyndns.schuschu.xmms2client.action.playback.FooPluginActionPlaybackStop;
+import org.dyndns.schuschu.xmms2client.view.menu.FooPluginViewMenuItem;
+import org.dyndns.schuschu.xmms2client.view.window.FooPluginWindowDefault;
+
 import se.fnord.xmms2.client.Client;
-import se.fnord.xmms2.client.commands.Playback;
 
 /**
  * @author thomas
@@ -31,9 +33,9 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 	private TrayIcon icon = null;
 
 	private PopupMenu popup = null;
-	private MenuItem miPlay = null;
-	private MenuItem miStop = null;
-	private MenuItem miExit = null;
+	private FooPluginViewMenuItem fpVMiPlay = null;
+	private FooPluginViewMenuItem fpVMiStop = null;
+	private FooPluginViewMenuItem fpVMiExit = null;
 
 	public Client getClient() {
 		return client;
@@ -75,20 +77,11 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 		if (icon == null) {
 			icon = new TrayIcon(getImage());
 
-			// TODO: Replace with action
 			MouseAdapter mouseAdapter = new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					// on mouse click toggle visibility
-					if (getWindow().isVisible()) {
-						// set unvisible
-						getWindow().setVisible(false);
-					} else {
-						// set visible
-						getWindow().setVisible(true);
-						// maximize window
-						// window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					}
+					getWindow().toggleVisible();
 				}
 			};
 
@@ -102,66 +95,48 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 	public PopupMenu getPopup() {
 		if (popup == null) {
 			popup = new PopupMenu();
-			popup.add(getMiPlay());
-			popup.add(getMiStop());
-			popup.add(getMiExit());
+			popup.add(getFpVMiPlay());
+			popup.add(getFpVMiStop());
+			popup.add(getFpVMiExit());
 		}
 		return popup;
 	}
 
-	// TODO: MenuItem->Plugin, separate action
-	public MenuItem getMiPlay() {
-		miPlay = new MenuItem("Play");
-		miPlay.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Playback.play().executeSync(getClient());
-				} catch (InterruptedException e1) {
-					Thread.currentThread().interrupt();
-					e1.printStackTrace();
-				}
-			}
-		});
-		return miPlay;
-	}
-
-	// TODO: MenuItem->Plugin, separate action
-	public MenuItem getMiStop() {
-		miStop = new MenuItem("Stop");
-		miStop.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Playback.stop().executeSync(getClient());
-				} catch (InterruptedException e1) {
-					Thread.currentThread().interrupt();
-					e1.printStackTrace();
-				}
-			}
-		});
-		return miStop;
-	}
-
-	// TODO: MenuItem->Plugin, separate action
-	public MenuItem getMiExit() {
-		if (miExit == null) {
-			miExit = new MenuItem("Exit");
-			miExit.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
+	public FooPluginViewMenuItem getFpVMiPlay() {
+		if (fpVMiPlay == null) {
+			fpVMiPlay = new FooPluginViewMenuItem("Play");
+			FooPluginActionPlaybackPlay fpAPlay = new FooPluginActionPlaybackPlay(
+					fpVMiPlay, getClient());
+			fpAPlay.addListeners();
 		}
-		return miExit;
+		return fpVMiPlay;
+	}
+
+	public FooPluginViewMenuItem getFpVMiStop() {
+		if (fpVMiStop == null) {
+			fpVMiStop = new FooPluginViewMenuItem("Stop");
+			FooPluginActionPlaybackStop fpAStop = new FooPluginActionPlaybackStop(
+					fpVMiStop, getClient());
+			fpAStop.addListeners();
+		}
+		return fpVMiStop;
+	}
+
+	public FooPluginViewMenuItem getFpVMiExit() {
+		if (fpVMiExit == null) {
+			fpVMiExit = new FooPluginViewMenuItem("Exit");
+			FooPluginActionPlaybackExit fpAExit = new FooPluginActionPlaybackExit(
+					fpVMiExit);
+			fpAExit.addListeners();
+		}
+		return fpVMiExit;
 	}
 
 	public FooPluginViewTrayicon(final FooPluginWindowDefault window,
 			final Client client, boolean hidden) {
 		setClient(client);
 		setWindow(window);
-		if(!hidden || !isSupported()){
+		if (!hidden || !isSupported()) {
 			getWindow().setVisible(true);
 		}
 	}

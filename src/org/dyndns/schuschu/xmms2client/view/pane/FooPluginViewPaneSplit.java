@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.view.pane;
 
 import java.awt.Component;
 

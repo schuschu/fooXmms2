@@ -1,9 +1,11 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.action;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
 
 public class FooPluginActionFilter implements FooInterfaceAction {
 

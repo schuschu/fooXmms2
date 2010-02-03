@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.view.element;
 
 import se.fnord.xmms2.client.Client;
 
@@ -6,6 +6,9 @@ import java.awt.event.ItemEvent;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
+
+import org.dyndns.schuschu.xmms2client.backend.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
 
 /**
  * @author schuschu

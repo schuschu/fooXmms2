@@ -1,10 +1,20 @@
-package org.dyndns.schuschu.xmms2client;
+package org.dyndns.schuschu.xmms2client.view.window;
 
 import se.fnord.xmms2.client.Client;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
+
+import org.dyndns.schuschu.xmms2client.action.FooPluginActionFilter;
+import org.dyndns.schuschu.xmms2client.action.FooPluginActionPlaylist;
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMediaPlaylist;
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.view.element.FooPluginViewElementComboBox;
+import org.dyndns.schuschu.xmms2client.view.element.FooPluginViewElementList;
+import org.dyndns.schuschu.xmms2client.view.pane.FooPluginViewPaneScroll;
+import org.dyndns.schuschu.xmms2client.view.pane.FooPluginViewPaneSplit;
 
 import java.awt.AWTKeyStroke;
 import java.awt.GridLayout;
@@ -401,5 +411,9 @@ public class FooPluginWindowDefault extends JFrame {
 
 	public static String getWindow_title() {
 		return window_title;
+	}
+	
+	public void toggleVisible(){
+		setVisible(!isVisible());
 	}
 }
