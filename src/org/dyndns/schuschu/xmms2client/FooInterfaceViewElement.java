@@ -1,5 +1,7 @@
 package org.dyndns.schuschu.xmms2client;
 
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 /**
@@ -30,14 +32,28 @@ public interface FooInterfaceViewElement{
 	 * 
 	 * @param backend
 	 */
-	public void setBackend(FooPluginBackendBase backend);
+	public void setBackend(FooInterfaceBackend backend);
 
 	/**
 	 * gets the elements backend. (no use for this found yet...)
 	 * 
 	 * @return
 	 */
-	public FooPluginBackendBase getBackend();
+	public FooInterfaceBackend getBackend();
 	
+	public void setActionManager(FooInterfaceAction action);
+	
+	public FooInterfaceAction getActionManager();
+	
+	public void addKeyListener(KeyListener key);
+	
+	public void removeKeyListener(KeyListener key);
+	
+	public void addMouseListener(MouseListener mouse);
+	
+	public void removeMouseListener(MouseListener mouse);
+		
 	public void setSingleSelectionMode();
+
+	public void setSelection(int[] indices);
 }

@@ -29,15 +29,16 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	private static final long serialVersionUID = 3504234292360728173L;
 
 	/**
-	 * All the information processing xmms2connection etc is done there
+	 * s All the information processing xmms2connection etc is done there
 	 */
-	private FooPluginBackendBase backend;
+	private FooInterfaceBackend backend;
+
+	private FooInterfaceAction action_manager;
 
 	/**
 	 * Default constructor
 	 */
 	public FooPluginViewElementComboBox() {
-
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	 * 
 	 * @param backend
 	 */
-	public FooPluginViewElementComboBox(FooPluginBackendBase backend) {
+	public FooPluginViewElementComboBox(FooInterfaceBackend backend) {
 		setBackend(backend);
 	}
 
@@ -60,6 +61,15 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 			Client client) {
 		super();
 		setBackend(new FooPluginBackendMedia(format, filter, client, this));
+	}
+
+	private void initialize() {
+		addItemListener(new java.awt.event.ItemListener() {
+			public void itemStateChanged(java.awt.event.ItemEvent e) {
+				// TODO: Fires twice, could be merged
+				backend.selectionChanged();
+			}
+		});
 	}
 
 	@Override
@@ -81,18 +91,35 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	}
 
 	@Override
-	public void setBackend(FooPluginBackendBase backend) {
+	public void setBackend(FooInterfaceBackend backend) {
 		this.backend = backend;
+		initialize();
 	}
 
 	@Override
-	public FooPluginBackendBase getBackend() {
+	public FooInterfaceBackend getBackend() {
 		return backend;
 	}
 
 	@Override
 	public void setSingleSelectionMode() {
 		// nothing to do
+	}
+
+	@Override
+	public void setActionManager(FooInterfaceAction action) {
+		this.action_manager = action;
+
+	}
+
+	@Override
+	public FooInterfaceAction getActionManager() {
+		return action_manager;
+	}
+
+	@Override
+	public void setSelection(int[] indices) {
+		super.setSelectedIndex(indices[0]);
 	}
 
 }

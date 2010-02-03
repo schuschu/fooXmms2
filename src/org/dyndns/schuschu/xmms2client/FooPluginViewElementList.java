@@ -32,13 +32,14 @@ public class FooPluginViewElementList extends JList implements
 	/**
 	 * All the information processing xmms2connection etc is done there
 	 */
-	private FooPluginBackendBase backend;
+	private FooInterfaceBackend backend;
+
+	private FooInterfaceAction action_manager;
 
 	/**
 	 * Default constructor
 	 */
 	public FooPluginViewElementList() {
-
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class FooPluginViewElementList extends JList implements
 	 * 
 	 * @param backend
 	 */
-	public FooPluginViewElementList(FooPluginBackendBase backend) {
+	public FooPluginViewElementList(FooInterfaceBackend backend) {
 		setBackend(backend);
 	}
 
@@ -62,6 +63,18 @@ public class FooPluginViewElementList extends JList implements
 		setBackend(new FooPluginBackendMedia(format, filter, client, this));
 	}
 
+	private void initialize() {
+		addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+			public void valueChanged(javax.swing.event.ListSelectionEvent e) {
+				// this prevents multiple events to fire when a
+				// change occurs
+				if (!e.getValueIsAdjusting()) {
+					backend.selectionChanged();
+				}
+			}
+		});
+	}
+
 	@Override
 	public int[] getIndices() {
 		return super.getSelectedIndices();
@@ -74,18 +87,35 @@ public class FooPluginViewElementList extends JList implements
 	}
 
 	@Override
-	public void setBackend(FooPluginBackendBase backend) {
+	public void setBackend(FooInterfaceBackend backend) {
 		this.backend = backend;
+		initialize();
 	}
 
 	@Override
-	public FooPluginBackendBase getBackend() {
+	public FooInterfaceBackend getBackend() {
 		return backend;
 	}
 
 	@Override
 	public void setSingleSelectionMode() {
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);		
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	}
+
+	@Override
+	public void setActionManager(FooInterfaceAction action) {
+		this.action_manager = action;
+		action_manager.addListeners();
+	}
+
+	@Override
+	public FooInterfaceAction getActionManager() {
+		return action_manager;
+	}
+
+	@Override
+	public void setSelection(int[] indices) {
+		super.setSelectedIndices(indices);
 	}
 
 }

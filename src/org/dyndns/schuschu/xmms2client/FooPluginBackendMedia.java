@@ -10,7 +10,6 @@ import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
-import se.fnord.xmms2.client.commands.Playback;
 import se.fnord.xmms2.client.commands.Playlist;
 import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionExpression;
@@ -22,8 +21,8 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * @author schuschu
  * 
  */
-public class FooPluginBackendMedia extends FooPluginBackendBase implements
-		Serializable {
+public class FooPluginBackendMedia extends Observable implements Serializable,
+		FooInterfaceBackend {
 
 	/**
 	 * this List contains all values which will be usable by this list it should
@@ -75,16 +74,13 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 	private CollectionExpression baseConetent;
 	private CollectionExpression filteredConetent;
 
-	// TODO: remove this dirty hack
-	private boolean playlist_mode;
-
 	private List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
 
 	/**
 	 * This is the Backend which provides the baseContent.
 	 * 
 	 */
-	private FooPluginBackendBase contentProvider;
+	private FooInterfaceBackend contentProvider;
 
 	/**
 	 * createContent converts a List of Dicts to a Vector of Strings using a
@@ -95,43 +91,11 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 	 *            generated.
 	 * @return A vector containing the Strings as specified in the String format
 	 */
-	private Vector<String> createContent(List<Dict> Database) {
+	protected Vector<String> createContent(List<Dict> Database) {
 		Vector<String> Content = new Vector<String>();
 
-		// TODO: fix this hell of a hack
-		if (playlist_mode) {
-			FooPluginBackendPlaylist hack = (FooPluginBackendPlaylist) contentProvider;
-
-			List<Integer> ids = hack.getPlayListOrder();
-
-			try {
-
-				for (int id : ids) {
-
-					CollectionBuilder cb = new CollectionBuilder();
-					cb.setType(CollectionType.IDLIST);
-					cb.addId(id);
-
-					Command c = Collection.query(new InfoQuery(cb.build(), 0,
-							0, Arrays.asList(new String[0]), query_fields,
-							Arrays.asList(new String[0])));
-
-					List<Dict> all = c.executeSync(client);
-
-					for (Dict token : all) {
-						Content.add(createTokenString(format, token));
-					}
-				}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		} else {
-
-			for (Dict token : Database) {
-				Content.add(createTokenString(format, token));
-			}
+		for (Dict token : Database) {
+			Content.add(createTokenString(format, token));
 		}
 
 		return Content;
@@ -146,7 +110,7 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 	 * @param token
 	 * @return
 	 */
-	private String createTokenString(String format, Dict token) {
+	protected String createTokenString(String format, Dict token) {
 		/*
 		 * replace everything that stands between %% with the matching part of
 		 * the Dict
@@ -178,7 +142,7 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 	 * @throws InterruptedException
 	 *             but i don't know why :)
 	 */
-	public void executeFilterCommand(int[] indices) throws InterruptedException {
+	protected void executeFilterCommand(int[] indices) throws InterruptedException {
 
 		if (indices.length == 0 || indices[0] != -1) {
 
@@ -217,7 +181,7 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 	 * @throws InterruptedException
 	 *             but i don't know why :)
 	 */
-	public void executeBaseCommand() throws InterruptedException {
+	protected void executeBaseCommand() throws InterruptedException {
 		if (baseConetent != null) {
 
 			Command c = Collection.query(new InfoQuery(baseConetent, 0, 0,
@@ -528,7 +492,6 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 		return view;
 	}
 
-	@Override
 	public void enqueuSelection() {
 		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
 				getFilteredConetent(), 0);
@@ -541,34 +504,12 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 	}
 
 	@Override
-	public void playSelection() {
-
-		int[] ids = view.getIndices();
-
-		if (ids.length == 1) {
-
-			Command cs = Playlist.setPos(ids[0]);
-			Command cp = Playback.tickle();
-			try {
-
-				cs.executeSync(client);
-				cp.executeSync(client);
-
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-	}
-
-	@Override
-	public FooPluginBackendBase getContentProvider() {
+	public FooInterfaceBackend getContentProvider() {
 		return contentProvider;
 	}
 
 	@Override
-	public void setContentProvider(FooPluginBackendBase contentProvider) {
+	public void setContentProvider(FooInterfaceBackend contentProvider) {
 		this.contentProvider = contentProvider;
 		contentProvider.addObserver(this);
 	}
@@ -578,11 +519,8 @@ public class FooPluginBackendMedia extends FooPluginBackendBase implements
 		this.setBaseConetent(contentProvider.getFilteredConetent());
 	}
 
-	public void setPlaylist_mode(boolean playlist_mode) {
-		this.playlist_mode = playlist_mode;
-	}
-
-	public boolean isPlaylist_mode() {
-		return playlist_mode;
+	@Override
+	public void selectionChanged() {
+		generateFilteredContent();
 	}
 }

@@ -11,7 +11,6 @@ import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -96,33 +95,45 @@ public class FooPluginWindowDefault extends JFrame {
 		// ensure artist list gets focus
 		// atm unneeded because ArtistList is first element in layout
 		/*
-		this.addWindowFocusListener(new WindowAdapter() {
-		    public void windowGainedFocus(WindowEvent e) {
-		        fpVeLiArtist.requestFocusInWindow();
-		    }
-		});
-		*/
+		 * this.addWindowFocusListener(new WindowAdapter() { public void
+		 * windowGainedFocus(WindowEvent e) {
+		 * fpVeLiArtist.requestFocusInWindow(); } });
+		 */
 
 		// TODO: create own FocusTraversalPolicy
 		// extend set of focus traversal keys
+
+		// TODO: move this stuff away from here
 		Set<AWTKeyStroke> forwardKeys = getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
-		Set<AWTKeyStroke> newForwardKeys = new HashSet<AWTKeyStroke>(forwardKeys);
+		Set<AWTKeyStroke> newForwardKeys = new HashSet<AWTKeyStroke>(
+				forwardKeys);
 		newForwardKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
 
 		Set<AWTKeyStroke> backwardKeys = getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
-		Set<AWTKeyStroke> newBackwardKeys = new HashSet<AWTKeyStroke>(backwardKeys);
+		Set<AWTKeyStroke> newBackwardKeys = new HashSet<AWTKeyStroke>(
+				backwardKeys);
 		newBackwardKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
-		
-		fpVeLiArtist.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
-		fpVeLiArtist.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
-		fpVeLiAlbum.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
-		fpVeLiAlbum.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
-		fpVeLiTrack.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
-		fpVeLiTrack.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
-		fpVeCbPlaylist.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
-		fpVeCbPlaylist.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
-		fpVeLiPlaylist.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
-		fpVeLiPlaylist.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+
+		fpVeLiArtist.setFocusTraversalKeys(
+				KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiArtist.setFocusTraversalKeys(
+				KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeLiAlbum.setFocusTraversalKeys(
+				KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiAlbum.setFocusTraversalKeys(
+				KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeLiTrack.setFocusTraversalKeys(
+				KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiTrack.setFocusTraversalKeys(
+				KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeCbPlaylist.setFocusTraversalKeys(
+				KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeCbPlaylist.setFocusTraversalKeys(
+				KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
+		fpVeLiPlaylist.setFocusTraversalKeys(
+				KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+		fpVeLiPlaylist.setFocusTraversalKeys(
+				KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, newBackwardKeys);
 	}
 
 	/**
@@ -154,33 +165,16 @@ public class FooPluginWindowDefault extends JFrame {
 	 */
 	private FooPluginViewElementList getFpVeLiArtist() {
 		if (fpVeLiArtist == null) {
-			fpVeLiArtist = new FooPluginViewElementList("%artist%", "artist",
-					client);
-			fpVeLiArtist
-					.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-						public void valueChanged(
-								javax.swing.event.ListSelectionEvent e) {
-							if (!e.getValueIsAdjusting()) {
-								fpVeLiArtist.getBackend()
-										.generateFilteredContent();
-							}
-						}
-					});
-			fpVeLiArtist.addKeyListener(new KeyListener() {
+			fpVeLiArtist = new FooPluginViewElementList();
 
-				@Override
-				public void keyTyped(KeyEvent e) {
-					fpVeLiArtist.getBackend().enqueuSelection();
-				}
+			FooPluginBackendMedia backend = new FooPluginBackendMedia(
+					"%artist%", "artist", client, fpVeLiArtist);
+			fpVeLiArtist.setBackend(backend);
 
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
+			FooPluginActionFilter action = new FooPluginActionFilter(backend);
+			fpVeLiArtist.setActionManager(action);
 
-				@Override
-				public void keyPressed(KeyEvent e) {
-				}
-			});
+			// TODO: fix inital data display
 			fpVeLiArtist.getBackend().refresh();
 
 		}
@@ -194,36 +188,15 @@ public class FooPluginWindowDefault extends JFrame {
 	 */
 	private FooPluginViewElementList getFpVeLiAlbum() {
 		if (fpVeLiAlbum == null) {
-			fpVeLiAlbum = new FooPluginViewElementList("%album% (%date%)",
-					"album", client);
-			fpVeLiAlbum
-					.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-						public void valueChanged(
-								javax.swing.event.ListSelectionEvent e) {
-							// this prevents multiple events to fire when a
-							// change occurs
-							if (!e.getValueIsAdjusting()) {
-								fpVeLiAlbum.getBackend()
-										.generateFilteredContent();
-							}
-						}
-					});
+			fpVeLiAlbum = new FooPluginViewElementList();
 
-			fpVeLiAlbum.addKeyListener(new KeyListener() {
+			FooPluginBackendMedia backend = new FooPluginBackendMedia(
+					"%album% (%date%)", "album", client, fpVeLiAlbum);
+			fpVeLiAlbum.setBackend(backend);
 
-				@Override
-				public void keyTyped(KeyEvent e) {
-					fpVeLiAlbum.getBackend().enqueuSelection();
-				}
+			FooPluginActionFilter action = new FooPluginActionFilter(backend);
+			fpVeLiAlbum.setActionManager(action);
 
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-				}
-			});
 		}
 		return fpVeLiAlbum;
 	}
@@ -235,23 +208,14 @@ public class FooPluginWindowDefault extends JFrame {
 	 */
 	private FooPluginViewElementList getFpVeLiTrack() {
 		if (fpVeLiTrack == null) {
-			fpVeLiTrack = new FooPluginViewElementList("%title%", "title",
-					client);
-			fpVeLiTrack.addKeyListener(new KeyListener() {
+			fpVeLiTrack = new FooPluginViewElementList();
 
-				@Override
-				public void keyTyped(KeyEvent e) {
-					fpVeLiTrack.getBackend().enqueuSelection();
-				}
+			FooPluginBackendMedia backend = new FooPluginBackendMedia(
+					"%title%", "title", client, fpVeLiTrack);
+			fpVeLiTrack.setBackend(backend);
 
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-				}
-			});
+			FooPluginActionFilter action = new FooPluginActionFilter(backend);
+			fpVeLiTrack.setActionManager(action);
 		}
 		return fpVeLiTrack;
 	}
@@ -264,38 +228,15 @@ public class FooPluginWindowDefault extends JFrame {
 	private FooPluginViewElementList getFpVeLiPlaylist() {
 		if (fpVeLiPlaylist == null) {
 			fpVeLiPlaylist = new FooPluginViewElementList();
-			
-			FooPluginBackendMedia back = new FooPluginBackendMedia("%id%: %artist% - %title%" , "title", client,fpVeLiPlaylist);
-			back.setPlaylist_mode(true);
-					
-			fpVeLiPlaylist.setBackend(back);
-			fpVeLiPlaylist.addKeyListener(new KeyListener() {
 
-				@Override
-				public void keyPressed(KeyEvent e) {
-					// TODO: playback & playlist editing
-					if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-						System.out.println ("focus left panel");
-					}
+			FooPluginBackendMediaPlaylist backend = new FooPluginBackendMediaPlaylist(
+					"%id%: %artist% - %title%", "title", client, fpVeLiPlaylist);
 
-					if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-						System.out.println ("delete selected entry");
-					}
+			fpVeLiPlaylist.setBackend(backend);
 
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						fpVeLiPlaylist.getBackend().playSelection();
-					}
-					
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {}
-
-				@Override
-				public void keyTyped(KeyEvent e) {}
-
-			});
-
+			FooPluginActionPlaylist action = new FooPluginActionPlaylist(
+					backend);
+			fpVeLiTrack.setActionManager(action);
 		}
 		return fpVeLiPlaylist;
 	}
@@ -308,15 +249,11 @@ public class FooPluginWindowDefault extends JFrame {
 	private FooPluginViewElementComboBox getFpVeCbPlaylist() {
 		if (fpVeCbPlaylist == null) {
 			fpVeCbPlaylist = new FooPluginViewElementComboBox();
-			fpVeCbPlaylist.setBackend(new FooPluginBackendPlaylist(client,
-					fpVeCbPlaylist));
-			fpVeCbPlaylist.addItemListener(new java.awt.event.ItemListener() {
-				public void itemStateChanged(java.awt.event.ItemEvent e) {
-					// TODO: Fires twice, could be merged
-					fpVeCbPlaylist.getBackend().enqueuSelection();
-					fpVeCbPlaylist.getBackend().generateFilteredContent();
-				}
-			});
+
+			FooPluginBackendPlaylist backend = new FooPluginBackendPlaylist(
+					client, fpVeCbPlaylist);
+			fpVeCbPlaylist.setBackend(backend);
+
 		}
 		return fpVeCbPlaylist;
 	}

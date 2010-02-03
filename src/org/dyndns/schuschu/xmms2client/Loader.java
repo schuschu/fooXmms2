@@ -20,8 +20,7 @@ public class Loader {
 	public static void main (String[] args) {
 		
 		// TODO: add debug flag
-		// TODO: get a git howto
-		// TODO: find tims super duper merging tool
+		// TODO: add initial state flag (in tray or start normal)
 
 		// set default host
 		String host = new String("127.0.0.1");

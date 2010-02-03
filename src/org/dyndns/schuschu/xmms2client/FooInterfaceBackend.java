@@ -42,26 +42,25 @@ public interface FooInterfaceBackend extends Observer {
 	 * @return
 	 */
 	public CollectionExpression getFilteredConetent();
-
-	/**
-	 * enqueues the current selection (filteredContent) to active playlist
-	 */
-	public void enqueuSelection();
-	
-	public void playSelection();
 	
 	/**
 	 * getter function for the FooInterfaceBackend contentProvider
 	 * 
 	 * @return
 	 */
-	public FooPluginBackendBase getContentProvider();
+	public FooInterfaceBackend getContentProvider();
 	
 	/**
 	 * setter function for the FooInterfaceBackend contentProvider
 	 * 
 	 * @param contentProvider
 	 */
-	public void setContentProvider(FooPluginBackendBase contentProvider);
+	public void setContentProvider(FooInterfaceBackend contentProvider);
+	
+	public FooInterfaceViewElement getView();
+	
+	public void addObserver(Observer o);
+	
+	public void selectionChanged();
 
 }

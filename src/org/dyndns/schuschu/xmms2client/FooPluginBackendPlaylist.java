@@ -19,8 +19,8 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
  * @author schuschu
  * 
  */
-public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
-		Serializable {
+public class FooPluginBackendPlaylist extends Observable implements
+		Serializable, FooInterfaceBackend {
 
 	/**
 	 * I have no idea what that stupid thing is for...
@@ -40,13 +40,12 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 	private String[] playlistDatabase;
 
 	private List<Integer> playListOrder;
-	
 
 	/**
 	 * This is the Backend which provides the baseContent.
 	 * 
 	 */
-	private FooPluginBackendBase contentProvider;
+	private FooInterfaceBackend contentProvider;
 
 	/**
 	 * executeFilterCommand builds the xmms2-command for filtering the
@@ -69,7 +68,7 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 		CollectionExpression ce = cb.build();
 
 		playListOrder = ids;
-		
+
 		setFilteredConetent(ce);
 
 	}
@@ -118,11 +117,6 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 
 		setChanged();
 		notifyObservers();
-
-		/*
-		 * if (next != null) {
-		 * next.getBackend().setBaseConetent(filteredConetent); }
-		 */
 	}
 
 	/**
@@ -136,16 +130,16 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
+		
+		int[] selection = view.getIndices();
 
 		view
 				.setContent(new Vector<String>(Arrays
 						.asList(getPlaylistDatabase())));
+		
+		view.setSelection(selection);
 
 		setChanged();
-
-		/*
-		 * if (next != null) { next.getBackend().refresh(); }
-		 */
 	}
 
 	/**
@@ -175,6 +169,33 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 
 		// There can only be one...
 		view.setSingleSelectionMode();
+
+		refresh();
+
+		try {
+			view.setSelection(new int[] { getActivePlaylistId() });
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public int getActivePlaylistId() throws InterruptedException {
+
+		Command c = Playlist.currentActive();
+
+		String name = c.executeSync(client);
+
+		for (int i = 0; i < playlistDatabase.length; i++) {
+			if (name.equals(playlistDatabase[i])) {
+				return i;
+			}
+		}
+		System.out.println("I SAID NO!");
+		// you should NEVER get here!
+		return 0;
+
 	}
 
 	/**
@@ -221,23 +242,23 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
-	@Override
-	public void enqueuSelection() {
-		Command c = Playlist.load(playlistDatabase[view.getIndices()[0]]);
 
-		try {
-			c.executeSync(client);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void loadPlaylist() {
+
+		int selection = view.getIndices()[0];
+
+		if (selection >= 0) {
+
+			Command c = Playlist.load(playlistDatabase[selection]);
+
+			try {
+				c.executeSync(client);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			generateFilteredContent();
 		}
-
-	}
-
-	@Override
-	public void playSelection() {
-		// TODO: find use for this
 	}
 
 	public String[] getPlaylistDatabase() {
@@ -249,12 +270,12 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 	}
 
 	@Override
-	public FooPluginBackendBase getContentProvider() {
+	public FooInterfaceBackend getContentProvider() {
 		return contentProvider;
 	}
 
 	@Override
-	public void setContentProvider(FooPluginBackendBase contentProvider) {
+	public void setContentProvider(FooInterfaceBackend contentProvider) {
 		this.contentProvider = contentProvider;
 		contentProvider.addObserver(this);
 
@@ -274,4 +295,13 @@ public class FooPluginBackendPlaylist extends FooPluginBackendBase implements
 		return playListOrder;
 	}
 
+	@Override
+	public FooInterfaceViewElement getView() {
+		return view;
+	}
+
+	@Override
+	public void selectionChanged() {
+		loadPlaylist();
+	}
 }
