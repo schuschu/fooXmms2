@@ -9,110 +9,189 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Playback;
 
-
 /**
  * @author thomas
+ * @author schuschu
  * 
  */
-public class FooPluginViewTrayicon {
+public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 
-	/**
-	 * constructor
-	 * 
-	 * @param window
-	 *        instance of main window
-	 * 
-	 */
-	public FooPluginViewTrayicon(final FooPluginWindowDefault window, final Client client) {
+	private Client client;
+	// TODO: WindowInterface, Observer anything but this
+	private FooPluginWindowDefault window;
 
-		//
-		SystemTray tray = SystemTray.getSystemTray();
+	private SystemTray tray = null;
+	private Image image = null;
+	private TrayIcon icon = null;
 
-		// sadly only supports gif, jpg or png
-		Image image = Toolkit.getDefaultToolkit().getImage("pixmaps/xmms2-48.png");
+	private PopupMenu popup = null;
+	private MenuItem miPlay = null;
+	private MenuItem miStop = null;
+	private MenuItem miExit = null;
 
-		MouseListener mouseListener = new MouseListener() {
+	public Client getClient() {
+		return client;
+	}
 
-			public void mouseClicked(MouseEvent e) {
-				// on mouse click toggle visibility
-				if (window.isVisible()) {
-					// set unvisible
-					window.setVisible(false);
-				} else {
-					// set visible
-					window.setVisible(true);
-					// maximize window
-					//window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				}
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public FooPluginWindowDefault getWindow() {
+		return window;
+	}
+
+	public void setWindow(FooPluginWindowDefault window) {
+		this.window = window;
+	}
+
+	public SystemTray getTray() {
+		if (tray == null) {
+			if (isSupported()) {
+				tray = SystemTray.getSystemTray();
+			} else {
+				window.setVisible(true);
 			}
+		}
+		return tray;
+	}
 
-			public void mouseEntered(MouseEvent e) {}
+	public Image getImage() {
+		if (image == null) {
+			// sadly only supports gif, jpg or png
+			image = Toolkit.getDefaultToolkit()
+					.getImage("pixmaps/xmms2-48.png");
+		}
+		return image;
+	}
 
-			public void mouseExited(MouseEvent e) {}
+	public TrayIcon getIcon() {
+		if (icon == null) {
+			icon = new TrayIcon(getImage());
 
-			public void mousePressed(MouseEvent e) {}
+			// TODO: Replace with action
+			MouseAdapter mouseAdapter = new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// on mouse click toggle visibility
+					if (getWindow().isVisible()) {
+						// set unvisible
+						getWindow().setVisible(false);
+					} else {
+						// set visible
+						getWindow().setVisible(true);
+						// maximize window
+						// window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					}
+				}
+			};
 
-			public void mouseReleased(MouseEvent e) {}
-		};
+			icon.setImageAutoSize(true);
+			icon.addMouseListener(mouseAdapter);
+			icon.setPopupMenu(getPopup());
+		}
+		return icon;
+	}
 
-		TrayIcon icon = new TrayIcon(image);
+	public PopupMenu getPopup() {
+		if (popup == null) {
+			popup = new PopupMenu();
+			popup.add(getMiPlay());
+			popup.add(getMiStop());
+			popup.add(getMiExit());
+		}
+		return popup;
+	}
 
-		icon.setImageAutoSize(true);
-		icon.addMouseListener(mouseListener);
-
-		PopupMenu popup = new PopupMenu();
-		MenuItem miPlay = new MenuItem("Play");
-		miPlay.addActionListener(new ActionListener () {
+	// TODO: MenuItem->Plugin, separate action
+	public MenuItem getMiPlay() {
+		miPlay = new MenuItem("Play");
+		miPlay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Playback.play().executeSync(client);
+					Playback.play().executeSync(getClient());
 				} catch (InterruptedException e1) {
 					Thread.currentThread().interrupt();
 					e1.printStackTrace();
 				}
 			}
 		});
-		MenuItem miStop = new MenuItem("Stop");
-		miStop.addActionListener(new ActionListener () {
+		return miPlay;
+	}
+
+	// TODO: MenuItem->Plugin, separate action
+	public MenuItem getMiStop() {
+		miStop = new MenuItem("Stop");
+		miStop.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Playback.stop().executeSync(client);
+					Playback.stop().executeSync(getClient());
 				} catch (InterruptedException e1) {
 					Thread.currentThread().interrupt();
 					e1.printStackTrace();
 				}
 			}
 		});
-		MenuItem miExit = new MenuItem("Exit");
-		miExit.addActionListener(new ActionListener () {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+		return miStop;
+	}
+
+	// TODO: MenuItem->Plugin, separate action
+	public MenuItem getMiExit() {
+		if (miExit == null) {
+			miExit = new MenuItem("Exit");
+			miExit.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+		}
+		return miExit;
+	}
+
+	public FooPluginViewTrayicon(final FooPluginWindowDefault window,
+			final Client client, boolean hidden) {
+		setClient(client);
+		setWindow(window);
+		if(!hidden){
+			getWindow().setVisible(true);
+		}
+	}
+
+	@Override
+	public boolean isSupported() {
+		return SystemTray.isSupported();
+	}
+
+	@Override
+	public void hide() {
+		if (isSupported()) {
+			getTray().remove(getIcon());
+		}
+	}
+
+	@Override
+	public void show() {
+		if (isSupported()) {
+			try {
+				getTray().add(getIcon());
+			} catch (AWTException e) {
+				// if no tray is present
+				// start main window maximized
+
+				// set visible
+				getWindow().setVisible(true);
+				// maximize window
+				// window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			}
-		});
-		popup.add(miPlay);
-		popup.add(miStop);
-		popup.add(miExit);
-		icon.setPopupMenu(popup);
-
-		try {
-			tray.add(icon);
-		} catch (AWTException e) {
-			// if no tray is present
-			// start main window maximized
-
-			// set visible
-			window.setVisible(true);
-			// maximize window
-			//window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		}
 	}
 }

@@ -14,9 +14,8 @@ This part is about the things that are wrong in the current version:
   port is, ether parse the config file or throw a error, don't set it 
   randomly to something I don't use
   
-  The trayicon. upload the damn png and do something about transparency
-  -> https://jdic.dev.java.net/ is somewhere mentioned to have a better 
-     trayicon
+  The trayicon. no interface, starts itself, sanity in loader!
+  -> https://jdic.dev.java.net/ branch trayicon, so far no success
   
   The plugin architecture: there is no plugin architecture. in a later
   release this project will be moved to a plugin framework 

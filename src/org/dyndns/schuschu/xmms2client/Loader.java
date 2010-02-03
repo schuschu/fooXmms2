@@ -63,26 +63,15 @@ public class Loader {
 			}
 		}
 
-		// TODO: support other protocolls
 		Client client = ClientFactory.create("fooXmms2", "tcp://" + host + ":"
 				+ port);
 
 		client.start();
 
 		FooPluginWindowDefault main = new FooPluginWindowDefault(client);
-
-		if (SystemTray.isSupported()) {
-			// TODO: do something about this warning, suppressing it looks
-			// bad
-			@SuppressWarnings("unused")
-			FooPluginViewTrayicon trayicon = new FooPluginViewTrayicon(main,
-					client);
-			if (!hidden) {
-				main.setVisible(true);
-			}
-		} else {
-			main.setVisible(true);
-		}
+		FooInterfaceViewTray tray = new FooPluginViewTrayicon(main, client, hidden);
+		tray.show();
+		
 	}
 
 	/**
