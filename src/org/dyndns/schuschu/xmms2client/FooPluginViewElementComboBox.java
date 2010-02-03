@@ -2,6 +2,7 @@ package org.dyndns.schuschu.xmms2client;
 
 import se.fnord.xmms2.client.Client;
 
+import java.awt.event.ItemEvent;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -66,8 +67,9 @@ public class FooPluginViewElementComboBox extends JComboBox implements
 	private void initialize() {
 		addItemListener(new java.awt.event.ItemListener() {
 			public void itemStateChanged(java.awt.event.ItemEvent e) {
-				// TODO: Fires twice, could be merged
-				backend.selectionChanged();
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					backend.selectionChanged();
+				}
 			}
 		});
 	}

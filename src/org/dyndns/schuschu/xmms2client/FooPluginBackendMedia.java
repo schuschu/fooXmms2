@@ -31,10 +31,8 @@ public class FooPluginBackendMedia extends Observable implements Serializable,
 	 */
 	static Vector<String> POSSIBLE_VALUES = new Vector<String>();
 
-	/*
-	 * TODO: need to modify constructor so a grouping and a order become
-	 * mandatory or at least set a useful default value (filter maybe)
-	 */
+	
+	// TODO: find use for groups
 	private List<String> order_by = Arrays.asList(new String[0]);
 	private List<String> group_by = Arrays.asList(new String[0]);
 	private List<String> query_fields = Arrays.asList(new String[0]);
@@ -191,7 +189,7 @@ public class FooPluginBackendMedia extends Observable implements Serializable,
 				this.setBaseDatabase(list);
 			} catch (CommandErrorException e) {
 				// TODO: this would throw an error if called if no entry in
-				// field
+				// field, maybe i should do something about it...
 				this.setBaseDatabase(Arrays.asList(new Dict[0]));
 			}
 
@@ -498,7 +496,7 @@ public class FooPluginBackendMedia extends Observable implements Serializable,
 		try {
 			c.executeSync(client);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
 			e1.printStackTrace();
 		}
 	}

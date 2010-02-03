@@ -40,7 +40,7 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 				cp.executeSync(getClient());
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
 
@@ -59,7 +59,7 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 			getContentProvider().generateFilteredContent();
 			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
 		
@@ -92,7 +92,7 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 				}
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
 		

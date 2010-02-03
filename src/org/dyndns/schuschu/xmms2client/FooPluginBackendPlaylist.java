@@ -146,7 +146,7 @@ public class FooPluginBackendPlaylist extends Observable implements
 	 * setToAll sets the baseContent to all media in the medialib
 	 */
 	public void setToAll() {
-		// TODO: what is all here?
+		// TODO: what is all here? Do I need this?
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class FooPluginBackendPlaylist extends Observable implements
 		try {
 			view.setSelection(new int[] { getActivePlaylistId() });
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
 
@@ -254,7 +254,7 @@ public class FooPluginBackendPlaylist extends Observable implements
 			try {
 				c.executeSync(client);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
 			generateFilteredContent();

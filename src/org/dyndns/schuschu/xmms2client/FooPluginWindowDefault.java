@@ -174,9 +174,6 @@ public class FooPluginWindowDefault extends JFrame {
 			FooPluginActionFilter action = new FooPluginActionFilter(backend);
 			fpVeLiArtist.setActionManager(action);
 
-			// TODO: fix inital data display
-			fpVeLiArtist.getBackend().refresh();
-
 		}
 		return fpVeLiArtist;
 	}
@@ -190,8 +187,9 @@ public class FooPluginWindowDefault extends JFrame {
 		if (fpVeLiAlbum == null) {
 			fpVeLiAlbum = new FooPluginViewElementList();
 
+			// I still prefer album (date) but i don't realy care that much			
 			FooPluginBackendMedia backend = new FooPluginBackendMedia(
-					"%album% (%date%)", "album", client, fpVeLiAlbum);
+					"%date% - %album%", "album", client, fpVeLiAlbum);
 			fpVeLiAlbum.setBackend(backend);
 
 			FooPluginActionFilter action = new FooPluginActionFilter(backend);
@@ -230,7 +228,7 @@ public class FooPluginWindowDefault extends JFrame {
 			fpVeLiPlaylist = new FooPluginViewElementList();
 
 			FooPluginBackendMediaPlaylist backend = new FooPluginBackendMediaPlaylist(
-					"%id%: %artist% - %title%", "title", client, fpVeLiPlaylist);
+					"%artist% - %title%", "title", client, fpVeLiPlaylist);
 
 			fpVeLiPlaylist.setBackend(backend);
 

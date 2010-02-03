@@ -74,7 +74,7 @@ public class FooPluginViewTrayicon {
 				try {
 					Playback.play().executeSync(client);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
+					Thread.currentThread().interrupt();
 					e1.printStackTrace();
 				}
 			}
@@ -86,7 +86,7 @@ public class FooPluginViewTrayicon {
 				try {
 					Playback.stop().executeSync(client);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
+					Thread.currentThread().interrupt();
 					e1.printStackTrace();
 				}
 			}

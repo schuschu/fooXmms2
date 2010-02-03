@@ -17,22 +17,18 @@ public class FooPluginViewPaneScroll extends JScrollPane {
 
 	public FooPluginViewPaneScroll() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public FooPluginViewPaneScroll(Component view, int vsbPolicy, int hsbPolicy) {
 		super(view, vsbPolicy, hsbPolicy);
-		// TODO Auto-generated constructor stub
 	}
 
 	public FooPluginViewPaneScroll(Component view) {
 		super(view);
-		// TODO Auto-generated constructor stub
 	}
 
 	public FooPluginViewPaneScroll(int vsbPolicy, int hsbPolicy) {
 		super(vsbPolicy, hsbPolicy);
-		// TODO Auto-generated constructor stub
 	}
 
 }
