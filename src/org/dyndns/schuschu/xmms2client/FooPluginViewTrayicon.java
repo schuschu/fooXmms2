@@ -161,7 +161,7 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 			final Client client, boolean hidden) {
 		setClient(client);
 		setWindow(window);
-		if(!hidden){
+		if(!hidden || !isSupported()){
 			getWindow().setVisible(true);
 		}
 	}
