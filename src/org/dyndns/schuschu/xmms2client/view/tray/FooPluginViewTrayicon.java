@@ -2,7 +2,6 @@ package org.dyndns.schuschu.xmms2client.view.tray;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
@@ -32,7 +31,7 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 
 	private SystemTray tray = null;
 	private Image image = null;
-	private TrayIcon icon = null;
+	private JTrayIcon icon = null;
 
 	private JPopupMenu popup = null;
 	private FooPluginViewMenuItem fpVMiPlay = null;
@@ -77,23 +76,13 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 
 	public TrayIcon getIcon() {
 		if (icon == null) {
-			icon = new TrayIcon(getImage());
+			icon = new JTrayIcon(getImage());
+			icon.setJPopupMenu(getPopup());
 
 			MouseAdapter mouseAdapter = new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					switch (e.getButton()) {
-					case MouseEvent.BUTTON1:
-						// on mouse click toggle visibility
-						getWindow().toggleVisible();
-						break;
-					case MouseEvent.BUTTON3:
-						// TODO: fix this dirty hack
-						getPopup().setLocation(e.getX(), e.getY());
-						getPopup().setInvoker(getPopup());
-						getPopup().setVisible(true);
-						break;
-					}
+					getWindow().toggleVisible();
 				}
 			};
 
