@@ -51,25 +51,24 @@ public class FooCombo implements FooInterfaceViewElement {
 
 	@Override
 	public int[] getIndices() {
-		// TODO Auto-generated method stub
 		return (new int[]{combo.getSelectionIndex()});
 	}
 
 	@Override
 	public void removeKeyListener(KeyListener key) {
-		// TODO Auto-generated method stub
+		combo.removeKeyListener(key);
 
 	}
 
 	@Override
 	public void removeMouseListener(MouseListener mouse) {
-		// TODO Auto-generated method stub
+		combo.removeMouseListener(mouse);
 
 	}
 
 	@Override
 	public void setBackend(FooInterfaceBackend backend) {
-		// TODO Auto-generated method stub
+		this.backend = backend;
 
 	}
 
