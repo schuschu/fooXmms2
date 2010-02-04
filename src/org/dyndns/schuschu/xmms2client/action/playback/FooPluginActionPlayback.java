@@ -37,13 +37,11 @@ abstract public class FooPluginActionPlayback implements FooInterfaceAction {
 		clickClickable.addActionListener(getAction());
 	}
 
-	public void clicked() {
-		clickClickable.removeActionListener(getAction());
-	}
+	abstract public void clicked();
 
 	@Override
 	public void removeListeners() {
-		// TODO Auto-generated method stub
+		clickClickable.removeActionListener(getAction());
 
 	}
 

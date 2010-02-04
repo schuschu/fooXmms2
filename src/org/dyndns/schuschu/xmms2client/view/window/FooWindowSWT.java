@@ -4,7 +4,6 @@ import org.dyndns.schuschu.xmms2client.action.FooPluginActionFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.theme.ComboDrawData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -12,10 +11,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 
 import se.fnord.xmms2.client.Client;
 

@@ -19,7 +19,6 @@ public class LoaderSWT {
 	public static void main(String[] args) {
 
 		// TODO: put parameter parsing into a separate function
-		// TODO: add debug flag
 
 		// set default host
 		String host = new String("127.0.0.1");

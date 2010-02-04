@@ -16,18 +16,15 @@ public class FooPluginViewMenuItem extends MenuItem implements
 
 	public FooPluginViewMenuItem() throws HeadlessException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public FooPluginViewMenuItem(String label, MenuShortcut s)
 			throws HeadlessException {
 		super(label, s);
-		// TODO Auto-generated constructor stub
 	}
 
 	public FooPluginViewMenuItem(String label) throws HeadlessException {
 		super(label);
-		// TODO Auto-generated constructor stub
 	}
 
 }
