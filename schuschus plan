@@ -1,0 +1,27 @@
+******************************************************************************
+*                              schuschus plan                                *
+******************************************************************************
+
+This part is about the things that are wrong in the current version:
+
+  The documentation. it is getting a little messy...
+
+  The naming convention (yes it's my fault). it is getting sort of mad. the 
+  names are far too long, they should be put into separate packages and 
+  shortened where possible
+   
+  The definition of "defaults".  I don't care what anybody says the default 
+  port is, ether parse the config file or throw a error, don't set it 
+  randomly to something I don't use
+  
+  The trayicon. Still only awt trayicon... 
+  -> https://jdic.dev.java.net/ branch trayicon, so far no success
+  
+  The plugin architecture: there is no plugin architecture. in a later
+  release this project will be moved to a plugin framework 
+  -> http://jpf.sourceforge.net/index.html or a similar framework
+  
+  The configuration architecture: there is no configuration architecture.
+  in a later release a xml based configuration file will be created in 
+  the xmms2 client directory (or closer to the client?)
+  -> utfg  

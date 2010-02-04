@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Agitator><Version>2.0</Version>
+<GUID>D7EAFC3FBC582BC69630BBAEB3B44659</GUID>
+<AgitarDirectory>agitar</AgitarDirectory>
+<TestGenSourceDir>agitar/test</TestGenSourceDir>
+<JavaArgs>-Xms128m -Xmx512m</JavaArgs>
+<TestGenJavaArgs>-Xmx1024m</TestGenJavaArgs>
+<LibraryPath></LibraryPath>
+<ExclusionPatterns>
+<pattern>**/agitar/reports/**/*</pattern>
+</ExclusionPatterns>
+<generateWithoutMocks>false</generateWithoutMocks>
+<enableJUnit4ForDeveloperDashboard>true</enableJUnit4ForDeveloperDashboard>
+</Agitator>
+
