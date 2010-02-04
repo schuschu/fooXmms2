@@ -89,8 +89,6 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 						break;
 					case MouseEvent.BUTTON3:
 						// TODO: fix this dirty hack
-						System.out.println("invoking at " + e.getX() + "/"
-								+ e.getY());
 						getPopup().setLocation(e.getX(), e.getY());
 						getPopup().setInvoker(getPopup());
 						getPopup().setVisible(true);
