@@ -16,8 +16,8 @@ public class FooList implements FooInterfaceViewElement {
 	private List list;
 
 	public FooList(Composite parent, int style) {
-		list = new List(parent, style);
-		list.addSelectionListener(new SelectionListener() {
+		setList(new List(parent, style));
+		getList().addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -34,13 +34,13 @@ public class FooList implements FooInterfaceViewElement {
 
 	@Override
 	public void addKeyListener(KeyListener key) {
-		list.addKeyListener(key);
+		getList().addKeyListener(key);
 
 	}
 
 	@Override
 	public void addMouseListener(MouseListener mouse) {
-		list.addMouseListener(mouse);
+		getList().addMouseListener(mouse);
 
 	}
 
@@ -57,26 +57,26 @@ public class FooList implements FooInterfaceViewElement {
 
 	@Override
 	public int[] getIndices() {
-		return list.getSelectionIndices();
+		return getList().getSelectionIndices();
 	}
 
 	@Override
 	public void removeKeyListener(KeyListener key) {
-		list.removeKeyListener(key);
+		getList().removeKeyListener(key);
 
 	}
 
 	@Override
 	public void removeMouseListener(MouseListener mouse) {
-		list.removeMouseListener(mouse);
+		getList().removeMouseListener(mouse);
 
 	}
 
 	@Override
 	public void setContent(Vector<String> content) {
-		list.removeAll();
+		getList().removeAll();
 		for (String s : content) {
-			list.add(s);
+			getList().add(s);
 		}
 	}
 
@@ -88,7 +88,15 @@ public class FooList implements FooInterfaceViewElement {
 
 	@Override
 	public void setSelection(int[] indices) {
-		list.setSelection(indices);
+		getList().setSelection(indices);
 
+	}
+
+	public void setList(List list) {
+		this.list = list;
+	}
+
+	public List getList() {
+		return list;
 	}
 }

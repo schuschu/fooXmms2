@@ -4,11 +4,18 @@ import org.dyndns.schuschu.xmms2client.action.FooPluginActionFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.internal.theme.ComboDrawData;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 
 import se.fnord.xmms2.client.Client;
 
@@ -19,7 +26,7 @@ public class FooWindowSWT {
 
 	Client client;
 
-	private Display display = new Display(); // @jve:decl-index=0:
+	private Display display = new Display();
 
 	boolean visible = false;
 
@@ -27,10 +34,12 @@ public class FooWindowSWT {
 	private SashForm sashFormMain = null;
 	private SashForm sashFormSubLeft = null;
 	private SashForm sashFormSubRight = null;
+	private Composite compositePlaylist = null;
 	private FooList listArtist = null;
 	private FooList listAlbum = null;
 	private FooList listTrack = null;
 	private FooList listPlaylist = null;
+	private Combo comboPlaylist = null;
 
 	/**
 	 * This method initializes sShell
@@ -64,8 +73,6 @@ public class FooWindowSWT {
 		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
 		/*
-		 * 
-		 * 
 		 * fpVeLiPlaylist.getBackend().setContentProvider(
 		 * fpVeCbPlaylist.getBackend());
 		 * 
@@ -91,7 +98,8 @@ public class FooWindowSWT {
 	private void createSashFormSubLeft() {
 		sashFormSubLeft = new SashForm(sashFormMain, SWT.NONE);
 
-		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
 		FooPluginBackendMedia artist_backend = new FooPluginBackendMedia(
 				"%artist%", "artist", client, listArtist);
 		listArtist.setBackend(artist_backend);
@@ -99,7 +107,8 @@ public class FooWindowSWT {
 				artist_backend);
 		artist_action.addListeners();
 
-		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
 		// I still prefer album (date) but i don't realy care that much
 		FooPluginBackendMedia album_backend = new FooPluginBackendMedia(
 				"%date% - %album%", "album", client, listAlbum);
@@ -111,8 +120,9 @@ public class FooWindowSWT {
 
 	private void createSashFormSubRight() {
 		sashFormSubRight = new SashForm(sashFormMain, SWT.NONE);
-		
-		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+
+		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
 
 		FooPluginBackendMedia track_backend = new FooPluginBackendMedia(
 				"%title%", "title", client, listTrack);
@@ -121,7 +131,33 @@ public class FooWindowSWT {
 		FooPluginActionFilter action = new FooPluginActionFilter(track_backend);
 		action.addListeners();
 
-		listPlaylist = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		createCompositePlaylist();
+	}
+
+	private void createCompositePlaylist() {
+		compositePlaylist = new Composite(sashFormSubRight, SWT.NONE);
+		FillLayout layout = new FillLayout(SWT.VERTICAL);
+
+		compositePlaylist.setLayout(layout);
+
+		comboPlaylist = new Combo(compositePlaylist, SWT.NONE);
+		/*
+		 * GridData comboData = new GridData();
+		 * comboData.grabExcessHorizontalSpace=true;
+		 * comboData.grabExcessVerticalSpace=true;
+		 * comboData.horizontalAlignment=GridData.CENTER;
+		 * comboPlaylist.setLayoutData(comboData);
+		 */
+
+		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
+		/*
+		 * GridData listData = new GridData();
+		 * listData.grabExcessHorizontalSpace=true;
+		 * listData.grabExcessVerticalSpace=true;
+		 * listData.horizontalAlignment=GridData.CENTER;
+		 * listPlaylist.getList().setLayoutData(listData);
+		 */
 	}
 
 	public void setsShell(Shell sShell) {
