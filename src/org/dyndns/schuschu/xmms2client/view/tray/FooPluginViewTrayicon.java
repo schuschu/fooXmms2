@@ -9,6 +9,8 @@ import java.awt.TrayIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JPopupMenu;
+
 import org.dyndns.schuschu.xmms2client.action.playback.FooPluginActionPlaybackExit;
 import org.dyndns.schuschu.xmms2client.action.playback.FooPluginActionPlaybackPlay;
 import org.dyndns.schuschu.xmms2client.action.playback.FooPluginActionPlaybackStop;
@@ -32,7 +34,7 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 	private Image image = null;
 	private TrayIcon icon = null;
 
-	private PopupMenu popup = null;
+	private JPopupMenu popup = null;
 	private FooPluginViewMenuItem fpVMiPlay = null;
 	private FooPluginViewMenuItem fpVMiStop = null;
 	private FooPluginViewMenuItem fpVMiExit = null;
@@ -80,21 +82,33 @@ public class FooPluginViewTrayicon implements FooInterfaceViewTray {
 			MouseAdapter mouseAdapter = new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					// on mouse click toggle visibility
-					getWindow().toggleVisible();
+					switch (e.getButton()) {
+					case MouseEvent.BUTTON1:
+						// on mouse click toggle visibility
+						getWindow().toggleVisible();
+						break;
+					case MouseEvent.BUTTON3:
+						// TODO: fix this dirty hack
+						System.out.println("invoking at " + e.getX() + "/"
+								+ e.getY());
+						getPopup().setLocation(e.getX(), e.getY());
+						getPopup().setInvoker(getPopup());
+						getPopup().setVisible(true);
+						break;
+					}
 				}
 			};
 
 			icon.setImageAutoSize(true);
 			icon.addMouseListener(mouseAdapter);
-			icon.setPopupMenu(getPopup());
+			// icon.setPopupMenu(getPopup());
 		}
 		return icon;
 	}
 
-	public PopupMenu getPopup() {
+	public JPopupMenu getPopup() {
 		if (popup == null) {
-			popup = new PopupMenu();
+			popup = new JPopupMenu();
 			popup.add(getFpVMiPlay());
 			popup.add(getFpVMiStop());
 			popup.add(getFpVMiExit());
