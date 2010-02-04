@@ -75,7 +75,7 @@ public class FooWindowSWT {
 
 		listPlaylist.getBackend().setContentProvider(comboPlaylist.getBackend());
 		// TODO: remove workaround to load content on startup;
-		comboPlaylist.getBackend().refresh();
+		comboPlaylist.getBackend().generateFilteredContent();
 	}
 
 	private void createSShell() {

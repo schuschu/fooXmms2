@@ -73,6 +73,7 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 	protected Vector<String> createContent(List<Dict> Database) {
 		Vector<String> Content = new Vector<String>();
 		
+		// TODO: fix this hack
 		FooPluginBackendPlaylist hack = (FooPluginBackendPlaylist) getContentProvider();
 
 		List<Integer> ids = hack.getPlayListOrder();

@@ -142,6 +142,7 @@ public class FooPluginBackendPlaylist extends Observable implements
 		view.setSelection(selection);
 
 		setChanged();
+		notifyObservers();
 	}
 
 	/**
