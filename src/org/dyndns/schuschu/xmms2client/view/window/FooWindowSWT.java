@@ -1,16 +1,22 @@
 package org.dyndns.schuschu.xmms2client.view.window;
 
 import org.dyndns.schuschu.xmms2client.action.FooPluginActionFilter;
+import org.dyndns.schuschu.xmms2client.action.FooPluginActionPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMediaPlaylist;
+import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 
 import se.fnord.xmms2.client.Client;
 
@@ -34,7 +40,7 @@ public class FooWindowSWT {
 	private FooList listAlbum = null;
 	private FooList listTrack = null;
 	private FooList listPlaylist = null;
-	private Combo comboPlaylist = null;
+	private FooCombo comboPlaylist = null;
 
 	/**
 	 * This method initializes sShell
@@ -67,13 +73,9 @@ public class FooWindowSWT {
 		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
 		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
-		/*
-		 * fpVeLiPlaylist.getBackend().setContentProvider(
-		 * fpVeCbPlaylist.getBackend());
-		 * 
-		 * // TODO: remove workaround to load content on startup;
-		 * fpVeCbPlaylist.getBackend().refresh();
-		 */
+		listPlaylist.getBackend().setContentProvider(comboPlaylist.getBackend());
+		// TODO: remove workaround to load content on startup;
+		comboPlaylist.getBackend().refresh();
 	}
 
 	private void createSShell() {
@@ -131,28 +133,37 @@ public class FooWindowSWT {
 
 	private void createCompositePlaylist() {
 		compositePlaylist = new Composite(sashFormSubRight, SWT.NONE);
-		FillLayout layout = new FillLayout(SWT.VERTICAL);
-
+		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
 
-		comboPlaylist = new Combo(compositePlaylist, SWT.NONE);
-		/*
-		 * GridData comboData = new GridData();
-		 * comboData.grabExcessHorizontalSpace=true;
-		 * comboData.grabExcessVerticalSpace=true;
-		 * comboData.horizontalAlignment=GridData.CENTER;
-		 * comboPlaylist.setLayoutData(comboData);
-		 */
+		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
+		FormData comboData = new FormData();
+		comboData.top = new FormAttachment(0, 0);
+		comboData.left = new FormAttachment(0, 0);
+		comboData.right = new FormAttachment(100, 0);
+		comboPlaylist.setLayoutData(comboData);
+		
+		 FooPluginBackendPlaylist backend = new FooPluginBackendPlaylist(
+				 client, comboPlaylist);
+		 comboPlaylist.setBackend(backend);
 
 		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		/*
-		 * GridData listData = new GridData();
-		 * listData.grabExcessHorizontalSpace=true;
-		 * listData.grabExcessVerticalSpace=true;
-		 * listData.horizontalAlignment=GridData.CENTER;
-		 * listPlaylist.getList().setLayoutData(listData);
-		 */
+		FormData listData = new FormData();
+		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
+		listData.left = new FormAttachment(0, 0);
+		listData.right = new FormAttachment(100, 0);
+		listData.bottom = new FormAttachment(100, 0);
+		listPlaylist.setLayoutData(listData);
+
+		FooPluginBackendMediaPlaylist list_backend = new FooPluginBackendMediaPlaylist(
+				"%artist% - %title%", "title", client, listPlaylist);
+
+		listPlaylist.setBackend(list_backend);
+
+		FooPluginActionPlaylist list_action = new FooPluginActionPlaylist(
+				list_backend);
+		list_action.addListeners();
 	}
 
 	public void setsShell(Shell sShell) {

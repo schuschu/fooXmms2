@@ -91,6 +91,10 @@ public class FooList implements FooInterfaceViewElement {
 		getList().setSelection(indices);
 
 	}
+	
+	public void setLayoutData(Object layoutData){
+		this.list.setLayoutData(layoutData);
+	}
 
 	public void setList(List list) {
 		this.list = list;
