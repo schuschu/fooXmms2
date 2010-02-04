@@ -61,10 +61,10 @@ public class FooWindowSWT {
 		// here starts the magic (content chaining)
 		listArtist.getBackend().setToAll();
 		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
+		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
 		/*
-		 * fpVeLiTrack.getBackend().setContentProvider(fpVeLiAlbum.getBackend()
-		 * );
+		 * 
 		 * 
 		 * fpVeLiPlaylist.getBackend().setContentProvider(
 		 * fpVeCbPlaylist.getBackend());
@@ -90,8 +90,8 @@ public class FooWindowSWT {
 
 	private void createSashFormSubLeft() {
 		sashFormSubLeft = new SashForm(sashFormMain, SWT.NONE);
-		
-		listArtist = new FooList(sashFormSubLeft, SWT.NONE);
+
+		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		FooPluginBackendMedia artist_backend = new FooPluginBackendMedia(
 				"%artist%", "artist", client, listArtist);
 		listArtist.setBackend(artist_backend);
@@ -99,8 +99,7 @@ public class FooWindowSWT {
 				artist_backend);
 		artist_action.addListeners();
 
-		
-		listAlbum = new FooList(sashFormSubLeft, SWT.NONE);
+		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		// I still prefer album (date) but i don't realy care that much
 		FooPluginBackendMedia album_backend = new FooPluginBackendMedia(
 				"%date% - %album%", "album", client, listAlbum);
@@ -112,8 +111,17 @@ public class FooWindowSWT {
 
 	private void createSashFormSubRight() {
 		sashFormSubRight = new SashForm(sashFormMain, SWT.NONE);
-		listTrack = new FooList(sashFormSubRight, SWT.NONE);
-		listPlaylist = new FooList(sashFormSubRight, SWT.NONE);
+		
+		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+
+		FooPluginBackendMedia track_backend = new FooPluginBackendMedia(
+				"%title%", "title", client, listTrack);
+		listTrack.setBackend(track_backend);
+
+		FooPluginActionFilter action = new FooPluginActionFilter(track_backend);
+		action.addListeners();
+
+		listPlaylist = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 	}
 
 	public void setsShell(Shell sShell) {
