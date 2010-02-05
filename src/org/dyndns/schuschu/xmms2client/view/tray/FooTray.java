@@ -76,6 +76,13 @@ public class FooTray {
 
 		}
 	}
+	
+	public boolean isSupported(){
+		if (getTray()!=null){
+			return true;
+		}
+		return false;
+	}
 
 	public Tray getTray() {
 		if (tray == null) {

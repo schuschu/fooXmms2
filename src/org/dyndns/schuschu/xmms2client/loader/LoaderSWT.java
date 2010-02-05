@@ -74,7 +74,9 @@ public class LoaderSWT {
 		FooTray tray = new FooTray(main, client);
 		tray.initialize();
 
-		main.setVisible(true);
+		if (!tray.isSupported() || !hidden) {
+			main.setVisible(true);
+		}
 
 		// TODO: Move somewhere else
 		while (!main.getsShell().isDisposed()) {
