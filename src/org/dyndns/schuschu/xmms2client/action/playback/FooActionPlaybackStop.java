@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.action.playback;
 
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceClickable;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Playback;

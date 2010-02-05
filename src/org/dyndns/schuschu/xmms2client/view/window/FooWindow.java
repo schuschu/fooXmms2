@@ -5,6 +5,7 @@ import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.graphics.Image;
@@ -21,7 +22,7 @@ import org.eclipse.swt.layout.FormLayout;
 
 import se.fnord.xmms2.client.Client;
 
-public class FooWindowSWT {
+public class FooWindow implements FooInterfaceWindow {
 
 	final static int WIDTH = 600;
 	final static int HEIGHT = 400;
@@ -45,9 +46,18 @@ public class FooWindowSWT {
 	 * This method initializes sShell
 	 */
 
-	public FooWindowSWT(Client client) {
+	public FooWindow(Client client) {
 		this.client = client;
 		initalize();
+	}
+
+	public void display(boolean visible) {
+		while (!getsShell().isDisposed()) {
+			if (!getDisplay().readAndDispatch()) {
+				getDisplay().sleep();
+			}
+		}
+		getDisplay().dispose();
 	}
 
 	public void setVisible(boolean visible) {
@@ -78,7 +88,7 @@ public class FooWindowSWT {
 		getsShell().setSize(new Point(WIDTH, HEIGHT));
 		createSashFormMain();
 		getsShell().setLayout(new FillLayout());
-		
+
 		Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
 		getsShell().setImage(image);
 	}
@@ -94,8 +104,8 @@ public class FooWindowSWT {
 
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		FooBackendMedia artist_backend = new FooBackendMedia(
-				"%artist%", "artist", client, listArtist);
+		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
+				"artist", client, listArtist);
 		listArtist.setBackend(artist_backend);
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
 		artist_action.addListeners();
@@ -103,8 +113,8 @@ public class FooWindowSWT {
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 		// I still prefer album (date) but i don't realy care that much
-		FooBackendMedia album_backend = new FooBackendMedia(
-				"%date% - %album%", "album", client, listAlbum);
+		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
+				"album", client, listAlbum);
 		listAlbum.setBackend(album_backend);
 		FooActionFilter album_action = new FooActionFilter(album_backend);
 		album_action.addListeners();
@@ -116,8 +126,8 @@ public class FooWindowSWT {
 		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooBackendMedia track_backend = new FooBackendMedia(
-				"%title%", "title", client, listTrack);
+		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
+				client, listTrack);
 		listTrack.setBackend(track_backend);
 
 		FooActionFilter action = new FooActionFilter(track_backend);
@@ -174,5 +184,24 @@ public class FooWindowSWT {
 
 	public Display getDisplay() {
 		return display;
+	}
+
+	public void run() {
+		while (!getsShell().isDisposed()) {
+			if (!getDisplay().readAndDispatch()) {
+				getDisplay().sleep();
+			}
+		}
+		getDisplay().dispose();
+	}
+
+	@Override
+	public void loop() {
+		while (!getsShell().isDisposed()) {
+			if (!getDisplay().readAndDispatch()) {
+				getDisplay().sleep();
+			}
+		}
+		getDisplay().dispose();		
 	}
 }

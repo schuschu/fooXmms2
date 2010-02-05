@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.action.playback;
 
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceAction;
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceClickable;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 

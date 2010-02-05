@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.menu;
 
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceClickable;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;

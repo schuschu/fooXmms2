@@ -2,7 +2,8 @@ package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.backend.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;

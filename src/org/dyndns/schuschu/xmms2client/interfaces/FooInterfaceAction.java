@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.action;
+package org.dyndns.schuschu.xmms2client.interfaces;
 
 public interface FooInterfaceAction {
 	

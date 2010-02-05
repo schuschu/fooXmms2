@@ -8,7 +8,8 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.view.element.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;

@@ -3,8 +3,8 @@ package org.dyndns.schuschu.xmms2client.view.tray;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindowSWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -22,10 +22,10 @@ public class FooTray {
 	private Tray tray;
 	private Display display;
 	// TODO: create window interface
-	private FooWindowSWT window;
+	private FooInterfaceWindow window;
 	private Client client;
 
-	public FooTray(FooWindowSWT window, Client client) {
+	public FooTray(FooInterfaceWindow window, Client client) {
 		this.window = window;
 		this.client = client;
 		// initialize();
@@ -76,9 +76,9 @@ public class FooTray {
 
 		}
 	}
-	
-	public boolean isSupported(){
-		if (getTray()!=null){
+
+	public boolean isSupported() {
+		if (getTray() != null) {
 			return true;
 		}
 		return false;

@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client.action;
 
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;

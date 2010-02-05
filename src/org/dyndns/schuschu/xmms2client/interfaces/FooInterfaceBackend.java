@@ -1,8 +1,7 @@
-package org.dyndns.schuschu.xmms2client.backend;
+package org.dyndns.schuschu.xmms2client.interfaces;
 
 import java.util.Observer;
 
-import org.dyndns.schuschu.xmms2client.view.element.FooInterfaceViewElement;
 
 import se.fnord.xmms2.client.types.CollectionExpression;
 
