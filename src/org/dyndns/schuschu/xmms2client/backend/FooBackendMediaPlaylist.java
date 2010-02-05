@@ -16,14 +16,14 @@ import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
-public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
+public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6791163548568077012L;
 
-	public FooPluginBackendMediaPlaylist(String format, String filter,
+	public FooBackendMediaPlaylist(String format, String filter,
 			Client client, FooInterfaceViewElement view) {
 		super(format, filter, client, view);
 	}
@@ -74,7 +74,7 @@ public class FooPluginBackendMediaPlaylist extends FooPluginBackendMedia {
 		Vector<String> Content = new Vector<String>();
 		
 		// TODO: fix this hack
-		FooPluginBackendPlaylist hack = (FooPluginBackendPlaylist) getContentProvider();
+		FooBackendPlaylist hack = (FooBackendPlaylist) getContentProvider();
 
 		List<Integer> ids = hack.getPlayListOrder();
 

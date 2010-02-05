@@ -23,7 +23,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * @author schuschu
  * 
  */
-public class FooPluginBackendMedia extends Observable implements Serializable,
+public class FooBackendMedia extends Observable implements Serializable,
 		FooInterfaceBackend {
 
 	/**
@@ -265,7 +265,7 @@ public class FooPluginBackendMedia extends Observable implements Serializable,
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooPluginBackendMedia(String format, String filter, Client client,
+	public FooBackendMedia(String format, String filter, Client client,
 			FooInterfaceViewElement view) {
 		this.view = view;
 		this.setFilter(filter);
@@ -296,7 +296,7 @@ public class FooPluginBackendMedia extends Observable implements Serializable,
 				temp.append(format.charAt(i));
 			}
 		}
-		FooPluginBackendMedia.POSSIBLE_VALUES.addAll(possible);
+		FooBackendMedia.POSSIBLE_VALUES.addAll(possible);
 	}
 
 	/**

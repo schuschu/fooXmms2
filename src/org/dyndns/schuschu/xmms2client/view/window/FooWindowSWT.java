@@ -2,9 +2,9 @@ package org.dyndns.schuschu.xmms2client.view.window;
 
 import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
 import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
-import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
-import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMediaPlaylist;
-import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.graphics.Point;
@@ -90,7 +90,7 @@ public class FooWindowSWT {
 
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		FooPluginBackendMedia artist_backend = new FooPluginBackendMedia(
+		FooBackendMedia artist_backend = new FooBackendMedia(
 				"%artist%", "artist", client, listArtist);
 		listArtist.setBackend(artist_backend);
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
@@ -99,7 +99,7 @@ public class FooWindowSWT {
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 		// I still prefer album (date) but i don't realy care that much
-		FooPluginBackendMedia album_backend = new FooPluginBackendMedia(
+		FooBackendMedia album_backend = new FooBackendMedia(
 				"%date% - %album%", "album", client, listAlbum);
 		listAlbum.setBackend(album_backend);
 		FooActionFilter album_action = new FooActionFilter(album_backend);
@@ -112,7 +112,7 @@ public class FooWindowSWT {
 		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooPluginBackendMedia track_backend = new FooPluginBackendMedia(
+		FooBackendMedia track_backend = new FooBackendMedia(
 				"%title%", "title", client, listTrack);
 		listTrack.setBackend(track_backend);
 
@@ -134,7 +134,7 @@ public class FooWindowSWT {
 		comboData.right = new FormAttachment(100, 0);
 		comboPlaylist.setLayoutData(comboData);
 
-		FooPluginBackendPlaylist backend = new FooPluginBackendPlaylist(client,
+		FooBackendPlaylist backend = new FooBackendPlaylist(client,
 				comboPlaylist);
 		comboPlaylist.setBackend(backend);
 
@@ -147,7 +147,7 @@ public class FooWindowSWT {
 		listData.bottom = new FormAttachment(100, 0);
 		listPlaylist.setLayoutData(listData);
 
-		FooPluginBackendMediaPlaylist list_backend = new FooPluginBackendMediaPlaylist(
+		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
 				"%artist% - %title%", "title", client, listPlaylist);
 
 		listPlaylist.setBackend(list_backend);

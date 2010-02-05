@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.action;
 
-import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMediaPlaylist;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -9,7 +9,7 @@ import org.eclipse.swt.events.MouseEvent;
 
 public class FooActionPlaylist implements FooInterfaceAction {
 
-	private FooPluginBackendMediaPlaylist backend;
+	private FooBackendMediaPlaylist backend;
 
 	KeyAdapter key = new KeyAdapter() {
 
@@ -37,7 +37,7 @@ public class FooActionPlaylist implements FooInterfaceAction {
 		backend.playSelection();
 	}
 
-	public FooActionPlaylist(FooPluginBackendMediaPlaylist backend) {
+	public FooActionPlaylist(FooBackendMediaPlaylist backend) {
 		this.setBackend(backend);
 	}
 
@@ -55,11 +55,11 @@ public class FooActionPlaylist implements FooInterfaceAction {
 		}
 	}
 
-	public void setBackend(FooPluginBackendMediaPlaylist backend) {
+	public void setBackend(FooBackendMediaPlaylist backend) {
 		this.backend = backend;
 	}
 
-	public FooPluginBackendMediaPlaylist getBackend() {
+	public FooBackendMediaPlaylist getBackend() {
 		return backend;
 	}
 }

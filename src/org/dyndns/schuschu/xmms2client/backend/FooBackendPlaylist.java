@@ -21,7 +21,7 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
  * @author schuschu
  * 
  */
-public class FooPluginBackendPlaylist extends Observable implements
+public class FooBackendPlaylist extends Observable implements
 		Serializable, FooInterfaceBackend {
 
 	/**
@@ -165,7 +165,7 @@ public class FooPluginBackendPlaylist extends Observable implements
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooPluginBackendPlaylist(Client client, FooInterfaceViewElement view) {
+	public FooBackendPlaylist(Client client, FooInterfaceViewElement view) {
 		this.view = view;
 		this.playlistDatabase = null;
 		this.setClient(client);

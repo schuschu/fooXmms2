@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.action;
 
-import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -9,7 +9,7 @@ import org.eclipse.swt.events.MouseEvent;
 
 public class FooActionFilter implements FooInterfaceAction {
 
-	private FooPluginBackendMedia backend;
+	private FooBackendMedia backend;
 
 	KeyAdapter key = new KeyAdapter() {
 
@@ -37,7 +37,7 @@ public class FooActionFilter implements FooInterfaceAction {
 	public FooActionFilter() {
 	}
 
-	public FooActionFilter(FooPluginBackendMedia backend) {
+	public FooActionFilter(FooBackendMedia backend) {
 		setBackend(backend);
 	}
 
@@ -55,11 +55,11 @@ public class FooActionFilter implements FooInterfaceAction {
 		}
 	}
 
-	public void setBackend(FooPluginBackendMedia backend) {
+	public void setBackend(FooBackendMedia backend) {
 		this.backend = backend;
 	}
 
-	public FooPluginBackendMedia getBackend() {
+	public FooBackendMedia getBackend() {
 		return backend;
 	}
 }
