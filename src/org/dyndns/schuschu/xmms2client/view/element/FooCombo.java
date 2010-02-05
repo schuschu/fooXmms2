@@ -27,8 +27,6 @@ public class FooCombo implements FooInterfaceViewElement {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 	}
@@ -89,7 +87,7 @@ public class FooCombo implements FooInterfaceViewElement {
 
 	@Override
 	public void setSingleSelectionMode() {
-		// TODO what is single selection here?
+		// TODO Rethink this
 	}
 	
 	public void setLayoutData(Object layoutData){

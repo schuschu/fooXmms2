@@ -171,6 +171,7 @@ public class FooBackendPlaylist extends Observable implements
 		this.playlistDatabase = null;
 		this.setClient(client);
 
+		// TODO: Rethink this
 		// There can only be one...
 		view.setSingleSelectionMode();
 

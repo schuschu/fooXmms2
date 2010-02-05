@@ -106,6 +106,6 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	
 	@Override
 	public void selectionChanged() {
-		//not needed
+		// TODO: think of use for this
 	}
 }

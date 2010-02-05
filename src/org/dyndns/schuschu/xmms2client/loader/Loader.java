@@ -20,7 +20,8 @@ public class Loader {
 	 */
 	public static void main(String[] args) {
 
-		// TODO: put parameter parsing into a separate function
+		// TODO: put parameter parsing into a separate function/class (FooInit
+		// with static functions?)
 
 		// set default host
 		String host = new String("127.0.0.1");
@@ -78,7 +79,7 @@ public class Loader {
 		if (!tray.isSupported() || !hidden) {
 			main.setVisible(true);
 		}
-		
+
 		main.loop();
 
 	}

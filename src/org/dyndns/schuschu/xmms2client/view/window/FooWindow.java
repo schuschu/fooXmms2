@@ -24,6 +24,8 @@ import org.eclipse.swt.layout.FormLayout;
 import se.fnord.xmms2.client.Client;
 
 public class FooWindow implements FooInterfaceWindow {
+	
+	// TODO: Code cleanup
 
 	final static int WIDTH = 600;
 	final static int HEIGHT = 400;
@@ -79,7 +81,8 @@ public class FooWindow implements FooInterfaceWindow {
 
 		listPlaylist.getBackend()
 				.setContentProvider(comboPlaylist.getBackend());
-		// TODO: remove workaround to load content on startup;
+		
+		//generate initial listPlaylist data
 		comboPlaylist.getBackend().generateFilteredContent();
 	}
 
@@ -113,7 +116,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		// I still prefer album (date) but i don't realy care that much
 		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
 				"album", client, listAlbum);
 		listAlbum.setBackend(album_backend);
@@ -174,9 +176,8 @@ public class FooWindow implements FooInterfaceWindow {
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
 
-		//BUTTON
+		//BUTTONS
 		FormData buttonsData = new FormData();
-//		stopData.top = new FormAttachment(listPlaylist.getList(), 0);
 		buttonsData.left = new FormAttachment(0, 0);
 		buttonsData.right = new FormAttachment(100, 0);
 		buttonsData.bottom = new FormAttachment(100, 0);

@@ -22,23 +22,22 @@ import org.eclipse.swt.widgets.TrayItem;
 import se.fnord.xmms2.client.Client;
 
 public class FooTray {
+	
+	// TODO: Code cleanup
 
 	private Tray tray;
 	private Display display;
-	// TODO: create window interface
 	private FooInterfaceWindow window;
 	private Client client;
 
 	public FooTray(FooInterfaceWindow window, Client client) {
 		this.window = window;
 		this.client = client;
-		// initialize();
 	}
 
 	public void initialize() {
 		if (getTray() != null) {
 			TrayItem item = new TrayItem(tray, SWT.NONE);
-			// SVGImageConverter converter = new SVGImageConverter();
 
 			Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
 			item.setImage(image);

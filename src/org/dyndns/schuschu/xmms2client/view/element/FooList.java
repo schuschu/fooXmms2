@@ -26,9 +26,7 @@ public class FooList implements FooInterfaceViewElement {
 			}
 			
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void widgetDefaultSelected(SelectionEvent arg0) {				
 			}
 		});
 	}
@@ -83,7 +81,7 @@ public class FooList implements FooInterfaceViewElement {
 
 	@Override
 	public void setSingleSelectionMode() {
-		// TODO singleselectionmode
+		// TODO Find a way to change style while running or remove
 
 	}
 
