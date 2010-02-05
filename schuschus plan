@@ -14,9 +14,6 @@ This part is about the things that are wrong in the current version:
   port is, ether parse the config file or throw a error, don't set it 
   randomly to something I don't use
   
-  The trayicon. Still only awt trayicon... 
-  -> https://jdic.dev.java.net/ branch trayicon, so far no success
-  
   The plugin architecture: there is no plugin architecture. in a later
   release this project will be moved to a plugin framework 
   -> http://jpf.sourceforge.net/index.html or a similar framework
@@ -25,3 +22,16 @@ This part is about the things that are wrong in the current version:
   in a later release a xml based configuration file will be created in 
   the xmms2 client directory (or closer to the client?)
   -> utfg  
+  
+ Things I really want to do:
+ 
+  combobox magic: set combobox back to editable, if you enter a name unknown
+  a popup will ask you if you want to create it, if the name is known it will
+  be selected
+  
+  sashform magic: allow multible children (currently old workaround has been
+  ported
+  
+  clean up the new window (i made a big mess there)
+  
+  i want my swt tray! (it was the reason for a whole day of pain)
