@@ -147,6 +147,8 @@ public class FooWindow implements FooInterfaceWindow {
 		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
 
+		// TODO: add functionality to select by typing the name, if it does not
+		// exist prompt if the list should be created. Autocompletition?
 		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
 		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
