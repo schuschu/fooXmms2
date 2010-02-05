@@ -5,15 +5,14 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Playback;
 
-public class FooActionPlaybackPlay extends FooActionPlayback {
+public class FooActionPlaybackPause extends FooActionPlayback {
 
-	public FooActionPlaybackPlay(FooInterfaceClickable clickable, Client client) {
+	public FooActionPlaybackPause(FooInterfaceClickable clickable, Client client) {
 		super(clickable, client);
 	}
 
 	@Override
 	public void clicked() {
-		Playback.play().execute(getClient());
+		Playback.togglePlay().execute(getClient());
 	}
-
 }

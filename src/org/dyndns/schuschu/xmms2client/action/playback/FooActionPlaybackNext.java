@@ -14,12 +14,7 @@ public class FooActionPlaybackNext extends FooActionPlayback {
 
 	@Override
 	public void clicked() {
-		try {
-			Playback.next().executeSync(getClient());
-		} catch (InterruptedException e1) {
-			Thread.currentThread().interrupt();
-			e1.printStackTrace();
-		}
+			Playback.next().execute(getClient());
 	}
 
 }

@@ -7,19 +7,13 @@ import se.fnord.xmms2.client.commands.Playback;
 
 public class FooActionPlaybackStop extends FooActionPlayback {
 
-	public FooActionPlaybackStop(FooInterfaceClickable clickable,
-			Client client) {
+	public FooActionPlaybackStop(FooInterfaceClickable clickable, Client client) {
 		super(clickable, client);
 	}
 
 	@Override
 	public void clicked() {
-		try {
-			Playback.stop().executeSync(getClient());
-		} catch (InterruptedException e1) {
-			Thread.currentThread().interrupt();
-			e1.printStackTrace();
-		}
+		Playback.stop().execute(getClient());
 	}
 
 }

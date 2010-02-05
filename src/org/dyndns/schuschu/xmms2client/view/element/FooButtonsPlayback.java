@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackNext;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackTogglePlay;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPause;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPrev;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
@@ -42,7 +42,7 @@ public class FooButtonsPlayback {
 				client);
 		stop.addListeners();
 
-		FooActionPlaybackTogglePlay pause = new FooActionPlaybackTogglePlay(pauseButton,
+		FooActionPlaybackPause pause = new FooActionPlaybackPause(pauseButton,
 				client);
 		pause.addListeners();
 

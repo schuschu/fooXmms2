@@ -1,8 +1,11 @@
 package org.dyndns.schuschu.xmms2client.view.tray;
 
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackNext;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPrev;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPause;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.eclipse.swt.SWT;
@@ -11,6 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
@@ -53,6 +57,26 @@ public class FooTray {
 			FooActionPlaybackStop stop = new FooActionPlaybackStop(menuStop,
 					client);
 			stop.addListeners();
+
+			FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
+			menuPause.setText("Pause");
+			FooActionPlaybackPause pause = new FooActionPlaybackPause(
+					menuPause, client);
+			pause.addListeners();
+
+			FooMenuItem menuNext = new FooMenuItem(menu, SWT.PUSH);
+			menuNext.setText("Next");
+			FooActionPlaybackNext next = new FooActionPlaybackNext(menuNext,
+					client);
+			next.addListeners();
+
+			FooMenuItem menuPrev = new FooMenuItem(menu, SWT.PUSH);
+			menuPrev.setText("Prev");
+			FooActionPlaybackPrev prev = new FooActionPlaybackPrev(menuPrev,
+					client);
+			prev.addListeners();
+
+			new MenuItem(menu, SWT.SEPARATOR);
 
 			FooMenuItem menuExit = new FooMenuItem(menu, SWT.PUSH);
 			menuExit.setText("Exit");
