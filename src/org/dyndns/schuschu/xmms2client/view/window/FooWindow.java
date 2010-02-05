@@ -6,6 +6,7 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.graphics.Image;
@@ -142,6 +143,11 @@ public class FooWindow implements FooInterfaceWindow {
 		compositePlaylist.setLayout(layout);
 
 		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
+		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
+		FooButtonsPlayback buttons = new FooButtonsPlayback(compositePlaylist, SWT.NONE, client);
+
+		//COMBO
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
 		comboData.left = new FormAttachment(0, 0);
@@ -152,13 +158,12 @@ public class FooWindow implements FooInterfaceWindow {
 				comboPlaylist);
 		comboPlaylist.setBackend(backend);
 
-		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
+		//LIST
 		FormData listData = new FormData();
 		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
 		listData.left = new FormAttachment(0, 0);
 		listData.right = new FormAttachment(100, 0);
-		listData.bottom = new FormAttachment(100, 0);
+		listData.bottom = new FormAttachment(buttons.getComposite(), 0);
 		listPlaylist.setLayoutData(listData);
 
 		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
@@ -168,6 +173,15 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
+
+		//BUTTON
+		FormData buttonsData = new FormData();
+//		stopData.top = new FormAttachment(listPlaylist.getList(), 0);
+		buttonsData.left = new FormAttachment(0, 0);
+		buttonsData.right = new FormAttachment(100, 0);
+		buttonsData.bottom = new FormAttachment(100, 0);
+		buttons.setLayoutData(buttonsData);
+		
 	}
 
 	public void setsShell(Shell sShell) {
@@ -202,6 +216,6 @@ public class FooWindow implements FooInterfaceWindow {
 				getDisplay().sleep();
 			}
 		}
-		getDisplay().dispose();		
+		getDisplay().dispose();
 	}
 }
