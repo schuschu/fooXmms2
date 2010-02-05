@@ -3,15 +3,14 @@ package org.dyndns.schuschu.xmms2client.view.menu;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 public class FooMenuItem implements FooInterfaceClickable {
 
 	private MenuItem item;
 
-	public FooMenuItem(Menu parent, int style) {
-		item = new MenuItem(parent, style);
+	public FooMenuItem(FooMenu parent, int style) {
+		item = new MenuItem(parent.getMenu(), style);
 	}
 
 	@Override

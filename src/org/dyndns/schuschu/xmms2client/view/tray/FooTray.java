@@ -7,14 +7,13 @@ import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPrev;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPause;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
@@ -22,7 +21,7 @@ import org.eclipse.swt.widgets.TrayItem;
 import se.fnord.xmms2.client.Client;
 
 public class FooTray {
-	
+
 	// TODO: Code cleanup
 
 	private Tray tray;
@@ -42,7 +41,7 @@ public class FooTray {
 			Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
 			item.setImage(image);
 
-			final Menu menu = new Menu(new Shell(getDisplay(), SWT.NONE),
+			final FooMenu menu = new FooMenu(new Shell(getDisplay(), SWT.NONE),
 					SWT.POP_UP);
 
 			FooMenuItem menuPlay = new FooMenuItem(menu, SWT.PUSH);
@@ -75,7 +74,7 @@ public class FooTray {
 					client);
 			prev.addListeners();
 
-			new MenuItem(menu, SWT.SEPARATOR);
+			new FooMenuItem(menu, SWT.SEPARATOR);
 
 			FooMenuItem menuExit = new FooMenuItem(menu, SWT.PUSH);
 			menuExit.setText("Exit");

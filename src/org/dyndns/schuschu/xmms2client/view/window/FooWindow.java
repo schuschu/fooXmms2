@@ -2,6 +2,7 @@ package org.dyndns.schuschu.xmms2client.view.window;
 
 import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
 import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
@@ -9,6 +10,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -24,7 +27,7 @@ import org.eclipse.swt.layout.FormLayout;
 import se.fnord.xmms2.client.Client;
 
 public class FooWindow implements FooInterfaceWindow {
-	
+
 	// TODO: Code cleanup
 
 	final static int WIDTH = 600;
@@ -81,8 +84,8 @@ public class FooWindow implements FooInterfaceWindow {
 
 		listPlaylist.getBackend()
 				.setContentProvider(comboPlaylist.getBackend());
-		
-		//generate initial listPlaylist data
+
+		// generate initial listPlaylist data
 		comboPlaylist.getBackend().generateFilteredContent();
 	}
 
@@ -147,9 +150,10 @@ public class FooWindow implements FooInterfaceWindow {
 		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
 		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		FooButtonsPlayback buttons = new FooButtonsPlayback(compositePlaylist, SWT.NONE, client);
+		FooButtonsPlayback buttons = new FooButtonsPlayback(compositePlaylist,
+				SWT.NONE, client);
 
-		//COMBO
+		// COMBO
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
 		comboData.left = new FormAttachment(0, 0);
@@ -160,7 +164,7 @@ public class FooWindow implements FooInterfaceWindow {
 				comboPlaylist);
 		comboPlaylist.setBackend(backend);
 
-		//LIST
+		// LIST
 		FormData listData = new FormData();
 		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
 		listData.left = new FormAttachment(0, 0);
@@ -176,13 +180,22 @@ public class FooWindow implements FooInterfaceWindow {
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
 
-		//BUTTONS
+		// BUTTONS
 		FormData buttonsData = new FormData();
 		buttonsData.left = new FormAttachment(0, 0);
 		buttonsData.right = new FormAttachment(100, 0);
 		buttonsData.bottom = new FormAttachment(100, 0);
 		buttons.setLayoutData(buttonsData);
-		
+
+		// CONTEXTMENU
+		FooMenu menu = new FooMenu(listPlaylist.getList());
+		FooMenuItem item = new FooMenuItem(menu, SWT.NONE);
+		item.setText("your ad here");
+		FooActionPlaybackExit exit = new FooActionPlaybackExit(item);
+		exit.addListeners();
+
+		listPlaylist.setMenu(menu);
+
 	}
 
 	public void setsShell(Shell sShell) {

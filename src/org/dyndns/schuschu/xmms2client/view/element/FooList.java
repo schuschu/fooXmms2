@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -18,15 +19,16 @@ public class FooList implements FooInterfaceViewElement {
 
 	public FooList(Composite parent, int style) {
 		setList(new List(parent, style));
+
 		getList().addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				backend.selectionChanged();				
+				backend.selectionChanged();
 			}
-			
+
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {				
+			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
 	}
@@ -90,8 +92,8 @@ public class FooList implements FooInterfaceViewElement {
 		getList().setSelection(indices);
 
 	}
-	
-	public void setLayoutData(Object layoutData){
+
+	public void setLayoutData(Object layoutData) {
 		this.list.setLayoutData(layoutData);
 	}
 
@@ -101,5 +103,9 @@ public class FooList implements FooInterfaceViewElement {
 
 	public List getList() {
 		return list;
+	}
+
+	public void setMenu(FooMenu menu) {
+		list.setMenu(menu.getMenu());
 	}
 }
