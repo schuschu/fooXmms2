@@ -7,6 +7,7 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -77,6 +78,9 @@ public class FooWindowSWT {
 		getsShell().setSize(new Point(WIDTH, HEIGHT));
 		createSashFormMain();
 		getsShell().setLayout(new FillLayout());
+		
+		Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
+		getsShell().setImage(image);
 	}
 
 	private void createSashFormMain() {

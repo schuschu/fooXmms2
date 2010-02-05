@@ -36,7 +36,7 @@ public class FooTray {
 			TrayItem item = new TrayItem(tray, SWT.NONE);
 			// SVGImageConverter converter = new SVGImageConverter();
 
-			Image image = new Image(getDisplay(), "pixmaps/xmms2-48.png");
+			Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
 			item.setImage(image);
 
 			final Menu menu = new Menu(new Shell(getDisplay(), SWT.NONE),
