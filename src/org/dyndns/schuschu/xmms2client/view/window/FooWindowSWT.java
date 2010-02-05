@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.window;
 
-import org.dyndns.schuschu.xmms2client.action.FooPluginActionFilter;
-import org.dyndns.schuschu.xmms2client.action.FooPluginActionPlaylist;
+import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
+import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooPluginBackendPlaylist;
@@ -29,8 +29,6 @@ public class FooWindowSWT {
 
 	private Display display = new Display();
 
-	boolean visible = false;
-
 	private Shell sShell = null;
 	private SashForm sashFormMain = null;
 	private SashForm sashFormSubLeft = null;
@@ -52,17 +50,11 @@ public class FooWindowSWT {
 	}
 
 	public void setVisible(boolean visible) {
-		this.visible = visible;
-		if (visible) {
-			getsShell().open();
-		} else {
-			getsShell().close();
-		}
+		getsShell().setVisible(visible);
 	}
 
 	public void toggleVisible() {
-		visible = !visible;
-		setVisible(visible);
+		setVisible(!getsShell().getVisible());
 	}
 
 	public void initalize() {
@@ -73,7 +65,8 @@ public class FooWindowSWT {
 		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
 		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
-		listPlaylist.getBackend().setContentProvider(comboPlaylist.getBackend());
+		listPlaylist.getBackend()
+				.setContentProvider(comboPlaylist.getBackend());
 		// TODO: remove workaround to load content on startup;
 		comboPlaylist.getBackend().generateFilteredContent();
 	}
@@ -100,8 +93,7 @@ public class FooWindowSWT {
 		FooPluginBackendMedia artist_backend = new FooPluginBackendMedia(
 				"%artist%", "artist", client, listArtist);
 		listArtist.setBackend(artist_backend);
-		FooPluginActionFilter artist_action = new FooPluginActionFilter(
-				artist_backend);
+		FooActionFilter artist_action = new FooActionFilter(artist_backend);
 		artist_action.addListeners();
 
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
@@ -110,8 +102,7 @@ public class FooWindowSWT {
 		FooPluginBackendMedia album_backend = new FooPluginBackendMedia(
 				"%date% - %album%", "album", client, listAlbum);
 		listAlbum.setBackend(album_backend);
-		FooPluginActionFilter album_action = new FooPluginActionFilter(
-				album_backend);
+		FooActionFilter album_action = new FooActionFilter(album_backend);
 		album_action.addListeners();
 	}
 
@@ -125,7 +116,7 @@ public class FooWindowSWT {
 				"%title%", "title", client, listTrack);
 		listTrack.setBackend(track_backend);
 
-		FooPluginActionFilter action = new FooPluginActionFilter(track_backend);
+		FooActionFilter action = new FooActionFilter(track_backend);
 		action.addListeners();
 
 		createCompositePlaylist();
@@ -142,10 +133,10 @@ public class FooWindowSWT {
 		comboData.left = new FormAttachment(0, 0);
 		comboData.right = new FormAttachment(100, 0);
 		comboPlaylist.setLayoutData(comboData);
-		
-		 FooPluginBackendPlaylist backend = new FooPluginBackendPlaylist(
-				 client, comboPlaylist);
-		 comboPlaylist.setBackend(backend);
+
+		FooPluginBackendPlaylist backend = new FooPluginBackendPlaylist(client,
+				comboPlaylist);
+		comboPlaylist.setBackend(backend);
 
 		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
@@ -161,8 +152,7 @@ public class FooWindowSWT {
 
 		listPlaylist.setBackend(list_backend);
 
-		FooPluginActionPlaylist list_action = new FooPluginActionPlaylist(
-				list_backend);
+		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
 	}
 

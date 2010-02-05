@@ -7,7 +7,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-public class FooPluginActionFilter implements FooInterfaceAction {
+public class FooActionFilter implements FooInterfaceAction {
 
 	private FooPluginBackendMedia backend;
 
@@ -34,10 +34,10 @@ public class FooPluginActionFilter implements FooInterfaceAction {
 		backend.enqueuSelection();
 	}
 
-	public FooPluginActionFilter() {
+	public FooActionFilter() {
 	}
 
-	public FooPluginActionFilter(FooPluginBackendMedia backend) {
+	public FooActionFilter(FooPluginBackendMedia backend) {
 		setBackend(backend);
 	}
 

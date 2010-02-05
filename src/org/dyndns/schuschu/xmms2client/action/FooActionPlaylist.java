@@ -7,7 +7,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-public class FooPluginActionPlaylist implements FooInterfaceAction {
+public class FooActionPlaylist implements FooInterfaceAction {
 
 	private FooPluginBackendMediaPlaylist backend;
 
@@ -37,7 +37,7 @@ public class FooPluginActionPlaylist implements FooInterfaceAction {
 		backend.playSelection();
 	}
 
-	public FooPluginActionPlaylist(FooPluginBackendMediaPlaylist backend) {
+	public FooActionPlaylist(FooPluginBackendMediaPlaylist backend) {
 		this.setBackend(backend);
 	}
 

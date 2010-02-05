@@ -1,11 +1,11 @@
 package org.dyndns.schuschu.xmms2client.action;
 
-import java.awt.event.ActionListener;
+import org.eclipse.swt.widgets.Listener;
 
-public interface FooInterfaceViewClickable {
+public interface FooInterfaceClickable {
 
-	public void addActionListener(ActionListener action);
+	public void addListener(Listener listener);
 
-	public void removeActionListener(ActionListener action);
+	public void removeListener(Listener listener);
 
 }

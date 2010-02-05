@@ -1,31 +1,30 @@
 package org.dyndns.schuschu.xmms2client.action.playback;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import org.dyndns.schuschu.xmms2client.action.FooInterfaceAction;
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceViewClickable;
+import org.dyndns.schuschu.xmms2client.action.FooInterfaceClickable;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 import se.fnord.xmms2.client.Client;
 
-abstract public class FooPluginActionPlayback implements FooInterfaceAction {
+abstract public class FooActionPlayback implements FooInterfaceAction {
 
 	private Client client;
-	private ActionListener action;
-	private FooInterfaceViewClickable clickClickable;
+	private Listener action;
+	private FooInterfaceClickable clickClickable;
 
-	public FooPluginActionPlayback(FooInterfaceViewClickable clickable,
+	public FooActionPlayback(FooInterfaceClickable clickable,
 			Client client) {
 		initialize(clickable, client);
 	}
 
-	public void initialize(FooInterfaceViewClickable clickable, Client client) {
+	public void initialize(FooInterfaceClickable clickable, Client client) {
 		setClickClickable(clickable);
 		setClient(client);
-		setAction(new ActionListener() {
+		setAction(new Listener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void handleEvent(Event arg0) {
 				clicked();
 
 			}
@@ -34,30 +33,30 @@ abstract public class FooPluginActionPlayback implements FooInterfaceAction {
 
 	@Override
 	public void addListeners() {
-		clickClickable.addActionListener(getAction());
+		clickClickable.addListener(getAction());
 	}
 
 	abstract public void clicked();
 
 	@Override
 	public void removeListeners() {
-		clickClickable.removeActionListener(getAction());
+		clickClickable.removeListener(getAction());
 
 	}
 
-	public void setAction(ActionListener action) {
+	public void setAction(Listener action) {
 		this.action = action;
 	}
 
-	public ActionListener getAction() {
+	public Listener getAction() {
 		return action;
 	}
 
-	public void setClickClickable(FooInterfaceViewClickable clickClickable) {
+	public void setClickClickable(FooInterfaceClickable clickClickable) {
 		this.clickClickable = clickClickable;
 	}
 
-	public FooInterfaceViewClickable getClickClickable() {
+	public FooInterfaceClickable getClickClickable() {
 		return clickClickable;
 	}
 

@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.tray;
 
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindowSWT;
@@ -28,7 +29,7 @@ public class FooTray {
 	public FooTray(FooWindowSWT window, Client client) {
 		this.window = window;
 		this.client = client;
-		initialize();
+		// initialize();
 	}
 
 	public void initialize() {
@@ -44,6 +45,9 @@ public class FooTray {
 
 			FooMenuItem menuPlay = new FooMenuItem(menu, SWT.PUSH);
 			menuPlay.setText("Play");
+			FooActionPlaybackPlay play = new FooActionPlaybackPlay(menuPlay,
+					client);
+			play.addListeners();
 
 			FooMenuItem menuStop = new FooMenuItem(menu, SWT.PUSH);
 			menuStop.setText("Stop");
@@ -72,7 +76,6 @@ public class FooTray {
 			});
 
 		}
-
 	}
 
 	public Tray getTray() {

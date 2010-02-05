@@ -1,5 +1,6 @@
 package org.dyndns.schuschu.xmms2client.loader;
 
+import org.dyndns.schuschu.xmms2client.view.tray.FooTray;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindowSWT;
 
 import se.fnord.xmms2.client.Client;
@@ -69,11 +70,13 @@ public class LoaderSWT {
 		client.start();
 
 		FooWindowSWT main = new FooWindowSWT(client);
-		// FooInterfaceViewTray tray = new FooPluginViewTrayicon(main, client,
-		// hidden);
-		// tray.show();
+
+		FooTray tray = new FooTray(main, client);
+		tray.initialize();
+
 		main.setVisible(true);
 
+		// TODO: Move somewhere else
 		while (!main.getsShell().isDisposed()) {
 			if (!main.getDisplay().readAndDispatch()) {
 				main.getDisplay().sleep();

@@ -1,10 +1,10 @@
 package org.dyndns.schuschu.xmms2client.action.playback;
 
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceViewClickable;
+import org.dyndns.schuschu.xmms2client.action.FooInterfaceClickable;
 
-public class FooPluginActionPlaybackExit extends FooPluginActionPlayback {
+public class FooActionPlaybackExit extends FooActionPlayback {
 
-	public FooPluginActionPlaybackExit(FooInterfaceViewClickable clickable) {
+	public FooActionPlaybackExit(FooInterfaceClickable clickable) {
 		super(clickable, null);
 	}
 

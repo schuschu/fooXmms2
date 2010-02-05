@@ -1,13 +1,13 @@
 package org.dyndns.schuschu.xmms2client.action.playback;
 
-import org.dyndns.schuschu.xmms2client.action.FooInterfaceViewClickable;
+import org.dyndns.schuschu.xmms2client.action.FooInterfaceClickable;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Playback;
 
-public class FooPluginActionPlaybackStop extends FooPluginActionPlayback {
+public class FooActionPlaybackStop extends FooActionPlayback {
 
-	public FooPluginActionPlaybackStop(FooInterfaceViewClickable clickable,
+	public FooActionPlaybackStop(FooInterfaceClickable clickable,
 			Client client) {
 		super(clickable, client);
 	}
