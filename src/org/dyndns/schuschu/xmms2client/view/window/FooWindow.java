@@ -2,9 +2,6 @@ package org.dyndns.schuschu.xmms2client.view.window;
 
 import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
 import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
-import org.dyndns.schuschu.xmms2client.action.backend.FooActionBackendMediaFormat;
-import org.dyndns.schuschu.xmms2client.action.backend.FooActionBackendMediaOrder;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
@@ -13,8 +10,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
-import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
-import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
+import org.dyndns.schuschu.xmms2client.view.menu.FooContextMedia;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -50,6 +46,8 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooList listTrack = null;
 	private FooList listPlaylist = null;
 	private FooCombo comboPlaylist = null;
+	private FooButtonsPlaylist buttonsPlaylist = null;
+	private FooButtonsPlayback buttonsPlayback = null;
 
 	/**
 	 * This method initializes sShell
@@ -112,119 +110,27 @@ public class FooWindow implements FooInterfaceWindow {
 	private void createSashFormSubLeft() {
 		sashFormSubLeft = new SashForm(sashFormMain, SWT.NONE);
 
-		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
-		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
-				"artist", client, listArtist);
-		listArtist.setBackend(artist_backend);
-		FooActionFilter artist_action = new FooActionFilter(artist_backend);
-		artist_action.addListeners();
-
-		MediaContext artistMenu = new MediaContext(listArtist, artist_backend,
-				client);
-		artistMenu.setMenu();
-		;
-
-		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
-		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
-				"album", client, listAlbum);
-		listAlbum.setBackend(album_backend);
-		FooActionFilter album_action = new FooActionFilter(album_backend);
-		album_action.addListeners();
-
-		MediaContext albumMenu = new MediaContext(listAlbum, album_backend,
-				client);
-		albumMenu.setMenu();
+		createListArtist();
+		createListAlbum();
 	}
 
 	private void createSashFormSubRight() {
 		sashFormSubRight = new SashForm(sashFormMain, SWT.NONE);
 
-		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
-
-		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
-				client, listTrack);
-		listTrack.setBackend(track_backend);
-
-		MediaContext trackMenu = new MediaContext(listTrack, track_backend,
-				client);
-		trackMenu.setMenu();
-
-		FooActionFilter action = new FooActionFilter(track_backend);
-		action.addListeners();
-
+		createListTrack();
 		createCompositePlaylist();
 	}
 
-	// TODO: sudo clean this mess up
 	private void createCompositePlaylist() {
 		compositePlaylist = new Composite(sashFormSubRight, SWT.NONE);
 		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
 
-		// TODO: add functionality to select by typing the name, if it does not
-		// exist prompt if the list should be created. Autocompletition?
-		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
+		createComboPlaylist();
+		createListPlaylist();
+		createButtonsPlaylist();
+		createButtonsPlayback();
 
-		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
-
-		FooButtonsPlayback playbackButtons = new FooButtonsPlayback(
-				compositePlaylist, SWT.NONE, client);
-
-		FooButtonsPlaylist playlistButtons = new FooButtonsPlaylist(
-				compositePlaylist, SWT.NONE, client);
-
-		// COMBO
-		FormData comboData = new FormData();
-		comboData.top = new FormAttachment(0, 0);
-		comboData.left = new FormAttachment(0, 0);
-		comboData.right = new FormAttachment(100, 0);
-		comboPlaylist.setLayoutData(comboData);
-
-		FooBackendPlaylist backend = new FooBackendPlaylist(client,
-				comboPlaylist);
-		comboPlaylist.setBackend(backend);
-
-		// LIST
-		FormData listData = new FormData();
-		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
-		listData.left = new FormAttachment(0, 0);
-		listData.right = new FormAttachment(100, 0);
-		listData.bottom = new FormAttachment(playlistButtons.getComposite(), 0);
-		listPlaylist.setLayoutData(listData);
-
-		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
-				"%artist% - %title%", "title", client, listPlaylist);
-
-		listPlaylist.setBackend(list_backend);
-
-		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
-		list_action.addListeners();
-
-		// BUTTONS
-		FormData playlistButtonsData = new FormData();
-		playlistButtonsData.left = new FormAttachment(0, 0);
-		playlistButtonsData.right = new FormAttachment(100, 0);
-		playlistButtonsData.bottom = new FormAttachment(playbackButtons
-				.getComposite(), 0);
-		playlistButtons.setLayoutData(playlistButtonsData);
-
-		FormData playbackButtonsData = new FormData();
-		playbackButtonsData.left = new FormAttachment(0, 0);
-		playbackButtonsData.right = new FormAttachment(100, 0);
-		playbackButtonsData.bottom = new FormAttachment(100, 0);
-		playbackButtons.setLayoutData(playbackButtonsData);
-
-		// CONTEXTMENU
-		FooMenu adMenu = new FooMenu(listPlaylist.getList());
-		FooMenuItem adItem = new FooMenuItem(adMenu, SWT.NONE);
-		adItem.setText("your ad here");
-		FooActionPlaybackExit exit = new FooActionPlaybackExit(adItem);
-		exit.addListeners();
-		listPlaylist.setMenu(adMenu);
 	}
 
 	public void setsShell(Shell sShell) {
@@ -261,38 +167,188 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		getDisplay().dispose();
 	}
-}
 
-// TODO: move to new file, wanna have persistent stuff
-class MediaContext {
-
-	FooList list;
-	FooMenu menu;
-
-	public MediaContext(FooList list, FooBackendMedia backend, Client client) {
-		this.list = list;
-
-		menu = new FooMenu(list.getList());
-
-		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
-		formatItem.setText("change format");
-		FooActionBackendMediaFormat format = new FooActionBackendMediaFormat(
-				formatItem, backend, client);
-		format.addListeners();
-
-		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
-		orderItem.setText("change order");
-		FooActionBackendMediaOrder order = new FooActionBackendMediaOrder(
-				orderItem, backend, client);
-		order.addListeners();
+	public SashForm getSashFormMain() {
+		if (sashFormMain == null) {
+			createSashFormMain();
+		}
+		return sashFormMain;
 	}
 
-	public void setMenu() {
-		list.setMenu(menu);
+	public SashForm getSashFormSubLeft() {
+		if (sashFormSubLeft == null) {
+			createSashFormSubLeft();
+		}
+		return sashFormSubLeft;
 	}
 
-	public void removeMenu() {
-		list.setMenu(new FooMenu(list.getList()));
+	public SashForm getSashFormSubRight() {
+		if (sashFormSubRight == null) {
+			createSashFormSubRight();
+		}
+		return sashFormSubRight;
 	}
 
+	public Composite getCompositePlaylist() {
+		if (compositePlaylist == null) {
+			createCompositePlaylist();
+		}
+		return compositePlaylist;
+	}
+
+	public FooList getListArtist() {
+		if (listArtist == null) {
+			createListArtist();
+		}
+		return listArtist;
+	}
+
+	public FooList getListAlbum() {
+		if (listAlbum == null) {
+			createListArtist();
+		}
+		return listAlbum;
+	}
+
+	public FooList getListTrack() {
+		if (listTrack == null) {
+			createListTrack();
+		}
+		return listTrack;
+	}
+
+	public FooList getListPlaylist() {
+		if (listPlaylist == null) {
+			createListPlaylist();
+		}
+		return listPlaylist;
+	}
+
+	public FooCombo getComboPlaylist() {
+		if (comboPlaylist == null) {
+			createComboPlaylist();
+		}
+		return comboPlaylist;
+	}
+
+	public FooButtonsPlaylist getButtonsPlaylist() {
+		if (buttonsPlaylist == null) {
+			createButtonsPlaylist();
+		}
+		return buttonsPlaylist;
+	}
+
+	public FooButtonsPlayback getButtonsPlayback() {
+		if (buttonsPlayback == null) {
+			createButtonsPlayback();
+		}
+		return buttonsPlayback;
+	}
+
+	public void createListArtist() {
+		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
+		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
+				"artist", client, listArtist);
+		listArtist.setBackend(artist_backend);
+		FooActionFilter artist_action = new FooActionFilter(artist_backend);
+		artist_action.addListeners();
+
+		FooContextMedia artistMenu = new FooContextMedia(listArtist,
+				artist_backend, client);
+		artistMenu.setMenu();
+		;
+	}
+
+	public void createListAlbum() {
+		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
+		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
+				"album", client, listAlbum);
+		listAlbum.setBackend(album_backend);
+		FooActionFilter album_action = new FooActionFilter(album_backend);
+		album_action.addListeners();
+
+		FooContextMedia albumMenu = new FooContextMedia(listAlbum,
+				album_backend, client);
+		albumMenu.setMenu();
+	}
+
+	public void createListTrack() {
+		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
+
+		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
+				client, listTrack);
+		listTrack.setBackend(track_backend);
+
+		FooContextMedia trackMenu = new FooContextMedia(listTrack,
+				track_backend, client);
+		trackMenu.setMenu();
+
+		FooActionFilter action = new FooActionFilter(track_backend);
+		action.addListeners();
+
+	}
+
+	public void createComboPlaylist() {
+		// TODO: add functionality to select by typing the name, if it does not
+		// exist prompt if the list should be created. Autocompletition?
+		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
+		FormData comboData = new FormData();
+		comboData.top = new FormAttachment(0, 0);
+		comboData.left = new FormAttachment(0, 0);
+		comboData.right = new FormAttachment(100, 0);
+		comboPlaylist.setLayoutData(comboData);
+
+		FooBackendPlaylist backend = new FooBackendPlaylist(client,
+				comboPlaylist);
+		comboPlaylist.setBackend(backend);
+
+	}
+
+	public void createListPlaylist() {
+		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
+				| SWT.V_SCROLL);
+
+		FormData listData = new FormData();
+		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
+		listData.left = new FormAttachment(0, 0);
+		listData.right = new FormAttachment(100, 0);
+		listData.bottom = new FormAttachment(getButtonsPlaylist()
+				.getComposite(), 0);
+		listPlaylist.setLayoutData(listData);
+
+		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
+				"%artist% - %title%", "title", client, listPlaylist);
+
+		listPlaylist.setBackend(list_backend);
+
+		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
+		list_action.addListeners();
+
+	}
+
+	public void createButtonsPlaylist() {
+		buttonsPlaylist = new FooButtonsPlaylist(
+				compositePlaylist, SWT.NONE, client);
+
+		FormData buttonsplaylistData = new FormData();
+		buttonsplaylistData.left = new FormAttachment(0, 0);
+		buttonsplaylistData.right = new FormAttachment(100, 0);
+		buttonsplaylistData.bottom = new FormAttachment(getButtonsPlayback()
+				.getComposite(), 0);
+		buttonsPlaylist.setLayoutData(buttonsplaylistData);
+	}
+
+	public void createButtonsPlayback() {
+		buttonsPlayback = new FooButtonsPlayback(
+				compositePlaylist, SWT.NONE, client);
+		FormData buttonsPlaybackData = new FormData();
+		buttonsPlaybackData.left = new FormAttachment(0, 0);
+		buttonsPlaybackData.right = new FormAttachment(100, 0);
+		buttonsPlaybackData.bottom = new FormAttachment(100, 0);
+		buttonsPlayback.setLayoutData(buttonsPlaybackData);
+
+	}
 }
