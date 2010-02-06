@@ -1,6 +1,5 @@
 package org.dyndns.schuschu.xmms2client.action.backend;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,20 +21,21 @@ public class FooActionBackendMediaOrder extends FooActionBackendMedia {
 	public void clicked() {
 		List<String> listCurrent = getBackend().getOrderBy();
 		StringBuffer buffer = new StringBuffer();
-		for(String s : listCurrent){
-			buffer.append(s+" ");
+		for (String s : listCurrent) {
+			buffer.append(s + " ");
 		}
-		buffer.deleteCharAt(buffer.length()-1);
+		buffer.deleteCharAt(buffer.length() - 1);
 		String current = buffer.toString();
-		
-		String input = JOptionPane.showInputDialog("Please enter new Order:\n(i.e.: artist album title",current);
-		
+
+		String input = JOptionPane.showInputDialog(
+				"Please enter new Order:\n(i.e.: artist album title", current);
+
 		List<String> newOrder = Arrays.asList(input.split(" "));
-						
+
 		if (input != null) {
 			getBackend().setOrderBy(newOrder);
-			
-			getBackend().getView().setSelection(new int[]{-1});
+
+			getBackend().getView().setSelection(new int[] { -1 });
 			getBackend().refresh();
 			getBackend().generateFilteredContent();
 		}
