@@ -6,19 +6,23 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import se.fnord.xmms2.client.Client;
+import se.fnord.xmms2.client.commands.Playback;
 
-abstract public class FooActionPlayback implements FooInterfaceAction {
+public class FooActionPlayback implements FooInterfaceAction {
 
 	private Client client;
 	private Listener action;
 	private FooInterfaceClickable clickClickable;
+	private FooPlaybackType type;
 
-	public FooActionPlayback(FooInterfaceClickable clickable,
-			Client client) {
-		initialize(clickable, client);
+	public FooActionPlayback(FooPlaybackType type,
+			FooInterfaceClickable clickable, Client client) {
+		initialize(type, clickable, client);
 	}
 
-	public void initialize(FooInterfaceClickable clickable, Client client) {
+	public void initialize(FooPlaybackType type,
+			FooInterfaceClickable clickable, Client client) {
+		setType(type);
 		setClickClickable(clickable);
 		setClient(client);
 		setAction(new Listener() {
@@ -36,7 +40,26 @@ abstract public class FooActionPlayback implements FooInterfaceAction {
 		clickClickable.addListener(getAction());
 	}
 
-	abstract public void clicked();
+	public void clicked() {
+		switch (type) {
+		case NEXT:
+			Playback.next().execute(getClient());
+			break;
+		case PAUSE:
+			Playback.togglePlay().execute(getClient());
+			break;
+		case PLAY:
+			Playback.play().execute(getClient());
+			break;
+		case PREV:
+			Playback.prev().execute(getClient());
+			break;
+		case STOP:
+			Playback.stop().execute(getClient());
+			break;
+		}
+
+	}
 
 	@Override
 	public void removeListeners() {
@@ -66,6 +89,14 @@ abstract public class FooActionPlayback implements FooInterfaceAction {
 
 	public Client getClient() {
 		return client;
+	}
+
+	public void setType(FooPlaybackType type) {
+		this.type = type;
+	}
+
+	public FooPlaybackType getType() {
+		return type;
 	}
 
 }

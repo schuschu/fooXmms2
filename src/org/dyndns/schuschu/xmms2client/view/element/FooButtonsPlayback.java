@@ -1,10 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackNext;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPause;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPrev;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlayback;
+import org.dyndns.schuschu.xmms2client.action.playback.FooPlaybackType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -34,24 +31,24 @@ public class FooButtonsPlayback {
 		playButton.setText("►");
 		nextButton.setText("▸▸");
 
-		FooActionPlaybackPrev prev = new FooActionPlaybackPrev(prevButton,
-				client);
+		FooActionPlayback prev = new FooActionPlayback(FooPlaybackType.PREV,
+				prevButton, client);
 		prev.addListeners();
 
-		FooActionPlaybackStop stop = new FooActionPlaybackStop(stopButton,
-				client);
+		FooActionPlayback stop = new FooActionPlayback(FooPlaybackType.STOP,
+				stopButton, client);
 		stop.addListeners();
 
-		FooActionPlaybackPause pause = new FooActionPlaybackPause(pauseButton,
-				client);
+		FooActionPlayback pause = new FooActionPlayback(FooPlaybackType.PAUSE,
+				pauseButton, client);
 		pause.addListeners();
 
-		FooActionPlaybackPlay play = new FooActionPlaybackPlay(playButton,
-				client);
+		FooActionPlayback play = new FooActionPlayback(FooPlaybackType.PLAY,
+				playButton, client);
 		play.addListeners();
 
-		FooActionPlaybackNext next = new FooActionPlaybackNext(nextButton,
-				client);
+		FooActionPlayback next = new FooActionPlayback(FooPlaybackType.NEXT,
+				nextButton, client);
 		next.addListeners();
 
 	}

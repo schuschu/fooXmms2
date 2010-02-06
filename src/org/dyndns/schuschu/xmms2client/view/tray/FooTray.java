@@ -1,11 +1,8 @@
 package org.dyndns.schuschu.xmms2client.view.tray;
 
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackNext;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPrev;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPause;
+import org.dyndns.schuschu.xmms2client.action.FooActionExit;
+import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlayback;
+import org.dyndns.schuschu.xmms2client.action.playback.FooPlaybackType;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
@@ -46,39 +43,39 @@ public class FooTray {
 
 			FooMenuItem menuPlay = new FooMenuItem(menu, SWT.PUSH);
 			menuPlay.setText("Play");
-			FooActionPlaybackPlay play = new FooActionPlaybackPlay(menuPlay,
-					client);
+			FooActionPlayback play = new FooActionPlayback(
+					FooPlaybackType.PLAY, menuPlay, client);
 			play.addListeners();
 
 			FooMenuItem menuStop = new FooMenuItem(menu, SWT.PUSH);
 			menuStop.setText("Stop");
-			FooActionPlaybackStop stop = new FooActionPlaybackStop(menuStop,
-					client);
+			FooActionPlayback stop = new FooActionPlayback(
+					FooPlaybackType.STOP, menuStop, client);
 			stop.addListeners();
 
 			FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
 			menuPause.setText("Pause");
-			FooActionPlaybackPause pause = new FooActionPlaybackPause(
-					menuPause, client);
+			FooActionPlayback pause = new FooActionPlayback(
+					FooPlaybackType.PAUSE, menuPause, client);
 			pause.addListeners();
 
 			FooMenuItem menuNext = new FooMenuItem(menu, SWT.PUSH);
 			menuNext.setText("Next");
-			FooActionPlaybackNext next = new FooActionPlaybackNext(menuNext,
-					client);
+			FooActionPlayback next = new FooActionPlayback(
+					FooPlaybackType.NEXT, menuNext, client);
 			next.addListeners();
 
 			FooMenuItem menuPrev = new FooMenuItem(menu, SWT.PUSH);
 			menuPrev.setText("Prev");
-			FooActionPlaybackPrev prev = new FooActionPlaybackPrev(menuPrev,
-					client);
+			FooActionPlayback prev = new FooActionPlayback(
+					FooPlaybackType.PREV, menuPrev, client);
 			prev.addListeners();
 
 			new FooMenuItem(menu, SWT.SEPARATOR);
 
 			FooMenuItem menuExit = new FooMenuItem(menu, SWT.PUSH);
 			menuExit.setText("Exit");
-			FooActionPlaybackExit exit = new FooActionPlaybackExit(menuExit);
+			FooActionExit exit = new FooActionExit(menuExit);
 			exit.addListeners();
 
 			item.addListener(SWT.MenuDetect, new Listener() {
