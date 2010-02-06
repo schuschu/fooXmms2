@@ -273,7 +273,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 		this.setFormat(format);
 		this.baseConetent = CollectionBuilder.getEmptyExpression();
 		this.setClient(client);
-		this.setOrderBy(query_fields);
+
 		// this.setOrderBy(Arrays.asList(new String[] { filter }));
 	}
 
@@ -317,7 +317,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 			}
 		}
 		this.format = format;
+		
 		setQueryFields(newQuery);
+		setOrderBy(newQuery);
 	}
 
 	/**

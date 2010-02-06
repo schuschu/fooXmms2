@@ -2,6 +2,8 @@ package org.dyndns.schuschu.xmms2client.view.window;
 
 import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
 import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
+import org.dyndns.schuschu.xmms2client.action.backend.FooActionBackendMediaFormat;
+import org.dyndns.schuschu.xmms2client.action.backend.FooActionBackendMediaOrder;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackExit;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
@@ -117,6 +119,11 @@ public class FooWindow implements FooInterfaceWindow {
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
 		artist_action.addListeners();
 
+		MediaContext artistMenu = new MediaContext(listArtist, artist_backend,
+				client);
+		artistMenu.setMenu();
+		;
+
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
@@ -124,6 +131,10 @@ public class FooWindow implements FooInterfaceWindow {
 		listAlbum.setBackend(album_backend);
 		FooActionFilter album_action = new FooActionFilter(album_backend);
 		album_action.addListeners();
+
+		MediaContext albumMenu = new MediaContext(listAlbum, album_backend,
+				client);
+		albumMenu.setMenu();
 	}
 
 	private void createSashFormSubRight() {
@@ -135,6 +146,10 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
 				client, listTrack);
 		listTrack.setBackend(track_backend);
+
+		MediaContext trackMenu = new MediaContext(listTrack, track_backend,
+				client);
+		trackMenu.setMenu();
 
 		FooActionFilter action = new FooActionFilter(track_backend);
 		action.addListeners();
@@ -190,14 +205,12 @@ public class FooWindow implements FooInterfaceWindow {
 		buttons.setLayoutData(buttonsData);
 
 		// CONTEXTMENU
-		FooMenu menu = new FooMenu(listPlaylist.getList());
-		FooMenuItem item = new FooMenuItem(menu, SWT.NONE);
-		item.setText("your ad here");
-		FooActionPlaybackExit exit = new FooActionPlaybackExit(item);
+		FooMenu adMenu = new FooMenu(listPlaylist.getList());
+		FooMenuItem adItem = new FooMenuItem(adMenu, SWT.NONE);
+		adItem.setText("your ad here");
+		FooActionPlaybackExit exit = new FooActionPlaybackExit(adItem);
 		exit.addListeners();
-
-		listPlaylist.setMenu(menu);
-
+		listPlaylist.setMenu(adMenu);
 	}
 
 	public void setsShell(Shell sShell) {
@@ -234,4 +247,38 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		getDisplay().dispose();
 	}
+}
+
+// TODO: move to new file, wanna have persistent stuff
+class MediaContext {
+
+	FooList list;
+	FooMenu menu;
+
+	public MediaContext(FooList list, FooBackendMedia backend, Client client) {
+		this.list = list;
+
+		menu = new FooMenu(list.getList());
+
+		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		formatItem.setText("change format");
+		FooActionBackendMediaFormat format = new FooActionBackendMediaFormat(
+				formatItem, backend, client);
+		format.addListeners();
+		
+		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		orderItem.setText("change order");
+		FooActionBackendMediaOrder order = new FooActionBackendMediaOrder(
+				orderItem, backend, client);
+		order.addListeners();
+	}
+
+	public void setMenu() {
+		list.setMenu(menu);
+	}
+
+	public void removeMenu() {
+		list.setMenu(new FooMenu(list.getList()));
+	}
+
 }
