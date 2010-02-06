@@ -30,9 +30,8 @@ public class FooActionBackendMediaOrder extends FooActionBackendMedia {
 		String input = JOptionPane.showInputDialog(
 				"Please enter new Order:\n(i.e.: artist album title", current);
 
-		List<String> newOrder = Arrays.asList(input.split(" "));
-
 		if (input != null) {
+			List<String> newOrder = Arrays.asList(input.split(" "));
 			getBackend().setOrderBy(newOrder);
 
 			getBackend().getView().setSelection(new int[] { -1 });

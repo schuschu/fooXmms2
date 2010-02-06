@@ -32,7 +32,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * by possible to be modified by all ViewElements in the client. Maybe a
 	 * different position for this list is needed
 	 */
-	static Vector<String> POSSIBLE_VALUES = new Vector<String>();
+	private Vector<String> possible_values = new Vector<String>();
 
 	
 	// TODO: find use for groups
@@ -297,7 +297,8 @@ public class FooBackendMedia extends Observable implements Serializable,
 				temp.append(format.charAt(i));
 			}
 		}
-		FooBackendMedia.POSSIBLE_VALUES.addAll(possible);
+		
+		possible_values = possible;
 	}
 
 	/**
@@ -311,7 +312,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 		evaluateFields(format);
 
-		for (String match : POSSIBLE_VALUES) {
+		for (String match : possible_values) {
 			if (format.contains("%" + match + "%")) {
 				newQuery.add(match);
 			}
