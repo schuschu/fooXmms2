@@ -5,6 +5,8 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -29,6 +31,14 @@ public class FooCombo implements FooInterfaceViewElement {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
+		getCombo().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				if (arg0.button == 1) {
+					backend.refresh();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -50,7 +60,7 @@ public class FooCombo implements FooInterfaceViewElement {
 
 	@Override
 	public int[] getIndices() {
-		return (new int[]{combo.getSelectionIndex()});
+		return (new int[] { combo.getSelectionIndex() });
 	}
 
 	@Override
@@ -89,8 +99,8 @@ public class FooCombo implements FooInterfaceViewElement {
 	public void setSingleSelectionMode() {
 		// TODO Rethink this
 	}
-	
-	public void setLayoutData(Object layoutData){
+
+	public void setLayoutData(Object layoutData) {
 		this.combo.setLayoutData(layoutData);
 	}
 

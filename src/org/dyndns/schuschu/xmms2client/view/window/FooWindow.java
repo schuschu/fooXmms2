@@ -10,6 +10,7 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
+import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
@@ -157,6 +158,7 @@ public class FooWindow implements FooInterfaceWindow {
 		createCompositePlaylist();
 	}
 
+	// TODO: sudo clean this mess up
 	private void createCompositePlaylist() {
 		compositePlaylist = new Composite(sashFormSubRight, SWT.NONE);
 		FormLayout layout = new FormLayout();
@@ -165,10 +167,15 @@ public class FooWindow implements FooInterfaceWindow {
 		// TODO: add functionality to select by typing the name, if it does not
 		// exist prompt if the list should be created. Autocompletition?
 		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
+
 		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		FooButtonsPlayback buttons = new FooButtonsPlayback(compositePlaylist,
-				SWT.NONE, client);
+
+		FooButtonsPlayback playbackButtons = new FooButtonsPlayback(
+				compositePlaylist, SWT.NONE, client);
+
+		FooButtonsPlaylist playlistButtons = new FooButtonsPlaylist(
+				compositePlaylist, SWT.NONE, client);
 
 		// COMBO
 		FormData comboData = new FormData();
@@ -186,7 +193,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
 		listData.left = new FormAttachment(0, 0);
 		listData.right = new FormAttachment(100, 0);
-		listData.bottom = new FormAttachment(buttons.getComposite(), 0);
+		listData.bottom = new FormAttachment(playlistButtons.getComposite(), 0);
 		listPlaylist.setLayoutData(listData);
 
 		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
@@ -198,11 +205,18 @@ public class FooWindow implements FooInterfaceWindow {
 		list_action.addListeners();
 
 		// BUTTONS
-		FormData buttonsData = new FormData();
-		buttonsData.left = new FormAttachment(0, 0);
-		buttonsData.right = new FormAttachment(100, 0);
-		buttonsData.bottom = new FormAttachment(100, 0);
-		buttons.setLayoutData(buttonsData);
+		FormData playlistButtonsData = new FormData();
+		playlistButtonsData.left = new FormAttachment(0, 0);
+		playlistButtonsData.right = new FormAttachment(100, 0);
+		playlistButtonsData.bottom = new FormAttachment(playbackButtons
+				.getComposite(), 0);
+		playlistButtons.setLayoutData(playlistButtonsData);
+
+		FormData playbackButtonsData = new FormData();
+		playbackButtonsData.left = new FormAttachment(0, 0);
+		playbackButtonsData.right = new FormAttachment(100, 0);
+		playbackButtonsData.bottom = new FormAttachment(100, 0);
+		playbackButtons.setLayoutData(playbackButtonsData);
 
 		// CONTEXTMENU
 		FooMenu adMenu = new FooMenu(listPlaylist.getList());
@@ -265,7 +279,7 @@ class MediaContext {
 		FooActionBackendMediaFormat format = new FooActionBackendMediaFormat(
 				formatItem, backend, client);
 		format.addListeners();
-		
+
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
 		FooActionBackendMediaOrder order = new FooActionBackendMediaOrder(

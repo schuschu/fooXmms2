@@ -1,10 +1,10 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackNext;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPause;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPlay;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackPrev;
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlaybackStop;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistDelete;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistNew;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistSave;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistShuffle;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistSort;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -34,25 +34,26 @@ public class FooButtonsPlaylist {
 		deleteButton.setText("-");
 		saveButton.setText("⎇");
 
-		FooActionPlaybackPrev prev = new FooActionPlaybackPrev(sortButton,
+		FooActionPlaylistSort sort = new FooActionPlaylistSort(sortButton,
 				client);
-		prev.addListeners();
+		sort.addListeners();
 
-		FooActionPlaybackStop stop = new FooActionPlaybackStop(shuffleButton,
-				client);
+		FooActionPlaylistShuffle stop = new FooActionPlaylistShuffle(
+				shuffleButton, client);
 		stop.addListeners();
 
-		FooActionPlaybackPause pause = new FooActionPlaybackPause(newButton,
+		FooActionPlaylistNew newlist = new FooActionPlaylistNew(newButton,
 				client);
-		pause.addListeners();
+		newlist.addListeners();
 
-		FooActionPlaybackPlay play = new FooActionPlaybackPlay(deleteButton,
-				client);
-		play.addListeners();
+		// TODO: implemnt this
+		FooActionPlaylistDelete delete = new FooActionPlaylistDelete(
+				deleteButton, client);
+		delete.addListeners();
 
-		FooActionPlaybackNext next = new FooActionPlaybackNext(saveButton,
+		FooActionPlaylistSave save = new FooActionPlaylistSave(saveButton,
 				client);
-		next.addListeners();
+		save.addListeners();
 
 	}
 

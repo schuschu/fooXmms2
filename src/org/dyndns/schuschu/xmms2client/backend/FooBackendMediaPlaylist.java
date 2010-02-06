@@ -23,11 +23,11 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	 */
 	private static final long serialVersionUID = 6791163548568077012L;
 
-	public FooBackendMediaPlaylist(String format, String filter,
-			Client client, FooInterfaceViewElement view) {
+	public FooBackendMediaPlaylist(String format, String filter, Client client,
+			FooInterfaceViewElement view) {
 		super(format, filter, client, view);
 	}
-	
+
 	public void playSelection() {
 
 		int[] ids = getView().getIndices();
@@ -50,29 +50,29 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 		}
 	}
-	
+
 	public void removeSelection() {
-		
+
 		int[] ids = getView().getIndices();
-		
-		Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
-		
-		try {
-			c.executeSync(getClient());
-			// TODO: replace with broadcast!
-			getContentProvider().generateFilteredContent();
-			
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
+		if (ids.length>0) {
+			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
+
+			try {
+				c.executeSync(getClient());
+				// TODO: replace with broadcast!
+				getContentProvider().generateFilteredContent();
+
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				e.printStackTrace();
+			}
 		}
-		
 	}
 
 	@Override
 	protected Vector<String> createContent(List<Dict> Database) {
 		Vector<String> Content = new Vector<String>();
-		
+
 		// TODO: fix this hack
 		FooBackendPlaylist hack = (FooBackendPlaylist) getContentProvider();
 
@@ -100,10 +100,10 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
-		
+
 		return Content;
 	}
-	
+
 	@Override
 	public void selectionChanged() {
 		// TODO: think of use for this
