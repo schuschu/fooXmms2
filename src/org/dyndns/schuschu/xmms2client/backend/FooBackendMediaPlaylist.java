@@ -54,7 +54,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	public void removeSelection() {
 
 		int[] ids = getView().getIndices();
-		if (ids.length>0) {
+		if (ids.length > 0) {
 			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
 
 			try {
