@@ -58,7 +58,8 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
 
 			try {
-				c.executeSync(getClient());
+				c.execute(getClient());
+				c.waitReply();
 				// TODO: replace with broadcast!
 				getContentProvider().generateFilteredContent();
 
