@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 
 import se.fnord.xmms2.client.Client;
+import se.fnord.xmms2.client.commands.Command;
+import se.fnord.xmms2.client.commands.Playlist;
 
 public class FooActionPlaylistDelete extends FooActionPlaylist {
 
@@ -15,8 +17,17 @@ public class FooActionPlaylistDelete extends FooActionPlaylist {
 
 	@Override
 	public void clicked() {
-		JOptionPane.showMessageDialog(null, "not implemented yet!");
-		// TODO: The command
-	}
+		// TODO: Dropdown
 
+		String input = JOptionPane
+				.showInputDialog("Please enter the name of the playlist you want to delete");
+
+		if (input != null) {
+
+			Command c = Playlist.remove(input);
+
+			c.execute(getClient());
+			// TODO: Broadcast here
+		}
+	}
 }

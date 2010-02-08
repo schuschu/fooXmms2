@@ -202,6 +202,10 @@ public class Playlist {
 			int[] tracks) {
 		return new PlaylistSaveCommand(playlist, tracks);
 	}
+	
+	public static Command remove(String playlist) {
+		return new BasicCommand(IpcObject.COLLECTION, IpcCommand.COLLECTION_REMOVE, playlist,CollectionNamespace.PLAYLISTS.toString());
+	}
 
 	public static Command setPos(int pos) {
 		return new BasicCommand(IpcObject.PLAYLIST, IpcCommand.SET_POS, pos);

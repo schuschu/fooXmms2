@@ -23,6 +23,7 @@ public class FooActionPlaylistNew extends FooActionPlaylist {
 		if (input != null) {
 			Command c = Playlist.save(input, CollectionBuilder
 					.getEmptyExpression());
+
 			c.execute(getClient());
 			// TODO: Broadcast here
 		}

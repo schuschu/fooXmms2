@@ -9,6 +9,8 @@ import se.fnord.xmms2.client.Client;
 
 abstract public class FooActionPlaylist implements FooInterfaceAction {
 
+	// TODO: enum vodoo?
+	
 	private Client client;
 	private Listener action;
 	private FooInterfaceClickable clickClickable;

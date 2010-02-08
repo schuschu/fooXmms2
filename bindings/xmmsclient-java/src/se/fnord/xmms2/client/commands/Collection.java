@@ -49,5 +49,9 @@ public final class Collection {
 	public static Command save(CollectionNamespace namespace, String name, CollectionExpression expression) {
 		return new BasicCommand(IpcObject.COLLECTION, IpcCommand.COLLECTION_SAVE, name, namespace, expression);
 	}
+	
+	public static Command remove(CollectionNamespace namespace, String name) {
+		return new BasicCommand(IpcObject.COLLECTION, IpcCommand.COLLECTION_REMOVE, name, namespace);
+	}
 
 }
