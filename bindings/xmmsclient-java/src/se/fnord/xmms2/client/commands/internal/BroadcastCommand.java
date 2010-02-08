@@ -37,7 +37,7 @@ public class BroadcastCommand extends AbstractCommand implements SignalCommand {
 		private final IpcSignal signal;
 
 		protected RealBroadcastCommand(IpcSignal signal) {
-			super(IpcObject.SIGNAL, IpcCommand.BROADCAST, signal);
+			super(IpcObject.SIGNAL, IpcCommand.BROADCAST, signal.ordinal());
 			this.signal = signal;
 		}
 

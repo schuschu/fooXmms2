@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
@@ -8,20 +8,28 @@ import se.fnord.xmms2.client.commands.Playlist;
 
 public class FooWatchPlaylist extends Thread {
 
-	private Command c;
-	private FooInterfaceBackend backend;
+	Command c;
+	private Runnable r;
+	private final FooInterfaceViewElement view;
 
-	public FooWatchPlaylist(Client client, FooInterfaceBackend backend) {
-		this.backend = backend;
+	public FooWatchPlaylist(Client client, final FooInterfaceViewElement view) {
+		this.view = view;
 		c = Playlist.changeBroadcast();
 		c.execute(client);
+
+		r = new Runnable() {
+			public void run() {
+				view.getBackend().generateFilteredContent();
+			}
+		};
+
 	}
 
 	public void run() {
-		while (!this.isInterrupted()) {
+		while (true) {
 			try {
-				System.out.println(c.waitReply().toString());
-				backend.refresh();
+				c.waitReply();
+				view.getReal().getDisplay().asyncExec(r);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				e.printStackTrace();

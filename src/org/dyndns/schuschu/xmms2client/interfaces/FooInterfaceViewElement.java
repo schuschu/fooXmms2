@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * @author schuschu
@@ -53,4 +54,6 @@ public interface FooInterfaceViewElement{
 	public void setSingleSelectionMode();
 
 	public void setSelection(int[] indices);
+	
+	public Control getReal();
 }

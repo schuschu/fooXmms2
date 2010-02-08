@@ -328,8 +328,8 @@ public class FooWindow implements FooInterfaceWindow {
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
 		
-		//FooWatchPlaylist watch = new FooWatchPlaylist(client, list_backend);
-		//watch.start();
+		FooWatchPlaylist watch = new FooWatchPlaylist(client, comboPlaylist);
+		watch.start();
 
 	}
 

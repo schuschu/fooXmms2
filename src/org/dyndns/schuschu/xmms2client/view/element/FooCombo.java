@@ -12,6 +12,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 public class FooCombo implements FooInterfaceViewElement {
 
@@ -109,6 +110,11 @@ public class FooCombo implements FooInterfaceViewElement {
 	}
 
 	public Combo getCombo() {
+		return combo;
+	}
+
+	@Override
+	public Control getReal() {
 		return combo;
 	}
 

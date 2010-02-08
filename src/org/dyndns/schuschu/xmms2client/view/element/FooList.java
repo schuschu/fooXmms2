@@ -10,6 +10,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.List;
 
 public class FooList implements FooInterfaceViewElement {
@@ -107,5 +108,10 @@ public class FooList implements FooInterfaceViewElement {
 
 	public void setMenu(FooMenu menu) {
 		list.setMenu(menu.getMenu());
+	}
+
+	@Override
+	public Control getReal() {
+		return list;
 	}
 }
