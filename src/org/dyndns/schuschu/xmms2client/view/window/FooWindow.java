@@ -11,6 +11,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.menu.FooContextMedia;
+import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -326,12 +327,15 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
+		
+		//FooWatchPlaylist watch = new FooWatchPlaylist(client, list_backend);
+		//watch.start();
 
 	}
 
 	public void createButtonsPlaylist() {
-		buttonsPlaylist = new FooButtonsPlaylist(
-				compositePlaylist, SWT.NONE, client);
+		buttonsPlaylist = new FooButtonsPlaylist(compositePlaylist, SWT.NONE,
+				client);
 
 		FormData buttonsplaylistData = new FormData();
 		buttonsplaylistData.left = new FormAttachment(0, 0);
@@ -342,8 +346,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createButtonsPlayback() {
-		buttonsPlayback = new FooButtonsPlayback(
-				compositePlaylist, SWT.NONE, client);
+		buttonsPlayback = new FooButtonsPlayback(compositePlaylist, SWT.NONE,
+				client);
 		FormData buttonsPlaybackData = new FormData();
 		buttonsPlaybackData.left = new FormAttachment(0, 0);
 		buttonsPlaybackData.right = new FormAttachment(100, 0);
