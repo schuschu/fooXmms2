@@ -26,7 +26,6 @@ public class FooActionPlaylistSort extends FooActionPlaylist {
 			List<String> properties = Arrays.asList(input.split(" "));
 			Command c = Playlist.sort(Playlist.ACTIVE_PLAYLIST, properties);
 			c.execute(getClient());
-			// TODO: Broadcast here
 		}
 	}
 

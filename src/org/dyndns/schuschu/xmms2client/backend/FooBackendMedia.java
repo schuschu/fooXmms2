@@ -209,7 +209,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 			executeFilterCommand(view.getIndices());
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 		setChanged();
@@ -231,7 +230,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 			executeBaseCommand();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 		Vector<String> content = createContent(baseDatabase);
@@ -503,7 +501,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 			c.executeSync(client);
 		} catch (InterruptedException e1) {
 			Thread.currentThread().interrupt();
-			e1.printStackTrace();
 		}
 	}
 

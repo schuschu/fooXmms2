@@ -115,7 +115,6 @@ public class FooBackendPlaylist extends Observable implements
 			executeFilterCommand();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 		setChanged();
@@ -131,7 +130,6 @@ public class FooBackendPlaylist extends Observable implements
 			executeBaseCommand();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 		
 		int[] selection = view.getIndices();
@@ -181,7 +179,6 @@ public class FooBackendPlaylist extends Observable implements
 			view.setSelection(new int[] { getActivePlaylistId() });
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 	}
@@ -260,7 +257,6 @@ public class FooBackendPlaylist extends Observable implements
 				c.executeSync(client);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 			generateFilteredContent();
 		}

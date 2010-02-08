@@ -45,7 +45,6 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 
 		}
@@ -56,17 +55,8 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		int[] ids = getView().getIndices();
 		if (ids.length > 0) {
 			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
+			c.execute(getClient());
 
-			try {
-				c.execute(getClient());
-				c.waitReply();
-				// TODO: replace with broadcast!
-				getContentProvider().generateFilteredContent();
-
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -99,7 +89,6 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 		return Content;

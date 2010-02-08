@@ -26,13 +26,20 @@ public class FooWatchPlaylist extends Thread {
 	}
 
 	public void run() {
-		while (true) {
+		// TODO: find better way to prevent refresh after the insertion/deletion
+		// of each track (they are NOT removed at once!)
+		long x = 0;
+		long y = 0;
+		while (!isInterrupted()) {
 			try {
+				x = System.currentTimeMillis();
 				c.waitReply();
-				view.getReal().getDisplay().asyncExec(r);
+				y = System.currentTimeMillis();
+				if (y - x > 100) {
+					view.getReal().getDisplay().asyncExec(r);
+				}
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 		}
 	}

@@ -49,6 +49,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooCombo comboPlaylist = null;
 	private FooButtonsPlaylist buttonsPlaylist = null;
 	private FooButtonsPlayback buttonsPlayback = null;
+	private FooWatchPlaylist watchPlaylist = null; 
 
 	/**
 	 * This method initializes sShell
@@ -167,6 +168,7 @@ public class FooWindow implements FooInterfaceWindow {
 			}
 		}
 		getDisplay().dispose();
+		
 	}
 
 	public SashForm getSashFormMain() {
@@ -245,6 +247,14 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		return buttonsPlayback;
 	}
+	
+	public FooWatchPlaylist getWatchPlaylist(){
+		if(watchPlaylist == null){
+			watchPlaylist = new FooWatchPlaylist(client, comboPlaylist);
+		}
+		return watchPlaylist;
+	}
+	
 
 	public void createListArtist() {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
@@ -328,8 +338,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
 		
-		FooWatchPlaylist watch = new FooWatchPlaylist(client, comboPlaylist);
-		watch.start();
+		getWatchPlaylist().start();
 
 	}
 
