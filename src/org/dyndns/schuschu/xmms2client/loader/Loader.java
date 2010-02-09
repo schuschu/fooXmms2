@@ -81,7 +81,7 @@ public class Loader {
 		}
 
 		main.loop();
-
+		System.exit(0);
 	}
 
 	/**

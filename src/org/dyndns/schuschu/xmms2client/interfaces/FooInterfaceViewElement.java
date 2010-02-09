@@ -56,4 +56,6 @@ public interface FooInterfaceViewElement{
 	public void setSelection(int[] indices);
 	
 	public Control getReal();
+	
+	public void setLayoutData(Object layoutData);
 }

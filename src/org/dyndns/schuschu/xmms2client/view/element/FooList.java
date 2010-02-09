@@ -76,6 +76,7 @@ public class FooList implements FooInterfaceViewElement {
 
 	@Override
 	public void setContent(Vector<String> content) {
+
 		getList().removeAll();
 		for (String s : content) {
 			getList().add(s);

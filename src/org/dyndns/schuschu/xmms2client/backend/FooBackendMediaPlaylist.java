@@ -68,11 +68,17 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		FooBackendPlaylist hack = (FooBackendPlaylist) getContentProvider();
 
 		List<Integer> ids = hack.getPlayListOrder();
-
+		setCurrentPos(-1);
+		int i = 0;
+		
 		try {
 
 			for (int id : ids) {
 
+				if(id==getCurrent()){
+					setCurrentPos(i);
+				}
+				
 				CollectionBuilder cb = new CollectionBuilder();
 				cb.setType(CollectionType.IDLIST);
 				cb.addId(id);
@@ -86,11 +92,11 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 				for (Dict token : all) {
 					Content.add(createTokenString(getFormat(), token));
 				}
+				i++;
 			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
-
 		return Content;
 	}
 

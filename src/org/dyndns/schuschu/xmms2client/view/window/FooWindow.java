@@ -10,7 +10,9 @@ import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
+import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.menu.FooContextMedia;
+import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -25,6 +27,8 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 
 import se.fnord.xmms2.client.Client;
+import se.fnord.xmms2.client.commands.Command;
+import se.fnord.xmms2.client.commands.Playback;
 
 public class FooWindow implements FooInterfaceWindow {
 
@@ -45,11 +49,12 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooList listArtist = null;
 	private FooList listAlbum = null;
 	private FooList listTrack = null;
-	private FooList listPlaylist = null;
+	private FooTable listPlaylist = null;
 	private FooCombo comboPlaylist = null;
 	private FooButtonsPlaylist buttonsPlaylist = null;
 	private FooButtonsPlayback buttonsPlayback = null;
-	private FooWatchPlaylist watchPlaylist = null; 
+	private FooWatchPlaylist watchPlaylist = null;
+	private FooWatchCurrentTrack watchCurrentPos = null; 
 
 	/**
 	 * This method initializes sShell
@@ -58,15 +63,6 @@ public class FooWindow implements FooInterfaceWindow {
 	public FooWindow(Client client) {
 		this.client = client;
 		initalize();
-	}
-
-	public void display(boolean visible) {
-		while (!getsShell().isDisposed()) {
-			if (!getDisplay().readAndDispatch()) {
-				getDisplay().sleep();
-			}
-		}
-		getDisplay().dispose();
 	}
 
 	public void setVisible(boolean visible) {
@@ -90,6 +86,18 @@ public class FooWindow implements FooInterfaceWindow {
 
 		// generate initial listPlaylist data
 		comboPlaylist.getBackend().generateFilteredContent();
+		
+		//select current track
+		
+		try {
+			Command init = Playback.currentId();
+			int current = init.executeSync(client);
+			listPlaylist.getBackend().setCurrent(current);
+
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+		
 	}
 
 	private void createSShell() {
@@ -168,7 +176,9 @@ public class FooWindow implements FooInterfaceWindow {
 			}
 		}
 		getDisplay().dispose();
-		
+		watchPlaylist.done();
+		watchCurrentPos.done();
+		client.stop();		
 	}
 
 	public SashForm getSashFormMain() {
@@ -220,7 +230,7 @@ public class FooWindow implements FooInterfaceWindow {
 		return listTrack;
 	}
 
-	public FooList getListPlaylist() {
+	public FooTable getListPlaylist() {
 		if (listPlaylist == null) {
 			createListPlaylist();
 		}
@@ -255,6 +265,12 @@ public class FooWindow implements FooInterfaceWindow {
 		return watchPlaylist;
 	}
 	
+	public FooWatchCurrentTrack getWatchCurrentPos(){
+		if(watchCurrentPos == null){
+			watchCurrentPos = new FooWatchCurrentTrack(client, listPlaylist);
+		}
+		return watchCurrentPos;
+	}	
 
 	public void createListArtist() {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
@@ -319,7 +335,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListPlaylist() {
-		listPlaylist = new FooList(compositePlaylist, SWT.BORDER | SWT.MULTI
+		listPlaylist = new FooTable(compositePlaylist, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
 		FormData listData = new FormData();
@@ -339,6 +355,7 @@ public class FooWindow implements FooInterfaceWindow {
 		list_action.addListeners();
 		
 		getWatchPlaylist().start();
+		getWatchCurrentPos().start();
 
 	}
 

@@ -305,4 +305,14 @@ public class FooBackendPlaylist extends Observable implements
 	public void selectionChanged() {
 		loadPlaylist();
 	}
+
+	@Override
+	public void setCurrent(int current) {
+		// TODO implement this
+	}
+
+	@Override
+	public int getCurrentPos() {
+		return -1;		
+	}
 }

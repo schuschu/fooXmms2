@@ -117,5 +117,4 @@ public class FooCombo implements FooInterfaceViewElement {
 	public Control getReal() {
 		return combo;
 	}
-
 }

@@ -82,6 +82,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * 
 	 */
 	private FooInterfaceBackend contentProvider;
+	
+	private int current=-1;
+	private int currentPos=-1;
 
 	/**
 	 * createContent converts a List of Dicts to a Vector of Strings using a
@@ -145,7 +148,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 */
 	protected void executeFilterCommand(int[] indices) throws InterruptedException {
 
-		if (indices.length == 0 || indices[0] != -1) {
+		if (indices.length != 0 && indices[0] != -1) {
 
 			Vector<CollectionExpression> ops = new Vector<CollectionExpression>();
 			CollectionBuilder operand = new CollectionBuilder();
@@ -523,5 +526,24 @@ public class FooBackendMedia extends Observable implements Serializable,
 	@Override
 	public void selectionChanged() {
 		generateFilteredContent();
+	}
+
+	@Override
+	public void setCurrent(int current) {
+		this.current=current;
+		refresh();
+		
+	}
+
+	public int getCurrent() {
+		return current;
+	}
+
+	public void setCurrentPos(int currentPos) {
+		this.currentPos = currentPos;
+	}
+
+	public int getCurrentPos() {
+		return currentPos;
 	}
 }

@@ -4,30 +4,33 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
-import se.fnord.xmms2.client.commands.Playlist;
+import se.fnord.xmms2.client.commands.Playback;
 
-public class FooWatchPlaylist extends Thread {
+public class FooWatchCurrentTrack extends Thread {
 
 	private boolean running;
 	private Command c;
 	private Runnable r;
 	private final FooInterfaceViewElement view;
+	private int current;
 
-	public FooWatchPlaylist(Client client, final FooInterfaceViewElement view) {
+	public FooWatchCurrentTrack(Client client,
+			final FooInterfaceViewElement view) {
 		this.view = view;
-		c = Playlist.changeBroadcast();
+
+		c = Playback.currentIdBroadcast();
 		c.execute(client);
 
 		r = new Runnable() {
 			public void run() {
-				view.getBackend().generateFilteredContent();
+				view.getBackend().setCurrent(current);
 			}
 		};
 
 	}
-	
-	public void done(){
-		running = false;		
+
+	public void done() {
+		running = false;
 	}
 
 	public void run() {
@@ -39,7 +42,7 @@ public class FooWatchPlaylist extends Thread {
 		while (running) {
 			try {
 				x = System.currentTimeMillis();
-				c.waitReply();
+				current = c.waitReply();
 				y = System.currentTimeMillis();
 				if (y - x > 100) {
 					view.getReal().getDisplay().asyncExec(r);

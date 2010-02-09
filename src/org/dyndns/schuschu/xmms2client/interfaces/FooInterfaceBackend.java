@@ -54,5 +54,8 @@ public interface FooInterfaceBackend extends Observer {
 	public void addObserver(Observer o);
 
 	public void selectionChanged();
+	
+	public void setCurrent(int current);
 
+	public int getCurrentPos();
 }
