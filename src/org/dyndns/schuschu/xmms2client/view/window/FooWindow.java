@@ -35,8 +35,8 @@ public class FooWindow implements FooInterfaceWindow {
 
 	// TODO: Code cleanup
 
-	final static int WIDTH = 600;
-	final static int HEIGHT = 400;
+	final static int WIDTH = 1000;
+	final static int HEIGHT = 600;
 
 	Client client;
 
@@ -56,7 +56,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooButtonsPlayback buttonsPlayback = null;
 	private FooWatchPlaylist watchPlaylist = null;
 	private FooWatchCurrentTrack watchCurrentPos = null;
-	private FooWatchPlaylistLoad watchPlaylistLoad = null; 
+	private FooWatchPlaylistLoad watchPlaylistLoad = null;
 
 	/**
 	 * This method initializes sShell
@@ -88,9 +88,9 @@ public class FooWindow implements FooInterfaceWindow {
 
 		// generate initial listPlaylist data
 		comboPlaylist.getBackend().generateFilteredContent();
-		
-		//select current track
-		
+
+		// select current track
+
 		try {
 			Command init = Playback.currentId();
 			int current = init.executeSync(client);
@@ -99,7 +99,7 @@ public class FooWindow implements FooInterfaceWindow {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
-		
+
 	}
 
 	private void createSShell() {
@@ -180,7 +180,7 @@ public class FooWindow implements FooInterfaceWindow {
 		getDisplay().dispose();
 		watchPlaylist.done();
 		watchCurrentPos.done();
-		client.stop();		
+		client.stop();
 	}
 
 	public SashForm getSashFormMain() {
@@ -259,27 +259,27 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		return buttonsPlayback;
 	}
-	
-	public FooWatchPlaylist getWatchPlaylist(){
-		if(watchPlaylist == null){
+
+	public FooWatchPlaylist getWatchPlaylist() {
+		if (watchPlaylist == null) {
 			watchPlaylist = new FooWatchPlaylist(client, comboPlaylist);
 		}
 		return watchPlaylist;
 	}
-	
-	public FooWatchCurrentTrack getWatchCurrentPos(){
-		if(watchCurrentPos == null){
+
+	public FooWatchCurrentTrack getWatchCurrentPos() {
+		if (watchCurrentPos == null) {
 			watchCurrentPos = new FooWatchCurrentTrack(client, listPlaylist);
 		}
 		return watchCurrentPos;
-	}	
-	
-	public FooWatchPlaylistLoad getWatchPlaylistLoad(){
-		if(watchPlaylistLoad == null){
+	}
+
+	public FooWatchPlaylistLoad getWatchPlaylistLoad() {
+		if (watchPlaylistLoad == null) {
 			watchPlaylistLoad = new FooWatchPlaylistLoad(client, comboPlaylist);
 		}
 		return watchPlaylistLoad;
-	}	
+	}
 
 	public void createListArtist() {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
@@ -299,7 +299,7 @@ public class FooWindow implements FooInterfaceWindow {
 	public void createListAlbum() {
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
+		FooBackendMedia album_backend = new FooBackendMedia("%album% (%date%)",
 				"album", client, listAlbum);
 		listAlbum.setBackend(album_backend);
 		FooActionFilter album_action = new FooActionFilter(album_backend);
@@ -328,8 +328,10 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createComboPlaylist() {
-		// TODO: add functionality to select by typing the name, if it does not
-		// exist prompt if the list should be created. Autocompletition?
+		/*
+		 * TODO: add functionality to select by typing the name, if it does not
+		 * exist prompt if the list should be created. Autocompletition?
+		 */
 		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
@@ -362,7 +364,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
-		
+
 		getWatchPlaylist().start();
 		getWatchCurrentPos().start();
 		getWatchPlaylistLoad().start();

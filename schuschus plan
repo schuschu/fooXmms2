@@ -29,12 +29,3 @@ This part is about the things that are wrong in the current version:
   
   sashform magic: allow multible children (currently old workaround has been
   ported
-  
- Bugs
-  
-  after saving a playlist you can no longer delete anything in the one you 
-  copied from... after deleting the copy the original can be deleted again
-  OK that only worked once... damn... after time (and some random clicking)
-  it worked again.... maybe some command isn't working as expected (sync?)
-  Replacing executesync with execute and c.waitreply seems to work... 
-  ->fixed?
