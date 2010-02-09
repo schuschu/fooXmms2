@@ -1,7 +1,6 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
 import java.util.Vector;
-import java.util.prefs.BackingStoreException;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 
