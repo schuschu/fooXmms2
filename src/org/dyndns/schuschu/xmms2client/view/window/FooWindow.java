@@ -14,6 +14,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.menu.FooContextMedia;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
+import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -54,7 +55,8 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooButtonsPlaylist buttonsPlaylist = null;
 	private FooButtonsPlayback buttonsPlayback = null;
 	private FooWatchPlaylist watchPlaylist = null;
-	private FooWatchCurrentTrack watchCurrentPos = null; 
+	private FooWatchCurrentTrack watchCurrentPos = null;
+	private FooWatchPlaylistLoad watchPlaylistLoad = null; 
 
 	/**
 	 * This method initializes sShell
@@ -271,6 +273,13 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		return watchCurrentPos;
 	}	
+	
+	public FooWatchPlaylistLoad getWatchPlaylistLoad(){
+		if(watchPlaylistLoad == null){
+			watchPlaylistLoad = new FooWatchPlaylistLoad(client, comboPlaylist);
+		}
+		return watchPlaylistLoad;
+	}	
 
 	public void createListArtist() {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
@@ -356,6 +365,7 @@ public class FooWindow implements FooInterfaceWindow {
 		
 		getWatchPlaylist().start();
 		getWatchCurrentPos().start();
+		getWatchPlaylistLoad().start();
 
 	}
 

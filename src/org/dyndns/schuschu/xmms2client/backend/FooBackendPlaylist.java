@@ -49,6 +49,8 @@ public class FooBackendPlaylist extends Observable implements
 	 * 
 	 */
 	private FooInterfaceBackend contentProvider;
+	
+	private Vector<String> content;
 
 	/**
 	 * executeFilterCommand builds the xmms2-command for filtering the
@@ -89,7 +91,7 @@ public class FooBackendPlaylist extends Observable implements
 
 		Map<CollectionNamespace, Set<String>> map = c.executeSync(client);
 
-		Vector<String> content = new Vector<String>();
+		content = new Vector<String>();
 
 		// TODO: some sort of append but i don't know what i get here
 		for (Set<String> names : map.values()) {
@@ -314,5 +316,10 @@ public class FooBackendPlaylist extends Observable implements
 	@Override
 	public int getCurrentPos() {
 		return -1;		
+	}
+
+	@Override
+	public Vector<String> getContent() {
+		return content;
 	}
 }

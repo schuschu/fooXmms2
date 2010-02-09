@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client.interfaces;
 
 import java.util.Observer;
+import java.util.Vector;
 
 import se.fnord.xmms2.client.types.CollectionExpression;
 
@@ -58,4 +59,6 @@ public interface FooInterfaceBackend extends Observer {
 	public void setCurrent(int current);
 
 	public int getCurrentPos();
+	
+	public Vector<String> getContent();
 }

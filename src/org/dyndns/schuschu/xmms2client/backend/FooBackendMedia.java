@@ -85,6 +85,8 @@ public class FooBackendMedia extends Observable implements Serializable,
 	
 	private int current=-1;
 	private int currentPos=-1;
+	
+	private Vector<String> content;
 
 	/**
 	 * createContent converts a List of Dicts to a Vector of Strings using a
@@ -235,7 +237,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 			Thread.currentThread().interrupt();
 		}
 
-		Vector<String> content = createContent(baseDatabase);
+		content = createContent(baseDatabase);
 
 		view.setContent(content);
 
@@ -545,5 +547,10 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	public int getCurrentPos() {
 		return currentPos;
+	}
+
+	@Override
+	public Vector<String> getContent() {
+		return content;
 	}
 }
