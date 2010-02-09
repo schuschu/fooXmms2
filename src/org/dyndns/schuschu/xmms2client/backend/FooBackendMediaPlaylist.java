@@ -26,9 +26,11 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	public FooBackendMediaPlaylist(String format, String filter, Client client,
 			FooInterfaceViewElement view) {
 		super(format, filter, client, view);
+		debug("FooBackendMediaPlaylist");
 	}
 
 	public void playSelection() {
+		debug("playSelection");
 
 		int[] ids = getView().getIndices();
 
@@ -51,6 +53,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	}
 
 	public void removeSelection() {
+		debug("removeSelection");
 
 		int[] ids = getView().getIndices();
 		if (ids.length > 0) {
@@ -62,6 +65,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 	@Override
 	protected Vector<String> createContent(List<Dict> Database) {
+		debug("createContent");
 		Vector<String> Content = new Vector<String>();
 
 		// TODO: fix this hack
@@ -102,6 +106,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 	@Override
 	public void selectionChanged() {
+		debug("selectionChanged");
 		// TODO: think of use for this
 	}
 }

@@ -89,8 +89,7 @@ public class FooWindow implements FooInterfaceWindow {
 		// generate initial listPlaylist data
 		comboPlaylist.getBackend().generateFilteredContent();
 
-		// select current track
-
+		// highlight current track
 		try {
 			Command init = Playback.currentId();
 			int current = init.executeSync(client);
@@ -284,9 +283,12 @@ public class FooWindow implements FooInterfaceWindow {
 	public void createListArtist() {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
+		
 		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
 				"artist", client, listArtist);
+		artist_backend.setName("Artistbackend");
 		listArtist.setBackend(artist_backend);
+		
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
 		artist_action.addListeners();
 
@@ -299,9 +301,12 @@ public class FooWindow implements FooInterfaceWindow {
 	public void createListAlbum() {
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
+		
 		FooBackendMedia album_backend = new FooBackendMedia("%album% (%date%)",
 				"album", client, listAlbum);
+		album_backend.setName("Albumbackend");
 		listAlbum.setBackend(album_backend);
+		
 		FooActionFilter album_action = new FooActionFilter(album_backend);
 		album_action.addListeners();
 
@@ -316,6 +321,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
 				client, listTrack);
+		track_backend.setName("Trackbackend");
 		listTrack.setBackend(track_backend);
 
 		FooContextMedia trackMenu = new FooContextMedia(listTrack,
@@ -341,6 +347,8 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooBackendPlaylist backend = new FooBackendPlaylist(client,
 				comboPlaylist);
+		backend.setName("PlaylistComboBackend");
+		
 		comboPlaylist.setBackend(backend);
 
 	}
@@ -359,7 +367,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
 				"%artist% - %title%", "title", client, listPlaylist);
-
+		list_backend.setName("Playlistbackend");
 		listPlaylist.setBackend(list_backend);
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);

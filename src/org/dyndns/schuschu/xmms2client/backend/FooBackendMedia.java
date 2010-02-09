@@ -26,12 +26,21 @@ import se.fnord.xmms2.client.types.InfoQuery;
  */
 public class FooBackendMedia extends Observable implements Serializable,
 		FooInterfaceBackend {
+	
+	private static final boolean DEBUG = true;
+	private String name;
+	
+	protected void debug(String message){
+		if(DEBUG){
+			System.out.println("debug: " + getName() + " " + message);
+		}
+	}
 
 	/**
 	 * this List contains all values which will be usable by this list it should
 	 * by possible to be modified by all ViewElements in the client. Maybe a
 	 * different position for this list is needed
-	 */
+	 */	
 	private Vector<String> possible_values = new Vector<String>();
 
 	
@@ -117,6 +126,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	protected String createTokenString(String format, Dict token) {
+		debug("createTokenString");
 		/*
 		 * replace everything that stands between %% with the matching part of
 		 * the Dict
@@ -149,6 +159,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 *             but i don't know why :)
 	 */
 	protected void executeFilterCommand(int[] indices) throws InterruptedException {
+		debug("executeFilterCommand");
 
 		if (indices.length != 0 && indices[0] != -1) {
 
@@ -188,6 +199,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 *             but i don't know why :)
 	 */
 	protected void executeBaseCommand() throws InterruptedException {
+		debug("executeBaseCommand");
 		if (baseConetent != null) {
 
 			Command c = Collection.query(new InfoQuery(baseConetent, 0, 0,
@@ -209,7 +221,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * writes it into the FooPluginViewElementList next
 	 */
 	public void generateFilteredContent() {
-
+		debug("generateFilteredContent");
 		try {
 			executeFilterCommand(view.getIndices());
 		} catch (InterruptedException e) {
@@ -231,6 +243,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * Vector created by createContend into the List (a.k.a. output)
 	 */
 	public void refresh() {
+		debug("refresh");
 		try {
 			executeBaseCommand();
 		} catch (InterruptedException e) {
@@ -253,6 +266,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * setToAll sets the baseContent to all media in the medialib
 	 */
 	public void setToAll() {
+		debug("setToAll");
 		this.setBaseConetent(CollectionBuilder.getAllMediaReference());
 	}
 
@@ -271,6 +285,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 */
 	public FooBackendMedia(String format, String filter, Client client,
 			FooInterfaceViewElement view) {
+		debug("FooBackendMedia");
 		this.view = view;
 		this.setFilter(filter);
 		this.setFormat(format);
@@ -281,6 +296,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	}
 
 	public void evaluateFields(String format) {
+		debug("evaluateFields");
 		// TODO: need to find a better way to do this! Don't understand regex
 		// that well
 		Vector<String> possible = new Vector<String>();
@@ -311,6 +327,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param format
 	 */
 	public void setFormat(String format) {
+		debug("setFormat");
 		Vector<String> newQuery = new Vector<String>();
 
 		evaluateFields(format);
@@ -332,6 +349,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public String getFormat() {
+		debug("getFormat");
 		return format;
 	}
 
@@ -341,6 +359,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public CollectionExpression getBaseConetent() {
+		debug("getBaseConetent");
 		return baseConetent;
 	}
 
@@ -350,6 +369,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param baseConetent
 	 */
 	public void setBaseConetent(CollectionExpression baseConetent) {
+		debug("setBaseConetent");
 		this.baseConetent = baseConetent;
 		refresh();
 		generateFilteredContent();
@@ -361,6 +381,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public CollectionExpression getFilteredConetent() {
+		debug("getFilteredConetent");
 		return filteredConetent;
 	}
 
@@ -370,6 +391,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param filteredConetent
 	 */
 	public void setFilteredConetent(CollectionExpression filteredConetent) {
+		debug("setFilteredConetent");
 		this.filteredConetent = filteredConetent;
 	}
 
@@ -379,6 +401,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public Client getClient() {
+		debug("getClient");
 		return client;
 	}
 
@@ -388,6 +411,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param client
 	 */
 	public void setClient(Client client) {
+		debug("setClient");
 		this.client = client;
 	}
 
@@ -397,6 +421,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public List<String> getOrderBy() {
+		debug("getOrderBy");
 		return order_by;
 	}
 
@@ -406,6 +431,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param order_by
 	 */
 	public void setOrderBy(List<String> order_by) {
+		debug("setOrderBy");
 		this.order_by = order_by;
 	}
 
@@ -415,6 +441,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public List<String> getGroupBy() {
+		debug("getGroupBy");
 		return group_by;
 	}
 
@@ -424,6 +451,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param group_by
 	 */
 	public void setGroupBy(List<String> group_by) {
+		debug("setGroupBy");
 		this.group_by = group_by;
 	}
 
@@ -433,6 +461,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public List<String> getQueryFields() {
+		debug("getQueryFields");
 		return query_fields;
 	}
 
@@ -442,6 +471,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param query_fields
 	 */
 	public void setQueryFields(List<String> query_fields) {
+		debug("setQueryFields");
 		this.query_fields = query_fields;
 	}
 
@@ -451,6 +481,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param filter
 	 */
 	public void setFilter(String filter) {
+		debug("setFilter");
 		this.filter = filter;
 	}
 
@@ -460,6 +491,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public String getFilter() {
+		debug("getFilter");
 		return filter;
 	}
 
@@ -469,6 +501,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param baseDatabase
 	 */
 	public void setBaseDatabase(List<Dict> baseDatabase) {
+		debug("setBaseDatabase");
 		this.baseDatabase = baseDatabase;
 	}
 
@@ -478,6 +511,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public List<Dict> getBaseDatabase() {
+		debug("getBaseDatabase");
 		return baseDatabase;
 	}
 
@@ -487,6 +521,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param baseDatabase
 	 */
 	public void setView(FooInterfaceViewElement view) {
+		debug("setView");
 		this.view = view;
 	}
 
@@ -496,10 +531,12 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @return
 	 */
 	public FooInterfaceViewElement getView() {
+		debug("getView");
 		return view;
 	}
 
 	public void enqueuSelection() {
+		debug("enqueuSelection");
 		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
 				getFilteredConetent(), 0);
 		try {
@@ -511,46 +548,63 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	@Override
 	public FooInterfaceBackend getContentProvider() {
+		debug("getContentProvider");
 		return contentProvider;
 	}
 
 	@Override
 	public void setContentProvider(FooInterfaceBackend contentProvider) {
+		debug("setContentProvider");
 		this.contentProvider = contentProvider;
 		contentProvider.addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		debug("update");
 		this.setBaseConetent(contentProvider.getFilteredConetent());
 	}
 
 	@Override
 	public void selectionChanged() {
+		debug("selectionChanged");
 		generateFilteredContent();
 	}
 
 	@Override
 	public void setCurrent(int current) {
+		debug("setCurrent");
 		this.current=current;
 		refresh();
 		
 	}
 
 	public int getCurrent() {
+		debug("getCurrent");
 		return current;
 	}
 
 	public void setCurrentPos(int currentPos) {
+		debug("setCurrentPos");
 		this.currentPos = currentPos;
 	}
 
 	public int getCurrentPos() {
+		debug("getCurrentPos");
 		return currentPos;
 	}
 
 	@Override
 	public Vector<String> getContent() {
+		debug("getContent");
 		return content;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 }

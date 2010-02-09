@@ -24,6 +24,15 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
  */
 public class FooBackendPlaylist extends Observable implements
 		Serializable, FooInterfaceBackend {
+	
+	private static final boolean DEBUG = true;
+	private String name;
+	
+	protected void debug(String message){
+		if(DEBUG){
+			System.out.println("debug: " + getName() + " " + message);
+		}
+	}
 
 	/**
 	 * I have no idea what that stupid thing is for...
@@ -63,6 +72,7 @@ public class FooBackendPlaylist extends Observable implements
 	 *             but i don't know why :)
 	 */
 	public void executeFilterCommand() throws InterruptedException {
+		debug("executeFilterCommand");
 
 		Command command = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
 
@@ -86,6 +96,7 @@ public class FooBackendPlaylist extends Observable implements
 	 *             but i don't know why :)
 	 */
 	public void executeBaseCommand() throws InterruptedException {
+		debug("executeBaseCommand");
 
 		Command c = Playlist.listPlaylists();
 
@@ -112,6 +123,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * writes it into the FooPluginViewElementList next
 	 */
 	public void generateFilteredContent() {
+		debug("generateFilteredContent");
 
 		try {
 			executeFilterCommand();
@@ -128,6 +140,8 @@ public class FooBackendPlaylist extends Observable implements
 	 * Vector created by createContend into the List (a.k.a. output)
 	 */
 	public void refresh() {
+		debug("refresh");
+		
 		try {
 			executeBaseCommand();
 		} catch (InterruptedException e) {
@@ -150,6 +164,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * setToAll sets the baseContent to all media in the medialib
 	 */
 	public void setToAll() {
+		debug("setToAll");
 		// TODO: what is all here? Do I need this?
 	}
 
@@ -167,6 +182,7 @@ public class FooBackendPlaylist extends Observable implements
 	 *            numbers for nothing)
 	 */
 	public FooBackendPlaylist(Client client, FooInterfaceViewElement view) {
+		debug("FooBackendPlaylist");
 		this.view = view;
 		this.playlistDatabase = null;
 		this.setClient(client);
@@ -186,6 +202,7 @@ public class FooBackendPlaylist extends Observable implements
 	}
 
 	public int getActivePlaylistId() throws InterruptedException {
+		debug("getActivePlaylistId");
 
 		Command c = Playlist.currentActive();
 
@@ -208,6 +225,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * @param baseConetent
 	 */
 	public void setBaseConetent(CollectionExpression baseConetent) {
+		debug("setBaseConetent");
 		// Stub
 	}
 
@@ -217,6 +235,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * @return
 	 */
 	public CollectionExpression getFilteredConetent() {
+		debug("getFilteredConetent");
 		return filteredConetent;
 	}
 
@@ -226,6 +245,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * @param filteredConetent
 	 */
 	public void setFilteredConetent(CollectionExpression filteredConetent) {
+		debug("setFilteredConetent");
 		this.filteredConetent = filteredConetent;
 	}
 
@@ -235,6 +255,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * @return
 	 */
 	public Client getClient() {
+		debug("getClient");
 		return client;
 	}
 
@@ -244,10 +265,12 @@ public class FooBackendPlaylist extends Observable implements
 	 * @param client
 	 */
 	public void setClient(Client client) {
+		debug("setClient");
 		this.client = client;
 	}
 
 	public void loadPlaylist() {
+		debug("loadPlaylist");
 
 		int selection = view.getIndices()[0];
 
@@ -265,20 +288,24 @@ public class FooBackendPlaylist extends Observable implements
 	}
 
 	public String[] getPlaylistDatabase() {
+		debug("getPlaylistDatabase");
 		return playlistDatabase;
 	}
 
 	public void setPlaylistDatabase(String[] playlistDatabase) {
+		debug("setPlaylistDatabase");
 		this.playlistDatabase = playlistDatabase;
 	}
 
 	@Override
 	public FooInterfaceBackend getContentProvider() {
+		debug("getContentProvider");
 		return contentProvider;
 	}
 
 	@Override
 	public void setContentProvider(FooInterfaceBackend contentProvider) {
+		debug("setContentProvider");
 		this.contentProvider = contentProvider;
 		contentProvider.addObserver(this);
 
@@ -286,40 +313,56 @@ public class FooBackendPlaylist extends Observable implements
 
 	@Override
 	public void update(Observable o, Object arg) {
+		debug("update");
 		contentProvider.getFilteredConetent();
 
 	}
 
 	public void setPlayListOrder(List<Integer> playListOrder) {
+		debug("setPlayListOrder");
 		this.playListOrder = playListOrder;
 	}
 
 	public List<Integer> getPlayListOrder() {
+		debug("getPlayListOrder");
 		return playListOrder;
 	}
 
 	@Override
 	public FooInterfaceViewElement getView() {
+		debug("getView");
 		return view;
 	}
 
 	@Override
 	public void selectionChanged() {
+		debug("selectionChanged");
 		loadPlaylist();
 	}
 
 	@Override
 	public void setCurrent(int current) {
+		debug("setCurrent");
 		// TODO implement this
 	}
 
 	@Override
 	public int getCurrentPos() {
+		debug("getCurrentPos");
 		return -1;		
 	}
 
 	@Override
 	public Vector<String> getContent() {
+		debug("getContent");
 		return content;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
