@@ -1,5 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.window;
 
+import java.util.Arrays;
+
 import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
 import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
@@ -253,7 +255,10 @@ public class FooWindow implements FooInterfaceWindow {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
-				"artist", client, listArtist);
+				"artist",
+				client,
+				listArtist);
+		//artist_backend.setOrderBy(Arrays.asList("artist"));
 		listArtist.setBackend(artist_backend);
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
 		artist_action.addListeners();
@@ -267,8 +272,11 @@ public class FooWindow implements FooInterfaceWindow {
 	public void createListAlbum() {
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		FooBackendMedia album_backend = new FooBackendMedia("%date% - %album%",
-				"album", client, listAlbum);
+		FooBackendMedia album_backend = new FooBackendMedia("%album% (%date%)",
+				"album",
+				client,
+				listAlbum);
+		album_backend.setOrderBy(Arrays.asList("artist", "date", "album"));
 		listAlbum.setBackend(album_backend);
 		FooActionFilter album_action = new FooActionFilter(album_backend);
 		album_action.addListeners();
@@ -282,8 +290,11 @@ public class FooWindow implements FooInterfaceWindow {
 		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
-				client, listTrack);
+		FooBackendMedia track_backend = new FooBackendMedia("%title%",
+				"title",
+				client,
+				listTrack);
+		track_backend.setOrderBy(Arrays.asList("artist", "date", "album", "tracknr", "track"));
 		listTrack.setBackend(track_backend);
 
 		FooContextMedia trackMenu = new FooContextMedia(listTrack,
