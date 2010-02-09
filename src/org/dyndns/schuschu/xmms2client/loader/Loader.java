@@ -6,6 +6,7 @@ import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
+import se.fnord.xmms2.client.ClientStatus;
 
 /**
  * @author schuschu
@@ -28,7 +29,8 @@ public class Loader {
 		// set default port
 		int port = 9667;
 		// set default initial state of the window
-		boolean hidden = false;
+		boolean show_on_start = true;
+		boolean max_on_start = false;
 
 		// parsing command line arguments
 		// if argument is invalid, drop user shit and assume default
@@ -62,7 +64,12 @@ public class Loader {
 
 			// check if the window is supposed to go into tray directly
 			if (args[run].equals("--icon") || args[run].equals("-i")) {
-				hidden = true;
+				show_on_start = false;
+			}
+
+			// check if the window is supposed to start maximized
+			if (args[run].equals("--maximized") || args[run].equals("-m")) {
+				max_on_start = true;
 			}
 		}
 
@@ -71,12 +78,17 @@ public class Loader {
 
 		client.start();
 
-		FooInterfaceWindow main = new FooWindow(client);
+		if (client.getStatus() == ClientStatus.DEAD) {
+			System.out.println("can't connect to xmms2d");
+			System.exit(1);
+		}
+
+		FooInterfaceWindow main = new FooWindow(client, max_on_start);
 
 		FooTray tray = new FooTray(main, client);
 		tray.initialize();
 
-		if (!tray.isSupported() || !hidden) {
+		if (!tray.isSupported() || show_on_start) {
 			main.setVisible(true);
 		}
 
