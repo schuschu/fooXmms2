@@ -28,8 +28,8 @@ import se.fnord.xmms2.client.types.InfoQuery;
 public class FooBackendMedia extends Observable implements Serializable,
 		FooInterfaceBackend {
 	
-	private static final boolean DEBUG = Loader.DEBUG;
-	private String name;
+	protected static final boolean DEBUG = Loader.DEBUG;
+	protected String name;
 	
 	protected void debug(String message){
 		if(DEBUG){
@@ -46,9 +46,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	
 	// TODO: find use for groups
-	private List<String> order_by = Arrays.asList(new String[0]);
-	private List<String> group_by = Arrays.asList(new String[0]);
-	private List<String> query_fields = Arrays.asList(new String[0]);
+	protected List<String> order_by = Arrays.asList(new String[0]);
+	protected List<String> group_by = Arrays.asList(new String[0]);
+	protected List<String> query_fields = Arrays.asList(new String[0]);
 
 	/**
 	 * I have no idea what that stupid thing is for...
@@ -59,7 +59,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * Specifies the XMMS2 client (the instance of the object not THIS client
 	 * ... I didn't name it ...)
 	 */
-	private Client client;
+	protected Client client;
 
 	private FooInterfaceViewElement view;
 
@@ -70,7 +70,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * 
 	 * i.e.: %artist% by %album%
 	 */
-	private String format;
+	protected String format;
 
 	/**
 	 * This String is used to specify the value which will be filtered by this
@@ -82,21 +82,21 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 */
 	private String filter;
 
-	private CollectionExpression baseConetent;
-	private CollectionExpression filteredConetent;
+	protected CollectionExpression baseConetent;
+	protected CollectionExpression filteredConetent;
 
-	private List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
+	protected List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
 
 	/**
 	 * This is the Backend which provides the baseContent.
 	 * 
 	 */
-	private FooInterfaceBackend contentProvider;
+	protected FooInterfaceBackend contentProvider;
 	
-	private int current=-1;
-	private int currentPos=-1;
+	protected int current=-1;
+	protected int currentPos=-1;
 	
-	private Vector<String> content;
+	protected Vector<String> content;
 
 	/**
 	 * createContent converts a List of Dicts to a Vector of Strings using a
@@ -136,6 +136,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 		String current;
 
 		for (String match : query_fields) {
+			if(token == null){
+				return "error";
+			}
 			if (token.get(match) == null) {
 				current = new String("no " + match);
 			} else {

@@ -43,9 +43,9 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			Command cp = Playback.play();
 			try {
 
-				cs.executeSync(getClient());
-				ct.executeSync(getClient());
-				cp.executeSync(getClient());
+				cs.executeSync(client);
+				ct.executeSync(client);
+				cp.executeSync(client);
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
@@ -60,40 +60,41 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		int[] ids = getView().getIndices();
 		if (ids.length > 0) {
 			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
-			c.execute(getClient());
+			c.execute(client);
 
 		}
 	}
 
-	private static List<Integer> getPlaylistIds(Client client)
+	private List<Integer> getPlaylistIds(Client client)
 			throws InterruptedException, CommandErrorException {
 		Command command = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
 
 		return command.executeSync(client);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static Map<Integer, Dict> getTrackInfo(Client client,
-			List<Integer> ids) throws InterruptedException,
-			CommandErrorException {
-		final CollectionBuilder builder = new CollectionBuilder();
+	private Map<Integer, Dict> getTrackInfo(Client client, List<Integer> ids)
+			throws InterruptedException, CommandErrorException {
+		CollectionBuilder builder = new CollectionBuilder();
 
 		builder.setType(CollectionType.IDLIST);
 		builder.addIds(ids);
 
-		final InfoQuery query = new InfoQuery(builder.build(), 0, 0, Arrays
-				.asList(new String[0]), Arrays.asList(new String[] { "id",
-				"artist", "title", }), Arrays.asList(new String[0]));
+		List<String> temp_query = query_fields;
+		if (!temp_query.contains("id")) {
+			temp_query.add("id");
+		}
 
-		final Command command = se.fnord.xmms2.client.commands.Collection
+		InfoQuery query = new InfoQuery(builder.build(), 0, 0, Arrays
+				.asList(new String[0]), temp_query, Arrays
+				.asList(new String[0]));
+
+		Command command = se.fnord.xmms2.client.commands.Collection
 				.query(query);
+		
+		List<Dict> list = command.executeSync(client);
 
-		/*
-		 * The result is not sorted in playlist order, so add the entries to a
-		 * map for later sorting.
-		 */
-		final Map<Integer, Dict> trackMap = new HashMap<Integer, Dict>();
-		for (Dict track : (List<Dict>) command.executeSync(client)) {
+		Map<Integer, Dict> trackMap = new HashMap<Integer, Dict>();
+		for (Dict track : list ) {
 			trackMap.put((Integer) track.get("id"), track);
 		}
 
@@ -110,18 +111,18 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		try {
 			List<Integer> ids = getPlaylistIds(getClient());
 			Map<Integer, Dict> tracks = getTrackInfo(getClient(), ids);
-		int i = 0;
-		for (Integer id : ids) {
+			int i = 0;
+			for (Integer id : ids) {
 
-			if (id == getCurrent()) {
-				setCurrentPos(i);
+				if (id == getCurrent()) {
+					setCurrentPos(i);
+				}
+
+				Dict track = tracks.get(id);
+				Content.add(createTokenString(getFormat(), track));
+
+				i++;
 			}
-
-			Dict track = tracks.get(id);
-			Content.add(createTokenString(getFormat(), track));
-
-			i++;
-		}
 		} catch (CommandErrorException e) {
 			// TODO: think about this
 		} catch (InterruptedException e) {
