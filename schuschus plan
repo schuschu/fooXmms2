@@ -21,11 +21,6 @@ This part is about the things that are wrong in the current version:
   the xmms2 client directory (or closer to the client?)
   -> utfg  
   
-  there seems to be no command capable of fireing when a playlist gets 
-  removed (they fire upon creation...). Maybe this should be done by a
-  static list of playlist switchers (or limit them to one?) and observer
-  pattern.
-  
  Things I really want to do:
  
   combobox magic: set combobox back to editable, if you enter a name unknown
@@ -33,8 +28,6 @@ This part is about the things that are wrong in the current version:
   be selected; http://sourceforge.net/projects/swtaddons/
 
   XML magic: dynamic drawing of the ui
- 
-  don't refresh playlist when track changes (just set colors different!) 
-  
+
   try out if a list/table for playlists(instead of combo) is possible, and
   introduce tabbar
