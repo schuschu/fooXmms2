@@ -26,8 +26,9 @@ public class FooWatchCurrentTrack extends Thread {
 
 	public FooWatchCurrentTrack(Client client,
 			final FooInterfaceViewElement view) {
-		this.view = view;
 		debug("fire");
+		this.view = view;
+		
 		c = Playback.currentIdBroadcast();
 		c.execute(client);
 
