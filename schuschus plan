@@ -29,13 +29,10 @@ This part is about the things that are wrong in the current version:
   
   sashform magic: allow multible children (currently old workaround has been
   ported
-  
-  find a better way to create a playlist in correct order (copy parts of snippet
-  or whatever) to speed things up
+ 
+  XML magic: dynamic drawing of the ui
  
   don't refresh playlist when track changes (just set colors different!) 
   
   try out if a list/table for playlists(instead of combo) is possible, and
   introduce tabbar
-  
-  XML magic: dynamic drawing of the ui
