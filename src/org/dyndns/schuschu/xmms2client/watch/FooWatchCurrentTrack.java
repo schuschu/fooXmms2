@@ -8,12 +8,12 @@ import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
 
 public class FooWatchCurrentTrack extends Thread {
-	
+
 	private static final boolean DEBUG = FooLoader.DEBUG;
-	private String name="FooWatchCurrentTrack";
-	
-	private void debug(String message){
-		if(DEBUG){
+	private String name = "FooWatchCurrentTrack";
+
+	private void debug(String message) {
+		if (DEBUG) {
 			System.out.println("debug: " + name + " " + message);
 		}
 	}
@@ -45,19 +45,12 @@ public class FooWatchCurrentTrack extends Thread {
 	}
 
 	public void run() {
-		// TODO: find better way to prevent refresh after the insertion/deletion
-		// of each track (they are NOT removed at once!)
-		long x = 0;
-		long y = 0;
+
 		running = true;
 		while (running) {
 			try {
-				x = System.currentTimeMillis();
 				current = c.waitReply();
-				y = System.currentTimeMillis();
-				if (y - x > 100) {
-					view.getReal().getDisplay().asyncExec(r);
-				}
+				view.getReal().getDisplay().asyncExec(r);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
