@@ -78,14 +78,6 @@ public class FooWindow implements FooInterfaceWindow {
 	public void initalize() {
 		createSShell();
 
-		// here starts the magic (content chaining)
-		listArtist.getBackend().setToAll();
-		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
-		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
-
-		listPlaylist.getBackend()
-				.setContentProvider(comboPlaylist.getBackend());
-
 		// init playlist and highlight current track
 		try {
 			Command init = Playback.currentId();
@@ -94,6 +86,15 @@ public class FooWindow implements FooInterfaceWindow {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
+		
+		// here starts the magic (content chaining)
+		listArtist.getBackend().setToAll();
+		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
+		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
+
+		listPlaylist.getBackend()
+				.setContentProvider(comboPlaylist.getBackend());
+
 
 	}
 
