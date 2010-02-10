@@ -86,15 +86,11 @@ public class FooWindow implements FooInterfaceWindow {
 		listPlaylist.getBackend()
 				.setContentProvider(comboPlaylist.getBackend());
 
-		// generate initial listPlaylist data
-		comboPlaylist.getBackend().generateFilteredContent();
-
-		// highlight current track
+		// init playlist and highlight current track
 		try {
 			Command init = Playback.currentId();
 			int current = init.executeSync(client);
 			listPlaylist.getBackend().setCurrent(current);
-
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
@@ -283,12 +279,12 @@ public class FooWindow implements FooInterfaceWindow {
 	public void createListArtist() {
 		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		
+
 		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
 				"artist", client, listArtist);
 		artist_backend.setName("Artistbackend");
 		listArtist.setBackend(artist_backend);
-		
+
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
 		artist_action.addListeners();
 
@@ -301,12 +297,12 @@ public class FooWindow implements FooInterfaceWindow {
 	public void createListAlbum() {
 		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
-		
+
 		FooBackendMedia album_backend = new FooBackendMedia("%album% (%date%)",
 				"album", client, listAlbum);
 		album_backend.setName("Albumbackend");
 		listAlbum.setBackend(album_backend);
-		
+
 		FooActionFilter album_action = new FooActionFilter(album_backend);
 		album_action.addListeners();
 
@@ -348,7 +344,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendPlaylist backend = new FooBackendPlaylist(client,
 				comboPlaylist);
 		backend.setName("PlaylistComboBackend");
-		
+
 		comboPlaylist.setBackend(backend);
 
 	}
