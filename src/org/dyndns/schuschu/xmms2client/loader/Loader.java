@@ -13,6 +13,8 @@ import se.fnord.xmms2.client.ClientFactory;
  */
 public class Loader {
 
+	public static boolean DEBUG = false;
+	
 	/**
 	 * parses command line arguments initializes main window
 	 * 
@@ -63,6 +65,10 @@ public class Loader {
 			// check if the window is supposed to go into tray directly
 			if (args[run].equals("--icon") || args[run].equals("-i")) {
 				hidden = true;
+			}
+			
+			if (args[run].equals("--debug") || args[run].equals("-d")) {
+				Loader.DEBUG = true;
 			}
 		}
 
