@@ -42,8 +42,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private Shell sShell = null;
 	private SashForm sashFormMain = null;
-	private SashForm sashFormSubLeft = null;
-	private SashForm sashFormSubRight = null;
 	private Composite compositePlaylist = null;
 	private FooList listArtist = null;
 	private FooList listAlbum = null;
@@ -114,26 +112,15 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private void createSashFormMain() {
 		sashFormMain = new SashForm(getsShell(), SWT.NONE);
-		createSashFormSubLeft();
-		createSashFormSubRight();
-	}
-
-	private void createSashFormSubLeft() {
-		sashFormSubLeft = new SashForm(sashFormMain, SWT.NONE);
-
+		
 		createListArtist();
 		createListAlbum();
-	}
-
-	private void createSashFormSubRight() {
-		sashFormSubRight = new SashForm(sashFormMain, SWT.NONE);
-
 		createListTrack();
 		createCompositePlaylist();
 	}
 
 	private void createCompositePlaylist() {
-		compositePlaylist = new Composite(sashFormSubRight, SWT.NONE);
+		compositePlaylist = new Composite(sashFormMain, SWT.NONE);
 		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
 
@@ -187,20 +174,6 @@ public class FooWindow implements FooInterfaceWindow {
 			createSashFormMain();
 		}
 		return sashFormMain;
-	}
-
-	public SashForm getSashFormSubLeft() {
-		if (sashFormSubLeft == null) {
-			createSashFormSubLeft();
-		}
-		return sashFormSubLeft;
-	}
-
-	public SashForm getSashFormSubRight() {
-		if (sashFormSubRight == null) {
-			createSashFormSubRight();
-		}
-		return sashFormSubRight;
 	}
 
 	public Composite getCompositePlaylist() {
@@ -281,7 +254,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListArtist() {
-		listArtist = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
+		listArtist = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
 		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
@@ -299,7 +272,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListAlbum() {
-		listAlbum = new FooList(sashFormSubLeft, SWT.BORDER | SWT.MULTI
+		listAlbum = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
 		FooBackendMedia album_backend = new FooBackendMedia("%album% (%date%)",
@@ -316,7 +289,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListTrack() {
-		listTrack = new FooList(sashFormSubRight, SWT.BORDER | SWT.MULTI
+		listTrack = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
 		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",

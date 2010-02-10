@@ -31,10 +31,7 @@ This part is about the things that are wrong in the current version:
   combobox magic: set combobox back to editable, if you enter a name unknown
   a popup will ask you if you want to create it, if the name is known it will
   be selected; http://sourceforge.net/projects/swtaddons/
-  
-  sashform magic: allow multible children (currently old workaround has been
-  ported
- 
+
   XML magic: dynamic drawing of the ui
  
   don't refresh playlist when track changes (just set colors different!) 
