@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
-import org.dyndns.schuschu.xmms2client.loader.Loader;
+import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
@@ -9,7 +9,7 @@ import se.fnord.xmms2.client.commands.Playback;
 
 public class FooWatchCurrentTrack extends Thread {
 	
-	private static final boolean DEBUG = Loader.DEBUG;
+	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name="FooWatchCurrentTrack";
 	
 	private void debug(String message){

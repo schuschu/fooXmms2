@@ -4,9 +4,7 @@
 
 This part is about the things that are wrong in the current version:
 
-  The documentation. it is getting a little messy...
-   
-  Maybe a rename off the Foo prefix (name and classes) should be done? 
+  The documentation. it is getting a little messy... (no volunteers?)
    
   The definition of "defaults".  I don't care what anybody says the default 
   port is, ether parse the config file or throw a error, don't set it 
@@ -31,3 +29,5 @@ This part is about the things that are wrong in the current version:
 
   try out if a list/table for playlists(instead of combo) is possible, and
   introduce tabbar
+  
+  Sliders: seekbar (broadcast strom ahead), volume

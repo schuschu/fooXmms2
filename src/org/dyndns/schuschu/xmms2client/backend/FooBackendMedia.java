@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
-import org.dyndns.schuschu.xmms2client.loader.Loader;
+import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
@@ -28,7 +28,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
 public class FooBackendMedia extends Observable implements Serializable,
 		FooInterfaceBackend {
 	
-	protected static final boolean DEBUG = Loader.DEBUG;
+	protected static final boolean DEBUG = FooLoader.DEBUG;
 	protected String name;
 	
 	protected void debug(String message){

@@ -11,7 +11,7 @@ import se.fnord.xmms2.client.ClientFactory;
  * @author schuschu
  * 
  */
-public class Loader {
+public class FooLoader {
 
 	public static boolean DEBUG = false;
 	
@@ -68,7 +68,7 @@ public class Loader {
 			}
 			
 			if (args[run].equals("--debug") || args[run].equals("-d")) {
-				Loader.DEBUG = true;
+				FooLoader.DEBUG = true;
 			}
 		}
 

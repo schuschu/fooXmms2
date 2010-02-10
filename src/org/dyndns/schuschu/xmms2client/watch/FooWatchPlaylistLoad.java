@@ -3,7 +3,7 @@ package org.dyndns.schuschu.xmms2client.watch;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
-import org.dyndns.schuschu.xmms2client.loader.Loader;
+import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
@@ -11,7 +11,7 @@ import se.fnord.xmms2.client.commands.Playlist;
 
 public class FooWatchPlaylistLoad extends Thread {
 	
-	private static final boolean DEBUG = Loader.DEBUG;
+	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name="FooWatchPlaylistLoad";
 	
 	private void debug(String message){
