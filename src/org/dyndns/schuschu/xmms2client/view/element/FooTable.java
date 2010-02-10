@@ -8,6 +8,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
@@ -107,16 +109,24 @@ public class FooTable implements FooInterfaceViewElement {
 	@Override
 	public void highlight(int[] indicies) {
 
-		final Color hlcolor = table.getDisplay().getSystemColor(SWT.COLOR_RED);
+		final Color hlcolor = table.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND);
 		final Color defcolor = table.getDisplay().getSystemColor(
 				SWT.COLOR_LIST_BACKGROUND);
-
+		
+		FontData boldData = table.getFont().getFontData()[0];
+		boldData.setStyle(SWT.BOLD);
+		Font boldFont = new Font(table.getDisplay(), boldData);
+		
+		FontData fontData = table.getFont().getFontData()[0];
+		Font defFont = new Font(table.getDisplay(), fontData);
+		
 		if (table.getItemCount() != 0) {
 
 			if (indicies != null) {
 				for (int id : highlight) {
 					if (id >= 0 && id < table.getItemCount()) {
 						table.getItem(id).setBackground(defcolor);
+						table.getItem(id).setFont(defFont);
 					}
 				}
 				highlight = indicies;
@@ -125,8 +135,10 @@ public class FooTable implements FooInterfaceViewElement {
 			for (int id : highlight) {
 				if (id >= 0 && id < table.getItemCount()) {
 					table.getItem(id).setBackground(hlcolor);
+					table.getItem(id).setFont(boldFont);
 				}
 			}
+			table.getColumn(0).pack();
 		}
 	}
 }
