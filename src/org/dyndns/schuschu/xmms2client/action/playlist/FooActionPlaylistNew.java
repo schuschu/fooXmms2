@@ -27,7 +27,6 @@ public class FooActionPlaylistNew extends FooActionPlaylist {
 					CollectionBuilder.getEmptyExpression());
 
 			c.execute(getClient());
-			// TODO: Broadcast here
 		}
 	}
 

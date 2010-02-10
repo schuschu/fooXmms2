@@ -18,7 +18,7 @@ public class FooActionPlaylistDelete extends FooActionPlaylist {
 
 	@Override
 	public void clicked() {
-		// TODO: Dropdown
+		// TODO: Dropdown dialog
 
 		String input = JOptionPane
 				.showInputDialog("Please enter the name of the playlist you want to delete");
@@ -28,7 +28,6 @@ public class FooActionPlaylistDelete extends FooActionPlaylist {
 			Command c = Collection.remove(CollectionNamespace.PLAYLISTS,input);
 
 			c.execute(getClient());
-			// TODO: Broadcast here
 		}
 	}
 }

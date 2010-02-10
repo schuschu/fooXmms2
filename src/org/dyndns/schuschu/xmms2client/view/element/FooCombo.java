@@ -32,6 +32,8 @@ public class FooCombo implements FooInterfaceViewElement {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
+
+		// TODO: find out wich event fires when a playlist gets removed
 		getCombo().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent arg0) {

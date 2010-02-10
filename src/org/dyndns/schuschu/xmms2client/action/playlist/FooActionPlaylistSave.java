@@ -41,11 +41,9 @@ public class FooActionPlaylistSave extends FooActionPlaylist {
 						input, ce);
 
 				c.execute(getClient());
-				// TODO: Broadcast here
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 
 		}

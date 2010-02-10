@@ -1,12 +1,22 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.loader.Loader;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
 
 public class FooWatchPlaylist extends Thread {
+
+	private static final boolean DEBUG = Loader.DEBUG;
+	private String name = "FooWatchPlaylist";
+
+	private void debug(String message) {
+		if (DEBUG) {
+			System.out.println("debug: " + name + " " + message);
+		}
+	}
 
 	private boolean running;
 	private Command c;
@@ -20,14 +30,16 @@ public class FooWatchPlaylist extends Thread {
 
 		r = new Runnable() {
 			public void run() {
+				debug("fire");
+				view.getBackend().refresh();
 				view.getBackend().generateFilteredContent();
 			}
 		};
 
 	}
-	
-	public void done(){
-		running = false;		
+
+	public void done() {
+		running = false;
 	}
 
 	public void run() {
