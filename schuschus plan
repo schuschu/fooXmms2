@@ -31,3 +31,5 @@ This part is about the things that are wrong in the current version:
   introduce tabbar
   
   Sliders: seekbar (broadcast strom ahead), volume
+  
+  id3 magic: want to edit tags via fooXmms2 (please be possible)
