@@ -43,6 +43,7 @@ public class FooCombo implements FooInterfaceViewElement {
 				}
 			}
 		});
+
 	}
 
 	@Override

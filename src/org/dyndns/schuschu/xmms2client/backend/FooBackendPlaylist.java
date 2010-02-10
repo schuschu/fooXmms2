@@ -23,14 +23,14 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
  * @author schuschu
  * 
  */
-public class FooBackendPlaylist extends Observable implements
-		Serializable, FooInterfaceBackend {
-	
+public class FooBackendPlaylist extends Observable implements Serializable,
+		FooInterfaceBackend {
+
 	private static final boolean DEBUG = Loader.DEBUG;
 	private String name;
-	
-	protected void debug(String message){
-		if(DEBUG){
+
+	protected void debug(String message) {
+		if (DEBUG) {
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
@@ -59,7 +59,7 @@ public class FooBackendPlaylist extends Observable implements
 	 * 
 	 */
 	private FooInterfaceBackend contentProvider;
-	
+
 	private Vector<String> content;
 
 	/**
@@ -142,20 +142,22 @@ public class FooBackendPlaylist extends Observable implements
 	 */
 	public void refresh() {
 		debug("refresh");
-		
+
 		try {
 			executeBaseCommand();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
-		
-		int[] selection = view.getIndices();
 
 		view
 				.setContent(new Vector<String>(Arrays
 						.asList(getPlaylistDatabase())));
-		
-		view.setSelection(selection);
+
+		try {
+			view.setSelection(new int[] { getActivePlaylistId() });
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 
 		setChanged();
 		notifyObservers();
@@ -201,6 +203,21 @@ public class FooBackendPlaylist extends Observable implements
 		}
 
 	}
+	
+	// TODO: rethink this thing
+
+	/*
+	 * public int getPlaylistId(String name) throws InterruptedException {
+	 * debug("getPlaylistId");
+	 * 
+	 * Command c = Playlist.listPlaylists(); Map<CollectionNamespace,
+	 * Set<String>> map = c.executeSync(client);
+	 * 
+	 * // TODO: find out what to do with namespaces here Set<String> names =
+	 * map.get(CollectionNamespace.PLAYLISTS); int i = 0; for (String n : names)
+	 * { if (!n.startsWith("_") && n.equals(name)) { return i; } i++; } // you
+	 * should NEVER get here! return 0; }
+	 */
 
 	public int getActivePlaylistId() throws InterruptedException {
 		debug("getActivePlaylistId");
@@ -214,10 +231,8 @@ public class FooBackendPlaylist extends Observable implements
 				return i;
 			}
 		}
-		System.out.println("I SAID NO!");
 		// you should NEVER get here!
 		return 0;
-
 	}
 
 	/**
@@ -350,7 +365,7 @@ public class FooBackendPlaylist extends Observable implements
 	@Override
 	public int getCurrentPos() {
 		debug("getCurrentPos");
-		return -1;		
+		return -1;
 	}
 
 	@Override
