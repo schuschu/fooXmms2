@@ -1,6 +1,5 @@
 package org.dyndns.schuschu.xmms2client.action.playlist;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -13,7 +12,6 @@ import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
-import se.fnord.xmms2.client.commands.internal.PlaylistChangedBroadcastCommand;
 import se.fnord.xmms2.client.types.CollectionNamespace;
 
 public class FooActionPlaylistDelete extends FooActionPlaylist {
