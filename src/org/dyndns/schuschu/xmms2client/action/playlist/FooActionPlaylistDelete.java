@@ -23,8 +23,6 @@ public class FooActionPlaylistDelete extends FooActionPlaylist {
 
 	@Override
 	public void clicked() {
-		// TODO: Dropdown dialog
-
 		Command get = Playlist.listPlaylists();
 
 		String input = null;

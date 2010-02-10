@@ -10,7 +10,7 @@ import se.fnord.xmms2.client.Client;
 
 abstract public class FooActionBackendMedia implements FooInterfaceAction {
 
-	// TODO: find better way to change format
+	// TODO: enums?
 	private FooBackendMedia backend;
 	private Client client;
 	private Listener action;
