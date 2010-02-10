@@ -26,8 +26,6 @@ public class FooWatchPlaylist extends Thread {
 	public FooWatchPlaylist(Client client, final FooInterfaceViewElement view) {
 		this.view = view;
 
-		// TODO: fix bindings since playlist doesn't fire when playlist is
-		// removed
 		c = Collection.changeBroadcast();
 		c.execute(client);
 

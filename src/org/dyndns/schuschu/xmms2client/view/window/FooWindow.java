@@ -50,8 +50,9 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooCombo comboPlaylist = null;
 	private FooButtonsPlaylist buttonsPlaylist = null;
 	private FooButtonsPlayback buttonsPlayback = null;
-	private FooWatchPlaylist watchPlaylist = null;
 	private FooWatchCurrentTrack watchCurrentPos = null;
+	private FooWatchPlaylist watchPlaylistList = null;
+	private FooWatchPlaylist watchPlaylistCombo = null;
 	private FooWatchPlaylistLoad watchPlaylistComboLoad = null;
 	private FooWatchPlaylistLoad watchPlaylistListLoad = null;
 
@@ -165,8 +166,7 @@ public class FooWindow implements FooInterfaceWindow {
 			}
 		}
 		getDisplay().dispose();
-		watchPlaylist.done();
-		watchCurrentPos.done();
+		// TODO: end threads or just system exit in loader?
 		client.stop();
 	}
 
@@ -233,11 +233,18 @@ public class FooWindow implements FooInterfaceWindow {
 		return buttonsPlayback;
 	}
 
-	public FooWatchPlaylist getWatchPlaylist() {
-		if (watchPlaylist == null) {
-			watchPlaylist = new FooWatchPlaylist(client, comboPlaylist);
+	public FooWatchPlaylist getWatchPlaylistCombo() {
+		if (watchPlaylistCombo == null) {
+			watchPlaylistCombo = new FooWatchPlaylist(client, comboPlaylist);
 		}
-		return watchPlaylist;
+		return watchPlaylistCombo;
+	}
+
+	public FooWatchPlaylist getWatchPlaylistList() {
+		if (watchPlaylistList == null) {
+			watchPlaylistList = new FooWatchPlaylist(client, listPlaylist);
+		}
+		return watchPlaylistList;
 	}
 
 	public FooWatchCurrentTrack getWatchCurrentPos() {
@@ -356,8 +363,9 @@ public class FooWindow implements FooInterfaceWindow {
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
 
-		getWatchPlaylist().start();
 		getWatchCurrentPos().start();
+		getWatchPlaylistCombo().start();
+		getWatchPlaylistList().start();
 		getWatchPlaylistComboLoad().start();
 		getWatchPlaylistListLoad().start();
 

@@ -15,11 +15,7 @@ public class FooActionPlaylistShuffle extends FooActionPlaylist {
 
 	@Override
 	public void clicked() {
-
 		Command c = Playlist.shuffle(Playlist.ACTIVE_PLAYLIST);
 		c.execute(getClient());
-		// TODO: Broadcast here
-
 	}
-
 }
