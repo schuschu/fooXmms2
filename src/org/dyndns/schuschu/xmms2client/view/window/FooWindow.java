@@ -78,6 +78,9 @@ public class FooWindow implements FooInterfaceWindow {
 	public void initalize() {
 		createSShell();
 
+		// TODO: move down again and change the watch and init function to a non
+		// refreshing version (change color not content)
+		
 		// init playlist and highlight current track
 		try {
 			Command init = Playback.currentId();
@@ -86,7 +89,7 @@ public class FooWindow implements FooInterfaceWindow {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
-		
+
 		// here starts the magic (content chaining)
 		listArtist.getBackend().setToAll();
 		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
@@ -94,7 +97,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 		listPlaylist.getBackend()
 				.setContentProvider(comboPlaylist.getBackend());
-
 
 	}
 
