@@ -257,7 +257,8 @@ public class FooBackendMedia extends Observable implements Serializable,
 		content = createContent(baseDatabase);
 
 		view.setContent(content);
-
+		updatePos();
+		
 		setChanged();
 		notifyObservers();
 
@@ -272,6 +273,10 @@ public class FooBackendMedia extends Observable implements Serializable,
 	public void setToAll() {
 		debug("setToAll");
 		this.setBaseConetent(CollectionBuilder.getAllMediaReference());
+	}
+	
+	public void updatePos(){
+		view.highlight(new int[]{currentPos});
 	}
 
 	/**
@@ -578,9 +583,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	@Override
 	public void setCurrent(int current) {
 		debug("setCurrent");
-		this.current=current;
-		refresh();
-		
+		this.current=current;	
 	}
 
 	public int getCurrent() {

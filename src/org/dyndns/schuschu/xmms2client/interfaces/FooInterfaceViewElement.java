@@ -58,4 +58,6 @@ public interface FooInterfaceViewElement{
 	public Control getReal();
 	
 	public void setLayoutData(Object layoutData);
+	
+	public void highlight(int[] indicies);
 }

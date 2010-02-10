@@ -2,6 +2,8 @@ package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.util.Vector;
 
+import javax.swing.text.AbstractDocument.Content;
+
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.eclipse.swt.SWT;
@@ -18,6 +20,7 @@ public class FooTable implements FooInterfaceViewElement {
 
 	private Table table;
 	private FooInterfaceBackend backend;
+	private int[] highlight = new int[0];
 
 	public FooTable(Composite parent, int style) {
 		table = new Table(parent, style);
@@ -77,20 +80,11 @@ public class FooTable implements FooInterfaceViewElement {
 		}
 		column = table.getColumn(0);
 
-		column.setWidth(table.getSize().x);
+		// column.setWidth(table.getSize().x);
 
-		Color red = table.getDisplay().getSystemColor(SWT.COLOR_RED);
-
-		int pos = backend.getCurrentPos();
-
-		for (int i = 0; i < content.size(); i++) {
-
+		for (String s : content) {
 			TableItem item = new TableItem(table, SWT.NONE);
-			item.setText(content.get(i));
-			if (i == pos) {
-				item.setBackground(red);
-			}
-
+			item.setText(s);
 		}
 		column.pack();
 	}
@@ -112,4 +106,29 @@ public class FooTable implements FooInterfaceViewElement {
 		table.setLayoutData(layoutData);
 	}
 
+	@Override
+	public void highlight(int[] indicies) {
+
+		final Color hlcolor = table.getDisplay().getSystemColor(SWT.COLOR_RED);
+		final Color defcolor = table.getDisplay().getSystemColor(
+				SWT.COLOR_LIST_BACKGROUND);
+
+		if (table.getItemCount() != 0) {
+
+			if (indicies != null) {
+				for (int id : highlight) {
+					if (id >= 0 && id < table.getItemCount()) {
+						table.getItem(id).setBackground(defcolor);
+					}
+				}
+				highlight = indicies;
+			}
+
+			for (int id : highlight) {
+				if (id >= 0 && id < table.getItemCount()) {
+					table.getItem(id).setBackground(hlcolor);
+				}
+			}
+		}
+	}
 }

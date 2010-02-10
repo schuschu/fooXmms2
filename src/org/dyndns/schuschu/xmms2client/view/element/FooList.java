@@ -115,4 +115,9 @@ public class FooList implements FooInterfaceViewElement {
 	public Control getReal() {
 		return list;
 	}
+
+	@Override
+	public void highlight(int[] indicies) {
+		// TODO: find something to highlight		
+	}
 }

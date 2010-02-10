@@ -119,4 +119,9 @@ public class FooCombo implements FooInterfaceViewElement {
 	public Control getReal() {
 		return combo;
 	}
+
+	@Override
+	public void highlight(int[] indicies) {
+		// TODO: howto highlight current playlist (bold?)
+	}
 }

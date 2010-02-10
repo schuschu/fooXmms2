@@ -33,6 +33,7 @@ public class FooWatchCurrentTrack extends Thread {
 
 		r = new Runnable() {
 			public void run() {
+				debug("fire");
 				view.getBackend().setCurrent(current);
 			}
 		};

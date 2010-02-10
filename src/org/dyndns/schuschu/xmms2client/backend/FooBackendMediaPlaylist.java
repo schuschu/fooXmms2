@@ -90,11 +90,11 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 		Command command = se.fnord.xmms2.client.commands.Collection
 				.query(query);
-		
+
 		List<Dict> list = command.executeSync(client);
 
 		Map<Integer, Dict> trackMap = new HashMap<Integer, Dict>();
-		for (Dict track : list ) {
+		for (Dict track : list) {
 			trackMap.put((Integer) track.get("id"), track);
 		}
 
@@ -115,7 +115,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			for (Integer id : ids) {
 
 				if (id == current) {
-					currentPos = i ;
+					currentPos = i;
 				}
 
 				Dict track = tracks.get(id);
@@ -135,5 +135,24 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	public void selectionChanged() {
 		debug("selectionChanged");
 		// TODO: think of use for this
+	}
+
+	@Override
+	public void setCurrent(int current) {
+		super.setCurrent(current);
+
+		try {
+			List<Integer> ids = getPlaylistIds(client);
+			for (int i = 0; i < ids.size(); i++) {
+
+				if (ids.get(i) == current) {
+					currentPos = i;
+				}
+			}
+		} catch (CommandErrorException e) {
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+		updatePos();
 	}
 }
