@@ -33,8 +33,6 @@ import se.fnord.xmms2.client.commands.Playback;
 
 public class FooWindow implements FooInterfaceWindow {
 
-	// TODO: Code cleanup
-
 	final static int WIDTH = 1000;
 	final static int HEIGHT = 600;
 
