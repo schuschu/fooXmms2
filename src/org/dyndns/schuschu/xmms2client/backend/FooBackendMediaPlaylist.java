@@ -1,13 +1,15 @@
 package org.dyndns.schuschu.xmms2client.backend;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 
 import se.fnord.xmms2.client.Client;
-import se.fnord.xmms2.client.commands.Collection;
+import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
 import se.fnord.xmms2.client.commands.Playlist;
@@ -63,43 +65,68 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		}
 	}
 
+	private static List<Integer> getPlaylistIds(Client client)
+			throws InterruptedException, CommandErrorException {
+		Command command = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
+
+		return command.executeSync(client);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Map<Integer, Dict> getTrackInfo(Client client,
+			List<Integer> ids) throws InterruptedException,
+			CommandErrorException {
+		final CollectionBuilder builder = new CollectionBuilder();
+
+		builder.setType(CollectionType.IDLIST);
+		builder.addIds(ids);
+
+		final InfoQuery query = new InfoQuery(builder.build(), 0, 0, Arrays
+				.asList(new String[0]), Arrays.asList(new String[] { "id",
+				"artist", "title", }), Arrays.asList(new String[0]));
+
+		final Command command = se.fnord.xmms2.client.commands.Collection
+				.query(query);
+
+		/*
+		 * The result is not sorted in playlist order, so add the entries to a
+		 * map for later sorting.
+		 */
+		final Map<Integer, Dict> trackMap = new HashMap<Integer, Dict>();
+		for (Dict track : (List<Dict>) command.executeSync(client)) {
+			trackMap.put((Integer) track.get("id"), track);
+		}
+
+		return trackMap;
+	}
+
 	@Override
 	protected Vector<String> createContent(List<Dict> Database) {
 		debug("createContent");
 		Vector<String> Content = new Vector<String>();
 
-		// TODO: fix this hack
-		FooBackendPlaylist hack = (FooBackendPlaylist) getContentProvider();
-
-		List<Integer> ids = hack.getPlayListOrder();
 		setCurrentPos(-1);
-		int i = 0;
-		
+
 		try {
+			List<Integer> ids = getPlaylistIds(getClient());
+			Map<Integer, Dict> tracks = getTrackInfo(getClient(), ids);
+		int i = 0;
+		for (Integer id : ids) {
 
-			for (int id : ids) {
-
-				if(id==getCurrent()){
-					setCurrentPos(i);
-				}
-				
-				CollectionBuilder cb = new CollectionBuilder();
-				cb.setType(CollectionType.IDLIST);
-				cb.addId(id);
-
-				Command c = Collection.query(new InfoQuery(cb.build(), 0, 0,
-						Arrays.asList(new String[0]), getQueryFields(), Arrays
-								.asList(new String[0])));
-
-				List<Dict> all = c.executeSync(getClient());
-
-				for (Dict token : all) {
-					Content.add(createTokenString(getFormat(), token));
-				}
-				i++;
+			if (id == getCurrent()) {
+				setCurrentPos(i);
 			}
+
+			Dict track = tracks.get(id);
+			Content.add(createTokenString(getFormat(), track));
+
+			i++;
+		}
+		} catch (CommandErrorException e) {
+			// TODO: think about this
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
+			e.printStackTrace();
 		}
 		return Content;
 	}

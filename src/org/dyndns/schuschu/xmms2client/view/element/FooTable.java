@@ -14,23 +14,23 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class FooTable implements FooInterfaceViewElement{
-	
+public class FooTable implements FooInterfaceViewElement {
+
 	private Table table;
 	private FooInterfaceBackend backend;
-	
-	public FooTable(Composite parent, int style){
+
+	public FooTable(Composite parent, int style) {
 		table = new Table(parent, style);
 	}
-	
+
 	@Override
 	public void addKeyListener(KeyListener key) {
-		table.addKeyListener(key);		
+		table.addKeyListener(key);
 	}
 
 	@Override
 	public void addMouseListener(MouseListener mouse) {
-		table.addMouseListener(mouse);		
+		table.addMouseListener(mouse);
 	}
 
 	@Override
@@ -51,58 +51,59 @@ public class FooTable implements FooInterfaceViewElement{
 	@Override
 	public void removeKeyListener(KeyListener key) {
 		table.removeKeyListener(key);
-		
+
 	}
 
 	@Override
 	public void removeMouseListener(MouseListener mouse) {
 		table.removeMouseListener(mouse);
-		
+
 	}
 
 	@Override
 	public void setBackend(FooInterfaceBackend backend) {
-		this.backend=backend;
-		
+		this.backend = backend;
+
 	}
 
 	@Override
 	public void setContent(Vector<String> content) {
-		
+
+		// TODO: change color instead of refresh
 		table.removeAll();
-	    TableColumn column = new TableColumn(table, SWT.NONE);
-				
+		TableColumn column = new TableColumn(table, SWT.NONE);
+
 		Color red = table.getDisplay().getSystemColor(SWT.COLOR_RED);
-		
+
 		int pos = backend.getCurrentPos();
-				
-		for(int i = 0; i<content.size();i++){
-			
+
+		for (int i = 0; i < content.size(); i++) {
+
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setText(content.get(i));
-			if(i==pos){
-			    item.setBackground(red);
+			if (i == pos) {
+				item.setBackground(red);
 			}
 
 		}
-	    column.pack();
+		column.pack();
 	}
 
 	@Override
 	public void setSelection(int[] indices) {
 		table.setSelection(indices);
-		
+
 	}
 
 	@Override
 	public void setSingleSelectionMode() {
 		// TODO find out if swt can do this
-		
+
 	}
 
 	@Override
 	public void setLayoutData(Object layoutData) {
-		table.setLayoutData(layoutData);		
+		table.setLayoutData(layoutData);
 	}
 
 }
