@@ -5,8 +5,6 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -32,7 +30,7 @@ public class FooCombo implements FooInterfaceViewElement {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
-
+/*
 		// TODO: find out wich event fires when a playlist gets removed or solve
 		// this in action and without the need to redraw the current playlist!
 		getCombo().addMouseListener(new MouseAdapter() {
@@ -43,7 +41,7 @@ public class FooCombo implements FooInterfaceViewElement {
 				}
 			}
 		});
-
+*/
 	}
 
 	@Override

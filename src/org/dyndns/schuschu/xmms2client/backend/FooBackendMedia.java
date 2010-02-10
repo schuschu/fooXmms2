@@ -42,7 +42,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * by possible to be modified by all ViewElements in the client. Maybe a
 	 * different position for this list is needed
 	 */	
-	private Vector<String> possible_values = new Vector<String>();
+	protected Vector<String> possible_values = new Vector<String>();
 
 	
 	// TODO: find use for groups
@@ -61,7 +61,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 */
 	protected Client client;
 
-	private FooInterfaceViewElement view;
+	protected FooInterfaceViewElement view;
 
 	/**
 	 * This String is used to specify the displayed text in the list
@@ -80,7 +80,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * 
 	 * i.e.: album
 	 */
-	private String filter;
+	protected String filter;
 
 	protected CollectionExpression baseConetent;
 	protected CollectionExpression filteredConetent;

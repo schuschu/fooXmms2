@@ -4,8 +4,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.Loader;
 
 import se.fnord.xmms2.client.Client;
+import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
-import se.fnord.xmms2.client.commands.Playlist;
 
 public class FooWatchPlaylist extends Thread {
 
@@ -25,7 +25,10 @@ public class FooWatchPlaylist extends Thread {
 
 	public FooWatchPlaylist(Client client, final FooInterfaceViewElement view) {
 		this.view = view;
-		c = Playlist.changeBroadcast();
+
+		// TODO: fix bindings since playlist doesn't fire when playlist is
+		// removed
+		c = Collection.changeBroadcast();
 		c.execute(client);
 
 		r = new Runnable() {

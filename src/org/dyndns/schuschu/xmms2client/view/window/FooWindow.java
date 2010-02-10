@@ -52,7 +52,8 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooButtonsPlayback buttonsPlayback = null;
 	private FooWatchPlaylist watchPlaylist = null;
 	private FooWatchCurrentTrack watchCurrentPos = null;
-	private FooWatchPlaylistLoad watchPlaylistLoad = null;
+	private FooWatchPlaylistLoad watchPlaylistComboLoad = null;
+	private FooWatchPlaylistLoad watchPlaylistListLoad = null;
 
 	/**
 	 * This method initializes sShell
@@ -76,19 +77,19 @@ public class FooWindow implements FooInterfaceWindow {
 
 		// TODO: move down again and change the watch and init function to a non
 		// refreshing version (change color not content)
-		
+
 		// here starts the magic (content chaining)
 		listArtist.getBackend().setToAll();
 		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
 		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
-		listPlaylist.getBackend()
-				.setContentProvider(comboPlaylist.getBackend());
-		
+		// listPlaylist.getBackend()
+		// .setContentProvider(comboPlaylist.getBackend());
+
 		// init playlist and highlight current track
-		
+
 		listPlaylist.getBackend().refresh();
-		
+
 		try {
 			Command init = Playback.currentId();
 			int current = init.executeSync(client);
@@ -112,7 +113,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private void createSashFormMain() {
 		sashFormMain = new SashForm(getsShell(), SWT.NONE);
-		
+
 		createListArtist();
 		createListAlbum();
 		createListTrack();
@@ -246,11 +247,20 @@ public class FooWindow implements FooInterfaceWindow {
 		return watchCurrentPos;
 	}
 
-	public FooWatchPlaylistLoad getWatchPlaylistLoad() {
-		if (watchPlaylistLoad == null) {
-			watchPlaylistLoad = new FooWatchPlaylistLoad(client, comboPlaylist);
+	public FooWatchPlaylistLoad getWatchPlaylistComboLoad() {
+		if (watchPlaylistComboLoad == null) {
+			watchPlaylistComboLoad = new FooWatchPlaylistLoad(client,
+					comboPlaylist);
 		}
-		return watchPlaylistLoad;
+		return watchPlaylistComboLoad;
+	}
+
+	public FooWatchPlaylistLoad getWatchPlaylistListLoad() {
+		if (watchPlaylistListLoad == null) {
+			watchPlaylistListLoad = new FooWatchPlaylistLoad(client,
+					listPlaylist);
+		}
+		return watchPlaylistListLoad;
 	}
 
 	public void createListArtist() {
@@ -348,7 +358,8 @@ public class FooWindow implements FooInterfaceWindow {
 
 		getWatchPlaylist().start();
 		getWatchCurrentPos().start();
-		getWatchPlaylistLoad().start();
+		getWatchPlaylistComboLoad().start();
+		getWatchPlaylistListLoad().start();
 
 	}
 

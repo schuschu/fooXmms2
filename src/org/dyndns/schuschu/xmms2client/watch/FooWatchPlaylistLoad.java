@@ -29,7 +29,7 @@ public class FooWatchPlaylistLoad extends Thread {
 	public FooWatchPlaylistLoad(Client client,
 			final FooInterfaceViewElement view) {
 		this.view = view;
-		c = Playlist.currentPosBroadcast();
+		c = Playlist.loadBroadcast();
 		c.execute(client);
 
 		r = new Runnable() {

@@ -134,7 +134,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 	@Override
 	public void selectionChanged() {
 		debug("selectionChanged");
-		// TODO: think of use for this
+		refresh();
 	}
 
 	@Override
@@ -154,5 +154,18 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			Thread.currentThread().interrupt();
 		}
 		updatePos();
+	}
+	
+	@Override
+	public void refresh() {
+		debug("refresh");
+		
+		content = createContent(null);
+
+		view.setContent(content);
+		updatePos();
+		
+		setChanged();
+		notifyObservers();
 	}
 }
