@@ -106,20 +106,20 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		debug("createContent");
 		Vector<String> Content = new Vector<String>();
 
-		setCurrentPos(-1);
+		currentPos = -1;
 
 		try {
-			List<Integer> ids = getPlaylistIds(getClient());
-			Map<Integer, Dict> tracks = getTrackInfo(getClient(), ids);
+			List<Integer> ids = getPlaylistIds(client);
+			Map<Integer, Dict> tracks = getTrackInfo(client, ids);
 			int i = 0;
 			for (Integer id : ids) {
 
-				if (id == getCurrent()) {
-					setCurrentPos(i);
+				if (id == current) {
+					currentPos = i ;
 				}
 
 				Dict track = tracks.get(id);
-				Content.add(createTokenString(getFormat(), track));
+				Content.add(createTokenString(format, track));
 
 				i++;
 			}
@@ -127,7 +127,6 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			// TODO: think about this
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 		return Content;
 	}
