@@ -69,9 +69,15 @@ public class FooTable implements FooInterfaceViewElement {
 	@Override
 	public void setContent(Vector<String> content) {
 
-		// TODO: change color instead of refresh
 		table.removeAll();
-		TableColumn column = new TableColumn(table, SWT.NONE);
+		// TODO: adapt for multiple columns via constructor etc
+		TableColumn column;
+		if (table.getColumnCount() == 0) {
+			new TableColumn(table, SWT.NONE);
+		}
+		column = table.getColumn(0);
+
+		column.setWidth(table.getSize().x);
 
 		Color red = table.getDisplay().getSystemColor(SWT.COLOR_RED);
 
