@@ -33,7 +33,8 @@ public class FooCombo implements FooInterfaceViewElement {
 			}
 		});
 
-		// TODO: find out wich event fires when a playlist gets removed
+		// TODO: find out wich event fires when a playlist gets removed or solve
+		// this in action and without the need to redraw the current playlist!
 		getCombo().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent arg0) {
