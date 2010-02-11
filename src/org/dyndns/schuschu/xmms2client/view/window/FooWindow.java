@@ -76,21 +76,15 @@ public class FooWindow implements FooInterfaceWindow {
 	public void initalize() {
 		createSShell();
 
-		// TODO: move down again and change the watch and init function to a non
-		// refreshing version (change color not content)
-
 		// here starts the magic (content chaining)
 		listArtist.getBackend().setToAll();
 		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
 		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
-		// listPlaylist.getBackend()
-		// .setContentProvider(comboPlaylist.getBackend());
-
-		// init playlist and highlight current track
-
+		// init playlist
 		listPlaylist.getBackend().refresh();
 
+		// highlight current track
 		try {
 			Command init = Playback.currentId();
 			int current = init.executeSync(client);
