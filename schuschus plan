@@ -30,7 +30,9 @@ This part is about the things that are wrong in the current version:
   PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
   needed?
   
-  Filter Observers fire twice 
+  Filter Observers fire twice
+  
+  Icon/Pixmap mess!!! 
   
  Things I really want to do:
  
