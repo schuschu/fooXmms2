@@ -1,5 +1,8 @@
 package org.dyndns.schuschu.xmms2client.view.window;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
 import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
@@ -105,7 +108,25 @@ public class FooWindow implements FooInterfaceWindow {
 		createSashFormMain();
 		getsShell().setLayout(new FillLayout());
 
-		Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
+		Image image = null;
+
+		InputStream stream = this.getClass().getResourceAsStream(
+				"/pixmaps/xmms2-128.png");
+		if (stream != null) {
+			try {
+				image = new Image(getDisplay(), stream);
+			} catch (IllegalArgumentException e) {
+			} finally {
+				try {
+					stream.close();
+				} catch (IOException e) {
+				}
+			}
+		} else {
+			// TODO: find better way to do this
+			image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
+		}
+
 		getsShell().setImage(image);
 	}
 

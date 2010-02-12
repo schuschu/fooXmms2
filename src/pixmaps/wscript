@@ -1,0 +1,37 @@
+import os
+import Options
+
+def build(bld):
+    if bld.env['xmms_icon']:
+        obj = bld.new_task_gen('cc', 'objects')
+        obj.target = 'xmms_icon'
+        obj.source = 'xmms2.rc'
+        obj.install_path = 0
+
+    images = """
+        xmms2-16.png
+        xmms2-32.png
+        xmms2-48.png
+        xmms2-128.png
+        xmms2.svg
+        xmms2-black-on-white.svg
+        xmms2-white-on-black.svg
+    """.split()
+
+    for image in images:
+        bld.install_files("${PIXMAP_DIR}", image)
+
+def configure(conf):
+    if Options.options.pixmapdir is not None:
+        conf.env["PIXMAP_DIR"] = Options.options.pixmapdir
+    else:
+        conf.env["PIXMAP_DIR"] = os.path.join(conf.env["PREFIX"], "share", "pixmaps")
+
+    if not conf.env["PIXMAP_DIR"]:
+        return False
+
+    return True
+
+def set_options(opt):
+    opt.add_option("--with-pixmap-dir", type="string", dest="pixmapdir",
+                   help="Specify directory where to install pixmaps")

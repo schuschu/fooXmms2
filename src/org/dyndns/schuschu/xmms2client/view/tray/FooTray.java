@@ -1,5 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.tray;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.dyndns.schuschu.xmms2client.action.FooActionExit;
@@ -37,12 +38,24 @@ public class FooTray {
 		if (getTray() != null) {
 			TrayItem item = new TrayItem(tray, SWT.NONE);
 			Image image = null;
-			InputStream stream = this.getClass().getResourceAsStream ("/pixmaps/xmms2-128.png");
-			try {
-				image = new Image (getDisplay(), stream);
-			} catch (IllegalArgumentException e) {
-				image = new Image (getDisplay(), "pixmaps/xmms2-128.png");
+
+			InputStream stream = this.getClass().getResourceAsStream(
+					"/pixmaps/xmms2-128.png");
+			if (stream != null) {
+				try {
+					image = new Image(getDisplay(), stream);
+				} catch (IllegalArgumentException e) {
+				} finally {
+					try {
+						stream.close();
+					} catch (IOException e) {
+					}
+				}
+			} else {
+				// TODO: find better way to do this
+				image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
 			}
+
 			item.setImage(image);
 
 			final FooMenu menu = new FooMenu(new Shell(getDisplay(), SWT.NONE),
