@@ -109,7 +109,7 @@ public class FooTable implements FooInterfaceViewElement {
 	@Override
 	public void highlight(int[] indicies) {
 
-		final Color hlcolor = table.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND);
+		final Color hlcolor = table.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
 		final Color defcolor = table.getDisplay().getSystemColor(
 				SWT.COLOR_LIST_BACKGROUND);
 		
