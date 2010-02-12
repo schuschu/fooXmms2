@@ -12,13 +12,16 @@ import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
 
 public class FooWatchPlaylistLoad extends Thread {
-	
+
 	private static final boolean DEBUG = FooLoader.DEBUG;
-	private String name="FooWatchPlaylistLoad";
-	
-	private void debug(String message){
-		if(DEBUG){
-			FooLoader.console.setTextAttributes(new TextAttributes(java.awt.Color.GRAY, java.awt.Color.RED));
+	private String name = "FooWatchPlaylistLoad";
+
+	private void debug(String message) {
+		if (DEBUG) {
+			if (FooLoader.ENIGMA) {
+				FooLoader.console.setTextAttributes(new TextAttributes(
+						java.awt.Color.GRAY, java.awt.Color.RED));
+			}
 			System.out.println("debug: " + name + " " + message);
 		}
 	}
@@ -58,7 +61,7 @@ public class FooWatchPlaylistLoad extends Thread {
 				Vector<String> content = view.getBackend().getContent();
 
 				for (int i = 0; i < content.size(); i++) {
-					if(s.equals(content.get(i))){
+					if (s.equals(content.get(i))) {
 						current = i;
 						break;
 					}

@@ -16,7 +16,10 @@ public class FooWatchCurrentTrack extends Thread {
 
 	private void debug(String message) {
 		if (DEBUG) {
-			FooLoader.console.setTextAttributes(new TextAttributes(java.awt.Color.WHITE, java.awt.Color.RED));
+			if (FooLoader.ENIGMA) {
+				FooLoader.console.setTextAttributes(new TextAttributes(
+						java.awt.Color.WHITE, java.awt.Color.RED));
+			}
 			System.out.println("debug: " + name + " " + message);
 		}
 	}
@@ -31,7 +34,7 @@ public class FooWatchCurrentTrack extends Thread {
 			final FooInterfaceViewElement view) {
 		debug("fire");
 		this.view = view;
-		
+
 		c = Playback.currentIdBroadcast();
 		c.execute(client);
 

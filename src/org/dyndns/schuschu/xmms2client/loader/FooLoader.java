@@ -19,6 +19,7 @@ import se.fnord.xmms2.client.ClientStatus;
 public class FooLoader {
 
 	public static boolean DEBUG = false;
+	public static boolean ENIGMA = false;
 
 	/**
 	 * parses command line arguments initializes main window
@@ -84,6 +85,10 @@ public class FooLoader {
 			if (args[run].equals("--debug") || args[run].equals("-d")) {
 				FooLoader.DEBUG = true;
 			}
+
+			if (args[run].equals("--enigma") || args[run].equals("-e")) {
+				FooLoader.ENIGMA = true;
+			}
 		}
 
 		Client client = ClientFactory.create("fooXmms2", "tcp://" + host + ":"
@@ -97,10 +102,12 @@ public class FooLoader {
 		}
 
 		if (FooLoader.DEBUG) {
-			console = Enigma.getConsole();
-			TextAttributes Loader = new TextAttributes(java.awt.Color.RED);
-			console.setTextAttributes(Loader);
-			console.setTitle("Debug window");
+			if (FooLoader.ENIGMA) {
+				console = Enigma.getConsole();
+				TextAttributes Loader = new TextAttributes(java.awt.Color.RED);
+				console.setTextAttributes(Loader);
+				console.setTitle("Debug window");
+			}
 			System.out.println("Welcome to fooXmms2");
 			System.out.println("===================");
 		}

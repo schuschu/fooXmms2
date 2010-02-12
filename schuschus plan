@@ -30,6 +30,8 @@ This part is about the things that are wrong in the current version:
   PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
   needed?
   
+  Filter Observers fire twice 
+  
  Things I really want to do:
  
   combobox magic: set combobox back to editable, if you enter a name unknown

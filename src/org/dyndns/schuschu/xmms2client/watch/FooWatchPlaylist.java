@@ -16,7 +16,10 @@ public class FooWatchPlaylist extends Thread {
 
 	private void debug(String message) {
 		if (DEBUG) {
-			FooLoader.console.setTextAttributes(new TextAttributes(java.awt.Color.LIGHT_GRAY, java.awt.Color.RED));
+			if (FooLoader.ENIGMA) {
+				FooLoader.console.setTextAttributes(new TextAttributes(
+						java.awt.Color.LIGHT_GRAY, java.awt.Color.RED));
+			}
 			System.out.println("debug: " + name + " " + message);
 		}
 	}

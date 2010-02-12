@@ -35,7 +35,9 @@ public class FooBackendPlaylist extends Observable implements Serializable,
 
 	private void debug(String message) {
 		if (DEBUG) {
-			FooLoader.console.setTextAttributes(getDebugColor());
+			if (FooLoader.ENIGMA) {
+				FooLoader.console.setTextAttributes(getDebugColor());
+			}
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}

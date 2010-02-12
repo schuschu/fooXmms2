@@ -32,12 +32,15 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	protected static final boolean DEBUG = FooLoader.DEBUG;
 	protected String name;
-	
-	protected TextAttributes debugColor = new TextAttributes(java.awt.Color.white);
+
+	protected TextAttributes debugColor = new TextAttributes(
+			java.awt.Color.white);
 
 	protected void debug(String message) {
 		if (DEBUG) {
-			FooLoader.console.setTextAttributes(getDebugColor());
+			if (FooLoader.ENIGMA) {
+				FooLoader.console.setTextAttributes(getDebugColor());
+			}
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
