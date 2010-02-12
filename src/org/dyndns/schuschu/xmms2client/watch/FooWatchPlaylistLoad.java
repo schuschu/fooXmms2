@@ -5,6 +5,8 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
+import enigma.console.TextAttributes;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
@@ -16,6 +18,7 @@ public class FooWatchPlaylistLoad extends Thread {
 	
 	private void debug(String message){
 		if(DEBUG){
+			FooLoader.console.setTextAttributes(new TextAttributes(java.awt.Color.GRAY, java.awt.Color.RED));
 			System.out.println("debug: " + name + " " + message);
 		}
 	}

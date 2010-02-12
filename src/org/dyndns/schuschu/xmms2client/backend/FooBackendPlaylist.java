@@ -12,6 +12,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
+import enigma.console.TextAttributes;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
@@ -29,8 +31,11 @@ public class FooBackendPlaylist extends Observable implements Serializable,
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
 
-	protected void debug(String message) {
+	private TextAttributes debugColor = new TextAttributes(java.awt.Color.white);
+
+	private void debug(String message) {
 		if (DEBUG) {
+			FooLoader.console.setTextAttributes(getDebugColor());
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
@@ -203,7 +208,7 @@ public class FooBackendPlaylist extends Observable implements Serializable,
 		}
 
 	}
-	
+
 	// TODO: rethink this thing
 
 	/*
@@ -380,5 +385,13 @@ public class FooBackendPlaylist extends Observable implements Serializable,
 
 	public String getName() {
 		return name;
+	}
+
+	public void setDebugColor(TextAttributes debugColor) {
+		this.debugColor = debugColor;
+	}
+
+	public TextAttributes getDebugColor() {
+		return debugColor;
 	}
 }

@@ -4,6 +4,10 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.tray.FooTray;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
+import enigma.console.Console;
+import enigma.console.TextAttributes;
+import enigma.core.Enigma;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
 import se.fnord.xmms2.client.ClientStatus;
@@ -15,12 +19,15 @@ import se.fnord.xmms2.client.ClientStatus;
 public class FooLoader {
 
 	public static boolean DEBUG = false;
-	
+
 	/**
 	 * parses command line arguments initializes main window
 	 * 
 	 * @param args
 	 */
+
+	public static Console console;
+
 	public static void main(String[] args) {
 
 		// TODO: put parameter parsing into a separate function/class (FooInit
@@ -73,7 +80,7 @@ public class FooLoader {
 			if (args[run].equals("--maximized") || args[run].equals("-m")) {
 				max_on_start = true;
 			}
-			
+
 			if (args[run].equals("--debug") || args[run].equals("-d")) {
 				FooLoader.DEBUG = true;
 			}
@@ -87,6 +94,15 @@ public class FooLoader {
 		if (client.getStatus() == ClientStatus.DEAD) {
 			System.out.println("can't connect to xmms2d");
 			System.exit(1);
+		}
+
+		if (FooLoader.DEBUG) {
+			console = Enigma.getConsole();
+			TextAttributes Loader = new TextAttributes(java.awt.Color.RED);
+			console.setTextAttributes(Loader);
+			console.setTitle("Debug window");
+			System.out.println("Welcome to fooXmms2");
+			System.out.println("===================");
 		}
 
 		FooInterfaceWindow main = new FooWindow(client, max_on_start);

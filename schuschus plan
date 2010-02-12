@@ -21,11 +21,14 @@ This part is about the things that are wrong in the current version:
   the xmms2 client directory (or closer to the client?)
   -> utfg  
   
-  Playlist Combobox still generates information (filteredContent), but it 
+  PlaylistBackend still generates information (filteredContent), but it 
   is no longer needed (it is only a switcher between playlists and no longer
   has any filter functionality (recycle code for collections switcher?) 
   
   MediaPlaylist still generates filtered content, not needed
+  
+  PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
+  needed?
   
  Things I really want to do:
  

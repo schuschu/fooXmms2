@@ -10,6 +10,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
+import enigma.console.TextAttributes;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
@@ -27,12 +29,15 @@ import se.fnord.xmms2.client.types.InfoQuery;
  */
 public class FooBackendMedia extends Observable implements Serializable,
 		FooInterfaceBackend {
-	
+
 	protected static final boolean DEBUG = FooLoader.DEBUG;
 	protected String name;
 	
-	protected void debug(String message){
-		if(DEBUG){
+	protected TextAttributes debugColor = new TextAttributes(java.awt.Color.white);
+
+	protected void debug(String message) {
+		if (DEBUG) {
+			FooLoader.console.setTextAttributes(getDebugColor());
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
@@ -41,10 +46,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * this List contains all values which will be usable by this list it should
 	 * by possible to be modified by all ViewElements in the client. Maybe a
 	 * different position for this list is needed
-	 */	
+	 */
 	protected Vector<String> possible_values = new Vector<String>();
 
-	
 	// TODO: find use for groups
 	protected List<String> order_by = Arrays.asList(new String[0]);
 	protected List<String> group_by = Arrays.asList(new String[0]);
@@ -92,10 +96,10 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * 
 	 */
 	protected FooInterfaceBackend contentProvider;
-	
-	protected int current=-1;
-	protected int currentPos=-1;
-	
+
+	protected int current = -1;
+	protected int currentPos = -1;
+
 	protected Vector<String> content;
 
 	/**
@@ -136,7 +140,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 		String current;
 
 		for (String match : query_fields) {
-			if(token == null){
+			if (token == null) {
 				return "error";
 			}
 			if (token.get(match) == null) {
@@ -162,7 +166,8 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @throws InterruptedException
 	 *             but i don't know why :)
 	 */
-	protected void executeFilterCommand(int[] indices) throws InterruptedException {
+	protected void executeFilterCommand(int[] indices)
+			throws InterruptedException {
 		debug("executeFilterCommand");
 
 		if (indices.length != 0 && indices[0] != -1) {
@@ -258,7 +263,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 		view.setContent(content);
 		updatePos();
-		
+
 		setChanged();
 		notifyObservers();
 
@@ -274,9 +279,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 		debug("setToAll");
 		this.setBaseConetent(CollectionBuilder.getAllMediaReference());
 	}
-	
-	public void updatePos(){
-		view.highlight(new int[]{currentPos});
+
+	public void updatePos() {
+		view.highlight(new int[] { currentPos });
 	}
 
 	/**
@@ -325,7 +330,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 				temp.append(format.charAt(i));
 			}
 		}
-		
+
 		possible_values = possible;
 	}
 
@@ -347,7 +352,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 			}
 		}
 		this.format = format;
-		
+
 		setQueryFields(newQuery);
 		setOrderBy(newQuery);
 	}
@@ -583,7 +588,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	@Override
 	public void setCurrent(int current) {
 		debug("setCurrent");
-		this.current=current;	
+		this.current = current;
 	}
 
 	public int getCurrent() {
@@ -613,5 +618,13 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	public String getName() {
 		return name;
+	}
+
+	public void setDebugColor(TextAttributes debugColor) {
+		this.debugColor = debugColor;
+	}
+
+	public TextAttributes getDebugColor() {
+		return debugColor;
 	}
 }

@@ -3,6 +3,8 @@ package org.dyndns.schuschu.xmms2client.watch;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
+import enigma.console.TextAttributes;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
@@ -14,6 +16,7 @@ public class FooWatchCurrentTrack extends Thread {
 
 	private void debug(String message) {
 		if (DEBUG) {
+			FooLoader.console.setTextAttributes(new TextAttributes(java.awt.Color.WHITE, java.awt.Color.RED));
 			System.out.println("debug: " + name + " " + message);
 		}
 	}
