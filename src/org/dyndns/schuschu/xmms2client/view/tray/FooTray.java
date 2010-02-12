@@ -1,5 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.tray;
 
+import java.io.InputStream;
+
 import org.dyndns.schuschu.xmms2client.action.FooActionExit;
 import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlayback;
 import org.dyndns.schuschu.xmms2client.action.playback.FooPlaybackType;
@@ -34,8 +36,13 @@ public class FooTray {
 	public void initialize() {
 		if (getTray() != null) {
 			TrayItem item = new TrayItem(tray, SWT.NONE);
-
-			Image image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
+			Image image = null;
+			InputStream stream = this.getClass().getResourceAsStream ("/pixmaps/xmms2-128.png");
+			try {
+				image = new Image (getDisplay(), stream);
+			} catch (IllegalArgumentException e) {
+				image = new Image (getDisplay(), "pixmaps/xmms2-128.png");
+			}
 			item.setImage(image);
 
 			final FooMenu menu = new FooMenu(new Shell(getDisplay(), SWT.NONE),
@@ -47,17 +54,19 @@ public class FooTray {
 					FooPlaybackType.PLAY, menuPlay, client);
 			play.addListeners();
 
+			FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
+			menuPause.setText("Pause");
+			FooActionPlayback pause = new FooActionPlayback(
+					FooPlaybackType.PAUSE, menuPause, client);
+			pause.addListeners();
+
 			FooMenuItem menuStop = new FooMenuItem(menu, SWT.PUSH);
 			menuStop.setText("Stop");
 			FooActionPlayback stop = new FooActionPlayback(
 					FooPlaybackType.STOP, menuStop, client);
 			stop.addListeners();
 
-			FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
-			menuPause.setText("Pause");
-			FooActionPlayback pause = new FooActionPlayback(
-					FooPlaybackType.PAUSE, menuPause, client);
-			pause.addListeners();
+			new FooMenuItem(menu, SWT.SEPARATOR);
 
 			FooMenuItem menuNext = new FooMenuItem(menu, SWT.PUSH);
 			menuNext.setText("Next");

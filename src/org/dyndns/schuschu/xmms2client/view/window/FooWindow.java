@@ -60,9 +60,12 @@ public class FooWindow implements FooInterfaceWindow {
 	 * This method initializes sShell
 	 */
 
-	public FooWindow(Client client) {
+	public FooWindow(Client client, boolean maximized) {
 		this.client = client;
 		initalize();
+		if (maximized) {
+			getsShell().setMaximized(true);
+		}
 	}
 
 	public void setVisible(boolean visible) {
