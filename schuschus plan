@@ -32,6 +32,8 @@ This part is about the things that are wrong in the current version:
   
   Filter Observers fire twice
   
+  LoadPlaylist watch loads plalist again!?
+  
   Icon/Pixmap mess!!! 
   
  Things I really want to do:
