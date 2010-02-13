@@ -5,7 +5,5 @@
 	<classpathentry kind="src" path="xmms2-java/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="SWT_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/enigma-console.jar"/>
-	<classpathentry kind="lib" path="lib/enigma-i18n.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
