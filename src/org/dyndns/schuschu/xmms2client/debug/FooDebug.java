@@ -53,7 +53,7 @@ public class FooDebug extends OutputStream {
 		setBackground(defBackground);
 
 		createSShell();
-
+		
 		Runnable runable = new Runnable() {
 
 			@Override
@@ -75,7 +75,7 @@ public class FooDebug extends OutputStream {
 										.getSystemColor(buffer.get(0)
 												.getForeground()));
 								buffer.remove(0);
-								table.getColumn(0).pack();
+								//table.getColumn(0).pack();
 								if (!buttonScroll.getSelection()) {
 									table.showItem(item);
 								}
@@ -175,7 +175,7 @@ public class FooDebug extends OutputStream {
 		table.setLayoutData(tableData);
 
 		new TableColumn(table, SWT.NONE);
-
+		table.getColumn(0).pack();
 	}
 
 	public void createButtonArea() {
