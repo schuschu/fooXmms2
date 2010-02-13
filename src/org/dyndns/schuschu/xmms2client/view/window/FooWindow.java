@@ -88,6 +88,13 @@ public class FooWindow implements FooInterfaceWindow {
 
 		// init playlist
 		listPlaylist.getBackend().refresh();
+
+		// create Watches
+		getWatchCurrentPos().start();
+		getWatchPlaylistCombo().start();
+		getWatchPlaylistList().start();
+		getWatchPlaylistComboLoad().start();
+		getWatchPlaylistListLoad().start();
 	}
 
 	private void createSShell() {
@@ -378,13 +385,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
-
-		getWatchCurrentPos().start();
-		getWatchPlaylistCombo().start();
-		getWatchPlaylistList().start();
-		getWatchPlaylistComboLoad().start();
-		getWatchPlaylistListLoad().start();
-
 	}
 
 	public void createButtonsPlaylist() {
