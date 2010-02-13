@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class FooDebug extends OutputStream implements Runnable {
+public class FooDebug extends OutputStream {
 
 	private static final int defForeground = SWT.COLOR_BLACK;
 	private static final int defBackground = SWT.COLOR_WHITE;
@@ -41,6 +41,8 @@ public class FooDebug extends OutputStream implements Runnable {
 
 	private Vector<BufferEntry> buffer;
 
+	private Thread updater;
+
 	public FooDebug() {
 
 		this.display = Display.getDefault();
@@ -52,8 +54,40 @@ public class FooDebug extends OutputStream implements Runnable {
 
 		createSShell();
 
-		Thread self = new Thread(this);
-		self.start();
+		Runnable runable = new Runnable() {
+
+			@Override
+			public void run() {
+				while (run) {
+					waiter();
+					if (!display.isDisposed()) {
+						display.syncExec(new Runnable() {
+							public void run() {
+								if (sShell.isDisposed()) {
+									createSShell();
+								}
+								TableItem item = new TableItem(table, SWT.NONE);
+								item.setText(buffer.get(0).getText());
+								item.setBackground(display
+										.getSystemColor(buffer.get(0)
+												.getBackground()));
+								item.setForeground(display
+										.getSystemColor(buffer.get(0)
+												.getForeground()));
+								buffer.remove(0);
+								table.getColumn(0).pack();
+								if (!buttonScroll.getSelection()) {
+									table.showItem(item);
+								}
+							}
+						});
+					}
+				}
+			}
+		};
+
+		updater = new Thread(runable);
+		updater.start();
 
 	}
 
@@ -61,7 +95,7 @@ public class FooDebug extends OutputStream implements Runnable {
 		run = false;
 	}
 
-	private void writeline() {
+	private synchronized void writeline() {
 		BufferEntry entry = new BufferEntry();
 		entry.setBackground(background);
 		entry.setForeground(foreground);
@@ -70,34 +104,14 @@ public class FooDebug extends OutputStream implements Runnable {
 		buffer.add(entry);
 		setForeground(defForeground);
 		setBackground(defBackground);
+		notify();
 	}
 
-	@Override
-	public void run() {
-		while (run) {
-			if (buffer.size() != 0) {
-				if (!display.isDisposed()) {
-					display.syncExec(new Runnable() {
-						public void run() {
-							if (sShell.isDisposed()) {
-								createSShell();
-							}
-							TableItem item = new TableItem(table, SWT.NONE);
-							item.setText(buffer.get(0).getText());
-							item.setBackground(display.getSystemColor(buffer
-									.get(0).getBackground()));
-							item.setForeground(display.getSystemColor(buffer
-									.get(0).getForeground()));
-							buffer.remove(0);
-							table.getColumn(0).pack();
-							if (!buttonScroll.getSelection()) {
-								table.showItem(item);
-							}
-						}
-					});
-				} else {
-					this.done();
-				}
+	private synchronized void waiter() {
+		while (buffer.size() == 0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
 			}
 		}
 	}
