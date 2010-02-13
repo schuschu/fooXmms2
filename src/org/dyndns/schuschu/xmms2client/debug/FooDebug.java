@@ -9,6 +9,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -28,6 +33,9 @@ public class FooDebug extends OutputStream implements Runnable {
 	private Shell sShell;
 	private Display display;
 	private Table table;
+	private Composite buttonArea;
+
+	private Button buttonScroll;
 
 	private StringBuffer sb;
 
@@ -68,22 +76,28 @@ public class FooDebug extends OutputStream implements Runnable {
 	public void run() {
 		while (run) {
 			if (buffer.size() != 0) {
-				display.syncExec(new Runnable() {
-					public void run() {
-						if (sShell.isDisposed()) {
-							createSShell();
+				if (!display.isDisposed()) {
+					display.syncExec(new Runnable() {
+						public void run() {
+							if (sShell.isDisposed()) {
+								createSShell();
+							}
+							TableItem item = new TableItem(table, SWT.NONE);
+							item.setText(buffer.get(0).getText());
+							item.setBackground(display.getSystemColor(buffer
+									.get(0).getBackground()));
+							item.setForeground(display.getSystemColor(buffer
+									.get(0).getForeground()));
+							buffer.remove(0);
+							table.getColumn(0).pack();
+							if (!buttonScroll.getSelection()) {
+								table.showItem(item);
+							}
 						}
-						TableItem item = new TableItem(table, SWT.NONE);
-						item.setText(buffer.get(0).getText());
-						item.setBackground(display.getSystemColor(buffer.get(0)
-								.getBackground()));
-						item.setForeground(display.getSystemColor(buffer.get(0)
-								.getForeground()));
-						buffer.remove(0);
-						table.getColumn(0).pack();
-					}
-				});
-
+					});
+				} else {
+					this.done();
+				}
 			}
 		}
 	}
@@ -106,7 +120,8 @@ public class FooDebug extends OutputStream implements Runnable {
 		sShell.setText("debug console");
 		sShell.setSize(new Point(400, 400));
 
-		sShell.setLayout(new FillLayout());
+		FormLayout layout = new FormLayout();
+		sShell.setLayout(layout);
 
 		Image image = null;
 
@@ -129,10 +144,39 @@ public class FooDebug extends OutputStream implements Runnable {
 
 		sShell.setImage(image);
 
-		table = new Table(sShell, SWT.NONE);
-		new TableColumn(table, SWT.NONE);
+		createButtonArea();
+		createTable();
 
 		sShell.open();
+	}
+
+	public void createTable() {
+		table = new Table(sShell, SWT.NONE);
+
+		FormData tableData = new FormData();
+		tableData.top = new FormAttachment(buttonArea, 0);
+		tableData.left = new FormAttachment(0, 0);
+		tableData.right = new FormAttachment(100, 0);
+		tableData.bottom = new FormAttachment(100, 0);
+		table.setLayoutData(tableData);
+
+		new TableColumn(table, SWT.NONE);
+
+	}
+
+	public void createButtonArea() {
+		buttonArea = new Composite(sShell, SWT.NONE);
+		buttonArea.setLayout(new FillLayout());
+
+		FormData buttonData = new FormData();
+		buttonData.top = new FormAttachment(0, 0);
+		buttonData.left = new FormAttachment(0, 0);
+		buttonData.right = new FormAttachment(100, 0);
+		buttonArea.setLayoutData(buttonData);
+
+		buttonScroll = new Button(buttonArea, SWT.TOGGLE);
+
+		buttonScroll.setText("Scroll-lock");
 	}
 
 	public static void setForeground(int foreground) {
