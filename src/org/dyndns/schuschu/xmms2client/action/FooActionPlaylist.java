@@ -23,6 +23,9 @@ public class FooActionPlaylist implements FooInterfaceAction {
 			case SWT.DEL:
 				backend.removeSelection();
 				break;
+			case SWT.ESC:
+				deselect();
+				break;
 			}
 		}
 	};
@@ -36,6 +39,11 @@ public class FooActionPlaylist implements FooInterfaceAction {
 
 	private void play() {
 		backend.playSelection();
+	}
+
+	private void deselect() {
+		backend.getView().setSelection(new int[0]);
+		backend.selectionChanged();
 	}
 
 	public FooActionPlaylist(FooBackendMediaPlaylist backend) {

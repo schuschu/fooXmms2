@@ -20,6 +20,8 @@ public class FooActionFilter implements FooInterfaceAction {
 			case SWT.CR:
 				enqueu();
 				break;
+			case SWT.ESC:
+				deselect();
 			}
 		}
 	};
@@ -33,6 +35,11 @@ public class FooActionFilter implements FooInterfaceAction {
 
 	private void enqueu() {
 		backend.enqueuSelection();
+	}
+
+	private void deselect() {
+		backend.getView().setSelection(new int[0]);
+		backend.selectionChanged();
 	}
 
 	public FooActionFilter() {
