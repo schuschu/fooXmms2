@@ -31,8 +31,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 
 import se.fnord.xmms2.client.Client;
-import se.fnord.xmms2.client.commands.Command;
-import se.fnord.xmms2.client.commands.Playback;
 
 public class FooWindow implements FooInterfaceWindow {
 
@@ -80,7 +78,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void initalize() {
-		
+
 		createSShell();
 
 		// here starts the magic (content chaining)
@@ -90,16 +88,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 		// init playlist
 		listPlaylist.getBackend().refresh();
-
-		// highlight current track
-		try {
-			Command init = Playback.currentId();
-			int current = init.executeSync(client);
-			listPlaylist.getBackend().setCurrent(current);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-
 	}
 
 	private void createSShell() {
@@ -165,8 +153,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public Display getDisplay() {
-		if(display==null){
-			display= Display.getDefault();
+		if (display == null) {
+			display = Display.getDefault();
 		}
 		return display;
 	}
@@ -299,7 +287,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
 				"artist", client, listArtist);
 		artist_backend.setName("Artistbackend");
-		
+
 		artist_backend.setDebugForeground(SWT.COLOR_DARK_MAGENTA);
 		listArtist.setBackend(artist_backend);
 

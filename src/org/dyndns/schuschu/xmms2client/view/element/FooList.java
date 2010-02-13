@@ -117,7 +117,7 @@ public class FooList implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void highlight(int[] indicies) {
+	public void highlight() {
 		// TODO: find something to highlight		
 	}
 }

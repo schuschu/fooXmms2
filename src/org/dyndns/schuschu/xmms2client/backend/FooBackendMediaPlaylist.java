@@ -29,6 +29,16 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 			FooInterfaceViewElement view) {
 		super(format, filter, client, view);
 		debug("FooBackendMediaPlaylist");
+
+		// highlight current track
+		try {
+			Command init = Playback.currentId();
+			int current = init.executeSync(client);
+			this.current = current;
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+
 	}
 
 	public void playSelection() {
@@ -153,18 +163,19 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
+
 		updatePos();
 	}
-	
+
 	@Override
 	public void refresh() {
 		debug("refresh");
-		
+
 		content = createContent(null);
 
 		view.setContent(content);
 		updatePos();
-		
+
 		setChanged();
 		notifyObservers();
 	}

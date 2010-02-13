@@ -285,7 +285,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	}
 
 	public void updatePos() {
-		view.highlight(new int[] { currentPos });
+		view.highlight();
 	}
 
 	/**

@@ -121,7 +121,7 @@ public class FooCombo implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void highlight(int[] indicies) {
+	public void highlight() {
 		// TODO: howto highlight current playlist (bold?)
 	}
 }

@@ -12,15 +12,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -42,9 +39,11 @@ public class FooDebug extends OutputStream {
 	private Shell sShell;
 	private Display display;
 	private Table table;
-	private Composite buttonArea;
-
-	private Button buttonScroll;
+	private Image image;
+	private Menu menuBar, fileMenu, editMenu;
+	private MenuItem fileMenuHeader, editMenuHeader;
+	private MenuItem fileExitItem, fileSaveItem, editAutoScrollItem,
+			editClearItem;
 
 	private StringBuffer sb;
 
@@ -84,7 +83,7 @@ public class FooDebug extends OutputStream {
 										.getSystemColor(buffer.get(0)
 												.getForeground()));
 								buffer.remove(0);
-								if (!buttonScroll.getSelection()) {
+								if (editAutoScrollItem.getSelection()) {
 									table.showItem(item);
 								}
 							}
@@ -142,11 +141,20 @@ public class FooDebug extends OutputStream {
 		sShell.setText("debug console");
 		sShell.setSize(new Point(400, 400));
 
-		FormLayout layout = new FormLayout();
-		sShell.setLayout(layout);
+		sShell.setLayout(new FillLayout());
 
-		Image image = null;
+		createImage();
+		sShell.setImage(image);
 
+		createMenuBar();
+		sShell.setMenuBar(menuBar);
+
+		createTable();
+
+		sShell.open();
+	}
+
+	public void createImage() {
 		InputStream stream = this.getClass().getResourceAsStream(
 				"/pixmaps/xmms2-128.png");
 		if (stream != null) {
@@ -163,44 +171,67 @@ public class FooDebug extends OutputStream {
 			// TODO: find better way to do this
 			image = new Image(display, "pixmaps/xmms2-128.png");
 		}
-
-		sShell.setImage(image);
-
-		createButtonArea();
-		createTable();
-
-		sShell.open();
 	}
 
 	public void createTable() {
 		table = new Table(sShell, SWT.NONE);
 
-		FormData tableData = new FormData();
-		tableData.top = new FormAttachment(buttonArea, 0);
-		tableData.left = new FormAttachment(0, 0);
-		tableData.right = new FormAttachment(100, 0);
-		tableData.bottom = new FormAttachment(100, 0);
-		table.setLayoutData(tableData);
-
 		new TableColumn(table, SWT.NONE);
 		table.getColumn(0).pack();
 	}
 
-	public void createButtonArea() {
-		buttonArea = new Composite(sShell, SWT.NONE);
-		buttonArea.setLayout(new FillLayout());
+	public void createMenuBar() {
+		menuBar = new Menu(sShell, SWT.BAR);
 
-		FormData buttonData = new FormData();
-		buttonData.top = new FormAttachment(0, 0);
-		buttonData.left = new FormAttachment(0, 0);
-		buttonData.right = new FormAttachment(100, 0);
-		buttonArea.setLayoutData(buttonData);
+		createFileMenu();
+		createEditMenu();
 
-		buttonScroll = new Button(buttonArea, SWT.TOGGLE);
-		buttonScroll.setText("Scroll-lock");
+	}
 
-		Button buttonClear = new Button(buttonArea, SWT.NONE);
-		buttonClear.addListener(SWT.Selection, new Listener() {
+	public void createFileMenu() {
+		fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		fileMenuHeader.setText("&File");
+
+		fileMenu = new Menu(sShell, SWT.DROP_DOWN);
+		fileMenuHeader.setMenu(fileMenu);
+
+		fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
+		fileSaveItem.setText("&Save");
+		fileSaveItem.addListener(SWT.Selection, createSaveListener());
+
+		fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
+		fileExitItem.setText("E&xit");
+		fileExitItem.addListener(SWT.Selection, createExitListener());
+	}
+
+	public void createEditMenu() {
+		editMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		editMenuHeader.setText("&Edit");
+
+		editMenu = new Menu(sShell, SWT.DROP_DOWN);
+		editMenuHeader.setMenu(editMenu);
+
+		editAutoScrollItem = new MenuItem(editMenu, SWT.CHECK);
+		editAutoScrollItem.setText("&Autoscroll");
+		editAutoScrollItem.setSelection(true);
+
+		editClearItem = new MenuItem(editMenu, SWT.PUSH);
+		editClearItem.setText("&Clear");
+		editClearItem.addListener(SWT.Selection, createClearListener());
+	}
+
+	public Listener createExitListener() {
+		return new Listener() {
+
+			@Override
+			public void handleEvent(Event arg0) {
+				sShell.close();
+			}
+		};
+	}
+
+	public Listener createClearListener() {
+		return new Listener() {
 
 			@Override
 			public void handleEvent(Event arg0) {
@@ -208,11 +239,11 @@ public class FooDebug extends OutputStream {
 				table.setItemCount(0);
 
 			}
-		});
-		buttonClear.setText("Clear");
+		};
+	}
 
-		Button buttonSave = new Button(buttonArea, SWT.NONE);
-		buttonSave.addListener(SWT.Selection, new Listener() {
+	public Listener createSaveListener() {
+		return new Listener() {
 
 			@Override
 			public void handleEvent(Event arg0) {
@@ -256,8 +287,8 @@ public class FooDebug extends OutputStream {
 							}
 						}
 					} catch (IOException e) {
-						MessageBox mb = new MessageBox(sShell,
-								SWT.ICON_ERROR | SWT.OK);
+						MessageBox mb = new MessageBox(sShell, SWT.ICON_ERROR
+								| SWT.OK);
 						mb.setText("Error");
 						mb.setMessage(e.getMessage());
 						mb.open();
@@ -265,8 +296,7 @@ public class FooDebug extends OutputStream {
 				}
 
 			}
-		});
-		buttonSave.setText("Save");
+		};
 	}
 
 	public static void setForeground(int foreground) {

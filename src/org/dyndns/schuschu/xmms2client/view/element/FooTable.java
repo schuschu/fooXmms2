@@ -20,7 +20,7 @@ public class FooTable implements FooInterfaceViewElement {
 
 	private Table table;
 	private FooInterfaceBackend backend;
-	private int[] highlight = new int[0];
+	private int highlight = -1;
 
 	public FooTable(Composite parent, int style) {
 		table = new Table(parent, style);
@@ -87,6 +87,8 @@ public class FooTable implements FooInterfaceViewElement {
 			item.setText(s);
 		}
 		column.pack();
+
+		highlight();
 	}
 
 	@Override
@@ -107,37 +109,38 @@ public class FooTable implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void highlight(int[] indicies) {
+	public void highlight() {
 
-		final Color hlcolor = table.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
+		int index = backend.getCurrentPos();
+
+		final Color hlcolor = table.getDisplay().getSystemColor(
+				SWT.COLOR_WIDGET_NORMAL_SHADOW);
 		final Color defcolor = table.getDisplay().getSystemColor(
 				SWT.COLOR_LIST_BACKGROUND);
-		
+
 		FontData boldData = table.getFont().getFontData()[0];
 		boldData.setStyle(SWT.BOLD);
 		Font boldFont = new Font(table.getDisplay(), boldData);
-		
+
 		FontData fontData = table.getFont().getFontData()[0];
 		Font defFont = new Font(table.getDisplay(), fontData);
-		
+
 		if (table.getItemCount() != 0) {
 
-			if (indicies != null) {
-				for (int id : highlight) {
-					if (id >= 0 && id < table.getItemCount()) {
-						table.getItem(id).setBackground(defcolor);
-						table.getItem(id).setFont(defFont);
-					}
+			if (index != highlight) {
+				if (highlight >= 0 && highlight < table.getItemCount()) {
+					table.getItem(highlight).setBackground(defcolor);
+					table.getItem(highlight).setFont(defFont);
 				}
-				highlight = indicies;
+
+				highlight = index;
 			}
 
-			for (int id : highlight) {
-				if (id >= 0 && id < table.getItemCount()) {
-					table.getItem(id).setBackground(hlcolor);
-					table.getItem(id).setFont(boldFont);
-				}
+			if (highlight >= 0 && highlight < table.getItemCount()) {
+				table.getItem(highlight).setBackground(hlcolor);
+				table.getItem(highlight).setFont(boldFont);
 			}
+
 			table.getColumn(0).pack();
 		}
 	}

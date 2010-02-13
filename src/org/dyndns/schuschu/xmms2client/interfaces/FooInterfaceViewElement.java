@@ -59,5 +59,5 @@ public interface FooInterfaceViewElement{
 	
 	public void setLayoutData(Object layoutData);
 	
-	public void highlight(int[] indicies);
+	public void highlight();
 }
