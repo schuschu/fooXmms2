@@ -100,7 +100,7 @@ public class FooDebug extends OutputStream {
 		entry.setBackground(background);
 		entry.setForeground(foreground);
 		entry.setText(sb.toString());
-		sb = new StringBuffer();
+		sb.setLength(0);
 		buffer.add(entry);
 		setForeground(defForeground);
 		setBackground(defBackground);
