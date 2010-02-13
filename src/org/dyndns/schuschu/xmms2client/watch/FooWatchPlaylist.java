@@ -1,9 +1,9 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
+import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-
-import enigma.console.TextAttributes;
+import org.eclipse.swt.SWT;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Collection;
@@ -16,9 +16,9 @@ public class FooWatchPlaylist extends Thread {
 
 	private void debug(String message) {
 		if (DEBUG) {
-			if (FooLoader.ENIGMA) {
-				FooLoader.console.setTextAttributes(new TextAttributes(
-						java.awt.Color.LIGHT_GRAY, java.awt.Color.RED));
+			if (FooLoader.VISUAL) {
+				FooDebug.setForeground(SWT.COLOR_WHITE);
+				FooDebug.setBackground(SWT.COLOR_RED);
 			}
 			System.out.println("debug: " + name + " " + message);
 		}

@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-
-import enigma.console.TextAttributes;
+import org.eclipse.swt.SWT;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
@@ -33,13 +33,14 @@ public class FooBackendMedia extends Observable implements Serializable,
 	protected static final boolean DEBUG = FooLoader.DEBUG;
 	protected String name;
 
-	protected TextAttributes debugColor = new TextAttributes(
-			java.awt.Color.white);
+	protected int debugForeground = SWT.COLOR_BLACK;
+	protected int debugBackground = SWT.COLOR_WHITE;
 
 	protected void debug(String message) {
 		if (DEBUG) {
-			if (FooLoader.ENIGMA) {
-				FooLoader.console.setTextAttributes(getDebugColor());
+			if(FooLoader.VISUAL){
+				FooDebug.setForeground(getDebugForeground());
+				FooDebug.setBackground(getDebugBackground());
 			}
 			System.out.println("debug: " + getName() + " " + message);
 		}
@@ -623,11 +624,19 @@ public class FooBackendMedia extends Observable implements Serializable,
 		return name;
 	}
 
-	public void setDebugColor(TextAttributes debugColor) {
-		this.debugColor = debugColor;
+	public void setDebugForeground(int debugForeground) {
+		this.debugForeground = debugForeground;
 	}
 
-	public TextAttributes getDebugColor() {
-		return debugColor;
+	public int getDebugForeground() {
+		return debugForeground;
+	}
+
+	public void setDebugBackground(int debugBackground) {
+		this.debugBackground = debugBackground;
+	}
+
+	public int getDebugBackground() {
+		return debugBackground;
 	}
 }

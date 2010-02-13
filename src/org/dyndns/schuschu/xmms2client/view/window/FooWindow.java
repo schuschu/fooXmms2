@@ -30,8 +30,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 
-import enigma.console.TextAttributes;
-
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
@@ -43,7 +41,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	Client client;
 
-	private Display display = new Display();
+	private Display display;
 
 	private Shell sShell = null;
 	private SashForm sashFormMain = null;
@@ -82,6 +80,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void initalize() {
+		
 		createSShell();
 
 		// here starts the magic (content chaining)
@@ -166,6 +165,9 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public Display getDisplay() {
+		if(display==null){
+			display= Display.getDefault();
+		}
 		return display;
 	}
 
@@ -297,7 +299,8 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia artist_backend = new FooBackendMedia("%artist%",
 				"artist", client, listArtist);
 		artist_backend.setName("Artistbackend");
-		artist_backend.setDebugColor(new TextAttributes(java.awt.Color.ORANGE));
+		
+		artist_backend.setDebugForeground(SWT.COLOR_DARK_MAGENTA);
 		listArtist.setBackend(artist_backend);
 
 		FooActionFilter artist_action = new FooActionFilter(artist_backend);
@@ -316,7 +319,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia album_backend = new FooBackendMedia("%album% (%date%)",
 				"album", client, listAlbum);
 		album_backend.setName("Albumbackend");
-		album_backend.setDebugColor(new TextAttributes(java.awt.Color.PINK));
+		album_backend.setDebugForeground(SWT.COLOR_MAGENTA);
 		listAlbum.setBackend(album_backend);
 
 		FooActionFilter album_action = new FooActionFilter(album_backend);
@@ -334,7 +337,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia track_backend = new FooBackendMedia("%title%", "title",
 				client, listTrack);
 		track_backend.setName("Trackbackend");
-		track_backend.setDebugColor(new TextAttributes(java.awt.Color.MAGENTA));
+		track_backend.setDebugForeground(SWT.COLOR_DARK_RED);
 		listTrack.setBackend(track_backend);
 
 		FooContextMedia trackMenu = new FooContextMedia(listTrack,
@@ -361,7 +364,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendPlaylist backend = new FooBackendPlaylist(client,
 				comboPlaylist);
 		backend.setName("PlaylistComboBackend");
-		backend.setDebugColor(new TextAttributes(java.awt.Color.GRAY));
+		backend.setDebugForeground(SWT.COLOR_GRAY);
 
 		comboPlaylist.setBackend(backend);
 
@@ -382,7 +385,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMediaPlaylist list_backend = new FooBackendMediaPlaylist(
 				"%artist% - %title%", "title", client, listPlaylist);
 		list_backend.setName("Playlistbackend");
-		list_backend.setDebugColor(new TextAttributes(java.awt.Color.BLUE));
+		list_backend.setDebugForeground(SWT.COLOR_BLUE);
 		listPlaylist.setBackend(list_backend);
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
