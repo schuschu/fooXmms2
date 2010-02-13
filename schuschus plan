@@ -36,6 +36,8 @@ This part is about the things that are wrong in the current version:
   
   Icon/Pixmap mess!!! 
   
+  Replace JOptionpane with Messagebox
+  
  Things I really want to do:
  
   combobox magic: set combobox back to editable, if you enter a name unknown
