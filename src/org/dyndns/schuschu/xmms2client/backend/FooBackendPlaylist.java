@@ -296,7 +296,7 @@ public class FooBackendPlaylist extends Observable implements Serializable,
 
 	public void loadPlaylist() {
 		debug("loadPlaylist");
-
+				
 		int selection = view.getIndices()[0];
 
 		if (selection >= 0) {
@@ -368,7 +368,7 @@ public class FooBackendPlaylist extends Observable implements Serializable,
 	@Override
 	public void setCurrent(int current) {
 		debug("setCurrent");
-		// TODO implement this
+		// TODO implement/remove this
 	}
 
 	@Override
