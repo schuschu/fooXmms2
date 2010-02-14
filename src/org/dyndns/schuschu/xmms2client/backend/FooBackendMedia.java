@@ -38,7 +38,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	protected void debug(String message) {
 		if (DEBUG) {
-			if(FooLoader.VISUAL){
+			if (FooLoader.VISUAL) {
 				FooDebug.setForeground(getDebugForeground());
 				FooDebug.setBackground(getDebugBackground());
 			}
@@ -268,12 +268,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 		view.setContent(content);
 		updatePos();
 
-		setChanged();
-		notifyObservers();
-
-		/*
-		 * if (next != null) { next.getBackend().refresh(); }
-		 */
 	}
 
 	/**

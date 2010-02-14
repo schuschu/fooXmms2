@@ -30,7 +30,7 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 		super(format, filter, client, view);
 		debug("FooBackendMediaPlaylist");
 
-		//get current track
+		// get current track
 		try {
 			Command init = Playback.currentId();
 			int current = init.executeSync(client);
@@ -175,8 +175,5 @@ public class FooBackendMediaPlaylist extends FooBackendMedia {
 
 		view.setContent(content);
 		updatePos();
-
-		setChanged();
-		notifyObservers();
 	}
 }

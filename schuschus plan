@@ -25,12 +25,11 @@ This part is about the things that are wrong in the current version:
   is no longer needed (it is only a switcher between playlists and no longer
   has any filter functionality (recycle code for collections switcher?) 
   
-  MediaPlaylist still generates filtered content, not needed
+  MediaPlaylist still generates filtered content, not needed -> mayor rewrite
+  of interfaces and backends
   
   PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
   needed?
-  
-  Filter Observers fire twice
   
   LoadPlaylist watch loads plalist again!?
   
