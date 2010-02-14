@@ -1,10 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
-import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistDelete;
-import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistNew;
-import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistSave;
-import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistShuffle;
-import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylistSort;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooActionPlaylist;
+import org.dyndns.schuschu.xmms2client.action.playlist.FooPlaylistType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -34,25 +31,24 @@ public class FooButtonsPlaylist {
 		deleteButton.setText("-");
 		saveButton.setText("⎇");
 
-		FooActionPlaylistSort sort = new FooActionPlaylistSort(sortButton,
-				client);
+		FooActionPlaylist sort = new FooActionPlaylist(FooPlaylistType.SORT,
+				sortButton, client);
 		sort.addListeners();
 
-		FooActionPlaylistShuffle stop = new FooActionPlaylistShuffle(
+		FooActionPlaylist stop = new FooActionPlaylist(FooPlaylistType.SHUFFLE,
 				shuffleButton, client);
 		stop.addListeners();
 
-		FooActionPlaylistNew newlist = new FooActionPlaylistNew(newButton,
-				client);
+		FooActionPlaylist newlist = new FooActionPlaylist(FooPlaylistType.NEW,
+				newButton, client);
 		newlist.addListeners();
 
-		// TODO: implemnt this
-		FooActionPlaylistDelete delete = new FooActionPlaylistDelete(
-				deleteButton, client);
+		FooActionPlaylist delete = new FooActionPlaylist(
+				FooPlaylistType.DELETE, deleteButton, client);
 		delete.addListeners();
 
-		FooActionPlaylistSave save = new FooActionPlaylistSave(saveButton,
-				client);
+		FooActionPlaylist save = new FooActionPlaylist(FooPlaylistType.SAVE,
+				saveButton, client);
 		save.addListeners();
 
 	}
