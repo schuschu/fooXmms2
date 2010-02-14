@@ -38,6 +38,10 @@ This part is about the things that are wrong in the current version:
   
   Replace JOptionpane with Messagebox
   
+  Add abstaction for SWT.COLOR and events
+  
+  Create Debug from ViewElements
+  
  Things I really want to do:
  
   combobox magic: set combobox back to editable, if you enter a name unknown
