@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
@@ -143,5 +144,11 @@ public class FooTable implements FooInterfaceViewElement {
 
 			table.getColumn(0).pack();
 		}
+	}
+
+	@Override
+	public void setMenu(FooMenu menu) {
+		table.setMenu(menu.getMenu());
+		
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -30,18 +31,6 @@ public class FooCombo implements FooInterfaceViewElement {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
-/*
-		// TODO: find out wich event fires when a playlist gets removed or solve
-		// this in action and without the need to redraw the current playlist!
-		getCombo().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent arg0) {
-				if (arg0.button == 1) {
-					backend.refresh();
-				}
-			}
-		});
-*/
 	}
 
 	@Override
@@ -123,5 +112,10 @@ public class FooCombo implements FooInterfaceViewElement {
 	@Override
 	public void highlight() {
 		// TODO: howto highlight current playlist (bold?)
+	}
+
+	@Override
+	public void setMenu(FooMenu menu) {
+		combo.setMenu(menu.getMenu());		
 	}
 }

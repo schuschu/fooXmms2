@@ -2,6 +2,7 @@ package org.dyndns.schuschu.xmms2client.interfaces;
 
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
@@ -60,4 +61,6 @@ public interface FooInterfaceViewElement{
 	public void setLayoutData(Object layoutData);
 	
 	public void highlight();
+	
+	public void setMenu(FooMenu menu);
 }

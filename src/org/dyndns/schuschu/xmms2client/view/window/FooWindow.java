@@ -15,6 +15,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.menu.FooContextMedia;
+import org.dyndns.schuschu.xmms2client.view.menu.FooContextMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
@@ -382,6 +383,10 @@ public class FooWindow implements FooInterfaceWindow {
 		list_backend.setName("Playlistbackend");
 		list_backend.setDebugForeground(SWT.COLOR_BLUE);
 		listPlaylist.setBackend(list_backend);
+		
+		FooContextMediaPlaylist menu = new FooContextMediaPlaylist(listPlaylist,
+				list_backend, client);
+		menu.setMenu();
 
 		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
 		list_action.addListeners();
