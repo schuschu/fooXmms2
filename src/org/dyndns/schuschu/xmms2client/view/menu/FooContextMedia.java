@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.menu;
 
-import org.dyndns.schuschu.xmms2client.action.backend.FooActionBackendMediaFormat;
-import org.dyndns.schuschu.xmms2client.action.backend.FooActionBackendMediaOrder;
+import org.dyndns.schuschu.xmms2client.action.FooActionMenuFormat;
+import org.dyndns.schuschu.xmms2client.action.FooActionMenuOrder;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.eclipse.swt.SWT;
@@ -20,13 +20,13 @@ public class FooContextMedia {
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");
-		FooActionBackendMediaFormat format = new FooActionBackendMediaFormat(
+		FooActionMenuFormat format = new FooActionMenuFormat(
 				formatItem, backend, client);
 		format.addListeners();
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
-		FooActionBackendMediaOrder order = new FooActionBackendMediaOrder(
+		FooActionMenuOrder order = new FooActionMenuOrder(
 				orderItem, backend, client);
 		order.addListeners();
 	}

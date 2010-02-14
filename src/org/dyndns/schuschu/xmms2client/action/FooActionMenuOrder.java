@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.action.backend;
+package org.dyndns.schuschu.xmms2client.action;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 
 import se.fnord.xmms2.client.Client;
 
-public class FooActionBackendMediaOrder extends FooActionBackendMedia {
+public class FooActionMenuOrder extends FooActionMenu {
 
-	public FooActionBackendMediaOrder(FooInterfaceClickable clickable,
+	public FooActionMenuOrder(FooInterfaceClickable clickable,
 			FooBackendMedia backend, Client client) {
 		super(clickable, backend, client);
 	}

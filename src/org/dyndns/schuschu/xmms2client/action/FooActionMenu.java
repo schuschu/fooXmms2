@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.action.backend;
+package org.dyndns.schuschu.xmms2client.action;
 
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import se.fnord.xmms2.client.Client;
 
-abstract public class FooActionBackendMedia implements FooInterfaceAction {
+abstract public class FooActionMenu implements FooInterfaceAction {
 
 	// TODO: enums?
 	private FooBackendMedia backend;
@@ -16,7 +16,7 @@ abstract public class FooActionBackendMedia implements FooInterfaceAction {
 	private Listener action;
 	private FooInterfaceClickable clickClickable;
 
-	public FooActionBackendMedia(FooInterfaceClickable clickable,
+	public FooActionMenu(FooInterfaceClickable clickable,
 			FooBackendMedia backend, Client client) {
 		initialize(clickable, backend, client);
 	}

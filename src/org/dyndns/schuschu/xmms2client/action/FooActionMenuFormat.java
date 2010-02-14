@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.action.backend;
+package org.dyndns.schuschu.xmms2client.action;
 
 import javax.swing.JOptionPane;
 
@@ -7,9 +7,9 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
 
 import se.fnord.xmms2.client.Client;
 
-public class FooActionBackendMediaFormat extends FooActionBackendMedia {
+public class FooActionMenuFormat extends FooActionMenu {
 
-	public FooActionBackendMediaFormat(FooInterfaceClickable clickable,
+	public FooActionMenuFormat(FooInterfaceClickable clickable,
 			FooBackendMedia backend, Client client) {
 		super(clickable, backend, client);
 	}
