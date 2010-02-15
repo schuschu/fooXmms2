@@ -176,8 +176,8 @@ public class FooDebug extends OutputStream {
 	public void createTable() {
 		table = new Table(sShell, SWT.NONE);
 
-		new TableColumn(table, SWT.NONE);
-		table.getColumn(0).pack();
+//		new TableColumn(table, SWT.NONE);
+//		table.getColumn(0).pack();
 	}
 
 	public void createMenuBar() {
