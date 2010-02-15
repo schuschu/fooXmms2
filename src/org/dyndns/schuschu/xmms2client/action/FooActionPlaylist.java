@@ -43,7 +43,6 @@ public class FooActionPlaylist implements FooInterfaceAction {
 
 	private void deselect() {
 		backend.getView().setSelection(new int[0]);
-		backend.selectionChanged();
 	}
 
 	public FooActionPlaylist(FooBackendMediaPlaylist backend) {

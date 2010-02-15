@@ -28,6 +28,8 @@ This part is about the things that are wrong in the current version:
   MediaPlaylist still generates filtered content, not needed -> mayor rewrite
   of interfaces and backends
   
+  I should stop reusing functions for other purposes (see above)
+  
   PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
   needed? Yes since it shares a broadcast with any other playlist manipulation
   
@@ -41,6 +43,7 @@ This part is about the things that are wrong in the current version:
   Add abstaction for SWT.COLOR and events
   
   Create Debug from ViewElements
+
   
  Things I really want to do:
  
