@@ -177,7 +177,6 @@ public class FooDebug extends OutputStream {
 		table = new Table(sShell, SWT.NONE);
 
 		new TableColumn(table, SWT.NONE);
-		table.getColumn(0).setWidth(table.getSize().x);
 		table.getColumn(0).pack();
 	}
 

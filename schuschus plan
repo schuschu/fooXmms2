@@ -43,6 +43,8 @@ This part is about the things that are wrong in the current version:
   Add abstaction for SWT.COLOR and events
   
   Create Debug from ViewElements
+  
+  Windows seems to hande tablecolumn width different ... need test system
 
   
  Things I really want to do:
