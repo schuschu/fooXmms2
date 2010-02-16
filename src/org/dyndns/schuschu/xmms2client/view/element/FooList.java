@@ -16,7 +16,6 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.List;
 
 public class FooList implements FooInterfaceViewElement {
@@ -34,8 +33,8 @@ public class FooList implements FooInterfaceViewElement {
 		setList(new List(parent, style));
 
 		getList().addSelectionListener(createSelectionListener());
-		getReal().addMouseListener(createMouseListener());
-		getReal().addKeyListener(createKeyListener());
+		getList().addMouseListener(createMouseListener());
+		getList().addKeyListener(createKeyListener());
 
 	}
 
@@ -116,18 +115,6 @@ public class FooList implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void addKeyListener(KeyListener key) {
-		getList().addKeyListener(key);
-
-	}
-
-	@Override
-	public void addMouseListener(MouseListener mouse) {
-		getList().addMouseListener(mouse);
-
-	}
-
-	@Override
 	public FooInterfaceBackend getBackend() {
 		return backend;
 	}
@@ -144,30 +131,12 @@ public class FooList implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void removeKeyListener(KeyListener key) {
-		getList().removeKeyListener(key);
-
-	}
-
-	@Override
-	public void removeMouseListener(MouseListener mouse) {
-		getList().removeMouseListener(mouse);
-
-	}
-
-	@Override
 	public void setContent(Vector<String> content) {
 
 		getList().removeAll();
 		for (String s : content) {
 			getList().add(s);
 		}
-	}
-
-	@Override
-	public void setSingleSelectionMode() {
-		// TODO Find a way to change style while running or remove
-
 	}
 
 	@Override
@@ -190,11 +159,6 @@ public class FooList implements FooInterfaceViewElement {
 
 	public void setMenu(FooMenu menu) {
 		list.setMenu(menu.getMenu());
-	}
-
-	@Override
-	public Control getReal() {
-		return list;
 	}
 
 	@Override

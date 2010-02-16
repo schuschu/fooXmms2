@@ -45,6 +45,8 @@ This part is about the things that are wrong in the current version:
   Create Debug from ViewElements
   
   Static client and icon
+  
+  Better way than getReal() in FooInterfaceViewElement
 
   
  Things I really want to do:

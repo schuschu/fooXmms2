@@ -4,6 +4,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Collection;
@@ -27,10 +28,8 @@ public class FooWatchPlaylist extends Thread {
 	private boolean running;
 	private Command c;
 	private Runnable r;
-	private final FooInterfaceViewElement view;
 
 	public FooWatchPlaylist(Client client, final FooInterfaceViewElement view) {
-		this.view = view;
 
 		c = Collection.changeBroadcast();
 		c.execute(client);
@@ -61,7 +60,7 @@ public class FooWatchPlaylist extends Thread {
 				c.waitReply();
 				y = System.currentTimeMillis();
 				if (y - x > 100) {
-					view.getReal().getDisplay().asyncExec(r);
+					Display.getDefault().asyncExec(r);
 				}
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();

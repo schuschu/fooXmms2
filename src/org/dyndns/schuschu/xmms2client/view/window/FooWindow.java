@@ -303,7 +303,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listArtist.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
 		listArtist.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 
-		FooMenu menu = new FooMenu(listArtist);
+		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
@@ -330,7 +330,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listAlbum.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
 		listAlbum.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 
-		FooMenu menu = new FooMenu(listAlbum);
+		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
@@ -357,7 +357,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listTrack.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
 		listTrack.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 
-		FooMenu menu = new FooMenu(listTrack);
+		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
@@ -415,7 +415,7 @@ public class FooWindow implements FooInterfaceWindow {
 				.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 		listPlaylist.addAction(FooSource.KEYBOARD, back.ActionRemove(SWT.DEL));
 
-		FooMenu menu = new FooMenu(listPlaylist);
+		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");

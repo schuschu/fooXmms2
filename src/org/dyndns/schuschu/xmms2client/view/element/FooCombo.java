@@ -2,47 +2,90 @@ package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
 public class FooCombo implements FooInterfaceViewElement {
 
+	private Vector<FooAction> mouseActions;
+	private Vector<FooAction> keyboardActions;
 	private Combo combo;
 	private FooInterfaceBackend backend;
 
 	public FooCombo(Composite parent, int style) {
+		
+		mouseActions = new Vector<FooAction>();
+		keyboardActions = new Vector<FooAction>();
+		
 		setCombo(new Combo(parent, style));
-		getCombo().addSelectionListener(new SelectionListener() {
+		
+		
+		getCombo().addMouseListener(createMouseListener());
+		getCombo().addKeyListener(createKeyListener());
+		getCombo().addSelectionListener(createSelectionListener());
+	}
+	
+	private SelectionListener createSelectionListener(){
+		return new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				backend.selectionChanged();
 			}
+		};
+	}
+	
+	// TODO: ENUMS!
+	private MouseListener createMouseListener() {
+		return new MouseAdapter() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
+			public void mouseUp(MouseEvent arg0) {
+				for (FooAction a : mouseActions) {
+					if (a.code == 1) {
+						a.execute();
+					}
+				}
 			}
-		});
+
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+				for (FooAction a : mouseActions) {
+					if (a.code == 2) {
+						a.execute();
+					}
+				}
+			}
+		};
 	}
 
-	@Override
-	public void addKeyListener(KeyListener key) {
-		combo.addKeyListener(key);
+	// TODO: ENUMS!
+	private KeyListener createKeyListener() {
+		return new KeyAdapter() {
 
-	}
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				for (FooAction a : keyboardActions) {
+					if (arg0.keyCode == a.code) {
+						a.execute();
+					}
+				}
 
-	@Override
-	public void addMouseListener(MouseListener mouse) {
-		combo.addMouseListener(mouse);
-
+			}
+		};
 	}
 
 	@Override
@@ -53,18 +96,6 @@ public class FooCombo implements FooInterfaceViewElement {
 	@Override
 	public int[] getIndices() {
 		return (new int[] { combo.getSelectionIndex() });
-	}
-
-	@Override
-	public void removeKeyListener(KeyListener key) {
-		combo.removeKeyListener(key);
-
-	}
-
-	@Override
-	public void removeMouseListener(MouseListener mouse) {
-		combo.removeMouseListener(mouse);
-
 	}
 
 	@Override
@@ -87,11 +118,6 @@ public class FooCombo implements FooInterfaceViewElement {
 
 	}
 
-	@Override
-	public void setSingleSelectionMode() {
-		// TODO Rethink this
-	}
-
 	public void setLayoutData(Object layoutData) {
 		this.combo.setLayoutData(layoutData);
 	}
@@ -101,11 +127,6 @@ public class FooCombo implements FooInterfaceViewElement {
 	}
 
 	public Combo getCombo() {
-		return combo;
-	}
-
-	@Override
-	public Control getReal() {
 		return combo;
 	}
 

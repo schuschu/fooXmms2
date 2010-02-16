@@ -18,7 +18,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -32,30 +31,30 @@ public class FooTable implements FooInterfaceViewElement {
 	private int highlight = -1;
 
 	public FooTable(Composite parent, int style) {
-		table = new Table(parent, style);
+		setTable(new Table(parent, style));
 
 		mouseActions = new Vector<FooAction>();
 		keyboardActions = new Vector<FooAction>();
 
-		getReal().addMouseListener(createMouseListener());
-		getReal().addKeyListener(createKeyListener());
+		getTable().addMouseListener(createMouseListener());
+		getTable().addKeyListener(createKeyListener());
 	}
 
 	@Override
 	public void setContent(Vector<String> content) {
 
-		table.removeAll();
+		getTable().removeAll();
 		// TODO: adapt for multiple columns via constructor etc
 		TableColumn column;
-		if (table.getColumnCount() == 0) {
-			new TableColumn(table, SWT.NONE);
+		if (getTable().getColumnCount() == 0) {
+			new TableColumn(getTable(), SWT.NONE);
 		}
-		column = table.getColumn(0);
+		column = getTable().getColumn(0);
 
 		// column.setWidth(table.getSize().x);
 
 		for (String s : content) {
-			TableItem item = new TableItem(table, SWT.NONE);
+			TableItem item = new TableItem(getTable(), SWT.NONE);
 			item.setText(s);
 		}
 		column.pack();
@@ -68,35 +67,35 @@ public class FooTable implements FooInterfaceViewElement {
 
 		int index = backend.getCurrentPos();
 
-		final Color hlcolor = table.getDisplay().getSystemColor(
+		final Color hlcolor = getTable().getDisplay().getSystemColor(
 				SWT.COLOR_WIDGET_NORMAL_SHADOW);
-		final Color defcolor = table.getDisplay().getSystemColor(
+		final Color defcolor = getTable().getDisplay().getSystemColor(
 				SWT.COLOR_LIST_BACKGROUND);
 
-		FontData boldData = table.getFont().getFontData()[0];
+		FontData boldData = getTable().getFont().getFontData()[0];
 		boldData.setStyle(SWT.BOLD);
-		Font boldFont = new Font(table.getDisplay(), boldData);
+		Font boldFont = new Font(getTable().getDisplay(), boldData);
 
-		FontData fontData = table.getFont().getFontData()[0];
-		Font defFont = new Font(table.getDisplay(), fontData);
+		FontData fontData = getTable().getFont().getFontData()[0];
+		Font defFont = new Font(getTable().getDisplay(), fontData);
 
-		if (table.getItemCount() != 0) {
+		if (getTable().getItemCount() != 0) {
 
 			if (index != highlight) {
-				if (highlight >= 0 && highlight < table.getItemCount()) {
-					table.getItem(highlight).setBackground(defcolor);
-					table.getItem(highlight).setFont(defFont);
+				if (highlight >= 0 && highlight < getTable().getItemCount()) {
+					getTable().getItem(highlight).setBackground(defcolor);
+					getTable().getItem(highlight).setFont(defFont);
 				}
 
 				highlight = index;
 			}
 
-			if (highlight >= 0 && highlight < table.getItemCount()) {
-				table.getItem(highlight).setBackground(hlcolor);
-				table.getItem(highlight).setFont(boldFont);
+			if (highlight >= 0 && highlight < getTable().getItemCount()) {
+				getTable().getItem(highlight).setBackground(hlcolor);
+				getTable().getItem(highlight).setFont(boldFont);
 			}
 
-			table.getColumn(0).pack();
+			getTable().getColumn(0).pack();
 		}
 	}
 
@@ -164,35 +163,19 @@ public class FooTable implements FooInterfaceViewElement {
 
 	@Override
 	public void setMenu(FooMenu menu) {
-		table.setMenu(menu.getMenu());
+		getTable().setMenu(menu.getMenu());
 
 	}
 
 	@Override
 	public void setSelection(int[] indices) {
-		table.setSelection(indices);
-
-	}
-
-	@Override
-	public void setSingleSelectionMode() {
-		// TODO find out if swt can do this
+		getTable().setSelection(indices);
 
 	}
 
 	@Override
 	public void setLayoutData(Object layoutData) {
-		table.setLayoutData(layoutData);
-	}
-
-	@Override
-	public void addKeyListener(KeyListener key) {
-		table.addKeyListener(key);
-	}
-
-	@Override
-	public void addMouseListener(MouseListener mouse) {
-		table.addMouseListener(mouse);
+		getTable().setLayoutData(layoutData);
 	}
 
 	@Override
@@ -202,30 +185,21 @@ public class FooTable implements FooInterfaceViewElement {
 
 	@Override
 	public int[] getIndices() {
-		return table.getSelectionIndices();
-	}
-
-	@Override
-	public Control getReal() {
-		return table;
-	}
-
-	@Override
-	public void removeKeyListener(KeyListener key) {
-		table.removeKeyListener(key);
-
-	}
-
-	@Override
-	public void removeMouseListener(MouseListener mouse) {
-		table.removeMouseListener(mouse);
-
+		return getTable().getSelectionIndices();
 	}
 
 	@Override
 	public void setBackend(FooInterfaceBackend backend) {
 		this.backend = backend;
 
+	}
+
+	public void setTable(Table table) {
+		this.table = table;
+	}
+
+	public Table getTable() {
+		return table;
 	}
 
 }
