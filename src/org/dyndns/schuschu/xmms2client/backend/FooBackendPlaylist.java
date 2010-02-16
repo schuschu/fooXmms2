@@ -9,6 +9,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
@@ -626,6 +628,75 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 		@Override
 		public void execute() {
 			backend.removeSelection();
+		}
+
+	}
+
+	public class ActionOrder extends FooAction {
+
+		private FooBackendPlaylist backend;
+
+		public ActionOrder(int code, FooBackendPlaylist backend) {
+			super(code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			List<String> listCurrent = backend.getOrderBy();
+			StringBuffer buffer = new StringBuffer();
+			for (String s : listCurrent) {
+				buffer.append(s + " ");
+			}
+			buffer.deleteCharAt(buffer.length() - 1);
+			String current = buffer.toString();
+
+			String input = JOptionPane.showInputDialog(
+					"Please enter new Order:\n(i.e.: artist album title",
+					current);
+
+			if (input != null) {
+				List<String> newOrder = Arrays.asList(input.split(" "));
+				backend.setOrderBy(newOrder);
+
+				backend.getView().setSelection(new int[] { -1 });
+				backend.refresh();
+				backend.generateFilteredContent();
+			}
+
+		}
+
+	}
+
+	public FooAction ActionFormat(int code) {
+		return new ActionFormat(code, this);
+	}
+
+	public class ActionFormat extends FooAction {
+
+		private final FooBackendPlaylist backend;
+
+		public ActionFormat(int code, FooBackendPlaylist backend) {
+			super(code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			String current = backend.getFormat();
+
+			String input = JOptionPane
+					.showInputDialog(
+							"Please enter new Format:\n(i.e.: %artist% - %album%: %title% ",
+							current);
+
+			if (input != null) {
+				backend.setFormat(input);
+				backend.getView().setSelection(new int[] { -1 });
+				backend.refresh();
+				backend.generateFilteredContent();
+			}
+
 		}
 
 	}

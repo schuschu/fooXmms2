@@ -14,7 +14,8 @@ import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
-import org.dyndns.schuschu.xmms2client.view.menu.FooContextMedia;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
@@ -302,9 +303,17 @@ public class FooWindow implements FooInterfaceWindow {
 		listArtist.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
 		listArtist.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 
-		FooContextMedia artistMenu = new FooContextMedia(listArtist, back,
-				client);
-		artistMenu.setMenu();
+		FooMenu menu = new FooMenu(listArtist);
+
+		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		orderItem.setText("change order");
+		orderItem.addAction(back.ActionOrder(0));
+
+		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		formatItem.setText("change format");
+		formatItem.addAction(back.ActionFormat(0));
+
+		listArtist.setMenu(menu);
 	}
 
 	public void createListAlbum() {
@@ -321,8 +330,17 @@ public class FooWindow implements FooInterfaceWindow {
 		listAlbum.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
 		listAlbum.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 
-		FooContextMedia albumMenu = new FooContextMedia(listAlbum, back, client);
-		albumMenu.setMenu();
+		FooMenu menu = new FooMenu(listAlbum);
+
+		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		orderItem.setText("change order");
+		orderItem.addAction(back.ActionOrder(0));
+
+		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		formatItem.setText("change format");
+		formatItem.addAction(back.ActionFormat(0));
+
+		listAlbum.setMenu(menu);
 	}
 
 	public void createListTrack() {
@@ -339,8 +357,17 @@ public class FooWindow implements FooInterfaceWindow {
 		listTrack.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
 		listTrack.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 
-		FooContextMedia trackMenu = new FooContextMedia(listTrack, back, client);
-		trackMenu.setMenu();
+		FooMenu menu = new FooMenu(listTrack);
+
+		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		orderItem.setText("change order");
+		orderItem.addAction(back.ActionOrder(0));
+
+		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		formatItem.setText("change format");
+		formatItem.addAction(back.ActionFormat(0));
+
+		listTrack.setMenu(menu);
 	}
 
 	public void createComboPlaylist() {
@@ -382,16 +409,20 @@ public class FooWindow implements FooInterfaceWindow {
 		back.setDebugForeground(SWT.COLOR_BLUE);
 		listPlaylist.setBackend(back);
 
-		// TODO: fix me
-		// FooContextMediaPlaylist menu = new FooContextMediaPlaylist(
-		// listPlaylist, list_backend, client);
-		// menu.setMenu();
-
 		listPlaylist.addAction(FooSource.MOUSE, back.ActionPlay(2));
 		listPlaylist.addAction(FooSource.KEYBOARD, back.ActionPlay(SWT.CR));
 		listPlaylist
 				.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
 		listPlaylist.addAction(FooSource.KEYBOARD, back.ActionRemove(SWT.DEL));
+
+		FooMenu menu = new FooMenu(listPlaylist);
+
+		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		formatItem.setText("change format");
+		formatItem.addAction(back.ActionFormat(0));
+
+		listPlaylist.setMenu(menu);
+
 	}
 
 	public void createButtonsPlaylist() {

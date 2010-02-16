@@ -1,5 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.menu;
 
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
@@ -11,6 +12,10 @@ public class FooMenu {
 	// TODO: Interface for Control
 	public FooMenu(Control parent) {
 		setMenu(new Menu(parent));
+	}
+	
+	public FooMenu(FooInterfaceViewElement view) {
+		setMenu(new Menu(view.getReal()));
 	}
 
 	public FooMenu(Decorations parent, int style) {
