@@ -20,6 +20,8 @@ public class FooLoader {
 
 	public static boolean DEBUG = false;
 	public static boolean VISUAL = false;
+	//TODO: use static instance everywhere
+	public static Client client;
 
 	/**
 	 * parses command line arguments initializes main window
@@ -88,7 +90,7 @@ public class FooLoader {
 			}
 		}
 
-		Client client = ClientFactory.create("fooXmms2", "tcp://" + host + ":"
+		client = ClientFactory.create("fooXmms2", "tcp://" + host + ":"
 				+ port);
 
 		client.start();
@@ -113,7 +115,7 @@ public class FooLoader {
 
 		FooInterfaceWindow main = new FooWindow(client, max_on_start);
 
-		FooTray tray = new FooTray(main, client);
+		FooTray tray = new FooTray(main);
 		tray.initialize();
 
 		if (!tray.isSupported() || show_on_start) {

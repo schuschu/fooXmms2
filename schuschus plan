@@ -40,11 +40,11 @@ This part is about the things that are wrong in the current version:
   
   Replace JOptionpane with Messagebox/SWT dialogs
   
-  Add abstaction for SWT.COLOR and events
+  Add abstaction for SWT.COLOR
   
   Create Debug from ViewElements
   
-  Windows seems to hande tablecolumn width different ... need test system
+  Static client and icon
 
   
  Things I really want to do:

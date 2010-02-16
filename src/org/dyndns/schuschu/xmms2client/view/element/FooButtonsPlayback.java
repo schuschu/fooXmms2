@@ -1,7 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
-import org.dyndns.schuschu.xmms2client.action.playback.FooActionPlayback;
-import org.dyndns.schuschu.xmms2client.action.playback.FooPlaybackType;
+import org.dyndns.schuschu.xmms2client.newAction.FooPlayback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -25,31 +24,18 @@ public class FooButtonsPlayback {
 		FooButton playButton = new FooButton(getComposite(), SWT.NONE);
 		FooButton nextButton = new FooButton(getComposite(), SWT.NONE);
 
+		// TODO: icons
 		prevButton.setText("◂◂");
 		stopButton.setText("◾");
 		pauseButton.setText("▮▮");
 		playButton.setText("►");
 		nextButton.setText("▸▸");
 
-		FooActionPlayback prev = new FooActionPlayback(FooPlaybackType.PREV,
-				prevButton, client);
-		prev.addListeners();
-
-		FooActionPlayback stop = new FooActionPlayback(FooPlaybackType.STOP,
-				stopButton, client);
-		stop.addListeners();
-
-		FooActionPlayback pause = new FooActionPlayback(FooPlaybackType.PAUSE,
-				pauseButton, client);
-		pause.addListeners();
-
-		FooActionPlayback play = new FooActionPlayback(FooPlaybackType.PLAY,
-				playButton, client);
-		play.addListeners();
-
-		FooActionPlayback next = new FooActionPlayback(FooPlaybackType.NEXT,
-				nextButton, client);
-		next.addListeners();
+		prevButton.addAction(FooPlayback.ActionPrev(0));
+		stopButton.addAction(FooPlayback.ActionStop(0));
+		pauseButton.addAction(FooPlayback.ActionPause(0));
+		playButton.addAction(FooPlayback.ActionPlay(0));
+		nextButton.addAction(FooPlayback.ActionNext(0));
 
 	}
 
