@@ -113,7 +113,7 @@ public class FooLoader {
 			System.out.println("===================");
 		}
 
-		FooInterfaceWindow main = new FooWindow(client, max_on_start);
+		FooInterfaceWindow main = new FooWindow(max_on_start);
 
 		FooTray tray = new FooTray(main);
 		tray.initialize();

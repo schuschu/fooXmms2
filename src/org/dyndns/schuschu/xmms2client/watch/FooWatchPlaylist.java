@@ -6,7 +6,6 @@ import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
 
@@ -29,10 +28,10 @@ public class FooWatchPlaylist extends Thread {
 	private Command c;
 	private Runnable r;
 
-	public FooWatchPlaylist(Client client, final FooInterfaceViewElement view) {
+	public FooWatchPlaylist(final FooInterfaceViewElement view) {
 
 		c = Collection.changeBroadcast();
-		c.execute(client);
+		c.execute(FooLoader.client);
 
 		r = new Runnable() {
 			public void run() {

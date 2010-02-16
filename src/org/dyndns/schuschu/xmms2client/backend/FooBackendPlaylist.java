@@ -64,12 +64,6 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 	 */
 	private static final long serialVersionUID = 6791163548568077012L;
 
-	/**
-	 * Specifies the XMMS2 client (the instance of the object not THIS client
-	 * ... I didn't name it ...)
-	 */
-	private Client client;
-
 	private FooInterfaceViewElement view;
 
 	/**
@@ -96,18 +90,17 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 
 	private Vector<String> content;
 
-	public FooBackendPlaylist(String format, String filter, Client client,
+	public FooBackendPlaylist(String format, String filter,
 			FooInterfaceViewElement view) {
 		debug("FooBackendPlaylist");
 		this.view = view;
 		this.setFilter(filter);
 		this.setFormat(format);
-		this.setClient(client);
 
 		// get current track
 		try {
 			Command init = Playback.currentId();
-			int current = init.executeSync(client);
+			int current = init.executeSync(FooLoader.client);
 			this.current = current;
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
@@ -127,9 +120,9 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 			Command cp = Playback.play();
 			try {
 
-				cs.executeSync(client);
-				ct.executeSync(client);
-				cp.executeSync(client);
+				cs.executeSync(FooLoader.client);
+				ct.executeSync(FooLoader.client);
+				cp.executeSync(FooLoader.client);
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
@@ -144,7 +137,7 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 		int[] ids = getView().getIndices();
 		if (ids.length > 0) {
 			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
-			c.execute(client);
+			c.execute(FooLoader.client);
 
 		}
 	}
@@ -227,8 +220,8 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 		currentPos = -1;
 
 		try {
-			List<Integer> ids = getPlaylistIds(client);
-			Map<Integer, Dict> tracks = getTrackInfo(client, ids);
+			List<Integer> ids = getPlaylistIds(FooLoader.client);
+			Map<Integer, Dict> tracks = getTrackInfo(FooLoader.client, ids);
 			int i = 0;
 			for (Integer id : ids) {
 
@@ -261,7 +254,7 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 		this.current = current;
 
 		try {
-			List<Integer> ids = getPlaylistIds(client);
+			List<Integer> ids = getPlaylistIds(FooLoader.client);
 			for (int i = 0; i < ids.size(); i++) {
 
 				if (ids.get(i) == current) {
@@ -289,26 +282,6 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 	public void updatePos() {
 		debug("updatePos");
 		view.highlight();
-	}
-
-	/**
-	 * getter function for the Client client
-	 * 
-	 * @return
-	 */
-	public Client getClient() {
-		debug("getClient");
-		return client;
-	}
-
-	/**
-	 * setter function for the Client client
-	 * 
-	 * @param client
-	 */
-	public void setClient(Client client) {
-		debug("setClient");
-		this.client = client;
 	}
 
 	/**
@@ -416,7 +389,7 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
 				getFilteredConetent(), 0);
 		try {
-			c.executeSync(client);
+			c.executeSync(FooLoader.client);
 		} catch (InterruptedException e1) {
 			Thread.currentThread().interrupt();
 		}

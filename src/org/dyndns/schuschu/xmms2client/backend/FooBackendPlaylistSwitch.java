@@ -14,7 +14,6 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.SWT;
 
-import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
 import se.fnord.xmms2.client.types.CollectionBuilder;
@@ -25,8 +24,8 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
  * @author schuschu
  * 
  */
-public class FooBackendPlaylistSwitch extends Observable implements Serializable,
-		FooInterfaceBackend {
+public class FooBackendPlaylistSwitch extends Observable implements
+		Serializable, FooInterfaceBackend {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -36,7 +35,7 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 
 	private void debug(String message) {
 		if (DEBUG) {
-			if(FooLoader.VISUAL){
+			if (FooLoader.VISUAL) {
 				FooDebug.setForeground(getDebugForeground());
 				FooDebug.setBackground(getDebugBackground());
 			}
@@ -48,12 +47,6 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 	 * I have no idea what that stupid thing is for...
 	 */
 	private static final long serialVersionUID = -2744778880227415342L;
-
-	/**
-	 * Specifies the XMMS2 client (the instance of the object not THIS client
-	 * ... I didn't name it ...)
-	 */
-	private Client client;
 
 	private FooInterfaceViewElement view;
 
@@ -86,7 +79,7 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 
 		Command command = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
 
-		List<Integer> ids = command.executeSync(client);
+		List<Integer> ids = command.executeSync(FooLoader.client);
 
 		CollectionBuilder cb = new CollectionBuilder();
 		cb.addIds(ids);
@@ -110,7 +103,8 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 
 		Command c = Playlist.listPlaylists();
 
-		Map<CollectionNamespace, Set<String>> map = c.executeSync(client);
+		Map<CollectionNamespace, Set<String>> map = c
+				.executeSync(FooLoader.client);
 
 		content = new Vector<String>();
 
@@ -193,11 +187,10 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendPlaylistSwitch(Client client, FooInterfaceViewElement view) {
+	public FooBackendPlaylistSwitch(FooInterfaceViewElement view) {
 		debug("FooBackendPlaylistSwitch");
 		this.view = view;
 		this.playlistDatabase = null;
-		this.setClient(client);
 
 		refresh();
 
@@ -229,7 +222,7 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 
 		Command c = Playlist.currentActive();
 
-		String name = c.executeSync(client);
+		String name = c.executeSync(FooLoader.client);
 
 		for (int i = 0; i < playlistDatabase.length; i++) {
 			if (name.equals(playlistDatabase[i])) {
@@ -270,29 +263,9 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 		this.filteredConetent = filteredConetent;
 	}
 
-	/**
-	 * getter function for the Client client
-	 * 
-	 * @return
-	 */
-	public Client getClient() {
-		debug("getClient");
-		return client;
-	}
-
-	/**
-	 * setter function for the Client client
-	 * 
-	 * @param client
-	 */
-	public void setClient(Client client) {
-		debug("setClient");
-		this.client = client;
-	}
-
 	public void loadPlaylist() {
 		debug("loadPlaylist");
-				
+
 		int selection = view.getIndices()[0];
 
 		if (selection >= 0) {
@@ -300,7 +273,7 @@ public class FooBackendPlaylistSwitch extends Observable implements Serializable
 			Command c = Playlist.load(playlistDatabase[selection]);
 
 			try {
-				c.executeSync(client);
+				c.executeSync(FooLoader.client);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}

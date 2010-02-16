@@ -8,6 +8,7 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
@@ -31,14 +32,10 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 
-import se.fnord.xmms2.client.Client;
-
 public class FooWindow implements FooInterfaceWindow {
 
 	final static int WIDTH = 1000;
 	final static int HEIGHT = 600;
-
-	Client client;
 
 	private Display display;
 
@@ -62,8 +59,7 @@ public class FooWindow implements FooInterfaceWindow {
 	 * This method initializes sShell
 	 */
 
-	public FooWindow(Client client, boolean maximized) {
-		this.client = client;
+	public FooWindow(boolean maximized) {
 		initalize();
 		if (maximized) {
 			getsShell().setMaximized(true);
@@ -185,7 +181,7 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		getDisplay().dispose();
 		// TODO: end threads or just system exit in loader?
-		client.stop();
+		FooLoader.client.stop();
 	}
 
 	public SashForm getSashFormMain() {
@@ -253,37 +249,35 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public FooWatchPlaylist getWatchPlaylistCombo() {
 		if (watchPlaylistCombo == null) {
-			watchPlaylistCombo = new FooWatchPlaylist(client, comboPlaylist);
+			watchPlaylistCombo = new FooWatchPlaylist(comboPlaylist);
 		}
 		return watchPlaylistCombo;
 	}
 
 	public FooWatchPlaylist getWatchPlaylistList() {
 		if (watchPlaylistList == null) {
-			watchPlaylistList = new FooWatchPlaylist(client, listPlaylist);
+			watchPlaylistList = new FooWatchPlaylist(listPlaylist);
 		}
 		return watchPlaylistList;
 	}
 
 	public FooWatchCurrentTrack getWatchCurrentPos() {
 		if (watchCurrentPos == null) {
-			watchCurrentPos = new FooWatchCurrentTrack(client, listPlaylist);
+			watchCurrentPos = new FooWatchCurrentTrack(listPlaylist);
 		}
 		return watchCurrentPos;
 	}
 
 	public FooWatchPlaylistLoad getWatchPlaylistComboLoad() {
 		if (watchPlaylistComboLoad == null) {
-			watchPlaylistComboLoad = new FooWatchPlaylistLoad(client,
-					comboPlaylist);
+			watchPlaylistComboLoad = new FooWatchPlaylistLoad(comboPlaylist);
 		}
 		return watchPlaylistComboLoad;
 	}
 
 	public FooWatchPlaylistLoad getWatchPlaylistListLoad() {
 		if (watchPlaylistListLoad == null) {
-			watchPlaylistListLoad = new FooWatchPlaylistLoad(client,
-					listPlaylist);
+			watchPlaylistListLoad = new FooWatchPlaylistLoad(listPlaylist);
 		}
 		return watchPlaylistListLoad;
 	}
@@ -293,7 +287,7 @@ public class FooWindow implements FooInterfaceWindow {
 				| SWT.V_SCROLL);
 
 		FooBackendMedia back = new FooBackendMedia("%artist%", "artist",
-				client, listArtist);
+				listArtist);
 		back.setName("Artistbackend");
 
 		back.setDebugForeground(SWT.COLOR_DARK_MAGENTA);
@@ -321,7 +315,7 @@ public class FooWindow implements FooInterfaceWindow {
 				| SWT.V_SCROLL);
 
 		FooBackendMedia back = new FooBackendMedia("%album% (%date%)", "album",
-				client, listAlbum);
+				listAlbum);
 		back.setName("Albumbackend");
 		back.setDebugForeground(SWT.COLOR_MAGENTA);
 		listAlbum.setBackend(back);
@@ -347,7 +341,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listTrack = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooBackendMedia back = new FooBackendMedia("%title%", "title", client,
+		FooBackendMedia back = new FooBackendMedia("%title%", "title",
 				listTrack);
 		back.setName("Trackbackend");
 		back.setDebugForeground(SWT.COLOR_DARK_RED);
@@ -382,7 +376,7 @@ public class FooWindow implements FooInterfaceWindow {
 		comboData.right = new FormAttachment(100, 0);
 		comboPlaylist.setLayoutData(comboData);
 
-		FooBackendPlaylistSwitch backend = new FooBackendPlaylistSwitch(client,
+		FooBackendPlaylistSwitch backend = new FooBackendPlaylistSwitch(
 				comboPlaylist);
 		backend.setName("PlaylistComboBackend");
 		backend.setDebugForeground(SWT.COLOR_GRAY);
@@ -404,7 +398,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listPlaylist.setLayoutData(listData);
 
 		FooBackendPlaylist back = new FooBackendPlaylist("%artist% - %title%",
-				"title", client, listPlaylist);
+				"title", listPlaylist);
 		back.setName("Playlistbackend");
 		back.setDebugForeground(SWT.COLOR_BLUE);
 		listPlaylist.setBackend(back);
@@ -426,8 +420,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createButtonsPlaylist() {
-		buttonsPlaylist = new FooButtonsPlaylist(compositePlaylist, SWT.NONE,
-				client);
+		buttonsPlaylist = new FooButtonsPlaylist(compositePlaylist, SWT.NONE);
 
 		FormData buttonsplaylistData = new FormData();
 		buttonsplaylistData.left = new FormAttachment(0, 0);
@@ -438,8 +431,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createButtonsPlayback() {
-		buttonsPlayback = new FooButtonsPlayback(compositePlaylist, SWT.NONE,
-				client);
+		buttonsPlayback = new FooButtonsPlayback(compositePlaylist, SWT.NONE);
 		FormData buttonsPlaybackData = new FormData();
 		buttonsPlaybackData.left = new FormAttachment(0, 0);
 		buttonsPlaybackData.right = new FormAttachment(100, 0);

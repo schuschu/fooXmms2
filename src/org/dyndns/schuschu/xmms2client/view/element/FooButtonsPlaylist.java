@@ -5,15 +5,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import se.fnord.xmms2.client.Client;
-
 public class FooButtonsPlaylist {
 
 	private Composite composite;
-	private Client client;
 
-	public FooButtonsPlaylist(Composite parent, int style, Client client) {
-		this.setClient(client);
+	public FooButtonsPlaylist(Composite parent, int style) {
 		this.setComposite(new Composite(parent, style));
 
 		composite.setLayout(new FillLayout());
@@ -35,14 +31,6 @@ public class FooButtonsPlaylist {
 		newButton.addAction(FooPlaylist.ActionNew(0));
 		deleteButton.addAction(FooPlaylist.ActionDelete(0));
 		saveButton.addAction(FooPlaylist.ActionSava(0));
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Client getClient() {
-		return client;
 	}
 
 	public void setComposite(Composite composite) {

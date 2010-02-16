@@ -8,7 +8,6 @@ import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
 
@@ -19,7 +18,7 @@ public class FooWatchPlaylistLoad extends Thread {
 
 	private void debug(String message) {
 		if (DEBUG) {
-			if(FooLoader.VISUAL){
+			if (FooLoader.VISUAL) {
 				FooDebug.setForeground(SWT.COLOR_WHITE);
 				FooDebug.setBackground(SWT.COLOR_RED);
 			}
@@ -33,11 +32,10 @@ public class FooWatchPlaylistLoad extends Thread {
 	private final FooInterfaceViewElement view;
 	private int current;
 
-	public FooWatchPlaylistLoad(Client client,
-			final FooInterfaceViewElement view) {
+	public FooWatchPlaylistLoad(final FooInterfaceViewElement view) {
 		this.view = view;
 		c = Playlist.loadBroadcast();
-		c.execute(client);
+		c.execute(FooLoader.client);
 
 		r = new Runnable() {
 			public void run() {

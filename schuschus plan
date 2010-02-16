@@ -3,6 +3,7 @@
 ******************************************************************************
 
 This part is about the things that are wrong in the current version:
+====================================================================
 
   The documentation. it is getting a little messy... (no volunteers?)
   
@@ -38,18 +39,18 @@ This part is about the things that are wrong in the current version:
   
   Icon/Pixmap mess!!! 
   
+  Static icon
+  
   Replace JOptionpane with Messagebox/SWT dialogs
   
   Add abstaction for SWT.COLOR
   
   Create Debug from ViewElements
   
-  Static client and icon
   
-  Better way than getReal() in FooInterfaceViewElement
-
-  
- Things I really want to do:
+    
+ This part is about the Things I really want to do:
+ ==================================================
  
   combobox magic: set combobox back to editable, if you enter a name unknown
   a popup will ask you if you want to create it, if the name is known it will

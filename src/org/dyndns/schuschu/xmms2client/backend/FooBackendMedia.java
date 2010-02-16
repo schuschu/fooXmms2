@@ -15,7 +15,6 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.SWT;
 
-import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
@@ -33,13 +32,13 @@ import se.fnord.xmms2.client.types.InfoQuery;
 public class FooBackendMedia extends Observable implements Serializable,
 		FooInterfaceBackend {
 
-	protected static final boolean DEBUG = FooLoader.DEBUG;
-	protected String name;
+	private static final boolean DEBUG = FooLoader.DEBUG;
+	private String name;
 
-	protected int debugForeground = SWT.COLOR_BLACK;
-	protected int debugBackground = SWT.COLOR_WHITE;
+	private int debugForeground = SWT.COLOR_BLACK;
+	private int debugBackground = SWT.COLOR_WHITE;
 
-	protected void debug(String message) {
+	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
 				FooDebug.setForeground(getDebugForeground());
@@ -54,25 +53,19 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * by possible to be modified by all ViewElements in the client. Maybe a
 	 * different position for this list is needed
 	 */
-	protected Vector<String> possible_values = new Vector<String>();
+	private Vector<String> possible_values = new Vector<String>();
 
 	// TODO: find use for groups
-	protected List<String> order_by = Arrays.asList(new String[0]);
-	protected List<String> group_by = Arrays.asList(new String[0]);
-	protected List<String> query_fields = Arrays.asList(new String[0]);
+	private List<String> order_by = Arrays.asList(new String[0]);
+	private List<String> group_by = Arrays.asList(new String[0]);
+	private List<String> query_fields = Arrays.asList(new String[0]);
 
 	/**
 	 * I have no idea what that stupid thing is for...
 	 */
 	private static final long serialVersionUID = -4008765284221017544L;
 
-	/**
-	 * Specifies the XMMS2 client (the instance of the object not THIS client
-	 * ... I didn't name it ...)
-	 */
-	protected Client client;
-
-	protected FooInterfaceViewElement view;
+	private FooInterfaceViewElement view;
 
 	/**
 	 * This String is used to specify the displayed text in the list
@@ -81,7 +74,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * 
 	 * i.e.: %artist% by %album%
 	 */
-	protected String format;
+	private String format;
 
 	/**
 	 * This String is used to specify the value which will be filtered by this
@@ -91,23 +84,23 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * 
 	 * i.e.: album
 	 */
-	protected String filter;
+	private String filter;
 
-	protected CollectionExpression baseConetent;
-	protected CollectionExpression filteredConetent;
+	private CollectionExpression baseConetent;
+	private CollectionExpression filteredConetent;
 
-	protected List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
+	private List<Dict> baseDatabase = Arrays.asList(new Dict[0]);
 
 	/**
 	 * This is the Backend which provides the baseContent.
 	 * 
 	 */
-	protected FooInterfaceBackend contentProvider;
+	private FooInterfaceBackend contentProvider;
 
-	protected int current = -1;
-	protected int currentPos = -1;
+	private int current = -1;
+	private int currentPos = -1;
 
-	protected Vector<String> content;
+	private Vector<String> content;
 
 	/**
 	 * createContent converts a List of Dicts to a Vector of Strings using a
@@ -118,7 +111,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 *            generated.
 	 * @return A vector containing the Strings as specified in the String format
 	 */
-	protected Vector<String> createContent(List<Dict> Database) {
+	private Vector<String> createContent(List<Dict> Database) {
 		Vector<String> Content = new Vector<String>();
 
 		for (Dict token : Database) {
@@ -137,7 +130,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @param token
 	 * @return
 	 */
-	protected String createTokenString(String format, Dict token) {
+	private String createTokenString(String format, Dict token) {
 		debug("createTokenString");
 		/*
 		 * replace everything that stands between %% with the matching part of
@@ -173,7 +166,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @throws InterruptedException
 	 *             but i don't know why :)
 	 */
-	protected void executeFilterCommand(int[] indices)
+	private void executeFilterCommand(int[] indices)
 			throws InterruptedException {
 		debug("executeFilterCommand");
 
@@ -214,18 +207,16 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * @throws InterruptedException
 	 *             but i don't know why :)
 	 */
-	protected void executeBaseCommand() throws InterruptedException {
+	private void executeBaseCommand() throws InterruptedException {
 		debug("executeBaseCommand");
 		if (baseConetent != null) {
 
 			Command c = Collection.query(new InfoQuery(baseConetent, 0, 0,
 					order_by, query_fields, group_by));
 			try {
-				List<Dict> list = c.executeSync(client);
+				List<Dict> list = c.executeSync(FooLoader.client);
 				this.setBaseDatabase(list);
 			} catch (CommandErrorException e) {
-				// TODO: this would throw an error if called if no entry in
-				// field, maybe i should do something about it...
 				this.setBaseDatabase(Arrays.asList(new Dict[0]));
 			}
 
@@ -298,16 +289,13 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendMedia(String format, String filter, Client client,
+	public FooBackendMedia(String format, String filter,
 			FooInterfaceViewElement view) {
 		debug("FooBackendMedia");
 		this.view = view;
 		this.setFilter(filter);
 		this.setFormat(format);
 		this.baseConetent = CollectionBuilder.getEmptyExpression();
-		this.setClient(client);
-
-		// this.setOrderBy(Arrays.asList(new String[] { filter }));
 	}
 
 	public void evaluateFields(String format) {
@@ -408,26 +396,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 	public void setFilteredConetent(CollectionExpression filteredConetent) {
 		debug("setFilteredConetent");
 		this.filteredConetent = filteredConetent;
-	}
-
-	/**
-	 * getter function for the Client client
-	 * 
-	 * @return
-	 */
-	public Client getClient() {
-		debug("getClient");
-		return client;
-	}
-
-	/**
-	 * setter function for the Client client
-	 * 
-	 * @param client
-	 */
-	public void setClient(Client client) {
-		debug("setClient");
-		this.client = client;
 	}
 
 	/**
@@ -555,7 +523,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
 				getFilteredConetent(), 0);
 		try {
-			c.executeSync(client);
+			c.executeSync(FooLoader.client);
 		} catch (InterruptedException e1) {
 			Thread.currentThread().interrupt();
 		}
@@ -721,10 +689,11 @@ public class FooBackendMedia extends Observable implements Serializable,
 		}
 
 	}
-	
+
 	public FooAction ActionFormat(int code) {
 		return new ActionFormat(code, this);
-	}	
+	}
+
 	public class ActionFormat extends FooAction {
 
 		private final FooBackendMedia backend;
