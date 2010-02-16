@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -14,8 +12,9 @@ import javax.swing.JOptionPane;
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterFaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.Client;
@@ -24,12 +23,11 @@ import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
 import se.fnord.xmms2.client.commands.Playlist;
 import se.fnord.xmms2.client.types.CollectionBuilder;
-import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
-public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
+public class FooBackendPlaylist implements Serializable, FooInterFaceBackendPlaylist {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -64,7 +62,7 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 	 */
 	private static final long serialVersionUID = 6791163548568077012L;
 
-	private FooInterfaceViewElement view;
+	private FooInterfaceView view;
 
 	/**
 	 * This String is used to specify the displayed text in the list
@@ -91,7 +89,7 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 	private Vector<String> content;
 
 	public FooBackendPlaylist(String format, String filter,
-			FooInterfaceViewElement view) {
+			FooInterfaceView view) {
 		debug("FooBackendPlaylist");
 		this.view = view;
 		this.setFilter(filter);
@@ -365,34 +363,23 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 	}
 
 	/**
-	 * setter function for the FooInterfaceViewElement view
+	 * setter function for the FooInterfaceView view
 	 * 
 	 * @param baseDatabase
 	 */
-	public void setView(FooInterfaceViewElement view) {
+	public void setView(FooInterfaceView view) {
 		debug("setView");
 		this.view = view;
 	}
 
 	/**
-	 * getter function for the FooInterfaceViewElement view
+	 * getter function for the FooInterfaceView view
 	 * 
 	 * @return
 	 */
-	public FooInterfaceViewElement getView() {
+	public FooInterfaceView getView() {
 		debug("getView");
 		return view;
-	}
-
-	public void enqueuSelection() {
-		debug("enqueuSelection");
-		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
-				getFilteredConetent(), 0);
-		try {
-			c.executeSync(FooLoader.client);
-		} catch (InterruptedException e1) {
-			Thread.currentThread().interrupt();
-		}
 	}
 
 	public int getCurrent() {
@@ -498,48 +485,6 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 		return format;
 	}
 
-	@Override
-	public void addObserver(Observer o) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void generateFilteredContent() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public FooInterfaceBackend getContentProvider() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CollectionExpression getFilteredConetent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setContentProvider(FooInterfaceBackend contentProvider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setToAll() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/*
 	 * ACTION SECTION
 	 */
@@ -634,7 +579,6 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 
 				backend.getView().setSelection(new int[] { -1 });
 				backend.refresh();
-				backend.generateFilteredContent();
 			}
 
 		}
@@ -667,7 +611,6 @@ public class FooBackendPlaylist implements Serializable, FooInterfaceBackend {
 				backend.setFormat(input);
 				backend.getView().setSelection(new int[] { -1 });
 				backend.refresh();
-				backend.generateFilteredContent();
 			}
 
 		}

@@ -12,7 +12,8 @@ import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendFilter;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.CommandErrorException;
@@ -30,7 +31,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * 
  */
 public class FooBackendMedia extends Observable implements Serializable,
-		FooInterfaceBackend {
+		FooInterfaceBackendFilter {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -65,7 +66,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 */
 	private static final long serialVersionUID = -4008765284221017544L;
 
-	private FooInterfaceViewElement view;
+	private FooInterfaceView view;
 
 	/**
 	 * This String is used to specify the displayed text in the list
@@ -95,10 +96,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 * This is the Backend which provides the baseContent.
 	 * 
 	 */
-	private FooInterfaceBackend contentProvider;
-
-	private int current = -1;
-	private int currentPos = -1;
+	private FooInterfaceBackendFilter contentProvider;
 
 	private Vector<String> content;
 
@@ -258,8 +256,10 @@ public class FooBackendMedia extends Observable implements Serializable,
 		}
 
 		content = createContent(baseDatabase);
-
 		view.setContent(content);
+		
+		generateFilteredContent();
+		
 		updatePos();
 
 	}
@@ -290,7 +290,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 *            numbers for nothing)
 	 */
 	public FooBackendMedia(String format, String filter,
-			FooInterfaceViewElement view) {
+			FooInterfaceView view) {
 		debug("FooBackendMedia");
 		this.view = view;
 		this.setFilter(filter);
@@ -499,21 +499,21 @@ public class FooBackendMedia extends Observable implements Serializable,
 	}
 
 	/**
-	 * setter function for the FooInterfaceViewElement view
+	 * setter function for the FooInterfaceView view
 	 * 
 	 * @param baseDatabase
 	 */
-	public void setView(FooInterfaceViewElement view) {
+	public void setView(FooInterfaceView view) {
 		debug("setView");
 		this.view = view;
 	}
 
 	/**
-	 * getter function for the FooInterfaceViewElement view
+	 * getter function for the FooInterfaceView view
 	 * 
 	 * @return
 	 */
-	public FooInterfaceViewElement getView() {
+	public FooInterfaceView getView() {
 		debug("getView");
 		return view;
 	}
@@ -530,13 +530,13 @@ public class FooBackendMedia extends Observable implements Serializable,
 	}
 
 	@Override
-	public FooInterfaceBackend getContentProvider() {
+	public FooInterfaceBackendFilter getContentProvider() {
 		debug("getContentProvider");
 		return contentProvider;
 	}
 
 	@Override
-	public void setContentProvider(FooInterfaceBackend contentProvider) {
+	public void setContentProvider(FooInterfaceBackendFilter contentProvider) {
 		debug("setContentProvider");
 		this.contentProvider = contentProvider;
 		contentProvider.addObserver(this);
@@ -552,27 +552,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 	public void selectionChanged() {
 		debug("selectionChanged");
 		generateFilteredContent();
-	}
-
-	@Override
-	public void setCurrent(int current) {
-		debug("setCurrent");
-		this.current = current;
-	}
-
-	public int getCurrent() {
-		debug("getCurrent");
-		return current;
-	}
-
-	public void setCurrentPos(int currentPos) {
-		debug("setCurrentPos");
-		this.currentPos = currentPos;
-	}
-
-	public int getCurrentPos() {
-		debug("getCurrentPos");
-		return currentPos;
 	}
 
 	@Override

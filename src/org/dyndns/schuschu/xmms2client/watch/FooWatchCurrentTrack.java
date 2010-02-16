@@ -2,7 +2,7 @@ package org.dyndns.schuschu.xmms2client.watch;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterFaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Command;
@@ -28,7 +28,7 @@ public class FooWatchCurrentTrack extends Thread {
 	private Runnable r;
 	private int current;
 
-	public FooWatchCurrentTrack(final FooInterfaceViewElement view) {
+	public FooWatchCurrentTrack(final FooInterFaceBackendPlaylist backend) {
 
 		c = Playback.currentIdBroadcast();
 		c.execute(FooLoader.client);
@@ -36,7 +36,7 @@ public class FooWatchCurrentTrack extends Thread {
 		r = new Runnable() {
 			public void run() {
 				debug("fire");
-				view.getBackend().setCurrent(current);
+				backend.setCurrent(current);
 			}
 		};
 

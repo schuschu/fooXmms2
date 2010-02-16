@@ -2,7 +2,6 @@ package org.dyndns.schuschu.xmms2client.backend;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
@@ -11,13 +10,11 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
-import se.fnord.xmms2.client.types.CollectionBuilder;
-import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionNamespace;
 
 /**
@@ -48,48 +45,11 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	 */
 	private static final long serialVersionUID = -2744778880227415342L;
 
-	private FooInterfaceViewElement view;
-
-	private CollectionExpression filteredConetent;
+	private FooInterfaceView view;
 
 	private String[] playlistDatabase;
 
-	private List<Integer> playListOrder;
-
-	/**
-	 * This is the Backend which provides the baseContent.
-	 * 
-	 */
-	private FooInterfaceBackend contentProvider;
-
 	private Vector<String> content;
-
-	/**
-	 * executeFilterCommand builds the xmms2-command for filtering the
-	 * xmms2-database by the values gotten from the selected values and executes
-	 * it, writing the result into filteredConetent
-	 * 
-	 * @param indices
-	 *            the indices which are currently selected in view
-	 * @throws InterruptedException
-	 *             but i don't know why :)
-	 */
-	public void executeFilterCommand() throws InterruptedException {
-		debug("executeFilterCommand");
-
-		Command command = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
-
-		List<Integer> ids = command.executeSync(FooLoader.client);
-
-		CollectionBuilder cb = new CollectionBuilder();
-		cb.addIds(ids);
-		CollectionExpression ce = cb.build();
-
-		playListOrder = ids;
-
-		setFilteredConetent(ce);
-
-	}
 
 	/**
 	 * executeBaseCommand builds the xmms2-command for an database from
@@ -123,23 +83,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	}
 
 	/**
-	 * runs executeFilterCommand which generates the filterdContent and then
-	 * writes it into the FooPluginViewElementList next
-	 */
-	public void generateFilteredContent() {
-		debug("generateFilteredContent");
-
-		try {
-			executeFilterCommand();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-
-		setChanged();
-		notifyObservers();
-	}
-
-	/**
 	 * runs executeBaseCommand which generates the baseDatabase and displays the
 	 * Vector created by createContend into the List (a.k.a. output)
 	 */
@@ -167,14 +110,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	}
 
 	/**
-	 * setToAll sets the baseContent to all media in the medialib
-	 */
-	public void setToAll() {
-		debug("setToAll");
-		// TODO: what is all here? Do I need this?
-	}
-
-	/**
 	 * The one and only constructor of FooPluginViewElementList
 	 * 
 	 * @param format
@@ -187,7 +122,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendPlaylistSwitch(FooInterfaceViewElement view) {
+	public FooBackendPlaylistSwitch(FooInterfaceView view) {
 		debug("FooBackendPlaylistSwitch");
 		this.view = view;
 		this.playlistDatabase = null;
@@ -201,21 +136,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 		}
 
 	}
-
-	// TODO: rethink this thing
-
-	/*
-	 * public int getPlaylistId(String name) throws InterruptedException {
-	 * debug("getPlaylistId");
-	 * 
-	 * Command c = Playlist.listPlaylists(); Map<CollectionNamespace,
-	 * Set<String>> map = c.executeSync(client);
-	 * 
-	 * // TODO: find out what to do with namespaces here Set<String> names =
-	 * map.get(CollectionNamespace.PLAYLISTS); int i = 0; for (String n : names)
-	 * { if (!n.startsWith("_") && n.equals(name)) { return i; } i++; } // you
-	 * should NEVER get here! return 0; }
-	 */
 
 	public int getActivePlaylistId() throws InterruptedException {
 		debug("getActivePlaylistId");
@@ -233,36 +153,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 		return 0;
 	}
 
-	/**
-	 * setter function for the CollectionExpression baseContent
-	 * 
-	 * @param baseConetent
-	 */
-	public void setBaseConetent(CollectionExpression baseConetent) {
-		debug("setBaseConetent");
-		// Stub
-	}
-
-	/**
-	 * getter function for the CollectionExpression filteredConent
-	 * 
-	 * @return
-	 */
-	public CollectionExpression getFilteredConetent() {
-		debug("getFilteredConetent");
-		return filteredConetent;
-	}
-
-	/**
-	 * setter function for the CollectionExpression filteredContent
-	 * 
-	 * @param filteredConetent
-	 */
-	public void setFilteredConetent(CollectionExpression filteredConetent) {
-		debug("setFilteredConetent");
-		this.filteredConetent = filteredConetent;
-	}
-
 	public void loadPlaylist() {
 		debug("loadPlaylist");
 
@@ -277,7 +167,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
-			generateFilteredContent();
 		}
 	}
 
@@ -292,38 +181,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	}
 
 	@Override
-	public FooInterfaceBackend getContentProvider() {
-		debug("getContentProvider");
-		return contentProvider;
-	}
-
-	@Override
-	public void setContentProvider(FooInterfaceBackend contentProvider) {
-		debug("setContentProvider");
-		this.contentProvider = contentProvider;
-		contentProvider.addObserver(this);
-
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		debug("update");
-		contentProvider.getFilteredConetent();
-
-	}
-
-	public void setPlayListOrder(List<Integer> playListOrder) {
-		debug("setPlayListOrder");
-		this.playListOrder = playListOrder;
-	}
-
-	public List<Integer> getPlayListOrder() {
-		debug("getPlayListOrder");
-		return playListOrder;
-	}
-
-	@Override
-	public FooInterfaceViewElement getView() {
+	public FooInterfaceView getView() {
 		debug("getView");
 		return view;
 	}
@@ -332,18 +190,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	public void selectionChanged() {
 		debug("selectionChanged");
 		loadPlaylist();
-	}
-
-	@Override
-	public void setCurrent(int current) {
-		debug("setCurrent");
-		// TODO implement/remove this
-	}
-
-	@Override
-	public int getCurrentPos() {
-		debug("getCurrentPos");
-		return -1;
 	}
 
 	@Override

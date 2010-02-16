@@ -46,6 +46,11 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooList listArtist = null;
 	private FooList listAlbum = null;
 	private FooList listTrack = null;
+	private FooBackendMedia artistBackend;
+	private FooBackendMedia albumBackend;
+	private FooBackendMedia trackBackend;
+	private FooBackendPlaylist playlistBackend;
+	private FooBackendPlaylistSwitch switchBackend;
 	private FooTable listPlaylist = null;
 	private FooCombo comboPlaylist = null;
 	private FooButtonsPlaylist buttonsPlaylist = null;
@@ -80,9 +85,6 @@ public class FooWindow implements FooInterfaceWindow {
 		createSShell();
 
 		// here starts the magic (content chaining)
-		listArtist.getBackend().setToAll();
-		listAlbum.getBackend().setContentProvider(listArtist.getBackend());
-		listTrack.getBackend().setContentProvider(listAlbum.getBackend());
 
 		// init playlist
 		listPlaylist.getBackend().refresh();
@@ -249,35 +251,35 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public FooWatchPlaylist getWatchPlaylistCombo() {
 		if (watchPlaylistCombo == null) {
-			watchPlaylistCombo = new FooWatchPlaylist(comboPlaylist);
+			watchPlaylistCombo = new FooWatchPlaylist(switchBackend);
 		}
 		return watchPlaylistCombo;
 	}
 
 	public FooWatchPlaylist getWatchPlaylistList() {
 		if (watchPlaylistList == null) {
-			watchPlaylistList = new FooWatchPlaylist(listPlaylist);
+			watchPlaylistList = new FooWatchPlaylist(playlistBackend);
 		}
 		return watchPlaylistList;
 	}
 
 	public FooWatchCurrentTrack getWatchCurrentPos() {
 		if (watchCurrentPos == null) {
-			watchCurrentPos = new FooWatchCurrentTrack(listPlaylist);
+			watchCurrentPos = new FooWatchCurrentTrack(playlistBackend);
 		}
 		return watchCurrentPos;
 	}
 
 	public FooWatchPlaylistLoad getWatchPlaylistComboLoad() {
 		if (watchPlaylistComboLoad == null) {
-			watchPlaylistComboLoad = new FooWatchPlaylistLoad(comboPlaylist);
+			watchPlaylistComboLoad = new FooWatchPlaylistLoad(switchBackend);
 		}
 		return watchPlaylistComboLoad;
 	}
 
 	public FooWatchPlaylistLoad getWatchPlaylistListLoad() {
 		if (watchPlaylistListLoad == null) {
-			watchPlaylistListLoad = new FooWatchPlaylistLoad(listPlaylist);
+			watchPlaylistListLoad = new FooWatchPlaylistLoad(playlistBackend);
 		}
 		return watchPlaylistListLoad;
 	}
@@ -286,82 +288,91 @@ public class FooWindow implements FooInterfaceWindow {
 		listArtist = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooBackendMedia back = new FooBackendMedia("%artist%", "artist",
-				listArtist);
-		back.setName("Artistbackend");
+		artistBackend = new FooBackendMedia("%artist%", "artist", listArtist);
+		artistBackend.setName("Artistbackend");
+		artistBackend.setDebugForeground(FooColor.DARK_MAGENTA);
+		artistBackend.setToAll();
+		listArtist.setBackend(artistBackend);
 
-		back.setDebugForeground(FooColor.DARK_MAGENTA);
-		listArtist.setBackend(back);
-
-		listArtist.addAction(FooSource.MOUSE, back.ActionEnqueu(2));
-		listArtist.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
-		listArtist.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
+		listArtist.addAction(FooSource.MOUSE, artistBackend.ActionEnqueu(2));
+		listArtist.addAction(FooSource.KEYBOARD, artistBackend
+				.ActionEnqueu(SWT.CR));
+		listArtist.addAction(FooSource.KEYBOARD, artistBackend
+				.ActionDeselect(SWT.ESC));
 
 		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
-		orderItem.addAction(back.ActionOrder(0));
+		orderItem.addAction(artistBackend.ActionOrder(0));
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");
-		formatItem.addAction(back.ActionFormat(0));
+		formatItem.addAction(artistBackend.ActionFormat(0));
 
 		listArtist.setMenu(menu);
+
 	}
 
 	public void createListAlbum() {
 		listAlbum = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooBackendMedia back = new FooBackendMedia("%album% (%date%)", "album",
+		albumBackend = new FooBackendMedia("%album% (%date%)", "album",
 				listAlbum);
-		back.setName("Albumbackend");
-		back.setDebugForeground(FooColor.MAGENTA);
-		listAlbum.setBackend(back);
+		albumBackend.setName("Albumbackend");
+		albumBackend.setDebugForeground(FooColor.MAGENTA);
+		albumBackend.setContentProvider(artistBackend);
+		listAlbum.setBackend(albumBackend);
 
-		listAlbum.addAction(FooSource.MOUSE, back.ActionEnqueu(2));
-		listAlbum.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
-		listAlbum.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
+		listAlbum.addAction(FooSource.MOUSE, albumBackend.ActionEnqueu(2));
+		listAlbum.addAction(FooSource.KEYBOARD, albumBackend
+				.ActionEnqueu(SWT.CR));
+		listAlbum.addAction(FooSource.KEYBOARD, albumBackend
+				.ActionDeselect(SWT.ESC));
 
 		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
-		orderItem.addAction(back.ActionOrder(0));
+		orderItem.addAction(albumBackend.ActionOrder(0));
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");
-		formatItem.addAction(back.ActionFormat(0));
+		formatItem.addAction(albumBackend.ActionFormat(0));
 
 		listAlbum.setMenu(menu);
+
 	}
 
 	public void createListTrack() {
 		listTrack = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		FooBackendMedia back = new FooBackendMedia("%title%", "title",
-				listTrack);
-		back.setName("Trackbackend");
-		back.setDebugForeground(FooColor.DARK_RED);
-		listTrack.setBackend(back);
+		trackBackend = new FooBackendMedia("%title%", "title", listTrack);
+		trackBackend.setName("Trackbackend");
+		trackBackend.setDebugForeground(FooColor.DARK_RED);
+		trackBackend.setContentProvider(albumBackend);
+		listTrack.setBackend(trackBackend);
 
-		listTrack.addAction(FooSource.MOUSE, back.ActionEnqueu(2));
-		listTrack.addAction(FooSource.KEYBOARD, back.ActionEnqueu(SWT.CR));
-		listTrack.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
+		listTrack.addAction(FooSource.MOUSE, trackBackend.ActionEnqueu(2));
+		listTrack.addAction(FooSource.KEYBOARD, trackBackend
+				.ActionEnqueu(SWT.CR));
+		listTrack.addAction(FooSource.KEYBOARD, trackBackend
+				.ActionDeselect(SWT.ESC));
 
 		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
-		orderItem.addAction(back.ActionOrder(0));
+		orderItem.addAction(trackBackend.ActionOrder(0));
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");
-		formatItem.addAction(back.ActionFormat(0));
+		formatItem.addAction(trackBackend.ActionFormat(0));
 
 		listTrack.setMenu(menu);
+
 	}
 
 	public void createComboPlaylist() {
@@ -373,12 +384,12 @@ public class FooWindow implements FooInterfaceWindow {
 		comboData.right = new FormAttachment(100, 0);
 		comboPlaylist.setLayoutData(comboData);
 
-		FooBackendPlaylistSwitch backend = new FooBackendPlaylistSwitch(
+		switchBackend = new FooBackendPlaylistSwitch(
 				comboPlaylist);
-		backend.setName("PlaylistComboBackend");
-		backend.setDebugForeground(FooColor.GRAY);
+		switchBackend.setName("PlaylistComboBackend");
+		switchBackend.setDebugForeground(FooColor.GRAY);
 
-		comboPlaylist.setBackend(backend);
+		comboPlaylist.setBackend(switchBackend);
 
 	}
 
@@ -394,23 +405,23 @@ public class FooWindow implements FooInterfaceWindow {
 				.getComposite(), 0);
 		listPlaylist.setLayoutData(listData);
 
-		FooBackendPlaylist back = new FooBackendPlaylist("%artist% - %title%",
+		playlistBackend = new FooBackendPlaylist("%artist% - %title%",
 				"title", listPlaylist);
-		back.setName("Playlistbackend");
-		back.setDebugForeground(FooColor.BLUE);
-		listPlaylist.setBackend(back);
+		playlistBackend.setName("Playlistbackend");
+		playlistBackend.setDebugForeground(FooColor.BLUE);
+		listPlaylist.setBackend(playlistBackend);
 
-		listPlaylist.addAction(FooSource.MOUSE, back.ActionPlay(2));
-		listPlaylist.addAction(FooSource.KEYBOARD, back.ActionPlay(SWT.CR));
+		listPlaylist.addAction(FooSource.MOUSE, playlistBackend.ActionPlay(2));
+		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend.ActionPlay(SWT.CR));
 		listPlaylist
-				.addAction(FooSource.KEYBOARD, back.ActionDeselect(SWT.ESC));
-		listPlaylist.addAction(FooSource.KEYBOARD, back.ActionRemove(SWT.DEL));
+				.addAction(FooSource.KEYBOARD, playlistBackend.ActionDeselect(SWT.ESC));
+		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend.ActionRemove(SWT.DEL));
 
 		FooMenu menu = new FooMenu(sShell);
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");
-		formatItem.addAction(back.ActionFormat(0));
+		formatItem.addAction(playlistBackend.ActionFormat(0));
 
 		listPlaylist.setMenu(menu);
 

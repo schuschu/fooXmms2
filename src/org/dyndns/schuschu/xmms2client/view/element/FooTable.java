@@ -4,8 +4,8 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterFaceBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
@@ -22,12 +22,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class FooTable implements FooInterfaceViewElement {
+public class FooTable implements FooInterfaceViewPlaylist {
 
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;
 	private Table table;
-	private FooInterfaceBackend backend;
+	private FooInterFaceBackendPlaylist backend;
 	private int highlight = -1;
 
 	public FooTable(Composite parent, int style) {
@@ -179,7 +179,7 @@ public class FooTable implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public FooInterfaceBackend getBackend() {
+	public FooInterFaceBackendPlaylist getBackend() {
 		return backend;
 	}
 
@@ -189,7 +189,7 @@ public class FooTable implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void setBackend(FooInterfaceBackend backend) {
+	public void setBackend(FooInterFaceBackendPlaylist backend) {
 		this.backend = backend;
 
 	}
@@ -201,5 +201,4 @@ public class FooTable implements FooInterfaceViewElement {
 	public Table getTable() {
 		return table;
 	}
-
 }

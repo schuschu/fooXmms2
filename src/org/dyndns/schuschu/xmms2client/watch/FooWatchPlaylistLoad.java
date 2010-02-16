@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Command;
@@ -28,19 +28,19 @@ public class FooWatchPlaylistLoad extends Thread {
 	private boolean running;
 	private Command c;
 	private Runnable r;
-	private final FooInterfaceViewElement view;
+	private final FooInterfaceBackend backend;
 	private int current;
 
-	public FooWatchPlaylistLoad(final FooInterfaceViewElement view) {
-		this.view = view;
+	public FooWatchPlaylistLoad(final FooInterfaceBackend backend) {
+		this.backend = backend;
 		c = Playlist.loadBroadcast();
 		c.execute(FooLoader.client);
 
 		r = new Runnable() {
 			public void run() {
 				debug("fire");
-				view.setSelection(new int[] { current });
-				view.getBackend().selectionChanged();
+				backend.getView().setSelection(new int[] { current });
+				backend.selectionChanged();
 			}
 		};
 
@@ -56,7 +56,7 @@ public class FooWatchPlaylistLoad extends Thread {
 			try {
 				String s = c.waitReply();
 
-				Vector<String> content = view.getBackend().getContent();
+				Vector<String> content = backend.getContent();
 
 				for (int i = 0; i < content.size(); i++) {
 					if (s.equals(content.get(i))) {
