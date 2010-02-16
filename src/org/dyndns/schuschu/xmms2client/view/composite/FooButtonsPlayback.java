@@ -1,6 +1,7 @@
-package org.dyndns.schuschu.xmms2client.view.element;
+package org.dyndns.schuschu.xmms2client.view.composite;
 
 import org.dyndns.schuschu.xmms2client.Action.FooPlayback;
+import org.dyndns.schuschu.xmms2client.view.element.FooButton;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;

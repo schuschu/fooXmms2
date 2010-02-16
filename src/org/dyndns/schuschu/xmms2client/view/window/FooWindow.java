@@ -11,8 +11,8 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
-import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
-import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
+import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlayback;
+import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
