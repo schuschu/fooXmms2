@@ -1,10 +1,9 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
@@ -17,8 +16,8 @@ public class FooWatchPlaylist extends Thread {
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(SWT.COLOR_WHITE);
-				FooDebug.setBackground(SWT.COLOR_RED);
+				FooDebug.setForeground(FooColor.WHITE);
+				FooDebug.setBackground(FooColor.MAGENTA);
 			}
 			System.out.println("debug: " + name + " " + message);
 		}
@@ -48,8 +47,6 @@ public class FooWatchPlaylist extends Thread {
 	}
 
 	public void run() {
-		// TODO: find better way to prevent refresh after the insertion/deletion
-		// of each track (they are NOT removed at once!)
 		long x = 0;
 		long y = 0;
 		running = true;
@@ -59,7 +56,7 @@ public class FooWatchPlaylist extends Thread {
 				c.waitReply();
 				y = System.currentTimeMillis();
 				if (y - x > 100) {
-					Display.getDefault().asyncExec(r);
+					FooRunner.run(r);
 				}
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();

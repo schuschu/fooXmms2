@@ -1,10 +1,9 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
@@ -17,8 +16,8 @@ public class FooWatchCurrentTrack extends Thread {
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(SWT.COLOR_WHITE);
-				FooDebug.setBackground(SWT.COLOR_RED);
+				FooDebug.setForeground(FooColor.WHITE);
+				FooDebug.setBackground(FooColor.RED);
 			}
 			System.out.println("debug: " + name + " " + message);
 		}
@@ -53,7 +52,7 @@ public class FooWatchCurrentTrack extends Thread {
 		while (running) {
 			try {
 				current = c.waitReply();
-				Display.getDefault().asyncExec(r);
+				FooRunner.run(r);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}

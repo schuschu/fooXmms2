@@ -9,11 +9,11 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.eclipse.swt.SWT;
 
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
@@ -35,8 +35,8 @@ public class FooBackendMedia extends Observable implements Serializable,
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
 
-	private int debugForeground = SWT.COLOR_BLACK;
-	private int debugBackground = SWT.COLOR_WHITE;
+	private FooColor debugForeground = FooColor.BLACK;
+	private FooColor debugBackground = FooColor.WHITE;
 
 	private void debug(String message) {
 		if (DEBUG) {
@@ -589,19 +589,19 @@ public class FooBackendMedia extends Observable implements Serializable,
 		return name;
 	}
 
-	public void setDebugForeground(int debugForeground) {
+	public void setDebugForeground(FooColor debugForeground) {
 		this.debugForeground = debugForeground;
 	}
 
-	public int getDebugForeground() {
+	public FooColor getDebugForeground() {
 		return debugForeground;
 	}
 
-	public void setDebugBackground(int debugBackground) {
+	public void setDebugBackground(FooColor debugBackground) {
 		this.debugBackground = debugBackground;
 	}
 
-	public int getDebugBackground() {
+	public FooColor getDebugBackground() {
 		return debugBackground;
 	}
 

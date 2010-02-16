@@ -27,11 +27,11 @@ public class FooDebug extends OutputStream {
 
 	// TODO: replace with fooview elements?
 
-	private static final int defForeground = SWT.COLOR_BLACK;
-	private static final int defBackground = SWT.COLOR_WHITE;
+	private static final FooColor defForeground = FooColor.BLACK;
+	private static final FooColor defBackground = FooColor.WHITE;
 
-	private static int foreground;
-	private static int background;
+	private static FooColor foreground;
+	private static FooColor background;
 
 	private boolean run = true;
 
@@ -77,10 +77,10 @@ public class FooDebug extends OutputStream {
 								item.setText(buffer.get(0).getText());
 								item.setBackground(display
 										.getSystemColor(buffer.get(0)
-												.getBackground()));
+												.getBackground().getCode()));
 								item.setForeground(display
 										.getSystemColor(buffer.get(0)
-												.getForeground()));
+												.getForeground().getCode()));
 								buffer.remove(0);
 								if (editAutoScrollItem.getSelection()) {
 									table.showItem(item);
@@ -178,10 +178,10 @@ public class FooDebug extends OutputStream {
 		table = new Table(sShell, SWT.FULL_SELECTION);
 
 		// TODO: Windows: width of list
-		
+
 		// use list mode
 		// new TableColumn(table, SWT.NONE);
-		// table.getColumn(0).pack();	
+		// table.getColumn(0).pack();
 	}
 
 	public void createMenuBar() {
@@ -303,34 +303,34 @@ public class FooDebug extends OutputStream {
 		};
 	}
 
-	public static void setForeground(int foreground) {
+	public static void setForeground(FooColor foreground) {
 		FooDebug.foreground = foreground;
 	}
 
-	public static void setBackground(int background) {
+	public static void setBackground(FooColor background) {
 		FooDebug.background = background;
 	}
 
 }
 
 class BufferEntry {
-	private int foreground;
-	private int background;
+	private FooColor foreground;
+	private FooColor background;
 	private String text;
 
-	public void setForeground(int foreground) {
+	public void setForeground(FooColor foreground) {
 		this.foreground = foreground;
 	}
 
-	public int getForeground() {
+	public FooColor getForeground() {
 		return foreground;
 	}
 
-	public void setBackground(int background) {
+	public void setBackground(FooColor background) {
 		this.background = background;
 	}
 
-	public int getBackground() {
+	public FooColor getBackground() {
 		return background;
 	}
 

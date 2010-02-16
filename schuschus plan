@@ -43,7 +43,7 @@ This part is about the things that are wrong in the current version:
   
   Replace JOptionpane with Messagebox/SWT dialogs
   
-  Add abstaction for SWT.COLOR
+  Add abstaction for SWT.KEYS
   
   Create Debug from ViewElements
   

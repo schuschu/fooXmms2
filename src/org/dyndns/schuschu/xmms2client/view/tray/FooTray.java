@@ -19,88 +19,108 @@ import org.eclipse.swt.widgets.TrayItem;
 
 public class FooTray {
 
-	// TODO: Code cleanup
-
 	private Tray tray;
 	private Display display;
-	private FooInterfaceWindow window;
+	private final FooInterfaceWindow window;
+	private final FooMenu menu;
+	private Image image;
 
 	public FooTray(FooInterfaceWindow window) {
 		this.window = window;
+		menu = new FooMenu(new Shell(getDisplay(), SWT.NONE), SWT.POP_UP);
 	}
 
 	public void initialize() {
 		if (getTray() != null) {
-			TrayItem item = new TrayItem(tray, SWT.NONE);
-			Image image = null;
-
-			InputStream stream = this.getClass().getResourceAsStream(
-					"/pixmaps/xmms2-128.png");
-			if (stream != null) {
-				try {
-					image = new Image(getDisplay(), stream);
-				} catch (IllegalArgumentException e) {
-				} finally {
-					try {
-						stream.close();
-					} catch (IOException e) {
-					}
-				}
-			} else {
-				// TODO: find better way to do this
-				image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
-			}
-
-			item.setImage(image);
-
-			final FooMenu menu = new FooMenu(new Shell(getDisplay(), SWT.NONE),
-					SWT.POP_UP);
-
-			FooMenuItem menuPlay = new FooMenuItem(menu, SWT.PUSH);
-			menuPlay.setText("Play");
-			menuPlay.addAction(FooPlayback.ActionPlay(0));
-
-
-			FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
-			menuPause.setText("Pause");
-			menuPlay.addAction(FooPlayback.ActionPause(0));
-
-			FooMenuItem menuStop = new FooMenuItem(menu, SWT.PUSH);
-			menuStop.setText("Stop");
-			menuPlay.addAction(FooPlayback.ActionStop(0));
-
-			new FooMenuItem(menu, SWT.SEPARATOR);
-
-			FooMenuItem menuNext = new FooMenuItem(menu, SWT.PUSH);
-			menuNext.setText("Next");
-			menuPlay.addAction(FooPlayback.ActionNext(0));
-
-			FooMenuItem menuPrev = new FooMenuItem(menu, SWT.PUSH);
-			menuPrev.setText("Prev");
-			menuPlay.addAction(FooPlayback.ActionPrev(0));
-
-			new FooMenuItem(menu, SWT.SEPARATOR);
-
-			FooMenuItem menuExit = new FooMenuItem(menu, SWT.PUSH);
-			menuExit.setText("Exit");
-			menuPlay.addAction(FooSystem.ActionExit(0));
-
-			item.addListener(SWT.MenuDetect, new Listener() {
-				@Override
-				public void handleEvent(Event event) {
-					menu.setVisible(true);
-				}
-			});
-
-			item.addListener(SWT.Selection, new Listener() {
-
-				@Override
-				public void handleEvent(Event arg0) {
-					window.toggleVisible();
-				}
-			});
-
+			createItem();
+			createMenuPlay();
+			createMenuPause();
+			createMenuStop();
+			createMenuPrev();
+			createMenuNext();
+			createSeperator();
+			createMenuExit();
 		}
+	}
+
+	public void createItem() {
+		TrayItem item = new TrayItem(tray, SWT.NONE);
+
+		loadImage();
+		item.setImage(image);
+		item.addListener(SWT.MenuDetect, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				menu.setVisible(true);
+			}
+		});
+
+		item.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event arg0) {
+				window.toggleVisible();
+			}
+		});
+	}
+
+	public void loadImage() {
+		InputStream stream = this.getClass().getResourceAsStream(
+				"/pixmaps/xmms2-128.png");
+		if (stream != null) {
+			try {
+				image = new Image(getDisplay(), stream);
+			} catch (IllegalArgumentException e) {
+			} finally {
+				try {
+					stream.close();
+				} catch (IOException e) {
+				}
+			}
+		} else {
+			// TODO: find better way to do this
+			image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
+		}
+	}
+
+	public void createSeperator() {
+		new FooMenuItem(menu, SWT.SEPARATOR);
+	}
+
+	public void createMenuPlay() {
+		FooMenuItem menuPlay = new FooMenuItem(menu, SWT.PUSH);
+		menuPlay.setText("Play");
+		menuPlay.addAction(FooPlayback.ActionPlay(0));
+	}
+
+	public void createMenuPause() {
+		FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
+		menuPause.setText("Pause");
+		menuPause.addAction(FooPlayback.ActionPause(0));
+	}
+
+	public void createMenuStop() {
+		FooMenuItem menuStop = new FooMenuItem(menu, SWT.PUSH);
+		menuStop.setText("Stop");
+		menuStop.addAction(FooPlayback.ActionStop(0));
+	}
+
+	public void createMenuNext() {
+		FooMenuItem menuNext = new FooMenuItem(menu, SWT.PUSH);
+		menuNext.setText("Next");
+		menuNext.addAction(FooPlayback.ActionNext(0));
+	}
+
+	public void createMenuPrev() {
+		FooMenuItem menuPrev = new FooMenuItem(menu, SWT.PUSH);
+		menuPrev.setText("Prev");
+		menuPrev.addAction(FooPlayback.ActionPrev(0));
+	}
+
+	public void createMenuExit() {
+		FooMenuItem menuExit = new FooMenuItem(menu, SWT.PUSH);
+		menuExit.setText("Exit");
+		menuExit.addAction(FooSystem.ActionExit(0));
 	}
 
 	public boolean isSupported() {

@@ -2,11 +2,11 @@ package org.dyndns.schuschu.xmms2client.loader;
 
 import java.io.PrintStream;
 
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.tray.FooTray;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
-import org.eclipse.swt.SWT;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
@@ -104,11 +104,11 @@ public class FooLoader {
 			if (FooLoader.VISUAL) {
 				PrintStream out = new PrintStream(new FooDebug());
 				System.setOut(out);
-				FooDebug.setForeground(SWT.COLOR_RED);
+				FooDebug.setForeground(FooColor.RED);
 			}
 			System.out.println("Welcome to fooXmms2");
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(SWT.COLOR_RED);
+				FooDebug.setForeground(FooColor.RED);
 			}
 			System.out.println("===================");
 		}

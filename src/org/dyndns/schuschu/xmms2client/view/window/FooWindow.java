@@ -7,6 +7,7 @@ import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
@@ -180,7 +181,6 @@ public class FooWindow implements FooInterfaceWindow {
 			}
 		}
 		getDisplay().dispose();
-		// TODO: end threads or just system exit in loader?
 		FooLoader.client.stop();
 	}
 
@@ -290,7 +290,7 @@ public class FooWindow implements FooInterfaceWindow {
 				listArtist);
 		back.setName("Artistbackend");
 
-		back.setDebugForeground(SWT.COLOR_DARK_MAGENTA);
+		back.setDebugForeground(FooColor.DARK_MAGENTA);
 		listArtist.setBackend(back);
 
 		listArtist.addAction(FooSource.MOUSE, back.ActionEnqueu(2));
@@ -317,7 +317,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia back = new FooBackendMedia("%album% (%date%)", "album",
 				listAlbum);
 		back.setName("Albumbackend");
-		back.setDebugForeground(SWT.COLOR_MAGENTA);
+		back.setDebugForeground(FooColor.MAGENTA);
 		listAlbum.setBackend(back);
 
 		listAlbum.addAction(FooSource.MOUSE, back.ActionEnqueu(2));
@@ -344,7 +344,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendMedia back = new FooBackendMedia("%title%", "title",
 				listTrack);
 		back.setName("Trackbackend");
-		back.setDebugForeground(SWT.COLOR_DARK_RED);
+		back.setDebugForeground(FooColor.DARK_RED);
 		listTrack.setBackend(back);
 
 		listTrack.addAction(FooSource.MOUSE, back.ActionEnqueu(2));
@@ -365,10 +365,7 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createComboPlaylist() {
-		/*
-		 * TODO: add functionality to select by typing the name, if it does not
-		 * exist prompt if the list should be created. Autocompletition?
-		 */
+
 		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
@@ -379,7 +376,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendPlaylistSwitch backend = new FooBackendPlaylistSwitch(
 				comboPlaylist);
 		backend.setName("PlaylistComboBackend");
-		backend.setDebugForeground(SWT.COLOR_GRAY);
+		backend.setDebugForeground(FooColor.GRAY);
 
 		comboPlaylist.setBackend(backend);
 
@@ -400,7 +397,7 @@ public class FooWindow implements FooInterfaceWindow {
 		FooBackendPlaylist back = new FooBackendPlaylist("%artist% - %title%",
 				"title", listPlaylist);
 		back.setName("Playlistbackend");
-		back.setDebugForeground(SWT.COLOR_BLUE);
+		back.setDebugForeground(FooColor.BLUE);
 		listPlaylist.setBackend(back);
 
 		listPlaylist.addAction(FooSource.MOUSE, back.ActionPlay(2));

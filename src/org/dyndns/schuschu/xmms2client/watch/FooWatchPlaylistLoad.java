@@ -2,11 +2,10 @@ package org.dyndns.schuschu.xmms2client.watch;
 
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
@@ -19,8 +18,8 @@ public class FooWatchPlaylistLoad extends Thread {
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(SWT.COLOR_WHITE);
-				FooDebug.setBackground(SWT.COLOR_RED);
+				FooDebug.setForeground(FooColor.WHITE);
+				FooDebug.setBackground(FooColor.DARK_MAGENTA);
 			}
 			System.out.println("debug: " + name + " " + message);
 		}
@@ -66,7 +65,7 @@ public class FooWatchPlaylistLoad extends Thread {
 					}
 				}
 
-				Display.getDefault().asyncExec(r);
+				FooRunner.run(r);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
