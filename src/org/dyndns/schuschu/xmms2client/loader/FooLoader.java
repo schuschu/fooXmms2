@@ -20,8 +20,8 @@ public class FooLoader {
 
 	public static boolean DEBUG = false;
 	public static boolean VISUAL = false;
-	//TODO: use static instance everywhere
-	public static Client client;
+
+	public static Client CLIENT;
 
 	/**
 	 * parses command line arguments initializes main window
@@ -90,12 +90,11 @@ public class FooLoader {
 			}
 		}
 
-		client = ClientFactory.create("fooXmms2", "tcp://" + host + ":"
-				+ port);
+		CLIENT = ClientFactory.create("fooXmms2", "tcp://" + host + ":" + port);
 
-		client.start();
+		CLIENT.start();
 
-		if (client.getStatus() == ClientStatus.DEAD) {
+		if (CLIENT.getStatus() == ClientStatus.DEAD) {
 			System.out.println("can't connect to xmms2d");
 			System.exit(1);
 		}

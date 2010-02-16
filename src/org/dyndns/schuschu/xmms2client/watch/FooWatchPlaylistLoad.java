@@ -34,7 +34,7 @@ public class FooWatchPlaylistLoad extends Thread {
 	public FooWatchPlaylistLoad(final FooInterfaceBackend backend) {
 		this.backend = backend;
 		c = Playlist.loadBroadcast();
-		c.execute(FooLoader.client);
+		c.execute(FooLoader.CLIENT);
 
 		r = new Runnable() {
 			public void run() {

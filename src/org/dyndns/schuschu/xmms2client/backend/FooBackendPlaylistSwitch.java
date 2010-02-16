@@ -64,7 +64,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 		Command c = Playlist.listPlaylists();
 
 		Map<CollectionNamespace, Set<String>> map = c
-				.executeSync(FooLoader.client);
+				.executeSync(FooLoader.CLIENT);
 
 		content = new Vector<String>();
 
@@ -116,8 +116,8 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	 *            Formating String i.e.: %album% - %artist%
 	 * @param filter
 	 *            Which tag should be filtered by the list
-	 * @param client
-	 *            the xmms2-client
+	 * @param CLIENT
+	 *            the xmms2-CLIENT
 	 * @param view
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
@@ -142,7 +142,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 
 		Command c = Playlist.currentActive();
 
-		String name = c.executeSync(FooLoader.client);
+		String name = c.executeSync(FooLoader.CLIENT);
 
 		for (int i = 0; i < playlistDatabase.length; i++) {
 			if (name.equals(playlistDatabase[i])) {
@@ -163,7 +163,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 			Command c = Playlist.load(playlistDatabase[selection]);
 
 			try {
-				c.executeSync(FooLoader.client);
+				c.executeSync(FooLoader.CLIENT);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}

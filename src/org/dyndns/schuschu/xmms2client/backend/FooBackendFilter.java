@@ -30,7 +30,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * @author schuschu
  * 
  */
-public class FooBackendMedia extends Observable implements Serializable,
+public class FooBackendFilter extends Observable implements Serializable,
 		FooInterfaceBackendFilter {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
@@ -51,7 +51,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	/**
 	 * this List contains all values which will be usable by this list it should
-	 * by possible to be modified by all ViewElements in the client. Maybe a
+	 * by possible to be modified by all ViewElements in the CLIENT. Maybe a
 	 * different position for this list is needed
 	 */
 	private Vector<String> possible_values = new Vector<String>();
@@ -212,7 +212,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 			Command c = Collection.query(new InfoQuery(baseConetent, 0, 0,
 					order_by, query_fields, group_by));
 			try {
-				List<Dict> list = c.executeSync(FooLoader.client);
+				List<Dict> list = c.executeSync(FooLoader.CLIENT);
 				this.setBaseDatabase(list);
 			} catch (CommandErrorException e) {
 				this.setBaseDatabase(Arrays.asList(new Dict[0]));
@@ -235,12 +235,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 		setChanged();
 		notifyObservers();
-
-		/*
-		 * if (next != null) {
-		 * next.getBackend().setBaseConetent(filteredConetent); }
-		 */
-
 	}
 
 	/**
@@ -276,15 +270,15 @@ public class FooBackendMedia extends Observable implements Serializable,
 	 *            Formating String i.e.: %album% - %artist%
 	 * @param filter
 	 *            Which tag should be filtered by the list
-	 * @param client
-	 *            the xmms2-client
+	 * @param CLIENT
+	 *            the xmms2-CLIENT
 	 * @param view
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendMedia(String format, String filter,
+	public FooBackendFilter(String format, String filter,
 			FooInterfaceView view) {
-		debug("FooBackendMedia");
+		debug("FooBackendFilter");
 		this.view = view;
 		this.setFilter(filter);
 		this.setFormat(format);
@@ -516,7 +510,7 @@ public class FooBackendMedia extends Observable implements Serializable,
 		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
 				getFilteredConetent(), 0);
 		try {
-			c.executeSync(FooLoader.client);
+			c.executeSync(FooLoader.CLIENT);
 		} catch (InterruptedException e1) {
 			Thread.currentThread().interrupt();
 		}
@@ -587,9 +581,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	private class ActionEnqueu extends FooAction {
 
-		private final FooBackendMedia backend;
+		private final FooBackendFilter backend;
 
-		public ActionEnqueu(int code, FooBackendMedia backend) {
+		public ActionEnqueu(int code, FooBackendFilter backend) {
 			super(code);
 			this.backend = backend;
 		}
@@ -628,9 +622,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	public class ActionOrder extends FooAction {
 
-		private FooBackendMedia backend;
+		private FooBackendFilter backend;
 
-		public ActionOrder(int code, FooBackendMedia backend) {
+		public ActionOrder(int code, FooBackendFilter backend) {
 			super(code);
 			this.backend = backend;
 		}
@@ -668,9 +662,9 @@ public class FooBackendMedia extends Observable implements Serializable,
 
 	public class ActionFormat extends FooAction {
 
-		private final FooBackendMedia backend;
+		private final FooBackendFilter backend;
 
-		public ActionFormat(int code, FooBackendMedia backend) {
+		public ActionFormat(int code, FooBackendFilter backend) {
 			super(code);
 			this.backend = backend;
 		}

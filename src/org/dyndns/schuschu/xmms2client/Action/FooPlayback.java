@@ -39,19 +39,19 @@ public class FooPlayback {
 		public void execute() {
 			switch (type) {
 			case NEXT:
-				Playback.next().execute(FooLoader.client);
+				Playback.next().execute(FooLoader.CLIENT);
 				break;
 			case PAUSE:
-				Playback.togglePlay().execute(FooLoader.client);
+				Playback.togglePlay().execute(FooLoader.CLIENT);
 				break;
 			case PLAY:
-				Playback.play().execute(FooLoader.client);
+				Playback.play().execute(FooLoader.CLIENT);
 				break;
 			case PREV:
-				Playback.prev().execute(FooLoader.client);
+				Playback.prev().execute(FooLoader.CLIENT);
 				break;
 			case STOP:
-				Playback.stop().execute(FooLoader.client);
+				Playback.stop().execute(FooLoader.CLIENT);
 				break;
 			}
 

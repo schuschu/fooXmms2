@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
@@ -46,9 +46,9 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooList listArtist = null;
 	private FooList listAlbum = null;
 	private FooList listTrack = null;
-	private FooBackendMedia artistBackend;
-	private FooBackendMedia albumBackend;
-	private FooBackendMedia trackBackend;
+	private FooBackendFilter artistBackend;
+	private FooBackendFilter albumBackend;
+	private FooBackendFilter trackBackend;
 	private FooBackendPlaylist playlistBackend;
 	private FooBackendPlaylistSwitch switchBackend;
 	private FooTable listPlaylist = null;
@@ -183,7 +183,7 @@ public class FooWindow implements FooInterfaceWindow {
 			}
 		}
 		getDisplay().dispose();
-		FooLoader.client.stop();
+		FooLoader.CLIENT.stop();
 	}
 
 	public SashForm getSashFormMain() {
@@ -288,7 +288,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listArtist = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		artistBackend = new FooBackendMedia("%artist%", "artist", listArtist);
+		artistBackend = new FooBackendFilter("%artist%", "artist", listArtist);
 		artistBackend.setName("Artistbackend");
 		artistBackend.setDebugForeground(FooColor.DARK_MAGENTA);
 		artistBackend.setToAll();
@@ -318,7 +318,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listAlbum = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		albumBackend = new FooBackendMedia("%album% (%date%)", "album",
+		albumBackend = new FooBackendFilter("%album% (%date%)", "album",
 				listAlbum);
 		albumBackend.setName("Albumbackend");
 		albumBackend.setDebugForeground(FooColor.MAGENTA);
@@ -349,7 +349,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listTrack = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL);
 
-		trackBackend = new FooBackendMedia("%title%", "title", listTrack);
+		trackBackend = new FooBackendFilter("%title%", "title", listTrack);
 		trackBackend.setName("Trackbackend");
 		trackBackend.setDebugForeground(FooColor.DARK_RED);
 		trackBackend.setContentProvider(albumBackend);
@@ -384,8 +384,7 @@ public class FooWindow implements FooInterfaceWindow {
 		comboData.right = new FormAttachment(100, 0);
 		comboPlaylist.setLayoutData(comboData);
 
-		switchBackend = new FooBackendPlaylistSwitch(
-				comboPlaylist);
+		switchBackend = new FooBackendPlaylistSwitch(comboPlaylist);
 		switchBackend.setName("PlaylistComboBackend");
 		switchBackend.setDebugForeground(FooColor.GRAY);
 
@@ -406,16 +405,18 @@ public class FooWindow implements FooInterfaceWindow {
 		listPlaylist.setLayoutData(listData);
 
 		playlistBackend = new FooBackendPlaylist("%artist% - %title%",
-				"title", listPlaylist);
+				listPlaylist);
 		playlistBackend.setName("Playlistbackend");
 		playlistBackend.setDebugForeground(FooColor.BLUE);
 		listPlaylist.setBackend(playlistBackend);
 
 		listPlaylist.addAction(FooSource.MOUSE, playlistBackend.ActionPlay(2));
-		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend.ActionPlay(SWT.CR));
-		listPlaylist
-				.addAction(FooSource.KEYBOARD, playlistBackend.ActionDeselect(SWT.ESC));
-		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend.ActionRemove(SWT.DEL));
+		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+				.ActionPlay(SWT.CR));
+		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+				.ActionDeselect(SWT.ESC));
+		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+				.ActionRemove(SWT.DEL));
 
 		FooMenu menu = new FooMenu(sShell);
 

@@ -78,7 +78,7 @@ public class FooPlaylist {
 			try {
 
 				Map<CollectionNamespace, Set<String>> map = get
-						.executeSync(FooLoader.client);
+						.executeSync(FooLoader.CLIENT);
 
 				Vector<String> content = new Vector<String>();
 
@@ -102,7 +102,7 @@ public class FooPlaylist {
 			if (input != null) {
 				Command c = Collection.remove(CollectionNamespace.PLAYLISTS,
 						input);
-				c.execute(FooLoader.client);
+				c.execute(FooLoader.CLIENT);
 			}
 
 		}
@@ -116,7 +116,7 @@ public class FooPlaylist {
 				Command c = Collection.save(CollectionNamespace.PLAYLISTS,
 						input, CollectionBuilder.getEmptyExpression());
 
-				c.execute(FooLoader.client);
+				c.execute(FooLoader.CLIENT);
 			}
 		}
 
@@ -130,7 +130,7 @@ public class FooPlaylist {
 					Command command = Playlist
 							.listEntries(Playlist.ACTIVE_PLAYLIST);
 
-					List<Integer> ids = command.executeSync(FooLoader.client);
+					List<Integer> ids = command.executeSync(FooLoader.CLIENT);
 
 					CollectionBuilder cb = new CollectionBuilder();
 					cb.addIds(ids);
@@ -139,7 +139,7 @@ public class FooPlaylist {
 					Command c = Collection.save(CollectionNamespace.PLAYLISTS,
 							input, ce);
 
-					c.execute(FooLoader.client);
+					c.execute(FooLoader.CLIENT);
 
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
@@ -149,7 +149,7 @@ public class FooPlaylist {
 
 		private void shuffle() {
 			Command c = Playlist.shuffle(Playlist.ACTIVE_PLAYLIST);
-			c.execute(FooLoader.client);
+			c.execute(FooLoader.CLIENT);
 		}
 
 		private void sort() {
@@ -159,7 +159,7 @@ public class FooPlaylist {
 			if (input != null) {
 				List<String> properties = Arrays.asList(input.split(" "));
 				Command c = Playlist.sort(Playlist.ACTIVE_PLAYLIST, properties);
-				c.execute(FooLoader.client);
+				c.execute(FooLoader.CLIENT);
 			}
 		}
 

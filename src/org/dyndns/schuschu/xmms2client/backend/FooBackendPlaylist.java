@@ -48,7 +48,7 @@ public class FooBackendPlaylist implements Serializable,
 
 	/**
 	 * this List contains all values which will be usable by this list it should
-	 * by possible to be modified by all ViewElements in the client. Maybe a
+	 * by possible to be modified by all ViewElements in the CLIENT. Maybe a
 	 * different position for this list is needed
 	 */
 	private Vector<String> possible_values = new Vector<String>();
@@ -74,32 +74,20 @@ public class FooBackendPlaylist implements Serializable,
 	 */
 	private String format;
 
-	/**
-	 * This String is used to specify the value which will be filtered by this
-	 * List
-	 * 
-	 * currently possible values are: artist, album, title
-	 * 
-	 * i.e.: album
-	 */
-	private String filter;
-
 	private int current = -1;
 	private int currentPos = -1;
 
 	private Vector<String> content;
 
-	public FooBackendPlaylist(String format, String filter,
-			FooInterfaceViewPlaylist view) {
+	public FooBackendPlaylist(String format, FooInterfaceViewPlaylist view) {
 		debug("FooBackendPlaylist");
 		this.view = view;
-		this.setFilter(filter);
 		this.setFormat(format);
 
 		// get current track
 		try {
 			Command init = Playback.currentId();
-			int current = init.executeSync(FooLoader.client);
+			int current = init.executeSync(FooLoader.CLIENT);
 			this.current = current;
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
@@ -119,9 +107,9 @@ public class FooBackendPlaylist implements Serializable,
 			Command cp = Playback.play();
 			try {
 
-				cs.executeSync(FooLoader.client);
-				ct.executeSync(FooLoader.client);
-				cp.executeSync(FooLoader.client);
+				cs.executeSync(FooLoader.CLIENT);
+				ct.executeSync(FooLoader.CLIENT);
+				cp.executeSync(FooLoader.CLIENT);
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
@@ -136,7 +124,7 @@ public class FooBackendPlaylist implements Serializable,
 		int[] ids = getView().getIndices();
 		if (ids.length > 0) {
 			Command c = Playlist.removeEntries(Playlist.ACTIVE_PLAYLIST, ids);
-			c.execute(FooLoader.client);
+			c.execute(FooLoader.CLIENT);
 
 		}
 	}
@@ -219,8 +207,8 @@ public class FooBackendPlaylist implements Serializable,
 		currentPos = -1;
 
 		try {
-			List<Integer> ids = getPlaylistIds(FooLoader.client);
-			Map<Integer, Dict> tracks = getTrackInfo(FooLoader.client, ids);
+			List<Integer> ids = getPlaylistIds(FooLoader.CLIENT);
+			Map<Integer, Dict> tracks = getTrackInfo(FooLoader.CLIENT, ids);
 			int i = 0;
 			for (Integer id : ids) {
 
@@ -253,7 +241,7 @@ public class FooBackendPlaylist implements Serializable,
 		this.current = current;
 
 		try {
-			List<Integer> ids = getPlaylistIds(FooLoader.client);
+			List<Integer> ids = getPlaylistIds(FooLoader.CLIENT);
 			for (int i = 0; i < ids.size(); i++) {
 
 				if (ids.get(i) == current) {
@@ -341,26 +329,6 @@ public class FooBackendPlaylist implements Serializable,
 	public void setQueryFields(List<String> query_fields) {
 		debug("setQueryFields");
 		this.query_fields = query_fields;
-	}
-
-	/**
-	 * setter function for the String filter
-	 * 
-	 * @param filter
-	 */
-	public void setFilter(String filter) {
-		debug("setFilter");
-		this.filter = filter;
-	}
-
-	/**
-	 * getter function for the String filter
-	 * 
-	 * @return
-	 */
-	public String getFilter() {
-		debug("getFilter");
-		return filter;
 	}
 
 	/**
@@ -507,7 +475,6 @@ public class FooBackendPlaylist implements Serializable,
 		public void execute() {
 			backend.playSelection();
 		}
-
 	}
 
 	public FooAction ActionDeselect(int code) {
@@ -528,7 +495,6 @@ public class FooBackendPlaylist implements Serializable,
 			backend.getView().setSelection(new int[0]);
 			backend.selectionChanged();
 		}
-
 	}
 
 	public FooAction ActionRemove(int code) {
@@ -548,7 +514,6 @@ public class FooBackendPlaylist implements Serializable,
 		public void execute() {
 			backend.removeSelection();
 		}
-
 	}
 
 	public class ActionOrder extends FooAction {
@@ -581,9 +546,7 @@ public class FooBackendPlaylist implements Serializable,
 				backend.getView().setSelection(new int[] { -1 });
 				backend.refresh();
 			}
-
 		}
-
 	}
 
 	public FooAction ActionFormat(int code) {
@@ -613,9 +576,6 @@ public class FooBackendPlaylist implements Serializable,
 				backend.getView().setSelection(new int[] { -1 });
 				backend.refresh();
 			}
-
 		}
-
 	}
-
 }
