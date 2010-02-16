@@ -259,9 +259,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 		view.setContent(content);
 		
 		generateFilteredContent();
-		
-		updatePos();
-
 	}
 
 	/**
@@ -270,10 +267,6 @@ public class FooBackendMedia extends Observable implements Serializable,
 	public void setToAll() {
 		debug("setToAll");
 		this.setBaseConetent(CollectionBuilder.getAllMediaReference());
-	}
-
-	public void updatePos() {
-		view.highlight();
 	}
 
 	/**

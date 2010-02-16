@@ -131,11 +131,6 @@ public class FooCombo implements FooInterfaceViewElement {
 	}
 
 	@Override
-	public void highlight() {
-		// TODO: howto highlight current playlist (bold?)
-	}
-
-	@Override
 	public void setMenu(FooMenu menu) {
 		combo.setMenu(menu.getMenu());		
 	}

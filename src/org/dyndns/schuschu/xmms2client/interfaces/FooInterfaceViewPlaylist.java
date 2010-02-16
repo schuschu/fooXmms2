@@ -18,4 +18,6 @@ public interface FooInterfaceViewPlaylist extends FooInterfaceView{
 	 */
 	public FooInterFaceBackendPlaylist getBackend();
 	
+	public void highlight();
+	
 }

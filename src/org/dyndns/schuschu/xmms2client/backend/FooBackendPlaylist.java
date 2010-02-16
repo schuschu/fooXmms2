@@ -14,7 +14,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterFaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.Client;
@@ -27,7 +27,8 @@ import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
-public class FooBackendPlaylist implements Serializable, FooInterFaceBackendPlaylist {
+public class FooBackendPlaylist implements Serializable,
+		FooInterFaceBackendPlaylist {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -62,7 +63,7 @@ public class FooBackendPlaylist implements Serializable, FooInterFaceBackendPlay
 	 */
 	private static final long serialVersionUID = 6791163548568077012L;
 
-	private FooInterfaceView view;
+	private FooInterfaceViewPlaylist view;
 
 	/**
 	 * This String is used to specify the displayed text in the list
@@ -89,7 +90,7 @@ public class FooBackendPlaylist implements Serializable, FooInterFaceBackendPlay
 	private Vector<String> content;
 
 	public FooBackendPlaylist(String format, String filter,
-			FooInterfaceView view) {
+			FooInterfaceViewPlaylist view) {
 		debug("FooBackendPlaylist");
 		this.view = view;
 		this.setFilter(filter);
@@ -367,7 +368,7 @@ public class FooBackendPlaylist implements Serializable, FooInterFaceBackendPlay
 	 * 
 	 * @param baseDatabase
 	 */
-	public void setView(FooInterfaceView view) {
+	public void setView(FooInterfaceViewPlaylist view) {
 		debug("setView");
 		this.view = view;
 	}
@@ -377,7 +378,7 @@ public class FooBackendPlaylist implements Serializable, FooInterFaceBackendPlay
 	 * 
 	 * @return
 	 */
-	public FooInterfaceView getView() {
+	public FooInterfaceViewPlaylist getView() {
 		debug("getView");
 		return view;
 	}

@@ -26,13 +26,9 @@ public interface FooInterfaceView{
 	 */
 	public void setContent(Vector<String> content);
 
-
-
 	public void setSelection(int[] indices);
 		
 	public void setLayoutData(Object layoutData);
-	
-	public void highlight();
 	
 	public void setMenu(FooMenu menu);
 }

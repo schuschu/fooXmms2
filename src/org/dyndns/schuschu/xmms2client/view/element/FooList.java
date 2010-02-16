@@ -160,9 +160,4 @@ public class FooList implements FooInterfaceViewElement {
 	public void setMenu(FooMenu menu) {
 		list.setMenu(menu.getMenu());
 	}
-
-	@Override
-	public void highlight() {
-		// TODO: find something to highlight
-	}
 }
