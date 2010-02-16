@@ -10,6 +10,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.newAction.FooAction;
 import org.eclipse.swt.SWT;
 
 import se.fnord.xmms2.client.Client;
@@ -633,4 +634,50 @@ public class FooBackendMedia extends Observable implements Serializable,
 	public int getDebugBackground() {
 		return debugBackground;
 	}
+
+	/*
+	 * ACTION SECTION
+	 */
+
+	public FooAction ActionEnqueu(int code) {
+		return new ActionEnqueu(code, this);
+	}
+
+	private class ActionEnqueu extends FooAction {
+
+		private final FooBackendMedia backend;
+
+		public ActionEnqueu(int code, FooBackendMedia backend) {
+			super(code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			backend.enqueuSelection();
+		}
+
+	}
+
+	public FooAction ActionDeselect(int code) {
+		return new ActionDeselect(code, this);
+	}
+
+	private class ActionDeselect extends FooAction {
+
+		private final FooInterfaceBackend backend;
+
+		public ActionDeselect(int code, FooInterfaceBackend backend) {
+			super(code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			backend.getView().setSelection(new int[0]);
+			backend.selectionChanged();
+		}
+
+	}
+
 }
