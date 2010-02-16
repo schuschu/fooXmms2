@@ -2,6 +2,8 @@
 *                              schuschus plan                                *
 ******************************************************************************
 
+
+
 This part is about the things that are wrong in the current version:
 ====================================================================
 
@@ -21,22 +23,7 @@ This part is about the things that are wrong in the current version:
   in a later release a xml based configuration file will be created in 
   the xmms2 client directory (or closer to the client?)
   -> utfg  
-  
-  PlaylistBackend still generates information (filteredContent), but it 
-  is no longer needed (it is only a switcher between playlists and no longer
-  has any filter functionality (recycle code for collections switcher?) 
-  
-  MediaPlaylist still generates filtered content, not needed -> mayor rewrite
-  of interfaces and backends
-  
-  I should stop reusing functions for other purposes (see above)
-  
-  PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
-  needed? Yes since it shares a broadcast with any other playlist manipulation
-  
-  LoadPlaylist watch loads playlist again, because there is no difference 
-  between a change in the userinterface and the watchplaylistload function
-  
+   
   Icon/Pixmap mess!!! 
   
   Static icon
@@ -44,9 +31,7 @@ This part is about the things that are wrong in the current version:
   Replace JOptionpane with Messagebox/SWT dialogs
     
   Create Debug from ViewElements
-  
-  Split Interfaces (too many functions without common use)
-  
+
   
     
  This part is about the Things I really want to do:
@@ -64,3 +49,16 @@ This part is about the things that are wrong in the current version:
   Sliders: seekbar (broadcast strom ahead), volume
   
   id3 magic: want to edit tags via fooXmms2 (please be possible)
+  
+  
+
+This part is used for notes and spam:
+=====================================
+  
+  I should stop reusing functions for other purposes
+  
+  PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
+  needed? Yes since it shares a broadcast with any other playlist manipulation
+  
+  LoadPlaylist watch loads playlist again, because there is no difference 
+  between a change in the userinterface and the watchplaylistload function
