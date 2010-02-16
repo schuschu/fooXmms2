@@ -368,7 +368,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public void createListPlaylist() {
 		listPlaylist = new FooTable(compositePlaylist, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
+				| SWT.V_SCROLL | SWT.FULL_SELECTION);
 
 		FormData listData = new FormData();
 		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);

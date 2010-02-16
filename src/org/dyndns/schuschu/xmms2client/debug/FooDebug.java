@@ -128,10 +128,12 @@ public class FooDebug extends OutputStream {
 			createSShell();
 		}
 
-		if ((char) b != '\n') {
+		if ((char) b != '\n' && (char) b != '\r') {
 			sb.append((char) b);
 		} else {
-			writeline();
+			if ((char) b == '\n') {
+				writeline();
+			}
 		}
 	}
 
@@ -173,10 +175,13 @@ public class FooDebug extends OutputStream {
 	}
 
 	public void createTable() {
-		table = new Table(sShell, SWT.NONE);
+		table = new Table(sShell, SWT.FULL_SELECTION);
 
-//		new TableColumn(table, SWT.NONE);
-//		table.getColumn(0).pack();
+		// TODO: Windows: width of list
+		
+		// use list mode
+		// new TableColumn(table, SWT.NONE);
+		// table.getColumn(0).pack();	
 	}
 
 	public void createMenuBar() {
