@@ -3,12 +3,14 @@ package org.dyndns.schuschu.xmms2client.view.window;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.dyndns.schuschu.xmms2client.action.FooActionFilter;
-import org.dyndns.schuschu.xmms2client.action.FooActionPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMediaPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.newAction.FooActionDeselect;
+import org.dyndns.schuschu.xmms2client.newAction.FooSource;
+import org.dyndns.schuschu.xmms2client.newAction.Media.FooActionEnqueu;
+import org.dyndns.schuschu.xmms2client.newAction.MediaPlaylist.FooActionPlay;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
@@ -299,8 +301,12 @@ public class FooWindow implements FooInterfaceWindow {
 		artist_backend.setDebugForeground(SWT.COLOR_DARK_MAGENTA);
 		listArtist.setBackend(artist_backend);
 
-		FooActionFilter artist_action = new FooActionFilter(artist_backend);
-		artist_action.addListeners();
+		listArtist.addAction(FooSource.MOUSE, new FooActionEnqueu(2,
+				artist_backend));
+		listArtist.addAction(FooSource.KEYBOARD, new FooActionEnqueu(SWT.CR,
+				artist_backend));
+		listArtist.addAction(FooSource.KEYBOARD, new FooActionDeselect(SWT.ESC,
+				artist_backend));
 
 		FooContextMedia artistMenu = new FooContextMedia(listArtist,
 				artist_backend, client);
@@ -318,8 +324,12 @@ public class FooWindow implements FooInterfaceWindow {
 		album_backend.setDebugForeground(SWT.COLOR_MAGENTA);
 		listAlbum.setBackend(album_backend);
 
-		FooActionFilter album_action = new FooActionFilter(album_backend);
-		album_action.addListeners();
+		listAlbum.addAction(FooSource.MOUSE, new FooActionEnqueu(2,
+				album_backend));
+		listAlbum.addAction(FooSource.KEYBOARD, new FooActionEnqueu(SWT.CR,
+				album_backend));
+		listAlbum.addAction(FooSource.KEYBOARD, new FooActionDeselect(SWT.ESC,
+				album_backend));
 
 		FooContextMedia albumMenu = new FooContextMedia(listAlbum,
 				album_backend, client);
@@ -336,13 +346,16 @@ public class FooWindow implements FooInterfaceWindow {
 		track_backend.setDebugForeground(SWT.COLOR_DARK_RED);
 		listTrack.setBackend(track_backend);
 
+		listTrack.addAction(FooSource.MOUSE, new FooActionEnqueu(2,
+				track_backend));
+		listTrack.addAction(FooSource.KEYBOARD, new FooActionEnqueu(SWT.CR,
+				track_backend));
+		listTrack.addAction(FooSource.KEYBOARD, new FooActionDeselect(SWT.ESC,
+				track_backend));
+
 		FooContextMedia trackMenu = new FooContextMedia(listTrack,
 				track_backend, client);
 		trackMenu.setMenu();
-
-		FooActionFilter action = new FooActionFilter(track_backend);
-		action.addListeners();
-
 	}
 
 	public void createComboPlaylist() {
@@ -383,13 +396,17 @@ public class FooWindow implements FooInterfaceWindow {
 		list_backend.setName("Playlistbackend");
 		list_backend.setDebugForeground(SWT.COLOR_BLUE);
 		listPlaylist.setBackend(list_backend);
-		
-		FooContextMediaPlaylist menu = new FooContextMediaPlaylist(listPlaylist,
-				list_backend, client);
+
+		FooContextMediaPlaylist menu = new FooContextMediaPlaylist(
+				listPlaylist, list_backend, client);
 		menu.setMenu();
 
-		FooActionPlaylist list_action = new FooActionPlaylist(list_backend);
-		list_action.addListeners();
+		listPlaylist.addAction(FooSource.MOUSE, new FooActionPlay(2,
+				list_backend));
+		listPlaylist.addAction(FooSource.KEYBOARD, new FooActionPlay(SWT.CR,
+				list_backend));
+		listPlaylist.addAction(FooSource.KEYBOARD, new FooActionDeselect(SWT.ESC,
+				list_backend));
 	}
 
 	public void createButtonsPlaylist() {
