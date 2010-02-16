@@ -2,10 +2,10 @@ package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
-import org.dyndns.schuschu.xmms2client.newAction.FooAction;
-import org.dyndns.schuschu.xmms2client.newAction.FooSource;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;

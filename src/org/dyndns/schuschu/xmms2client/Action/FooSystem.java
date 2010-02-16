@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.newAction;
+package org.dyndns.schuschu.xmms2client.Action;
 
 public class FooSystem {
 

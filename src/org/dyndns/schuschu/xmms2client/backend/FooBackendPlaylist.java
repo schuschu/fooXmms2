@@ -11,11 +11,11 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewElement;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.newAction.FooAction;
 import org.eclipse.swt.SWT;
 
 import se.fnord.xmms2.client.Client;

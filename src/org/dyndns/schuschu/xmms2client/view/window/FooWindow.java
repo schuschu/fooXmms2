@@ -3,11 +3,11 @@ package org.dyndns.schuschu.xmms2client.view.window;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendMedia;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
-import org.dyndns.schuschu.xmms2client.newAction.FooSource;
 
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.element.FooButtonsPlaylist;

@@ -2,15 +2,14 @@ package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceClickable;
-import org.dyndns.schuschu.xmms2client.newAction.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-public class FooButton implements FooInterfaceClickable {
+public class FooButton{
 
 	private Button button;
 	private Vector<FooAction> actions;
@@ -42,16 +41,6 @@ public class FooButton implements FooInterfaceClickable {
 
 	public void removeAction(FooAction action) {
 		actions.remove(action);
-	}
-
-	@Override
-	public void addListener(Listener listener) {
-		button.addListener(SWT.Selection, listener);
-	}
-
-	@Override
-	public void removeListener(Listener listener) {
-		button.removeListener(SWT.Selection, listener);
 	}
 
 	public void setButton(Button button) {
