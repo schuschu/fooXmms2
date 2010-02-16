@@ -42,9 +42,7 @@ This part is about the things that are wrong in the current version:
   Static icon
   
   Replace JOptionpane with Messagebox/SWT dialogs
-  
-  Add abstaction for SWT.KEYS
-  
+    
   Create Debug from ViewElements
   
   
