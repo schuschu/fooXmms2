@@ -27,8 +27,6 @@ This part is about the things that are wrong in the current version:
   Icon/Pixmap mess!!! 
   
   Static icon
-  
-  Replace JOptionpane with Messagebox/SWT dialogs
     
   Create Debug from ViewElements
   
