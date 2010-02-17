@@ -49,11 +49,3 @@ This part is about the things that are wrong in the current version:
   Sliders: seekbar (broadcast strom ahead), volume
   
   id3 magic: want to edit tags via fooXmms2 (please be possible)
-  
-  
-
-This part is used for notes and spam:
-=====================================
-  
-  PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
-  needed? Yes since it shares a broadcast with any other playlist manipulation
