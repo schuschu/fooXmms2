@@ -92,6 +92,7 @@ public class FooPlaylist {
 					}
 				}
 
+				// TODO: replace with swt dialog
 				input = (String) JOptionPane.showInputDialog(null,
 						"Please choose the playlist you want to delete",
 						"Delete Playlist", JOptionPane.PLAIN_MESSAGE, null,
@@ -110,8 +111,6 @@ public class FooPlaylist {
 		}
 
 		private void newlist() {
-			// String input = JOptionPane
-			// .showInputDialog("Please enter the name of the new playlist");
 
 			String input = FooInputDialog.show(FooWindow.getsShell(),
 					"Please enter the name of the new playlist",
@@ -127,8 +126,10 @@ public class FooPlaylist {
 		}
 
 		private void save() {
-			String input = JOptionPane
-					.showInputDialog("Please enter the name of the new playlist");
+			
+			String input = FooInputDialog.show(FooWindow.getsShell(),
+					"Please enter the name of the new playlist",
+					"save playlist");
 
 			if (input != null) {
 
@@ -159,8 +160,10 @@ public class FooPlaylist {
 		}
 
 		private void sort() {
-			String input = JOptionPane
-					.showInputDialog("Please enter sort order:\n(i.e.: artist album title");
+
+			String input = FooInputDialog.show(FooWindow.getsShell(),
+					"Please enter sort order:\n(i.e.: artist album title)",
+					"change order");
 
 			if (input != null) {
 				List<String> properties = Arrays.asList(input.split(" "));
@@ -168,7 +171,6 @@ public class FooPlaylist {
 				c.execute(FooLoader.CLIENT);
 			}
 		}
-
 	}
 
 }

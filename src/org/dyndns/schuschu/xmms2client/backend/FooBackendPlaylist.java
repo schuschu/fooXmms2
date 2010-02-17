@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
@@ -16,6 +14,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
+import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
@@ -514,7 +514,10 @@ public class FooBackendPlaylist implements Serializable,
 			backend.removeSelection();
 		}
 	}
-
+	
+	// TODO: move FooPlaylist actions here 
+	
+/*
 	public class ActionOrder extends FooAction {
 
 		private FooBackendPlaylist backend;
@@ -534,9 +537,9 @@ public class FooBackendPlaylist implements Serializable,
 			buffer.deleteCharAt(buffer.length() - 1);
 			String current = buffer.toString();
 
-			String input = JOptionPane.showInputDialog(
-					"Please enter new Order:\n(i.e.: artist album title",
-					current);
+			String input = FooInputDialog.show(FooWindow.getsShell(),
+					"Please enter new order:\n(i.e.: artist album title",
+					"change order", current);
 
 			if (input != null) {
 				List<String> newOrder = Arrays.asList(input.split(" "));
@@ -547,7 +550,7 @@ public class FooBackendPlaylist implements Serializable,
 			}
 		}
 	}
-
+*/
 	public FooAction ActionFormat(int code) {
 		return new ActionFormat(code, this);
 	}
@@ -565,10 +568,11 @@ public class FooBackendPlaylist implements Serializable,
 		public void execute() {
 			String current = backend.getFormat();
 
-			String input = JOptionPane
-					.showInputDialog(
-							"Please enter new Format:\n(i.e.: %artist% - %album%: %title% ",
-							current);
+			String input = FooInputDialog
+					.show(
+							FooWindow.getsShell(),
+							"Please enter new format:\n(i.e.: %artist% - %album%: %title% ",
+							"change format", current);
 
 			if (input != null) {
 				backend.setFormat(input);

@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
@@ -15,6 +13,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendFilter;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
+import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
@@ -638,9 +638,9 @@ public class FooBackendFilter extends Observable implements Serializable,
 			buffer.deleteCharAt(buffer.length() - 1);
 			String current = buffer.toString();
 
-			String input = JOptionPane.showInputDialog(
-					"Please enter new Order:\n(i.e.: artist album title",
-					current);
+			String input = FooInputDialog.show(FooWindow.getsShell(),
+					"Please enter new order:\n(i.e.: artist album title",
+					"change order", current);
 
 			if (input != null) {
 				List<String> newOrder = Arrays.asList(input.split(" "));
@@ -672,10 +672,11 @@ public class FooBackendFilter extends Observable implements Serializable,
 		public void execute() {
 			String current = backend.getFormat();
 
-			String input = JOptionPane
-					.showInputDialog(
-							"Please enter new Format:\n(i.e.: %artist% - %album%: %title% ",
-							current);
+			String input = FooInputDialog
+					.show(
+							FooWindow.getsShell(),
+							"Please enter new format:\n(i.e.: %artist% - %album%: %title% ",
+							"change format", current);
 
 			if (input != null) {
 				backend.setFormat(input);

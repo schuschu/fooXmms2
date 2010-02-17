@@ -13,20 +13,35 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class FooInputDialog {
+
+	public static String show(Shell parent, String message, String text,
+			String preset, int style) {
+		InputDialog dialog = new InputDialog(parent, style);
+		return setup(dialog, message, text, preset);
+	}
+
 	public static String show(Shell parent, String message, String text,
 			int style) {
 		InputDialog dialog = new InputDialog(parent, style);
-		return setup(dialog, message, text);
+		return setup(dialog, message, text, "");
+	}
+
+	public static String show(Shell parent, String message, String text,
+			String preset) {
+		InputDialog dialog = new InputDialog(parent);
+		return setup(dialog, message, text, preset);
 	}
 
 	public static String show(Shell parent, String message, String text) {
 		InputDialog dialog = new InputDialog(parent);
-		return setup(dialog, message, text);
+		return setup(dialog, message, text, "");
 	}
 
-	private static String setup(InputDialog dialog, String message, String text) {
+	private static String setup(InputDialog dialog, String message,
+			String text, String preset) {
 		dialog.setMessage(message);
 		dialog.setText(text);
+		dialog.setPreset(preset);
 
 		return dialog.open();
 	}
@@ -35,6 +50,7 @@ public class FooInputDialog {
 class InputDialog extends Dialog {
 	private String message;
 	private String input;
+	private String preset;
 
 	public InputDialog(Shell parent) {
 		this(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
@@ -44,6 +60,7 @@ class InputDialog extends Dialog {
 		super(parent, style);
 		setText("Input Dialog");
 		setMessage("Please enter a value:");
+		setPreset("");
 	}
 
 	public String getMessage() {
@@ -60,6 +77,10 @@ class InputDialog extends Dialog {
 
 	public void setInput(String input) {
 		this.input = input;
+	}
+	
+	public void setPreset(String preset) {
+		this.preset = preset;
 	}
 
 	public String open() {
@@ -97,6 +118,7 @@ class InputDialog extends Dialog {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		text.setLayoutData(data);
+		text.setText(preset);
 
 		Button ok = new Button(shell, SWT.PUSH);
 		ok.setText("OK");
