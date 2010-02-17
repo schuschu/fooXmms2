@@ -31,4 +31,19 @@ public interface FooInterfaceView{
 	public void setLayoutData(Object layoutData);
 	
 	public void setMenu(FooMenu menu);
+	
+	/**
+	 * sets the elements backend. this defines what information it will display
+	 * and or filter
+	 * 
+	 * @param backend
+	 */
+	public void setBackend(FooInterfaceBackend backend);
+
+	/**
+	 * gets the elements backend. (no use for this found yet...)
+	 * 
+	 * @return
+	 */
+	public FooInterfaceBackend getBackend();
 }

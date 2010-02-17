@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterFaceBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
@@ -28,7 +28,7 @@ import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
 public class FooBackendPlaylist implements Serializable,
-		FooInterFaceBackendPlaylist {
+		FooInterfaceBackendPlaylist {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -268,7 +268,7 @@ public class FooBackendPlaylist implements Serializable,
 
 	public void updatePos() {
 		debug("updatePos");
-		view.highlight();
+		view.highlight(getCurrentPos());
 	}
 
 	/**

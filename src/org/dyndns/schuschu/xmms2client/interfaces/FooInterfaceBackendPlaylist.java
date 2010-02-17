@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.interfaces;
 
-public interface FooInterFaceBackendPlaylist extends FooInterfaceBackend {
+public interface FooInterfaceBackendPlaylist extends FooInterfaceBackend {
 
 	public void setCurrent(int current);
 

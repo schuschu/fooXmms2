@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterFaceBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
@@ -27,7 +27,7 @@ public class FooTable implements FooInterfaceViewPlaylist {
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;
 	private Table table;
-	private FooInterFaceBackendPlaylist backend;
+	private FooInterfaceBackend backend;
 	private int highlight = -1;
 
 	public FooTable(Composite parent, int style) {
@@ -51,21 +51,15 @@ public class FooTable implements FooInterfaceViewPlaylist {
 		}
 		column = getTable().getColumn(0);
 
-		// column.setWidth(table.getSize().x);
-
 		for (String s : content) {
 			TableItem item = new TableItem(getTable(), SWT.NONE);
 			item.setText(s);
 		}
 		column.pack();
-
-		highlight();
 	}
 
 	@Override
-	public void highlight() {
-
-		int index = backend.getCurrentPos();
+	public void highlight(int index) {
 
 		final Color hlcolor = getTable().getDisplay().getSystemColor(
 				SWT.COLOR_WIDGET_NORMAL_SHADOW);
@@ -179,7 +173,7 @@ public class FooTable implements FooInterfaceViewPlaylist {
 	}
 
 	@Override
-	public FooInterFaceBackendPlaylist getBackend() {
+	public FooInterfaceBackend getBackend() {
 		return backend;
 	}
 
@@ -189,7 +183,7 @@ public class FooTable implements FooInterfaceViewPlaylist {
 	}
 
 	@Override
-	public void setBackend(FooInterFaceBackendPlaylist backend) {
+	public void setBackend(FooInterfaceBackend backend) {
 		this.backend = backend;
 
 	}

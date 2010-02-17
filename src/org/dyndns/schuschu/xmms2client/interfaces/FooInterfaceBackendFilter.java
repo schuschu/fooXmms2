@@ -7,7 +7,7 @@ import se.fnord.xmms2.client.types.CollectionExpression;
 public interface FooInterfaceBackendFilter extends FooInterfaceBackend, Observer {
 
 	/**
-	 * Sets backend baseContent to all media/playlists whatever the content is
+	 * Sets backend baseContent to all media
 	 */
 	public void setToAll();
 
