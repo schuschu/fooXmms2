@@ -18,7 +18,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
-public class FooCombo implements FooInterfaceView{
+public class FooCombo implements FooInterfaceView {
 
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;
@@ -26,19 +26,18 @@ public class FooCombo implements FooInterfaceView{
 	private FooInterfaceBackend backend;
 
 	public FooCombo(Composite parent, int style) {
-		
+
 		mouseActions = new Vector<FooAction>();
 		keyboardActions = new Vector<FooAction>();
-		
+
 		setCombo(new Combo(parent, style));
-		
-		
+
 		getCombo().addMouseListener(createMouseListener());
 		getCombo().addKeyListener(createKeyListener());
 		getCombo().addSelectionListener(createSelectionListener());
 	}
-	
-	private SelectionListener createSelectionListener(){
+
+	private SelectionListener createSelectionListener() {
 		return new SelectionAdapter() {
 
 			@Override
@@ -47,7 +46,7 @@ public class FooCombo implements FooInterfaceView{
 			}
 		};
 	}
-	
+
 	// TODO: ENUMS!
 	private MouseListener createMouseListener() {
 		return new MouseAdapter() {
@@ -132,6 +131,6 @@ public class FooCombo implements FooInterfaceView{
 
 	@Override
 	public void setMenu(FooMenu menu) {
-		combo.setMenu(menu.getMenu());		
+		combo.setMenu(menu.getMenu());
 	}
 }

@@ -6,7 +6,7 @@ import java.util.Vector;
  * @author schuschu
  * 
  */
-public interface FooInterfaceBackend{
+public interface FooInterfaceBackend {
 
 	/**
 	 * Used to refresh oneself and if necessary ones next element
@@ -16,6 +16,6 @@ public interface FooInterfaceBackend{
 	public FooInterfaceView getView();
 
 	public void selectionChanged();
-	
+
 	public Vector<String> getContent();
 }

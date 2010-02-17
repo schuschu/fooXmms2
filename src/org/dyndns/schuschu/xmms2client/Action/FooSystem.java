@@ -2,7 +2,7 @@ package org.dyndns.schuschu.xmms2client.Action;
 
 public class FooSystem {
 
-	public static FooAction ActionExit(int code){
+	public static FooAction ActionExit(int code) {
 		return new ActionExit(code);
 	}
 

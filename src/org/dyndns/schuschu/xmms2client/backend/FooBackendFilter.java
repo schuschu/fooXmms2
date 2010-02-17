@@ -251,7 +251,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 		content = createContent(baseDatabase);
 		view.setContent(content);
-		
+
 		generateFilteredContent();
 	}
 
@@ -276,8 +276,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendFilter(String format, String filter,
-			FooInterfaceView view) {
+	public FooBackendFilter(String format, String filter, FooInterfaceView view) {
 		debug("FooBackendFilter");
 		this.view = view;
 		this.setFilter(filter);

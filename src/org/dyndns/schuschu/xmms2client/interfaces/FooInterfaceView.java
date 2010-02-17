@@ -8,7 +8,7 @@ import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
  * @author schuschu
  * 
  */
-public interface FooInterfaceView{
+public interface FooInterfaceView {
 
 	/**
 	 * gets the currently selected indices(or index) normally by calling the
@@ -27,11 +27,11 @@ public interface FooInterfaceView{
 	public void setContent(Vector<String> content);
 
 	public void setSelection(int[] indices);
-		
+
 	public void setLayoutData(Object layoutData);
-	
+
 	public void setMenu(FooMenu menu);
-	
+
 	/**
 	 * sets the elements backend. this defines what information it will display
 	 * and or filter
