@@ -32,6 +32,9 @@ This part is about the things that are wrong in the current version:
   
   Create base class for classes with keyboard/mouselistener (list/table/combo)?
   
+  Create debug output for all relevant operations (values not just name) and
+  maybe timing (needed ms)  
+  
   
     
  This part is about the Things I really want to do:
