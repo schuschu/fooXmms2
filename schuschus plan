@@ -57,6 +57,3 @@ This part is used for notes and spam:
   
   PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
   needed? Yes since it shares a broadcast with any other playlist manipulation
-  
-  LoadPlaylist watch loads playlist again, because there is no difference 
-  between a change in the userinterface and the watchplaylistload function
