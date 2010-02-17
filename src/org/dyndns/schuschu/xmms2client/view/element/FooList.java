@@ -132,11 +132,9 @@ public class FooList implements FooInterfaceView {
 
 	@Override
 	public void setContent(Vector<String> content) {
-
-		getList().removeAll();
-		for (String s : content) {
-			getList().add(s);
-		}
+		String[] items = new String[content.size()];
+		content.toArray(items);
+		list.setItems(items);
 	}
 
 	@Override

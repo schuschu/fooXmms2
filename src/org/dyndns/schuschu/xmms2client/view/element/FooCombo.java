@@ -105,10 +105,9 @@ public class FooCombo implements FooInterfaceView {
 
 	@Override
 	public void setContent(Vector<String> content) {
-		getCombo().removeAll();
-		for (String s : content) {
-			getCombo().add(s);
-		}
+		String[] items = new String[content.size()];
+		content.toArray(items);
+		combo.setItems(items);
 	}
 
 	@Override
