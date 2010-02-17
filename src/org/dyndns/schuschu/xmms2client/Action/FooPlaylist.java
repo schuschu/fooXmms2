@@ -9,6 +9,8 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
+import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
@@ -108,8 +110,12 @@ public class FooPlaylist {
 		}
 
 		private void newlist() {
-			String input = JOptionPane
-					.showInputDialog("Please enter the name of the new playlist");
+			// String input = JOptionPane
+			// .showInputDialog("Please enter the name of the new playlist");
+
+			String input = FooInputDialog.show(FooWindow.getsShell(),
+					"Please enter the name of the new playlist",
+					"create playlist");
 
 			if (input != null) {
 

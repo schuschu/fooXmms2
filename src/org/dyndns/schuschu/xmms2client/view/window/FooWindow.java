@@ -40,7 +40,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private Display display;
 
-	private Shell sShell = null;
+	private static Shell sShell = null;
 	private SashForm sashFormMain = null;
 	private Composite compositePlaylist = null;
 	private FooList listArtist = null;
@@ -147,11 +147,11 @@ public class FooWindow implements FooInterfaceWindow {
 
 	}
 
-	public void setsShell(Shell sShell) {
-		this.sShell = sShell;
+	public static void setsShell(Shell sShell) {
+		FooWindow.sShell = sShell;
 	}
 
-	public Shell getsShell() {
+	public static Shell getsShell() {
 		return sShell;
 	}
 
