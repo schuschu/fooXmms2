@@ -55,8 +55,6 @@ This part is about the things that are wrong in the current version:
 This part is used for notes and spam:
 =====================================
   
-  I should stop reusing functions for other purposes
-  
   PlaylistBackend refreshes on playlist shuffle (FooPlaylistWatch), is this
   needed? Yes since it shares a broadcast with any other playlist manipulation
   

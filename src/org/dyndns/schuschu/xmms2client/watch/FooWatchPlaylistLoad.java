@@ -40,7 +40,7 @@ public class FooWatchPlaylistLoad extends Thread {
 			public void run() {
 				debug("fire");
 				backend.getView().setSelection(new int[] { current });
-				backend.selectionChanged();
+				backend.refresh();
 			}
 		};
 

@@ -232,7 +232,6 @@ public class FooBackendPlaylist implements Serializable,
 	@Override
 	public void selectionChanged() {
 		debug("selectionChanged");
-		refresh();
 	}
 
 	@Override
