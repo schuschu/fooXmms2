@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
@@ -92,11 +91,12 @@ public class FooPlaylist {
 					}
 				}
 
-				// TODO: replace with swt dialog
-				input = (String) JOptionPane.showInputDialog(null,
+				String[] values = new String[content.size()];
+				content.toArray(values);
+
+				input = FooComboDialog.show(FooWindow.getsShell(),
 						"Please choose the playlist you want to delete",
-						"Delete Playlist", JOptionPane.PLAIN_MESSAGE, null,
-						content.toArray(), content.get(0));
+						"delete playlist", values);
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
@@ -126,7 +126,7 @@ public class FooPlaylist {
 		}
 
 		private void save() {
-			
+
 			String input = FooInputDialog.show(FooWindow.getsShell(),
 					"Please enter the name of the new playlist",
 					"save playlist");

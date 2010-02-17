@@ -31,6 +31,8 @@ This part is about the things that are wrong in the current version:
   Replace JOptionpane with Messagebox/SWT dialogs
     
   Create Debug from ViewElements
+  
+  Found new way to write values to combo (list?). need change (see FooComboDialog)
 
   
     

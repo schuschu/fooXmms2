@@ -6,68 +6,57 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
-public class FooInputDialog {
-
-	public static String show(Shell parent, String message, String text,
-			String preset, int style) {
-		InputDialog dialog = new InputDialog(parent, style);
-		return setup(dialog, message, text, preset);
-	}
+public class FooComboDialog {
 
 	public static String show(Shell parent, String message, String text,
-			int style) {
-		InputDialog dialog = new InputDialog(parent, style);
-		return setup(dialog, message, text, "");
+			String[] values, int style) {
+		ComboDialog dialog = new ComboDialog(parent, style);
+		return setup(dialog, message, text, values);
 	}
 
 	public static String show(Shell parent, String message, String text,
-			String preset) {
-		InputDialog dialog = new InputDialog(parent);
-		return setup(dialog, message, text, preset);
+			String[] values) {
+		ComboDialog dialog = new ComboDialog(parent);
+		return setup(dialog, message, text, values);
 	}
 
-	public static String show(Shell parent, String message, String text) {
-		InputDialog dialog = new InputDialog(parent);
-		return setup(dialog, message, text, "");
-	}
-
-	private static String setup(InputDialog dialog, String message,
-			String text, String preset) {
+	private static String setup(ComboDialog dialog, String message,
+			String text, String[] values) {
 		dialog.setMessage(message);
 		dialog.setText(text);
-		dialog.setPreset(preset);
+		dialog.setValues(values);
 
 		return dialog.open();
 	}
 
-	private static class InputDialog extends Dialog {
+	private static class ComboDialog extends Dialog {
 		private String message;
 		private String input;
-		private String preset;
+		private String[] values;
 
-		public InputDialog(Shell parent) {
+		public ComboDialog(Shell parent) {
 			this(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		}
 
-		public InputDialog(Shell parent, int style) {
+		public ComboDialog(Shell parent, int style) {
 			super(parent, style);
 			setText("Input Dialog");
 			setMessage("Please enter a value:");
-			setPreset("");
+			setValues(new String[] { "choose a value" });
 		}
 
 		public void setMessage(String message) {
 			this.message = message;
 		}
 
-		public void setPreset(String preset) {
-			this.preset = preset;
+		public void setValues(String[] values) {
+			this.values = values;
 		}
 
 		public String open() {
@@ -101,11 +90,11 @@ public class FooInputDialog {
 			data.horizontalSpan = 2;
 			label.setLayoutData(data);
 
-			final Text text = new Text(shell, SWT.BORDER);
+			final Combo combo = new Combo(shell, SWT.READ_ONLY);
 			data = new GridData(GridData.FILL_HORIZONTAL);
 			data.horizontalSpan = 2;
-			text.setLayoutData(data);
-			text.setText(preset);
+			combo.setLayoutData(data);
+			combo.setItems(values);
 
 			Button ok = new Button(shell, SWT.PUSH);
 			ok.setText("OK");
@@ -113,7 +102,7 @@ public class FooInputDialog {
 			ok.setLayoutData(data);
 			ok.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent event) {
-					input = text.getText();
+					input = combo.getItem(combo.getSelectionIndex());
 					shell.close();
 				}
 			});
