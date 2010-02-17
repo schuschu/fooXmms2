@@ -30,6 +30,8 @@ This part is about the things that are wrong in the current version:
     
   Create Debug from ViewElements
   
+  Create base class for classes with keyboard/mouselistener (list/table/combo)?
+  
   
     
  This part is about the Things I really want to do:
