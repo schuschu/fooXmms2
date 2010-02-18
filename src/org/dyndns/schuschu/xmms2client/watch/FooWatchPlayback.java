@@ -28,10 +28,17 @@ public class FooWatchPlayback extends Thread {
 	private Runnable r;
 	private int time;
 
+	private final int DELAY;
+
 	public FooWatchPlayback(final FooBackendText backend) {
 
+		if (DEBUG) {
+			DELAY = 5000;
+		} else {
+			DELAY = 100;
+		}
+
 		c = Playback.playtimeSignal();
-		// c.execute(FooLoader.CLIENT);
 
 		r = new Runnable() {
 			public void run() {
@@ -54,7 +61,7 @@ public class FooWatchPlayback extends Thread {
 				c.execute(FooLoader.CLIENT);
 				time = c.waitReply();
 				FooRunner.run(r);
-				Thread.sleep(1000);
+				Thread.sleep(DELAY);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
