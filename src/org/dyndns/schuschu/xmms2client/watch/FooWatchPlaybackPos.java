@@ -8,10 +8,10 @@ import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
 
-public class FooWatchPlayback extends Thread {
+public class FooWatchPlaybackPos extends Thread {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
-	private String name = "FooWatchPlayback";
+	private String name = "FooWatchPlaybackPos";
 
 	private void debug(String message) {
 		if (DEBUG) {
@@ -30,7 +30,7 @@ public class FooWatchPlayback extends Thread {
 
 	private final int DELAY;
 
-	public FooWatchPlayback(final FooInterfacePlaybackPos backend) {
+	public FooWatchPlaybackPos(final FooInterfacePlaybackPos backend) {
 
 		if (DEBUG) {
 			DELAY = 5000;

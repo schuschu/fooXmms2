@@ -20,6 +20,7 @@ import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
+import se.fnord.xmms2.client.types.PlaybackStatus;
 
 public class FooBackendText implements FooInterfaceBackendText {
 
@@ -46,6 +47,7 @@ public class FooBackendText implements FooInterfaceBackendText {
 	private String format;
 	private Dict currentTrack;
 	private String currentTime;
+	private PlaybackStatus status;
 
 	private String text;
 
@@ -59,6 +61,18 @@ public class FooBackendText implements FooInterfaceBackendText {
 
 		setText(createText());
 	}
+	
+	private String getStatusMessage() {
+		switch (status) {
+		case PAUSE:
+			return "paused";
+		case PLAY:
+			return "playing";
+		case STOP:
+			return "stopped";
+		}
+		return null;
+	}
 
 	public String createText() {
 		debug("createText");
@@ -66,9 +80,6 @@ public class FooBackendText implements FooInterfaceBackendText {
 		String tokenString = format;
 		String current;
 
-		if (currentTime != null) {
-			tokenString = tokenString.replaceAll("%currentTime%", currentTime);
-		}
 		for (String match : query_fields) {
 			if (currentTrack == null) {
 				return "error";
@@ -79,9 +90,25 @@ public class FooBackendText implements FooInterfaceBackendText {
 				current = currentTrack.get(match).toString();
 			}
 
+			// TODO: cleanup
 			if (match.equals("duration")) {
 				DateFormat df = new SimpleDateFormat("mm':'ss");
 				current = df.format(new Date(Integer.parseInt(current)));
+			} else if (match.equals("status")) {
+				if (status != null) {
+					tokenString = tokenString.replaceAll("%status%", getStatusMessage());
+				} else {
+					tokenString = tokenString.replaceAll("%status%",
+							"FATAAAAL!");
+				}
+			} else if (match.equals("currentTime")) {
+				if (currentTime != null) {
+					tokenString = tokenString.replaceAll("%currentTime%",
+							currentTime);
+				} else {
+					tokenString = tokenString.replaceAll("%currentTime%",
+							"--:--");
+				}
 			}
 
 			tokenString = tokenString.replaceAll("%" + match + "%", current);
@@ -226,12 +253,15 @@ public class FooBackendText implements FooInterfaceBackendText {
 		refresh();
 	}
 
-	public void setQueryFields(List<String> query_fields) {
+	private void setQueryFields(List<String> query_fields) {
+		debug("setQueryFields");
 		this.query_fields = query_fields;
 	}
 
-	public List<String> getQueryFields() {
-		return query_fields;
+	public void setStatus(PlaybackStatus status) {
+		debug("setStatus");
+		this.status = status;
+		refresh();
 	}
 
 }

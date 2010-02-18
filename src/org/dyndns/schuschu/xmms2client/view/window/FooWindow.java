@@ -21,7 +21,8 @@ import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
-import org.dyndns.schuschu.xmms2client.watch.FooWatchPlayback;
+import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos;
+import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
 import org.eclipse.swt.graphics.Image;
@@ -99,11 +100,14 @@ public class FooWindow implements FooInterfaceWindow {
 		getWatchPlaylistComboLoad().start();
 		getWatchPlaylistListLoad().start();
 
-		FooWatchPlayback playbackWatch = new FooWatchPlayback(statusbarBackend);
-		playbackWatch.start();
+		FooWatchPlaybackPos playbackPosWatch = new FooWatchPlaybackPos(statusbarBackend);
+		playbackPosWatch.start();
 		
 		FooWatchCurrentTrack playbackTrackWatch = new FooWatchCurrentTrack(statusbarBackend);
 		playbackTrackWatch.start();
+		
+		FooWatchPlaybackStatus playbackStatusWatch = new FooWatchPlaybackStatus(statusbarBackend);
+		playbackStatusWatch.start();
 	}
 
 	private void createSShell() {
@@ -158,7 +162,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private void createStatusbar() {
 		statusbar = new FooLabel(SHELL, SWT.BORDER);
 
-		statusbarBackend = new FooBackendText("%artist% - %title%: %currentTime%/%duration%");
+		statusbarBackend = new FooBackendText("%status%: %artist% - %title%: %currentTime%/%duration%");
 
 		statusbarBackend.setName("statusbar");
 		statusbarBackend.setDebugForeground(FooColor.DARK_YELLOW);
