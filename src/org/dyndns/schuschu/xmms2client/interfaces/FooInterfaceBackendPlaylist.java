@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.interfaces;
 
 public interface FooInterfaceBackendPlaylist extends FooInterfaceBackend,
-		FooInterfaceTrackPosition {
+		FooInterfaceCurrentTrack {
 
 	public int getCurrentPos();
 

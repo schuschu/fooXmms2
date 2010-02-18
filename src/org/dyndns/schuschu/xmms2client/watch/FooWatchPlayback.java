@@ -1,8 +1,8 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
-import org.dyndns.schuschu.xmms2client.backend.FooBackendText;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfacePlaybackPos;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Command;
@@ -30,7 +30,7 @@ public class FooWatchPlayback extends Thread {
 
 	private final int DELAY;
 
-	public FooWatchPlayback(final FooBackendText backend) {
+	public FooWatchPlayback(final FooInterfacePlaybackPos backend) {
 
 		if (DEBUG) {
 			DELAY = 5000;

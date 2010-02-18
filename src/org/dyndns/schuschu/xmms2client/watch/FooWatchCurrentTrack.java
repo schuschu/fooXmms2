@@ -2,7 +2,7 @@ package org.dyndns.schuschu.xmms2client.watch;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceTrackPosition;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceCurrentTrack;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Command;
@@ -28,7 +28,7 @@ public class FooWatchCurrentTrack extends Thread {
 	private Runnable r;
 	private int current;
 
-	public FooWatchCurrentTrack(final FooInterfaceTrackPosition backend) {
+	public FooWatchCurrentTrack(final FooInterfaceCurrentTrack backend) {
 
 		r = new Runnable() {
 			public void run() {

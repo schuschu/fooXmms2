@@ -9,8 +9,8 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendText;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceText;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceTrackPosition;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.widgets.Display;
 
@@ -21,7 +21,7 @@ import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
-public class FooBackendText implements FooInterfaceTrackPosition {
+public class FooBackendText implements FooInterfaceBackendText {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
