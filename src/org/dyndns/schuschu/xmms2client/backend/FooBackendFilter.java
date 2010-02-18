@@ -14,6 +14,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendFilter;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
 import se.fnord.xmms2.client.CommandErrorException;
@@ -512,6 +513,8 @@ public class FooBackendFilter extends Observable implements Serializable,
 			c.executeSync(FooLoader.CLIENT);
 		} catch (InterruptedException e1) {
 			Thread.currentThread().interrupt();
+		} catch (CommandErrorException e) {
+			FooMessageDialog.show(FooWindow.SHELL,"invalid selection","Error");
 		}
 	}
 
