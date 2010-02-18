@@ -84,14 +84,7 @@ public class FooBackendPlaylist implements Serializable,
 		this.view = view;
 		this.setFormat(format);
 
-		// get current track
-		try {
-			Command init = Playback.currentId();
-			int current = init.executeSync(FooLoader.CLIENT);
-			this.current = current;
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
+
 
 	}
 

@@ -101,6 +101,9 @@ public class FooWindow implements FooInterfaceWindow {
 
 		FooWatchPlayback playbackWatch = new FooWatchPlayback(statusbarBackend);
 		playbackWatch.start();
+		
+		FooWatchCurrentTrack playbackTrackWatch = new FooWatchCurrentTrack(statusbarBackend);
+		playbackTrackWatch.start();
 	}
 
 	private void createSShell() {

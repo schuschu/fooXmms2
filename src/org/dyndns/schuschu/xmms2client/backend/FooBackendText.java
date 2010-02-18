@@ -10,18 +10,18 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceText;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceTrackPosition;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.widgets.Display;
 
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
-import se.fnord.xmms2.client.commands.Playback;
 import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
-public class FooBackendText {
+public class FooBackendText implements FooInterfaceTrackPosition {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -49,51 +49,9 @@ public class FooBackendText {
 
 	private String text;
 
-	private Thread trackUpdater;
-	private Command c;
-	private boolean run;
-
 	public FooBackendText(String format) {
 		debug("FooBackendText");
 		setFormat(format);
-		createTrackUpdater();
-	}
-
-	private void createTrackUpdater() {
-
-		Command t = Playback.currentId();
-		try {
-			int id = t.executeSync(FooLoader.CLIENT);
-			setCurrentId(id);
-		} catch (InterruptedException e1) {
-			Thread.currentThread().interrupt();
-		}
-
-		c = Playback.currentIdBroadcast();
-		c.execute(FooLoader.CLIENT);
-
-		run = true;
-
-		Runnable updater = new Runnable() {
-
-			@Override
-			public void run() {
-				while (run)
-					try {
-						int id = c.waitReply();
-						setCurrentId(id);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
-			}
-		};
-
-		trackUpdater = new Thread(updater);
-		trackUpdater.start();
-	}
-
-	public void done() {
-		run = false;
 	}
 
 	public void refresh() {
@@ -230,7 +188,8 @@ public class FooBackendText {
 		return format;
 	}
 
-	private void setCurrentId(int currentId) {
+	@Override
+	public void setCurrent(int currentId) {
 		debug("setCurrentId");
 
 		List<String> temp_query = query_fields;
