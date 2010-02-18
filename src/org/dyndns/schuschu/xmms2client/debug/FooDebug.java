@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.view.dialog.FooConfirmationDialog;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -18,7 +21,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -34,6 +36,7 @@ public class FooDebug extends OutputStream {
 	private static FooColor background;
 
 	private boolean run = true;
+	private boolean pause = false;
 
 	private Shell sShell;
 	private Display display;
@@ -42,11 +45,12 @@ public class FooDebug extends OutputStream {
 	private Menu menuBar, fileMenu, editMenu;
 	private MenuItem fileMenuHeader, editMenuHeader;
 	private MenuItem fileExitItem, fileSaveItem, editAutoScrollItem,
-			editClearItem;
+			editScrollbackItem, editClearItem;
 
 	private StringBuffer sb;
 
 	private Vector<BufferEntry> buffer;
+	private int limit;
 
 	private Thread updater;
 
@@ -55,6 +59,7 @@ public class FooDebug extends OutputStream {
 		this.display = Display.getDefault();
 		buffer = new Vector<BufferEntry>();
 		sb = new StringBuffer();
+		limit = 1000;
 
 		setForeground(defForeground);
 		setBackground(defBackground);
@@ -73,6 +78,10 @@ public class FooDebug extends OutputStream {
 								if (sShell.isDisposed()) {
 									createSShell();
 								}
+								if (table.getItemCount() == limit) {
+									table.remove(0);
+								}
+
 								TableItem item = new TableItem(table, SWT.NONE);
 								item.setText(buffer.get(0).getText());
 								item.setBackground(display
@@ -110,7 +119,9 @@ public class FooDebug extends OutputStream {
 		buffer.add(entry);
 		setForeground(defForeground);
 		setBackground(defBackground);
-		notify();
+		if (!pause) {
+			notify();
+		}
 	}
 
 	private synchronized void waiter() {
@@ -120,6 +131,10 @@ public class FooDebug extends OutputStream {
 			} catch (InterruptedException e) {
 			}
 		}
+	}
+	
+	private synchronized void refresh(){
+		notify();
 	}
 
 	@Override
@@ -219,6 +234,12 @@ public class FooDebug extends OutputStream {
 		editAutoScrollItem.setText("&Autoscroll");
 		editAutoScrollItem.setSelection(true);
 
+		editScrollbackItem = new MenuItem(editMenu, SWT.PUSH);
+		editScrollbackItem.setText("&Scrollback");
+		editScrollbackItem.setSelection(true);
+		editScrollbackItem.addListener(SWT.Selection,
+				createScrollbackListener());
+
 		editClearItem = new MenuItem(editMenu, SWT.PUSH);
 		editClearItem.setText("&Clear");
 		editClearItem.addListener(SWT.Selection, createClearListener());
@@ -230,6 +251,30 @@ public class FooDebug extends OutputStream {
 			@Override
 			public void handleEvent(Event arg0) {
 				sShell.close();
+			}
+		};
+	}
+
+	public Listener createScrollbackListener() {
+		return new Listener() {
+
+			@Override
+			public void handleEvent(Event arg0) {
+				String temp = FooInputDialog.show(sShell,
+						"Please enter new scrollback limit", "scrollback",
+						limit + "");
+				if (temp != null) {
+					try {
+						int i = Integer.parseInt(temp);
+						limit = i;
+						while (table.getItemCount() > limit) {
+							table.remove(0);
+						}
+					} catch (NumberFormatException e) {
+						FooMessageDialog.show(sShell,
+								"Please enter a valid number", "Error");
+					}
+				}
 			}
 		};
 	}
@@ -251,6 +296,7 @@ public class FooDebug extends OutputStream {
 
 			@Override
 			public void handleEvent(Event arg0) {
+				pause = true;
 				FileDialog fd = new FileDialog(sShell, SWT.SAVE);
 				fd.setText("Save logfile");
 				fd.setFileName("fooXmms2.log");
@@ -263,15 +309,12 @@ public class FooDebug extends OutputStream {
 						boolean write = true;
 
 						if (!file.createNewFile()) {
-							MessageBox mb = new MessageBox(sShell,
-									SWT.ICON_WARNING | SWT.YES | SWT.NO);
-
-							mb.setText("Replace file");
-							mb
-									.setMessage(file.getName()
-											+ " already exists. Do you want to replace it?");
-
-							write = mb.open() == SWT.YES;
+							write = SWT.YES == FooConfirmationDialog
+									.show(
+											sShell,
+											file.getName()
+													+ " already exists. Do you want to replace it?",
+											"Replace file");
 						}
 
 						if (write) {
@@ -283,22 +326,16 @@ public class FooDebug extends OutputStream {
 								}
 								out.close();
 							} else {
-								MessageBox mb = new MessageBox(sShell,
-										SWT.ICON_ERROR | SWT.OK);
-								mb.setText("Error");
-								mb.setMessage("Can not write to file!");
-								mb.open();
+								FooMessageDialog.show(sShell,
+										"Can not write to file!", "Error");
 							}
 						}
 					} catch (IOException e) {
-						MessageBox mb = new MessageBox(sShell, SWT.ICON_ERROR
-								| SWT.OK);
-						mb.setText("Error");
-						mb.setMessage(e.getMessage());
-						mb.open();
+						FooMessageDialog.show(sShell, e.getMessage(), "Error");
 					}
 				}
-
+				pause = false;
+				refresh();
 			}
 		};
 	}
