@@ -7,6 +7,7 @@ import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
+import org.dyndns.schuschu.xmms2client.backend.FooBackendText;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
@@ -14,11 +15,13 @@ import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlaylist;
 import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
+import org.dyndns.schuschu.xmms2client.view.element.FooLabel;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
+import org.dyndns.schuschu.xmms2client.watch.FooWatchPlayback;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
 import org.eclipse.swt.graphics.Image;
@@ -28,7 +31,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -38,9 +40,10 @@ public class FooWindow implements FooInterfaceWindow {
 	final static int WIDTH = 1000;
 	final static int HEIGHT = 600;
 
+	public static Shell SHELL = null;
+
 	private Display display;
 
-	private static Shell sShell = null;
 	private SashForm sashFormMain = null;
 	private Composite compositePlaylist = null;
 	private FooList listArtist = null;
@@ -51,8 +54,10 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooBackendFilter trackBackend;
 	private FooBackendPlaylist playlistBackend;
 	private FooBackendPlaylistSwitch switchBackend;
+	private FooBackendText statusbarBackend;
 	private FooTable listPlaylist = null;
 	private FooCombo comboPlaylist = null;
+	private FooLabel statusbar = null;
 	private FooButtonsPlaylist buttonsPlaylist = null;
 	private FooButtonsPlayback buttonsPlayback = null;
 	private FooWatchCurrentTrack watchCurrentPos = null;
@@ -62,29 +67,27 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooWatchPlaylistLoad watchPlaylistListLoad = null;
 
 	/**
-	 * This method initializes sShell
+	 * This method initializes SHELL
 	 */
 
 	public FooWindow(boolean maximized) {
 		initalize();
 		if (maximized) {
-			getsShell().setMaximized(true);
+			SHELL.setMaximized(true);
 		}
 	}
 
 	public void setVisible(boolean visible) {
-		getsShell().setVisible(visible);
+		SHELL.setVisible(visible);
 	}
 
 	public void toggleVisible() {
-		setVisible(!getsShell().getVisible());
+		setVisible(!SHELL.getVisible());
 	}
 
 	public void initalize() {
 
 		createSShell();
-
-		// here starts the magic (content chaining)
 
 		// init playlist
 		listPlaylist.getBackend().refresh();
@@ -95,14 +98,36 @@ public class FooWindow implements FooInterfaceWindow {
 		getWatchPlaylistList().start();
 		getWatchPlaylistComboLoad().start();
 		getWatchPlaylistListLoad().start();
+
+		FooWatchPlayback playbackWatch = new FooWatchPlayback(statusbarBackend);
+		playbackWatch.start();
 	}
 
 	private void createSShell() {
-		setsShell(new Shell(getDisplay()));
-		getsShell().setText("fooXmms2");
-		getsShell().setSize(new Point(WIDTH, HEIGHT));
+		SHELL = new Shell(getDisplay());
+		SHELL.setText("fooXmms2");
+		SHELL.setSize(new Point(WIDTH, HEIGHT));
+
+		FormLayout layout = new FormLayout();
+		SHELL.setLayout(layout);
+
 		createSashFormMain();
-		getsShell().setLayout(new FillLayout());
+
+		createStatusbar();
+
+		FormData sashData = new FormData();
+		sashData.top = new FormAttachment(0, 0);
+		sashData.left = new FormAttachment(0, 0);
+		sashData.right = new FormAttachment(100, 0);
+		sashData.bottom = new FormAttachment(statusbar.getLabel(), 0);
+		sashFormMain.setLayoutData(sashData);
+
+		FormData labelData = new FormData();
+		labelData.left = new FormAttachment(0, 0);
+		labelData.right = new FormAttachment(100, 0);
+		labelData.bottom = new FormAttachment(100, 0);
+
+		statusbar.setLayoutData(labelData);
 
 		Image image = null;
 
@@ -123,11 +148,22 @@ public class FooWindow implements FooInterfaceWindow {
 			image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
 		}
 
-		getsShell().setImage(image);
+		SHELL.setImage(image);
+
+	}
+
+	private void createStatusbar() {
+		statusbar = new FooLabel(SHELL, SWT.BORDER);
+
+		statusbarBackend = new FooBackendText("%artist% - %title%: %currentTime%/%duration%");
+
+		statusbarBackend.setName("statusbar");
+		statusbarBackend.setDebugForeground(FooColor.DARK_YELLOW);
+		statusbarBackend.setView(statusbar);
 	}
 
 	private void createSashFormMain() {
-		sashFormMain = new SashForm(getsShell(), SWT.NONE);
+		sashFormMain = new SashForm(SHELL, SWT.NONE);
 
 		createListArtist();
 		createListAlbum();
@@ -147,14 +183,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 	}
 
-	public static void setsShell(Shell sShell) {
-		FooWindow.sShell = sShell;
-	}
-
-	public static Shell getsShell() {
-		return sShell;
-	}
-
 	public void setDisplay(Display display) {
 		this.display = display;
 	}
@@ -166,18 +194,9 @@ public class FooWindow implements FooInterfaceWindow {
 		return display;
 	}
 
-	public void run() {
-		while (!getsShell().isDisposed()) {
-			if (!getDisplay().readAndDispatch()) {
-				getDisplay().sleep();
-			}
-		}
-		getDisplay().dispose();
-	}
-
 	@Override
 	public void loop() {
-		while (!getsShell().isDisposed()) {
+		while (!SHELL.isDisposed()) {
 			if (!getDisplay().readAndDispatch()) {
 				getDisplay().sleep();
 			}
@@ -300,7 +319,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listArtist.addAction(FooSource.KEYBOARD, artistBackend
 				.ActionDeselect(SWT.ESC));
 
-		FooMenu menu = new FooMenu(sShell);
+		FooMenu menu = new FooMenu(SHELL);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
@@ -331,7 +350,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listAlbum.addAction(FooSource.KEYBOARD, albumBackend
 				.ActionDeselect(SWT.ESC));
 
-		FooMenu menu = new FooMenu(sShell);
+		FooMenu menu = new FooMenu(SHELL);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
@@ -361,7 +380,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listTrack.addAction(FooSource.KEYBOARD, trackBackend
 				.ActionDeselect(SWT.ESC));
 
-		FooMenu menu = new FooMenu(sShell);
+		FooMenu menu = new FooMenu(SHELL);
 
 		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
 		orderItem.setText("change order");
@@ -418,7 +437,7 @@ public class FooWindow implements FooInterfaceWindow {
 		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
 				.ActionRemove(SWT.DEL));
 
-		FooMenu menu = new FooMenu(sShell);
+		FooMenu menu = new FooMenu(SHELL);
 
 		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
 		formatItem.setText("change format");

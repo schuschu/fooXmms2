@@ -94,7 +94,7 @@ public class FooPlaylist {
 				String[] values = new String[content.size()];
 				content.toArray(values);
 
-				input = FooComboDialog.show(FooWindow.getsShell(),
+				input = FooComboDialog.show(FooWindow.SHELL,
 						"Please choose the playlist you want to delete",
 						"delete playlist", values);
 
@@ -112,7 +112,7 @@ public class FooPlaylist {
 
 		private void newlist() {
 
-			String input = FooInputDialog.show(FooWindow.getsShell(),
+			String input = FooInputDialog.show(FooWindow.SHELL,
 					"Please enter the name of the new playlist",
 					"create playlist");
 
@@ -127,7 +127,7 @@ public class FooPlaylist {
 
 		private void save() {
 
-			String input = FooInputDialog.show(FooWindow.getsShell(),
+			String input = FooInputDialog.show(FooWindow.SHELL,
 					"Please enter the name of the new playlist",
 					"save playlist");
 
@@ -161,7 +161,7 @@ public class FooPlaylist {
 
 		private void sort() {
 
-			String input = FooInputDialog.show(FooWindow.getsShell(),
+			String input = FooInputDialog.show(FooWindow.SHELL,
 					"Please enter sort order:\n(i.e.: artist album title)",
 					"change order");
 

@@ -570,7 +570,7 @@ public class FooBackendPlaylist implements Serializable,
 
 			String input = FooInputDialog
 					.show(
-							FooWindow.getsShell(),
+							FooWindow.SHELL,
 							"Please enter new format:\n(i.e.: %artist% - %album%: %title% ",
 							"change format", current);
 

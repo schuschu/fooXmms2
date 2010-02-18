@@ -638,7 +638,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			buffer.deleteCharAt(buffer.length() - 1);
 			String current = buffer.toString();
 
-			String input = FooInputDialog.show(FooWindow.getsShell(),
+			String input = FooInputDialog.show(FooWindow.SHELL,
 					"Please enter new order:\n(i.e.: artist album title",
 					"change order", current);
 
@@ -674,7 +674,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 			String input = FooInputDialog
 					.show(
-							FooWindow.getsShell(),
+							FooWindow.SHELL,
 							"Please enter new format:\n(i.e.: %artist% - %album%: %title% ",
 							"change format", current);
 
