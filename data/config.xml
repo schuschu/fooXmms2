@@ -1,0 +1,8 @@
+<fooXmms2>
+	<config>
+ 		<client>
+ 			<ip>127.0.0.1</ip>
+ 			<port>1234</port>
+		</client>
+	</config>
+</fooXmms2>

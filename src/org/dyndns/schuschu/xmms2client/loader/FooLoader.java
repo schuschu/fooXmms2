@@ -19,6 +19,9 @@ public class FooLoader {
 	private static boolean show_on_start = true;
 	private static boolean max_on_start = false;
 
+	private static String host;
+	private static int port;
+
 	/**
 	 * parses command line arguments initializes main window
 	 * 
@@ -26,10 +29,16 @@ public class FooLoader {
 	 */
 	public static void main(String[] args) {
 
-		createClient(args);
-		
-		//SWT stuff
+		FooXML.init("data/config.xml");
+		FooXML.parse();
+
+		parseArgs(args);
+
+		// SWT stuff
 		FooSWT.createDebug();
+
+		createClient(args);
+
 		FooSWT.init(show_on_start, max_on_start);
 	}
 
@@ -57,12 +66,13 @@ public class FooLoader {
 		return true;
 	}
 
-	private static void createClient(String[] args) {
-
+	public static void parseArgs(String[] args) {
 		// set default host
-		String host = new String("127.0.0.1");
+		// String host = new String("127.0.0.1");
+		host = FooXML.get("config/client", "ip");
 		// set default port
-		int port = 9667;
+		port = Integer.parseInt(FooXML.get("config/client", "port"));
+		// int port = 9667;
 
 		// parsing command line arguments
 		// if argument is invalid, drop user shit and assume default
@@ -112,6 +122,10 @@ public class FooLoader {
 				FooLoader.VISUAL = true;
 			}
 		}
+
+	}
+
+	private static void createClient(String[] args) {
 
 		CLIENT = ClientFactory.create("fooXmms2", "tcp://" + host + ":" + port);
 
