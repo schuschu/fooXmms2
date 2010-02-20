@@ -67,6 +67,8 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooWatchPlaylistLoad watchPlaylistComboLoad = null;
 	private FooWatchPlaylistLoad watchPlaylistListLoad = null;
 
+	private Point location;
+
 	/**
 	 * This method initializes SHELL
 	 */
@@ -83,6 +85,11 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void toggleVisible() {
+		if (SHELL.getVisible()) {
+			location = SHELL.getLocation();
+		} else {
+			SHELL.setLocation(location);
+		}
 		setVisible(!SHELL.getVisible());
 	}
 
@@ -100,13 +107,16 @@ public class FooWindow implements FooInterfaceWindow {
 		getWatchPlaylistComboLoad().start();
 		getWatchPlaylistListLoad().start();
 
-		FooWatchPlaybackPos playbackPosWatch = new FooWatchPlaybackPos(statusbarBackend);
+		FooWatchPlaybackPos playbackPosWatch = new FooWatchPlaybackPos(
+				statusbarBackend);
 		playbackPosWatch.start();
-		
-		FooWatchCurrentTrack playbackTrackWatch = new FooWatchCurrentTrack(statusbarBackend);
+
+		FooWatchCurrentTrack playbackTrackWatch = new FooWatchCurrentTrack(
+				statusbarBackend);
 		playbackTrackWatch.start();
-		
-		FooWatchPlaybackStatus playbackStatusWatch = new FooWatchPlaybackStatus(statusbarBackend);
+
+		FooWatchPlaybackStatus playbackStatusWatch = new FooWatchPlaybackStatus(
+				statusbarBackend);
 		playbackStatusWatch.start();
 	}
 
@@ -162,7 +172,8 @@ public class FooWindow implements FooInterfaceWindow {
 	private void createStatusbar() {
 		statusbar = new FooLabel(SHELL, SWT.BORDER);
 
-		statusbarBackend = new FooBackendText("%status%: %artist% - %title%: %currentTime%/%duration%");
+		statusbarBackend = new FooBackendText(
+				"%status%: %artist% - %title%: %currentTime%/%duration%");
 
 		statusbarBackend.setName("statusbar");
 		statusbarBackend.setDebugForeground(FooColor.DARK_YELLOW);
