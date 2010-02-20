@@ -4,5 +4,13 @@
  			<ip>127.0.0.1</ip>
  			<port>1234</port>
 		</client>
+		<window>
+			<maximised>false</maximised>
+			<visible>true</visible>
+		</window>
+		<debug>
+			<enabled>false</enabled>
+			<visual>false</visual>
+		</debug>
 	</config>
 </fooXmms2>

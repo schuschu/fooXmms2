@@ -1,5 +1,10 @@
 package org.dyndns.schuschu.xmms2client.loader;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.xml.sax.SAXException;
+
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
 import se.fnord.xmms2.client.ClientStatus;
@@ -10,14 +15,14 @@ import se.fnord.xmms2.client.ClientStatus;
  */
 public class FooLoader {
 
-	public static boolean DEBUG = false;
-	public static boolean VISUAL = false;
+	public static boolean DEBUG;
+	public static boolean VISUAL;
 
 	public static Client CLIENT;
 
 	// set default initial state of the window
-	private static boolean show_on_start = true;
-	private static boolean max_on_start = false;
+	private static boolean show_on_start;
+	private static boolean max_on_start;
 
 	private static String host;
 	private static int port;
@@ -29,8 +34,7 @@ public class FooLoader {
 	 */
 	public static void main(String[] args) {
 
-		FooXML.init("data/config.xml");
-		FooXML.parse();
+		parseXML();
 
 		parseArgs(args);
 
@@ -66,13 +70,39 @@ public class FooLoader {
 		return true;
 	}
 
+	public static void parseXML() {
+		FooXML.init("data/config.xml");
+
+		try {
+			FooXML.parse();
+		} catch (FileNotFoundException e) {
+			// TODO: write default config file
+
+			System.out.println("Error no config file");
+			System.exit(1);
+		} catch (IOException e) {
+			// FATAAAAAL!
+
+			e.printStackTrace();
+			System.exit(1);
+		} catch (SAXException e) {
+			System.out.println("Error in config file");
+
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
 	public static void parseArgs(String[] args) {
-		// set default host
-		// String host = new String("127.0.0.1");
-		host = FooXML.get("config/client", "ip");
-		// set default port
-		port = Integer.parseInt(FooXML.get("config/client", "port"));
-		// int port = 9667;
+
+		host = FooXML.getString("config/client", "ip");
+		port = FooXML.getInt("config/client", "port");
+
+		show_on_start = FooXML.getBool("config/window", "visible");
+		max_on_start = FooXML.getBool("config/window", "maximised");
+
+		DEBUG = FooXML.getBool("config/debug", "enabled");
+		VISUAL = FooXML.getBool("config/debug", "visual");
 
 		// parsing command line arguments
 		// if argument is invalid, drop user shit and assume default
@@ -106,12 +136,20 @@ public class FooLoader {
 
 			// check if the window is supposed to go into tray directly
 			if (args[run].equals("--icon") || args[run].equals("-i")) {
-				show_on_start = false;
+				try {
+					show_on_start = args[run + 1].equals("on");
+				} catch (ArrayIndexOutOfBoundsException e) {
+
+				}
 			}
 
 			// check if the window is supposed to start maximized
 			if (args[run].equals("--maximized") || args[run].equals("-m")) {
-				max_on_start = true;
+				try {
+					max_on_start = args[run + 1].equals("on");
+				} catch (ArrayIndexOutOfBoundsException e) {
+
+				}
 			}
 
 			if (args[run].equals("--debug") || args[run].equals("-d")) {

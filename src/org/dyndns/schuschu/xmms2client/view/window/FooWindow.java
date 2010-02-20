@@ -88,7 +88,9 @@ public class FooWindow implements FooInterfaceWindow {
 		if (SHELL.getVisible()) {
 			location = SHELL.getLocation();
 		} else {
-			SHELL.setLocation(location);
+			if (location != null) {
+				SHELL.setLocation(location);
+			}
 		}
 		setVisible(!SHELL.getVisible());
 	}

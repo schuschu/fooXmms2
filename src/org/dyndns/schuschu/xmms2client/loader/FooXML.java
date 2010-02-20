@@ -27,21 +27,27 @@ public class FooXML {
 		}
 	}
 
-	public static Document parse() {
+	public static Document parse() throws FileNotFoundException, IOException,
+			SAXException {
 		if (builder == null) {
 			return null;
 		}
-		try {
-			document = builder.parse(new FileInputStream(filename));
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		document = builder.parse(new FileInputStream(filename));
+
 		return document;
 	}
 
-	public static String get(String elementName, String attrName) {
+	public static int getInt(String elementName, String attrName) {
+		// TODO: Exceptionhandling
+		return Integer.parseInt(getString(elementName, attrName));
+	}
+
+	public static boolean getBool(String elementName, String attrName) {
+		return getString(elementName, attrName).equals("true");
+	}
+
+	public static String getString(String elementName, String attrName) {
 
 		String[] path = elementName.split("/");
 
