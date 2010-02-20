@@ -507,14 +507,17 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 	public void enqueuSelection() {
 		debug("enqueuSelection");
-		Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST,
-				getFilteredConetent(), 0);
-		try {
-			c.executeSync(FooLoader.CLIENT);
-		} catch (InterruptedException e1) {
-			Thread.currentThread().interrupt();
-		} catch (CommandErrorException e) {
-			FooMessageDialog.show(FooWindow.SHELL,"invalid selection","Error");
+		CollectionExpression filtered = getFilteredConetent();
+		if (filtered != null) {
+			Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST, filtered, 0);
+			try {
+				c.executeSync(FooLoader.CLIENT);
+			} catch (InterruptedException e1) {
+				Thread.currentThread().interrupt();
+			} catch (CommandErrorException e) {
+				FooMessageDialog.show(FooWindow.SHELL, "invalid selection",
+						"Error");
+			}
 		}
 	}
 
