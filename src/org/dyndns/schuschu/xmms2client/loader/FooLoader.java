@@ -1,13 +1,5 @@
 package org.dyndns.schuschu.xmms2client.loader;
 
-import java.io.PrintStream;
-
-import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
-import org.dyndns.schuschu.xmms2client.view.tray.FooTray;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
-
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.ClientFactory;
 import se.fnord.xmms2.client.ClientStatus;
@@ -23,6 +15,10 @@ public class FooLoader {
 
 	public static Client CLIENT;
 
+	// set default initial state of the window
+	private static boolean show_on_start = true;
+	private static boolean max_on_start = false;
+
 	/**
 	 * parses command line arguments initializes main window
 	 * 
@@ -30,16 +26,43 @@ public class FooLoader {
 	 */
 	public static void main(String[] args) {
 
-		// TODO: put parameter parsing into a separate function/class (FooInit
-		// with static functions?)
+		createClient(args);
+		
+		//SWT stuff
+		FooSWT.createDebug();
+		FooSWT.init(show_on_start, max_on_start);
+	}
+
+	/**
+	 * checks whether an ip address is valid
+	 * 
+	 * @param ip
+	 * @return boolean
+	 */
+	public final static boolean validIPAddress(String ip) {
+		String[] octets = ip.split("\\.");
+
+		if (octets.length != 4) {
+			return false;
+		}
+
+		for (String octet : octets) {
+			int i = Integer.parseInt(octet);
+
+			if ((i < 0) || (i > 255)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static void createClient(String[] args) {
 
 		// set default host
 		String host = new String("127.0.0.1");
 		// set default port
 		int port = 9667;
-		// set default initial state of the window
-		boolean show_on_start = true;
-		boolean max_on_start = false;
 
 		// parsing command line arguments
 		// if argument is invalid, drop user shit and assume default
@@ -98,54 +121,5 @@ public class FooLoader {
 			System.out.println("can't connect to xmms2d");
 			System.exit(1);
 		}
-
-		if (FooLoader.DEBUG) {
-			if (FooLoader.VISUAL) {
-				PrintStream out = new PrintStream(new FooDebug());
-				System.setOut(out);
-				FooDebug.setForeground(FooColor.RED);
-			}
-			System.out.println("Welcome to fooXmms2");
-			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(FooColor.RED);
-			}
-			System.out.println("===================");
-		}
-
-		FooInterfaceWindow main = new FooWindow(max_on_start);
-
-		FooTray tray = new FooTray(main);
-		tray.initialize();
-
-		if (!tray.isSupported() || show_on_start) {
-			main.setVisible(true);
-		}
-
-		main.loop();
-		System.exit(0);
-	}
-
-	/**
-	 * checks whether an ip address is valid
-	 * 
-	 * @param ip
-	 * @return boolean
-	 */
-	public final static boolean validIPAddress(String ip) {
-		String[] octets = ip.split("\\.");
-
-		if (octets.length != 4) {
-			return false;
-		}
-
-		for (String octet : octets) {
-			int i = Integer.parseInt(octet);
-
-			if ((i < 0) || (i > 255)) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 }
