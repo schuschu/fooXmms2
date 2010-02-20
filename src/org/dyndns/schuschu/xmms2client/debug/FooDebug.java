@@ -78,9 +78,6 @@ public class FooDebug extends OutputStream {
 								if (sShell.isDisposed()) {
 									createSShell();
 								}
-								if (table.getItemCount() == limit) {
-									table.remove(0);
-								}
 
 								TableItem item = new TableItem(table, SWT.NONE);
 								item.setText(buffer.get(0).getText());
@@ -93,6 +90,9 @@ public class FooDebug extends OutputStream {
 								buffer.remove(0);
 								if (editAutoScrollItem.getSelection()) {
 									table.showItem(item);
+								}
+								if (limit !=0 && table.getItemCount() > limit) {
+									table.remove(0);
 								}
 							}
 						});
@@ -132,8 +132,8 @@ public class FooDebug extends OutputStream {
 			}
 		}
 	}
-	
-	private synchronized void refresh(){
+
+	private synchronized void refresh() {
 		notify();
 	}
 
@@ -261,14 +261,16 @@ public class FooDebug extends OutputStream {
 			@Override
 			public void handleEvent(Event arg0) {
 				String temp = FooInputDialog.show(sShell,
-						"Please enter new scrollback limit", "scrollback",
+						"Please enter new scrollback limit (0 to disable)", "scrollback",
 						limit + "");
 				if (temp != null) {
 					try {
 						int i = Integer.parseInt(temp);
 						limit = i;
-						while (table.getItemCount() > limit) {
-							table.remove(0);
+						if (limit != 0) {
+							while (table.getItemCount() > limit) {
+								table.remove(0);
+							}
 						}
 					} catch (NumberFormatException e) {
 						FooMessageDialog.show(sShell,

@@ -35,8 +35,6 @@ This part is about the things that are wrong in the current version:
   Create debug output for all relevant operations (values not just name) and
   maybe timing (needed ms)  
   
-  Autoscroll scrolls one off when using limited scrollback?
-  
   
     
  This part is about the Things I really want to do:
