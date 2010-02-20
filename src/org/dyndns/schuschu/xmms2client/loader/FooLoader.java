@@ -111,56 +111,95 @@ public class FooLoader {
 
 			// check whether host has been explity specified
 			if (args[run].equals("--host") || args[run].equals("-h")) {
-				trial_host = new String(args[run + 1]);
+				trial_host = new String(args[++run]);
 
 				if (validIPAddress(trial_host)) {
 					host = trial_host;
+				} else {
+					exitWithError("illegal host!");
 				}
 			}
 
 			// check whether port has been explity specified
-			if (args[run].equals("--port") || args[run].equals("-p")) {
+			else if (args[run].equals("--port") || args[run].equals("-p")) {
 				int trial_port = 0;
 
 				try {
-					trial_port = Integer.parseInt(args[run + 1]);
+					trial_port = Integer.parseInt(args[++run]);
 				} catch (NumberFormatException e) {
+					exitWithError("illegal port!");
 				} catch (ArrayIndexOutOfBoundsException e) {
 				}
 
 				// check port range
 				if ((trial_port > 0) && (trial_port < 65535)) {
 					port = trial_port;
+				} else {
+					exitWithError("illegal port!");
 				}
 			}
 
 			// check if the window is supposed to go into tray directly
-			if (args[run].equals("--icon") || args[run].equals("-i")) {
+			else if (args[run].equals("--icon") || args[run].equals("-i")) {
 				try {
-					show_on_start = args[run + 1].equals("on");
+					run++;
+					if (args[run].equals("on") || args[run].equals("off")) {
+						show_on_start = args[run].equals("on");
+					} else {
+						exitWithError("please specify either on or off");
+					}
 				} catch (ArrayIndexOutOfBoundsException e) {
-
+					exitWithError("please specify either on or off");
 				}
 			}
 
 			// check if the window is supposed to start maximized
-			if (args[run].equals("--maximized") || args[run].equals("-m")) {
+			else if (args[run].equals("--maximized") || args[run].equals("-m")) {
 				try {
-					max_on_start = args[run + 1].equals("on");
+					run++;
+					if (args[run].equals("on") || args[run].equals("off")) {
+						max_on_start = args[run].equals("on");
+					} else {
+						exitWithError("please specify either on or off");
+					}
 				} catch (ArrayIndexOutOfBoundsException e) {
-
+					exitWithError("please specify either on or off");
 				}
 			}
 
-			if (args[run].equals("--debug") || args[run].equals("-d")) {
-				FooLoader.DEBUG = true;
+			else if (args[run].equals("--debug") || args[run].equals("-d")) {
+				try {
+					run++;
+					if (args[run].equals("on") || args[run].equals("off")) {
+						FooLoader.DEBUG = args[run].equals("on");
+					} else {
+						exitWithError("please specify either on or off");
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					exitWithError("please specify either on or off");
+				}
 			}
 
-			if (args[run].equals("--visual") || args[run].equals("-v")) {
-				FooLoader.VISUAL = true;
+			else if (args[run].equals("--visual") || args[run].equals("-v")) {
+				try {
+					run++;
+					if (args[run].equals("on") || args[run].equals("off")) {
+						FooLoader.VISUAL = args[run].equals("on");
+					} else {
+						exitWithError("please specify either on or off");
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					exitWithError("please specify either on or off");
+				}
+			} else {
+				exitWithError("unkown argument " + args[run]);
 			}
 		}
+	}
 
+	private static void exitWithError(String message) {
+		System.out.println(message);
+		System.exit(1);
 	}
 
 	private static void createClient(String[] args) {
