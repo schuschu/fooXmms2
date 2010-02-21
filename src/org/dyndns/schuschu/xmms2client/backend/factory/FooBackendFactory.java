@@ -91,6 +91,8 @@ public class FooBackendFactory {
 				} else {
 					filterBackend.setContentProvider((FooInterfaceBackendFilter) window.backends.get(contentprovider));
 				}
+				
+				filterBackend.registerActionFactory();
 
 				window.backends.put(name, filterBackend);
 				return filterBackend;

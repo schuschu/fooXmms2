@@ -7,6 +7,8 @@ import java.util.Observable;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
@@ -581,6 +583,40 @@ public class FooBackendFilter extends Observable implements Serializable,
 	 * ACTION SECTION
 	 */
 
+	public void registerActionFactory() {
+		FooActionFactorySub factory = new FooActionFactorySub() {
+
+			@Override
+			public FooAction create(String name, int code) {
+				try {
+					switch (ActionType.valueOf(name)) {
+					case enqueue:
+						return ActionEnqueu(code);
+					case deselect:
+						return ActionDeselect(code);
+					case format:
+						return ActionFormat(code);
+					case order:
+						return ActionOrder(code);
+					}
+
+				} catch (NullPointerException e) {
+					// TODO: this is bad you know...
+				} catch (IllegalArgumentException e) {
+					// Thats not an enum!
+				}
+				return null;
+			}
+
+		};
+
+		FooActionFactory.factories.put(name, factory);
+	}
+
+	private enum ActionType {
+		enqueue, deselect, format, order;
+	}
+
 	public FooAction ActionEnqueu(int code) {
 		return new ActionEnqueu(code, this);
 	}
@@ -626,7 +662,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		return new ActionOrder(code, this);
 	}
 
-	//TODO: rename to sort...
+	// TODO: rename to sort...
 	public class ActionOrder extends FooAction {
 
 		private FooBackendFilter backend;

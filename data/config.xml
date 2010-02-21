@@ -185,6 +185,88 @@
 			<view>tablePlaylist</view>			
 			<source>KEYBOARD</source>
 		</action>
+		<action>
+			<path>playlistBackend</path>
+			<name>remove</name>
+			<code>DEL</code>
+			<view>tablePlaylist</view>			
+			<source>KEYBOARD</source>
+		</action>
+		<action>
+			<path>playlistBackend</path>
+			<name>deselect</name>
+			<code>ESC</code>
+			<view>tablePlaylist</view>			
+			<source>KEYBOARD</source>
+		</action>
+		
+		<action>
+			<path>artistBackend</path>
+			<name>enqueue</name>
+			<code>CR</code>
+			<view>listArtist</view>			
+			<source>KEYBOARD</source>
+		</action>
+		<action>
+			<path>artistBackend</path>
+			<name>enqueue</name>
+			<code>2</code>
+			<view>listArtist</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>artistBackend</path>
+			<name>deselect</name>
+			<code>ESC</code>
+			<view>listArtist</view>			
+			<source>KEYBOARD</source>
+		</action>
+		
+		<action>
+			<path>albumBackend</path>
+			<name>enqueue</name>
+			<code>CR</code>
+			<view>listAlbum</view>			
+			<source>KEYBOARD</source>
+		</action>
+		<action>
+			<path>albumBackend</path>
+			<name>enqueue</name>
+			<code>2</code>
+			<view>listAlbum</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>albumBackend</path>
+			<name>deselect</name>
+			<code>ESC</code>
+			<view>listAlbum</view>			
+			<source>KEYBOARD</source>
+		</action>
+		
+		<action>
+			<path>trackBackend</path>
+			<name>enqueue</name>
+			<code>CR</code>
+			<view>listTrack</view>			
+			<source>KEYBOARD</source>
+		</action>
+		<action>
+			<path>trackBackend</path>
+			<name>enqueue</name>
+			<code>2</code>
+			<view>listTrack</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>trackBackend</path>
+			<name>deselect</name>
+			<code>ESC</code>
+			<view>listTrack</view>			
+			<source>KEYBOARD</source>
+		</action>
+		
+		
 	</actions>
 	
 	<watches>
