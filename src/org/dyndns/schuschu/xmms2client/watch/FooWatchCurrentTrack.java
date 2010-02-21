@@ -11,18 +11,27 @@ import se.fnord.xmms2.client.commands.Playback;
 public class FooWatchCurrentTrack extends Thread {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
-	private String name = "FooWatchCurrentTrack";
+	private FooColor debugForeground = FooColor.WHITE;
+	private FooColor debugBackground = FooColor.RED;
 
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(FooColor.WHITE);
-				FooDebug.setBackground(FooColor.RED);
+				FooDebug.setForeground(debugForeground);
+				FooDebug.setBackground(debugBackground);
 			}
-			System.out.println("debug: " + name + " " + message);
+			System.out.println("debug: " +  super.getName() +" " + message);
 		}
 	}
+	
+	public void setDebugBackground(FooColor debugBackground) {
+		this.debugBackground = debugBackground;
+	}
 
+
+	public void setDebugForeground(FooColor debugForeground) {
+		this.debugForeground = debugForeground;
+	}
 	private boolean running;
 	private Command c;
 	private Runnable r;

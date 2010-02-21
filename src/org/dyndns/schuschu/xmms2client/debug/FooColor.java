@@ -1,9 +1,5 @@
 package org.dyndns.schuschu.xmms2client.debug;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 
 public enum FooColor {
@@ -30,13 +26,6 @@ public enum FooColor {
 			SWT.COLOR_WIDGET_LIGHT_SHADOW), WIDGET_NORMAL_SHADOW(
 			SWT.COLOR_WIDGET_NORMAL_SHADOW), YELLOW(SWT.COLOR_YELLOW);
 
-	private static final Map<Integer, FooColor> lookup = new HashMap<Integer, FooColor>();
-
-	static {
-		for (FooColor s : EnumSet.allOf(FooColor.class))
-			lookup.put(s.getCode(), s);
-	}
-
 	private int code;
 
 	private FooColor(int code) {
@@ -45,13 +34,5 @@ public enum FooColor {
 
 	public int getCode() {
 		return code;
-	}
-
-	public static FooColor get(int code) {
-		return lookup.get(code);
-	}
-	
-	public static FooColor fromString(String name){
-		return FooColor.valueOf(name);
 	}
 }

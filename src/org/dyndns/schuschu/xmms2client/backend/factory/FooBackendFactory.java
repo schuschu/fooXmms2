@@ -43,7 +43,7 @@ public class FooBackendFactory {
 		String format, filter, view, contentprovider, debugForeground, debugBackground;
 
 		try {
-			switch (FooBackendType.fromString(type)) {
+			switch (FooBackendType.valueOf(type)) {
 			case FooBackendFilter:
 				debug("creating FooBackendFilter " + name);
 
@@ -86,8 +86,8 @@ public class FooBackendFactory {
 				FooBackendFilter filterBackend = new FooBackendFilter(format, filter,
 						getView(view));
 				filterBackend.setName(name);
-				filterBackend.setDebugForeground(FooColor.fromString(debugForeground));
-				filterBackend.setDebugBackground(FooColor.fromString(debugBackground));
+				filterBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+				filterBackend.setDebugBackground(FooColor.valueOf(debugBackground));
 
 				if (contentprovider.equals("ALL")) {
 					filterBackend.setToAll();
@@ -109,8 +109,8 @@ public class FooBackendFactory {
 				
 				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(format, getViewPlaylist(view));
 				playlistBackend.setName(name);
-				playlistBackend.setDebugForeground(FooColor.fromString(debugForeground));
-				playlistBackend.setDebugBackground(FooColor.fromString(debugBackground));
+				playlistBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+				playlistBackend.setDebugBackground(FooColor.valueOf(debugBackground));
 			
 				window.backends.put(name, playlistBackend);
 				return playlistBackend;
@@ -125,8 +125,8 @@ public class FooBackendFactory {
 				
 				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(getView(view));
 				playlistSwitchBackend.setName(name);
-				playlistSwitchBackend.setDebugForeground(FooColor.fromString(debugForeground));
-				playlistSwitchBackend.setDebugBackground(FooColor.fromString(debugBackground));
+				playlistSwitchBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+				playlistSwitchBackend.setDebugBackground(FooColor.valueOf(debugBackground));
 			
 				window.backends.put(name, playlistSwitchBackend);
 				return playlistSwitchBackend;
@@ -142,8 +142,8 @@ public class FooBackendFactory {
 				
 				FooBackendText textBackend = new FooBackendText(format, getViewText(view));
 				textBackend.setName(name);
-				textBackend.setDebugForeground(FooColor.fromString(debugForeground));
-				textBackend.setDebugBackground(FooColor.fromString(debugBackground));
+				textBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+				textBackend.setDebugBackground(FooColor.valueOf(debugBackground));
 			
 				window.backends.put(name, textBackend);
 				return textBackend;

@@ -19,6 +19,7 @@ import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
+import org.dyndns.schuschu.xmms2client.watch.factory.FooWatchFactory;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
@@ -48,11 +49,13 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private FooViewFactory viewFactory = null;
 	private FooBackendFactory backendFactory = null;
+	private FooWatchFactory watchFactory = null;
 
 	private Point location;
 
 	public HashMap<String, Object> views = null;
 	public HashMap<String, Object> backends = null;
+	public HashMap<String, Object> watches = null;
 
 	/**
 	 * This method initializes SHELL
@@ -84,6 +87,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 		views = new HashMap<String, Object>();
 		backends = new HashMap<String, Object>();
+		watches = new HashMap<String, Object>();
 
 		createSShell();
 
@@ -91,15 +95,15 @@ public class FooWindow implements FooInterfaceWindow {
 
 		createBackends();
 
-		// create Watches 
-		getWatchCurrentPos().start();
-		getWatchPlaylistCombo().start();
-		getWatchPlaylistList().start();
-		getWatchPlaylistComboLoad().start();
-		getWatchPlaylistListLoad().start();
-		getWatchPlaybackPos().start();
-		getWatchPlaybackTrack().start();
-		getWatchPlaybackStatus().start();
+		createWatches();
+		
+		/*
+		 * // create Watches getWatchCurrentPos().start();
+		 * getWatchPlaylistCombo().start(); getWatchPlaylistList().start();
+		 * getWatchPlaylistComboLoad().start();
+		 * getWatchPlaylistListLoad().start(); getWatchPlaybackPos().start();
+		 * getWatchPlaybackTrack().start(); getWatchPlaybackStatus().start();
+		 */
 
 	}
 
@@ -167,9 +171,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createLayout(Element root) {
-		Element views = root;
 
-		NodeList nodes = views.getChildNodes();
+		NodeList nodes = root.getChildNodes();
 
 		for (int i = 0; i < nodes.getLength(); i++) {
 
@@ -196,9 +199,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createBackendElements(Element root) {
-		Element views = root;
 
-		NodeList nodes = views.getChildNodes();
+		NodeList nodes = root.getChildNodes();
 
 		for (int i = 0; i < nodes.getLength(); i++) {
 
@@ -213,7 +215,34 @@ public class FooWindow implements FooInterfaceWindow {
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
-				createViewElements(child);
+				// createBackendElements(child);
+			}
+
+		}
+	}
+
+	private void createWatches() {
+		createWatchElements(FooXML.getElement("watches"));
+	}
+
+	private void createWatchElements(Element root) {
+
+		NodeList nodes = root.getChildNodes();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				try {
+					getWatchFactory().create(child);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+				// createWatchElements(child);
 			}
 
 		}
@@ -244,15 +273,17 @@ public class FooWindow implements FooInterfaceWindow {
 	public FooWatchPlaylist getWatchPlaylistCombo() {
 		if (watchPlaylistCombo == null) {
 			watchPlaylistCombo = new FooWatchPlaylist(
-					(FooBackendPlaylistSwitch) backends.get("playlistComboBackend"));
+					(FooBackendPlaylistSwitch) backends
+							.get("playlistComboBackend"));
 		}
 		return watchPlaylistCombo;
 	}
-	
+
 	public FooWatchPlaylistLoad getWatchPlaylistComboLoad() {
 		if (watchPlaylistComboLoad == null) {
 			watchPlaylistComboLoad = new FooWatchPlaylistLoad(
-					(FooBackendPlaylistSwitch) backends.get("playlistComboBackend"));
+					(FooBackendPlaylistSwitch) backends
+							.get("playlistComboBackend"));
 		}
 		return watchPlaylistComboLoad;
 	}
@@ -317,5 +348,12 @@ public class FooWindow implements FooInterfaceWindow {
 			backendFactory = new FooBackendFactory(this);
 		}
 		return backendFactory;
+	}
+
+	public FooWatchFactory getWatchFactory() {
+		if (watchFactory == null) {
+			watchFactory = new FooWatchFactory(this);
+		}
+		return watchFactory;
 	}
 }

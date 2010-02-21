@@ -9,7 +9,7 @@
 			<visible>true</visible>
 		</window>
 		<debug>
-			<enabled>true</enabled>
+			<enabled>false</enabled>
 			<visual>false</visual>
 		</debug>
 	</config>
@@ -173,7 +173,67 @@
 	<actions>
 	</actions>
 	
-	<watchs>
-	</watchs>
+	<watches>
+		<watch>
+			<type>FooWatchPlaylist</type>
+			<name>watchPlaylistCombo</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>RED</debugBackground>
+			<backend>playlistComboBackend</backend>
+		</watch>
+		<watch>
+			<type>FooWatchPlaylist</type>
+			<name>watchPlaylistList</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>DARK_RED</debugBackground>
+			<backend>playlistBackend</backend>
+		</watch>
+		
+		<watch>
+			<type>FooWatchPlaylistLoad</type>
+			<name>watchPlaylistComboLoad</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>MAGENTA</debugBackground>
+			<backend>playlistComboBackend</backend>
+		</watch>
+		<watch>
+			<type>FooWatchPlaylistLoad</type>
+			<name>watchPlaylistListLoad</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>DARK_MAGENTA</debugBackground>
+			<backend>playlistBackend</backend>
+		</watch>
+
+		<watch>
+			<type>FooWatchCurrentTrack</type>
+			<name>watchCurrentPos</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>YELLOW</debugBackground>
+			<backend>playlistBackend</backend>
+		</watch>
+		<watch>
+			<type>FooWatchCurrentTrack</type>
+			<name>watchPlaybackTrack</name>
+			<debugForeground>BLUE</debugForeground>
+			<debugBackground>DARK_YELLOW</debugBackground>
+			<backend>statusbarBackend</backend>
+		</watch>
+
+		<watch>
+			<type>FooWatchPlaybackPos</type>
+			<name>watchPlaybackPos</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>BLACK</debugBackground>
+			<backend>statusbarBackend</backend>
+		</watch>
+
+		<watch>
+			<type>FooWatchPlaybackStatus</type>
+			<name>watchPlaybackStatus</name>
+			<debugForeground>WHITE</debugForeground>
+			<debugBackground>CYAN</debugBackground>
+			<backend>statusbarBackend</backend>
+		</watch>	
+	</watches>
 	
 </fooXmms2>

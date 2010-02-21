@@ -52,7 +52,7 @@ public class FooViewFactory {
 		String parent = FooXML.getTagValue("name", father);
 
 		try {
-			switch (FooViewType.fromString(type)) {
+			switch (FooViewType.valueOf(type)) {
 			case Composite:
 				debug("creating Composite " + name + " with parent " + parent);
 				Composite comp = new Composite(getComposite(parent), SWT.NONE);
