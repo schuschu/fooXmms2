@@ -66,6 +66,9 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooWatchPlaylist watchPlaylistCombo = null;
 	private FooWatchPlaylistLoad watchPlaylistComboLoad = null;
 	private FooWatchPlaylistLoad watchPlaylistListLoad = null;
+	private FooWatchPlaybackPos watchPlaybackPos = null;
+	private FooWatchCurrentTrack watchPlaybackTrack = null;
+	private FooWatchPlaybackStatus watchPlaybackStatus = null;
 
 	private Point location;
 
@@ -108,18 +111,10 @@ public class FooWindow implements FooInterfaceWindow {
 		getWatchPlaylistList().start();
 		getWatchPlaylistComboLoad().start();
 		getWatchPlaylistListLoad().start();
+		getWatchPlaybackPos().start();
+		getWatchPlaybackTrack().start();
+		getWatchPlaybackStatus().start();
 
-		FooWatchPlaybackPos playbackPosWatch = new FooWatchPlaybackPos(
-				statusbarBackend);
-		playbackPosWatch.start();
-
-		FooWatchCurrentTrack playbackTrackWatch = new FooWatchCurrentTrack(
-				statusbarBackend);
-		playbackTrackWatch.start();
-
-		FooWatchPlaybackStatus playbackStatusWatch = new FooWatchPlaybackStatus(
-				statusbarBackend);
-		playbackStatusWatch.start();
 	}
 
 	private void createSShell() {
@@ -321,6 +316,27 @@ public class FooWindow implements FooInterfaceWindow {
 			watchPlaylistListLoad = new FooWatchPlaylistLoad(playlistBackend);
 		}
 		return watchPlaylistListLoad;
+	}
+
+	public FooWatchPlaybackPos getWatchPlaybackPos() {
+		if (watchPlaybackPos == null) {
+			watchPlaybackPos = new FooWatchPlaybackPos(statusbarBackend);
+		}
+		return watchPlaybackPos;
+	}
+
+	public FooWatchCurrentTrack getWatchPlaybackTrack() {
+		if (watchPlaybackTrack == null) {
+			watchPlaybackTrack = new FooWatchCurrentTrack(statusbarBackend);
+		}
+		return watchPlaybackTrack;
+	}
+
+	public FooWatchPlaybackStatus getWatchPlaybackStatus() {
+		if (watchPlaybackStatus == null) {
+			watchPlaybackStatus = new FooWatchPlaybackStatus(statusbarBackend);
+		}
+		return watchPlaybackStatus;
 	}
 
 	public void createListArtist() {

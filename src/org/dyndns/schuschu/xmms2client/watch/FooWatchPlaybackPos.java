@@ -38,14 +38,23 @@ public class FooWatchPlaybackPos extends Thread {
 			DELAY = 100;
 		}
 
-		c = Playback.playtimeSignal();
-
 		r = new Runnable() {
 			public void run() {
 				debug("fire");
 				backend.setCurrentTime(time);
 			}
 		};
+
+		Command t = Playback.playtime();
+
+		try {
+			time = t.executeSync(FooLoader.CLIENT);
+			FooRunner.run(r);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+
+		c = Playback.playtimeSignal();
 
 	}
 
