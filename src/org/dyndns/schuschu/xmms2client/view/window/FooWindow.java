@@ -5,21 +5,13 @@ import java.io.InputStream;
 
 import java.util.HashMap;
 
-import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
-import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
-import org.dyndns.schuschu.xmms2client.backend.FooBackendText;
-import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
-
+import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
 import org.dyndns.schuschu.xmms2client.view.element.factory.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
-import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos;
-import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus;
-import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist;
-import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad;
 import org.dyndns.schuschu.xmms2client.watch.factory.FooWatchFactory;
+
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
@@ -37,15 +29,6 @@ public class FooWindow implements FooInterfaceWindow {
 	public static Shell SHELL = null;
 
 	private Display display;
-
-	private FooWatchCurrentTrack watchCurrentPos = null;
-	private FooWatchPlaylist watchPlaylistList = null;
-	private FooWatchPlaylist watchPlaylistCombo = null;
-	private FooWatchPlaylistLoad watchPlaylistComboLoad = null;
-	private FooWatchPlaylistLoad watchPlaylistListLoad = null;
-	private FooWatchPlaybackPos watchPlaybackPos = null;
-	private FooWatchCurrentTrack watchPlaybackTrack = null;
-	private FooWatchPlaybackStatus watchPlaybackStatus = null;
 
 	private FooViewFactory viewFactory = null;
 	private FooBackendFactory backendFactory = null;
@@ -96,14 +79,6 @@ public class FooWindow implements FooInterfaceWindow {
 		createBackends();
 
 		createWatches();
-		
-		/*
-		 * // create Watches getWatchCurrentPos().start();
-		 * getWatchPlaylistCombo().start(); getWatchPlaylistList().start();
-		 * getWatchPlaylistComboLoad().start();
-		 * getWatchPlaylistListLoad().start(); getWatchPlaybackPos().start();
-		 * getWatchPlaybackTrack().start(); getWatchPlaybackStatus().start();
-		 */
 
 	}
 
@@ -259,83 +234,6 @@ public class FooWindow implements FooInterfaceWindow {
 		return display;
 	}
 
-	@Override
-	public void loop() {
-		while (!SHELL.isDisposed()) {
-			if (!getDisplay().readAndDispatch()) {
-				getDisplay().sleep();
-			}
-		}
-		getDisplay().dispose();
-		FooLoader.CLIENT.stop();
-	}
-
-	public FooWatchPlaylist getWatchPlaylistCombo() {
-		if (watchPlaylistCombo == null) {
-			watchPlaylistCombo = new FooWatchPlaylist(
-					(FooBackendPlaylistSwitch) backends
-							.get("playlistComboBackend"));
-		}
-		return watchPlaylistCombo;
-	}
-
-	public FooWatchPlaylistLoad getWatchPlaylistComboLoad() {
-		if (watchPlaylistComboLoad == null) {
-			watchPlaylistComboLoad = new FooWatchPlaylistLoad(
-					(FooBackendPlaylistSwitch) backends
-							.get("playlistComboBackend"));
-		}
-		return watchPlaylistComboLoad;
-	}
-
-	public FooWatchPlaylist getWatchPlaylistList() {
-		if (watchPlaylistList == null) {
-			watchPlaylistList = new FooWatchPlaylist(
-					(FooBackendPlaylist) backends.get("playlistBackend"));
-		}
-		return watchPlaylistList;
-	}
-
-	public FooWatchCurrentTrack getWatchCurrentPos() {
-		if (watchCurrentPos == null) {
-			watchCurrentPos = new FooWatchCurrentTrack(
-					(FooBackendPlaylist) backends.get("playlistBackend"));
-		}
-		return watchCurrentPos;
-	}
-
-	public FooWatchPlaylistLoad getWatchPlaylistListLoad() {
-		if (watchPlaylistListLoad == null) {
-			watchPlaylistListLoad = new FooWatchPlaylistLoad(
-					(FooBackendPlaylist) backends.get("playlistBackend"));
-		}
-		return watchPlaylistListLoad;
-	}
-
-	public FooWatchPlaybackPos getWatchPlaybackPos() {
-		if (watchPlaybackPos == null) {
-			watchPlaybackPos = new FooWatchPlaybackPos(
-					(FooBackendText) backends.get("statusbarBackend"));
-		}
-		return watchPlaybackPos;
-	}
-
-	public FooWatchCurrentTrack getWatchPlaybackTrack() {
-		if (watchPlaybackTrack == null) {
-			watchPlaybackTrack = new FooWatchCurrentTrack(
-					(FooBackendText) backends.get("statusbarBackend"));
-		}
-		return watchPlaybackTrack;
-	}
-
-	public FooWatchPlaybackStatus getWatchPlaybackStatus() {
-		if (watchPlaybackStatus == null) {
-			watchPlaybackStatus = new FooWatchPlaybackStatus(
-					(FooBackendText) backends.get("statusbarBackend"));
-		}
-		return watchPlaybackStatus;
-	}
-
 	public FooViewFactory getViewFactory() {
 		if (viewFactory == null) {
 			viewFactory = new FooViewFactory(this);
@@ -355,5 +253,16 @@ public class FooWindow implements FooInterfaceWindow {
 			watchFactory = new FooWatchFactory(this);
 		}
 		return watchFactory;
+	}
+
+	@Override
+	public void loop() {
+		while (!SHELL.isDisposed()) {
+			if (!getDisplay().readAndDispatch()) {
+				getDisplay().sleep();
+			}
+		}
+		getDisplay().dispose();
+		FooLoader.CLIENT.stop();
 	}
 }
