@@ -139,6 +139,7 @@
 			<debugBackground>WHITE</debugBackground>
 			<contentprovider>albumBackend</contentprovider>
 		</backend>
+		
 		<backend>
 			<type>FooBackendPlaylistSwitch</type>
 			<name>playlistComboBackend</name>
@@ -156,6 +157,7 @@
 			<debugForeground>BLUE</debugForeground>
 			<debugBackground>WHITE</debugBackground>
 		</backend>
+		
 		<backend>
 			<type>FooBackendText</type>
 			<name>statusbarBackend</name>

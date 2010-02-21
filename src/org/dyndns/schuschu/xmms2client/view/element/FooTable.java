@@ -66,7 +66,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl {
 
 	@Override
 	public void highlight(int index) {
-
+			
 		final Color hlcolor = getTable().getDisplay().getSystemColor(
 				SWT.COLOR_WIDGET_NORMAL_SHADOW);
 		final Color defcolor = getTable().getDisplay().getSystemColor(
@@ -191,7 +191,6 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl {
 	@Override
 	public void setBackend(FooInterfaceBackend backend) {
 		this.backend = backend;
-
 	}
 
 	public void setTable(Table table) {
