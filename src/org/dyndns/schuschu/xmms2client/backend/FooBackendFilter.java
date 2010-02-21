@@ -279,7 +279,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	 */
 	public FooBackendFilter(String format, String filter, FooInterfaceView view) {
 		debug("FooBackendFilter");
-		this.view = view;
+		this.setView(view);
 		this.setFilter(filter);
 		this.setFormat(format);
 		this.baseConetent = CollectionBuilder.getEmptyExpression();
@@ -493,6 +493,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	public void setView(FooInterfaceView view) {
 		debug("setView");
 		this.view = view;
+		view.setBackend(this);
 	}
 
 	/**

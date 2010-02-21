@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.backend;
+package org.dyndns.schuschu.xmms2client.backend.factory;
 
 import se.fnord.xmms2.client.internal.OrdinalMap;
 

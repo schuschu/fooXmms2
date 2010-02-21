@@ -51,8 +51,9 @@ public class FooBackendText implements FooInterfaceBackendText {
 
 	private String text;
 
-	public FooBackendText(String format) {
+	public FooBackendText(String format, FooInterfaceText view) {
 		debug("FooBackendText");
+		setView(view);
 		setFormat(format);
 	}
 
@@ -145,6 +146,7 @@ public class FooBackendText implements FooInterfaceBackendText {
 	public void setView(FooInterfaceText view) {
 		debug("setView");
 		this.view = view;
+		view.setBackend(this);
 	}
 
 	public FooInterfaceText getView() {

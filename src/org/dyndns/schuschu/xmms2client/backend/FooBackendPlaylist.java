@@ -81,10 +81,10 @@ public class FooBackendPlaylist implements Serializable,
 
 	public FooBackendPlaylist(String format, FooInterfaceViewPlaylist view) {
 		debug("FooBackendPlaylist");
-		this.view = view;
+		this.setView(view);
 		this.setFormat(format);
 
-
+		refresh();
 
 	}
 
@@ -331,6 +331,7 @@ public class FooBackendPlaylist implements Serializable,
 	public void setView(FooInterfaceViewPlaylist view) {
 		debug("setView");
 		this.view = view;
+		view.setBackend(this);
 	}
 
 	/**

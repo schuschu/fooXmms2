@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.view.element;
+package org.dyndns.schuschu.xmms2client.view.element.factory;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
@@ -8,6 +8,11 @@ import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlaylist;
+import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
+import org.dyndns.schuschu.xmms2client.view.element.FooLabel;
+import org.dyndns.schuschu.xmms2client.view.element.FooList;
+import org.dyndns.schuschu.xmms2client.view.element.FooSashForm;
+import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -53,28 +58,28 @@ public class FooViewFactory {
 				Composite comp = new Composite(getComposite(parent), SWT.NONE);
 				comp.setLayout(new FormLayout());
 
-				window.items.put(name, comp);
+				window.views.put(name, comp);
 				return comp;
 
 			case FooList:
 				debug("creating FooList " + name + " with parent " + parent);
 				FooList list = new FooList(getComposite(parent));
-				window.items.put(name, list);
+				window.views.put(name, list);
 				return list;
 			case FooCombo:
 				debug("creating FooCombo " + name + " with parent " + parent);
 				FooCombo combo = new FooCombo(getComposite(parent));
-				window.items.put(name, combo);
+				window.views.put(name, combo);
 				return combo;
 			case FooTable:
 				debug("creating FooTable " + name + " with parent " + parent);
 				FooTable table = new FooTable(getComposite(parent));
-				window.items.put(name, table);
+				window.views.put(name, table);
 				return table;
 			case FooLabel:
 				debug("creating FooLabel " + name + " with parent " + parent);
 				FooLabel label = new FooLabel(getComposite(parent));
-				window.items.put(name, label);
+				window.views.put(name, label);
 				return label;
 
 			case FooButtonsPlaylist:
@@ -82,19 +87,19 @@ public class FooViewFactory {
 						+ parent);
 				FooButtonsPlaylist listButtons = new FooButtonsPlaylist(
 						getComposite(parent), SWT.NONE);
-				window.items.put(name, listButtons);
+				window.views.put(name, listButtons);
 				return listButtons;
 			case FooButtonsPlayback:
 				debug("creating FooButtonsPlayback " + name + " with parent "
 						+ parent);
 				FooButtonsPlayback playButtons = new FooButtonsPlayback(
 						getComposite(parent), SWT.NONE);
-				window.items.put(name, playButtons);
+				window.views.put(name, playButtons);
 				return playButtons;
 			case FooSashForm:
 				debug("creating SashForm " + name + " with parent " + parent);
 				FooSashForm sash = new FooSashForm(getComposite(parent));
-				window.items.put(name, sash);
+				window.views.put(name, sash);
 				return sash;
 			}
 		} catch (NullPointerException e) {
@@ -107,7 +112,7 @@ public class FooViewFactory {
 	}
 
 	private Composite getComposite(String s) {
-		Object o = window.items.get(s);
+		Object o = window.views.get(s);
 		if (o instanceof Composite) {
 			return (Composite) o;
 		}
@@ -119,7 +124,7 @@ public class FooViewFactory {
 	}
 
 	private Control getControl(String s) {
-		Object o = window.items.get(s);
+		Object o = window.views.get(s);
 		if (o instanceof FooInterfaceControl) {
 			return ((FooInterfaceControl) o).getControl();
 		}

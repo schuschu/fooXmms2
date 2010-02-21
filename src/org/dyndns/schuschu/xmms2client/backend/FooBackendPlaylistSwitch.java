@@ -95,12 +95,12 @@ public class FooBackendPlaylistSwitch extends Observable implements
 			Thread.currentThread().interrupt();
 		}
 
-		view
+		getView()
 				.setContent(new Vector<String>(Arrays
 						.asList(getPlaylistDatabase())));
 
 		try {
-			view.setSelection(new int[] { getActivePlaylistId() });
+			getView().setSelection(new int[] { getActivePlaylistId() });
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
@@ -124,7 +124,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	 */
 	public FooBackendPlaylistSwitch(FooInterfaceView view) {
 		debug("FooBackendPlaylistSwitch");
-		this.view = view;
+		this.setView(view);
 		this.playlistDatabase = null;
 
 		refresh();
@@ -156,7 +156,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	public void loadPlaylist() {
 		debug("loadPlaylist");
 
-		int selection = view.getIndices()[0];
+		int selection = getView().getIndices()[0];
 
 		if (selection >= 0) {
 
@@ -220,5 +220,11 @@ public class FooBackendPlaylistSwitch extends Observable implements
 
 	public FooColor getDebugBackground() {
 		return debugBackground;
+	}
+
+	public void setView(FooInterfaceView view) {
+		debug("setView");
+		this.view = view;
+		view.setBackend(this);
 	}
 }

@@ -9,6 +9,7 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendText;
+import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
@@ -20,7 +21,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooLabel;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
-import org.dyndns.schuschu.xmms2client.view.element.FooViewFactory;
+import org.dyndns.schuschu.xmms2client.view.element.factory.FooViewFactory;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus;
@@ -33,7 +34,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -76,10 +76,12 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooWatchPlaybackStatus watchPlaybackStatus = null;
 
 	private FooViewFactory viewFactory = null;
+	private FooBackendFactory backendFactory = null;
 
 	private Point location;
 
-	public HashMap<String, Object> items=null;
+	public HashMap<String, Object> views=null;
+	public HashMap<String, Object> backends=null;
 
 	/**
 	 * This method initializes SHELL
@@ -109,11 +111,14 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public void initalize() {
 
-		items = new HashMap<String, Object>();
+		views = new HashMap<String, Object>();
+		backends = new HashMap<String, Object>();
 		
 		createSShell();
 
 		createViews();
+		
+		createBackends();
 
 		/*
 		 * // init playlist tablePlaylist.getBackend().refresh();
@@ -130,7 +135,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private void createSShell() {
 		SHELL = new Shell(getDisplay());
 
-		items.put("SHELL", SHELL);
+		views.put("SHELL", SHELL);
 
 		SHELL.setText("fooXmms2");
 		SHELL.setSize(new Point(WIDTH, HEIGHT));
@@ -182,11 +187,11 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 	
 	private void createViews(){
-		createElements(FooXML.getElement("views"));
+		createViewElements(FooXML.getElement("views"));
 		createLayout(FooXML.getElement("views"));
 	}
 
-	private void createElements(Element root) {
+	private void createViewElements(Element root) {
 		Element views = root;
 
 		NodeList nodes = views.getChildNodes();
@@ -204,7 +209,7 @@ public class FooWindow implements FooInterfaceWindow {
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
-				createElements(child);
+				createViewElements(child);
 			}
 
 		}
@@ -234,12 +239,40 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 
 	}
+	
+	private void createBackends(){
+		createBackendElements(FooXML.getElement("backends"));
+	}
+	
+	private void createBackendElements(Element root){
+		Element views = root;
+
+		NodeList nodes = views.getChildNodes();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				try {
+					getBackendFactory().create(child);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+				createViewElements(child);
+			}
+
+		}
+	}
 
 	private void createStatusbar() {
 		statusbar = new FooLabel(SHELL, SWT.BORDER);
 
 		statusbarBackend = new FooBackendText(
-				"%status%: %artist% - %title%: %currentTime%/%duration%");
+				"%status%: %artist% - %title%: %currentTime%/%duration%",statusbar);
 
 		statusbarBackend.setName("statusbar");
 		statusbarBackend.setDebugForeground(FooColor.DARK_YELLOW);
@@ -260,7 +293,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private void createCompositePlaylist() {
 		compositePlaylist = new Composite(sashFormMain, SWT.NONE);
-		items.put("compositePlaylist", compositePlaylist);
+		views.put("compositePlaylist", compositePlaylist);
 
 		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
@@ -522,9 +555,8 @@ public class FooWindow implements FooInterfaceWindow {
 
 		/*
 		 * listTrack.addAction(FooSource.MOUSE, trackBackend.ActionEnqueu(2));
-		 * listTrack.addAction(FooSource.KEYBOARD, trackBackend
-		 * .ActionEnqueu(SWT.CR)); listTrack.addAction(FooSource.KEYBOARD,
-		 * trackBackend .ActionDeselect(SWT.ESC));
+		 * listTrack.addAction(FooSource.KEYBOARD, trackBackend.ActionEnqueu(SWT.CR)); 
+		 * listTrack.addAction(FooSource.KEYBOARD, trackBackend.ActionDeselect(SWT.ESC));
 		 * 
 		 * FooMenu menu = new FooMenu(SHELL);
 		 * 
@@ -638,5 +670,12 @@ public class FooWindow implements FooInterfaceWindow {
 			viewFactory = new FooViewFactory(this);
 		}
 		return viewFactory;
+	}
+	
+	public FooBackendFactory getBackendFactory() {
+		if (backendFactory == null) {
+			backendFactory = new FooBackendFactory(this);
+		}
+		return backendFactory;
 	}
 }

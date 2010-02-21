@@ -140,6 +140,15 @@
 			<contentprovider>albumBackend</contentprovider>
 		</backend>
 		<backend>
+			<type>FooBackendPlaylistSwitch</type>
+			<name>playlistComboBackend</name>
+			<view>comboPlaylist</view>
+			<debugForeground>GRAY</debugForeground>
+			<debugBackground>WHITE</debugBackground>
+		</backend>
+		
+		
+		<backend>
 			<type>FooBackendPlaylist</type>
 			<name>playlistBackend</name>
 			<format>%artist% - %title%</format>
