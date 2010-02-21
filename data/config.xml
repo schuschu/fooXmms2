@@ -9,7 +9,7 @@
 			<visible>true</visible>
 		</window>
 		<debug>
-			<enabled>false</enabled>
+			<enabled>true</enabled>
 			<visual>false</visual>
 		</debug>
 	</config>
@@ -19,36 +19,91 @@
 			<type>Shell</type>
 			<name>SHELL</name>
 			<sash>
-				<type>SashForm</type>
+				<type>FooSashForm</type>
 				<name>sashFormMain</name>
+				<layoutdata>
+					<type>FormData</type>
+					<top>0</top>
+					<left>0</left>
+					<right>100</right>
+					<bottom>statusbar</bottom>
+				</layoutdata>
 				<view>
 					<type>FooList</type>
 					<name>listArtist</name>
+					<backend>artistBackend</backend>
 				</view>
 					
 				<view>
 					<type>FooList</type>
 					<name>listAlbum</name>
+					<backend>albumBackend</backend>
 				</view>
 					
 				<view>
 					<type>FooList</type>
 					<name>listTrack</name>
+					<backend>trackBackend</backend>
 				</view>
 				<composite>
 					<type>Composite</type>
 					<name>compositePlaylist</name>	
+					<Layout>FormLayout</Layout>					
+					
 					<view>
 						<type>FooCombo</type>
 						<name>comboPlaylist</name>
+						<layoutdata>
+							<type>FormData</type>
+							<top>0</top>
+							<left>0</left>
+							<right>100</right>
+						</layoutdata>
 					</view>
 						
 					<view>
 						<type>FooTable</type>
 						<name>tablePlaylist</name>
+						<layoutdata>
+						<type>FormData</type>
+							<top>comboPlaylist</top>
+							<left>0</left>
+							<right>100</right>
+							<bottom>buttonsPlaylist</bottom>
+						</layoutdata>
+					</view>
+					<view>
+						<type>FooButtonsPlaylist</type>
+						<name>buttonsPlaylist</name>
+						<layoutdata>
+							<type>FormData</type>
+							<left>0</left>
+							<right>100</right>
+							<bottom>buttonsPlayback</bottom>
+						</layoutdata>
+					</view>
+					<view>
+						<type>FooButtonsPlayback</type>
+						<name>buttonsPlayback</name>
+						<layoutdata>
+							<type>FormData</type>
+							<left>0</left>
+							<right>100</right>
+							<bottom>100</bottom>
+						</layoutdata>
 					</view>
 				</composite>
 			</sash>
+			<statusbar>
+				<type>FooLabel</type>
+				<name>statusbar</name>
+				<layoutdata>
+					<type>FormData</type>
+					<left>0</left>
+					<right>100</right>
+					<bottom>100</bottom>
+				</layoutdata>
+			</statusbar>
 		</shell>
 	</views>
 	
@@ -88,9 +143,19 @@
 			<type>FooBackendPlaylist</type>
 			<name>playlistBackend</name>
 			<format>%artist% - %title%</format>
+			<view>tablePlaylist</view>
 			<debugForeground>BLUE</debugForeground>
 			<debugBackground>WHITE</debugBackground>
 		</backend>
+		<backend>
+			<type>FooBackendText</type>
+			<name>statusbarBackend</name>
+			<format>%status%: %artist% - %title%: %currentTime%/%duration%</format>
+			<view>statusbar</view>
+			<debugForeground>DARK_YELLOW</debugForeground>
+			<debugBackground>WHITE</debugBackground>
+		</backend>
+		
 		
 	</backends>
 	

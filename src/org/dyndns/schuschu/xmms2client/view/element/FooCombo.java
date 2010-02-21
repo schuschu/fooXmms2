@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
@@ -18,8 +19,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
-public class FooCombo implements FooInterfaceView {
+public class FooCombo implements FooInterfaceView,FooInterfaceControl {
 
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;
@@ -136,5 +138,10 @@ public class FooCombo implements FooInterfaceView {
 	@Override
 	public void setMenu(FooMenu menu) {
 		combo.setMenu(menu.getMenu());
+	}
+
+	@Override
+	public Control getControl() {
+		return combo;
 	}
 }

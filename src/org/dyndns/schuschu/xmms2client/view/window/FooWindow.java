@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import java.util.HashMap;
 
-import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
@@ -22,8 +21,6 @@ import org.dyndns.schuschu.xmms2client.view.element.FooLabel;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.dyndns.schuschu.xmms2client.view.element.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
-import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus;
@@ -36,10 +33,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class FooWindow implements FooInterfaceWindow {
 
@@ -79,7 +79,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private Point location;
 
-	public HashMap<String, Object> items = new HashMap<String, Object>();
+	public HashMap<String, Object> items=null;
 
 	/**
 	 * This method initializes SHELL
@@ -109,51 +109,54 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public void initalize() {
 
+		items = new HashMap<String, Object>();
+		
 		createSShell();
 
-		// init playlist
-		tablePlaylist.getBackend().refresh();
+		createViews();
 
-		// create Watches
-		getWatchCurrentPos().start();
-		getWatchPlaylistCombo().start();
-		getWatchPlaylistList().start();
-		getWatchPlaylistComboLoad().start();
-		getWatchPlaylistListLoad().start();
-		getWatchPlaybackPos().start();
-		getWatchPlaybackTrack().start();
-		getWatchPlaybackStatus().start();
+		/*
+		 * // init playlist tablePlaylist.getBackend().refresh();
+		 * 
+		 * // create Watches getWatchCurrentPos().start();
+		 * getWatchPlaylistCombo().start(); getWatchPlaylistList().start();
+		 * getWatchPlaylistComboLoad().start();
+		 * getWatchPlaylistListLoad().start(); getWatchPlaybackPos().start();
+		 * getWatchPlaybackTrack().start(); getWatchPlaybackStatus().start();
+		 */
 
 	}
 
 	private void createSShell() {
 		SHELL = new Shell(getDisplay());
-		
+
 		items.put("SHELL", SHELL);
-		
+
 		SHELL.setText("fooXmms2");
 		SHELL.setSize(new Point(WIDTH, HEIGHT));
 
+		// FormLayout layout = new FormLayout();
 		FormLayout layout = new FormLayout();
 		SHELL.setLayout(layout);
 
-		createSashFormMain();
-
-		createStatusbar();
-
-		FormData sashData = new FormData();
-		sashData.top = new FormAttachment(0, 0);
-		sashData.left = new FormAttachment(0, 0);
-		sashData.right = new FormAttachment(100, 0);
-		sashData.bottom = new FormAttachment(statusbar.getLabel(), 0);
-		sashFormMain.setLayoutData(sashData);
-
-		FormData labelData = new FormData();
-		labelData.left = new FormAttachment(0, 0);
-		labelData.right = new FormAttachment(100, 0);
-		labelData.bottom = new FormAttachment(100, 0);
-
-		statusbar.setLayoutData(labelData);
+		/*
+		 * createSashFormMain();
+		 * 
+		 * createStatusbar();
+		 * 
+		 * FormData sashData = new FormData(); sashData.top = new
+		 * FormAttachment(0, 0); sashData.left = new FormAttachment(0, 0);
+		 * sashData.right = new FormAttachment(100, 0); sashData.bottom = new
+		 * FormAttachment(statusbar.getLabel(), 0);
+		 * sashFormMain.setLayoutData(sashData);
+		 * 
+		 * FormData labelData = new FormData(); 
+		 * labelData.left = new FormAttachment(0, 0); 
+		 * labelData.right = new FormAttachment(100, 0);
+		 * labelData.bottom = new FormAttachment(100, 0);
+		 * 
+		 * statusbar.setLayoutData(labelData);
+		 */
 
 		Image image = null;
 
@@ -178,6 +181,60 @@ public class FooWindow implements FooInterfaceWindow {
 
 	}
 	
+	private void createViews(){
+		createElements(FooXML.getElement("views"));
+		createLayout(FooXML.getElement("views"));
+	}
+
+	private void createElements(Element root) {
+		Element views = root;
+
+		NodeList nodes = views.getChildNodes();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				try {
+					getViewFactory().create(child);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+				createElements(child);
+			}
+
+		}
+	}
+		
+	private void createLayout(Element root) {
+		Element views = root;
+
+		NodeList nodes = views.getChildNodes();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				try {
+					getViewFactory().createLayoutData(child);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+				createLayout(child);
+			}
+
+		}
+
+	}
+
 	private void createStatusbar() {
 		statusbar = new FooLabel(SHELL, SWT.BORDER);
 
@@ -190,9 +247,10 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createSashFormMain() {
-		Element element = FooXML.getElementWithName("views/shell", "sashFormMain");
-		sashFormMain = (SashForm) getViewFactory().create(element); 
-		//sashFormMain = new SashForm(SHELL, SWT.NONE);
+		Element element = FooXML.getElementWithName("views/shell",
+				"sashFormMain");
+		sashFormMain = (SashForm) getViewFactory().create(element);
+		// sashFormMain = new SashForm(SHELL, SWT.NONE);
 
 		createListArtist();
 		createListAlbum();
@@ -203,7 +261,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private void createCompositePlaylist() {
 		compositePlaylist = new Composite(sashFormMain, SWT.NONE);
 		items.put("compositePlaylist", compositePlaylist);
-		
+
 		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
 
@@ -356,7 +414,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListArtist() {
-		Element view = FooXML.getElementWithName("views/shell/sash", "listArtist");
+		Element view = FooXML.getElementWithName("views/shell/sash",
+				"listArtist");
 		listArtist = (FooList) viewFactory.create(view);
 
 		Element root = FooXML.getElementWithName("backends", "artistBackend");
@@ -373,30 +432,33 @@ public class FooWindow implements FooInterfaceWindow {
 		artistBackend.setDebugBackground(FooColor.fromString(debugBackground));
 
 		artistBackend.setToAll();
+
 		listArtist.setBackend(artistBackend);
 
-		listArtist.addAction(FooSource.MOUSE, artistBackend.ActionEnqueu(2));
-		listArtist.addAction(FooSource.KEYBOARD, artistBackend
-				.ActionEnqueu(SWT.CR));
-		listArtist.addAction(FooSource.KEYBOARD, artistBackend
-				.ActionDeselect(SWT.ESC));
-
-		FooMenu menu = new FooMenu(SHELL);
-
-		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
-		orderItem.setText("change order");
-		orderItem.addAction(artistBackend.ActionOrder(0));
-
-		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
-		formatItem.setText("change format");
-		formatItem.addAction(artistBackend.ActionFormat(0));
-
-		listArtist.setMenu(menu);
+		/*
+		 * listArtist.addAction(FooSource.MOUSE, artistBackend.ActionEnqueu(2));
+		 * listArtist.addAction(FooSource.KEYBOARD, artistBackend
+		 * .ActionEnqueu(SWT.CR)); listArtist.addAction(FooSource.KEYBOARD,
+		 * artistBackend .ActionDeselect(SWT.ESC));
+		 * 
+		 * FooMenu menu = new FooMenu(SHELL);
+		 * 
+		 * FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		 * orderItem.setText("change order");
+		 * orderItem.addAction(artistBackend.ActionOrder(0));
+		 * 
+		 * FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		 * formatItem.setText("change format");
+		 * formatItem.addAction(artistBackend.ActionFormat(0));
+		 * 
+		 * listArtist.setMenu(menu);
+		 */
 
 	}
 
 	public void createListAlbum() {
-		Element view = FooXML.getElementWithName("views/shell/sash", "listAlbum");
+		Element view = FooXML.getElementWithName("views/shell/sash",
+				"listAlbum");
 		listAlbum = (FooList) viewFactory.create(view);
 
 		Element root = FooXML.getElementWithName("backends", "albumBackend");
@@ -413,30 +475,32 @@ public class FooWindow implements FooInterfaceWindow {
 		albumBackend.setDebugBackground(FooColor.fromString(debugBackground));
 
 		albumBackend.setContentProvider(artistBackend);
+
 		listAlbum.setBackend(albumBackend);
 
-		listAlbum.addAction(FooSource.MOUSE, albumBackend.ActionEnqueu(2));
-		listAlbum.addAction(FooSource.KEYBOARD, albumBackend
-				.ActionEnqueu(SWT.CR));
-		listAlbum.addAction(FooSource.KEYBOARD, albumBackend
-				.ActionDeselect(SWT.ESC));
-
-		FooMenu menu = new FooMenu(SHELL);
-
-		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
-		orderItem.setText("change order");
-		orderItem.addAction(albumBackend.ActionOrder(0));
-
-		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
-		formatItem.setText("change format");
-		formatItem.addAction(albumBackend.ActionFormat(0));
-
-		listAlbum.setMenu(menu);
-
+		/*
+		 * listAlbum.addAction(FooSource.MOUSE, albumBackend.ActionEnqueu(2));
+		 * listAlbum.addAction(FooSource.KEYBOARD, albumBackend
+		 * .ActionEnqueu(SWT.CR)); listAlbum.addAction(FooSource.KEYBOARD,
+		 * albumBackend .ActionDeselect(SWT.ESC));
+		 * 
+		 * FooMenu menu = new FooMenu(SHELL);
+		 * 
+		 * FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		 * orderItem.setText("change order");
+		 * orderItem.addAction(albumBackend.ActionOrder(0));
+		 * 
+		 * FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		 * formatItem.setText("change format");
+		 * formatItem.addAction(albumBackend.ActionFormat(0));
+		 * 
+		 * listAlbum.setMenu(menu);
+		 */
 	}
 
 	public void createListTrack() {
-		Element view = FooXML.getElementWithName("views/shell/sash", "listTrack");
+		Element view = FooXML.getElementWithName("views/shell/sash",
+				"listTrack");
 		listTrack = (FooList) viewFactory.create(view);
 
 		Element root = FooXML.getElementWithName("backends", "trackBackend");
@@ -453,32 +517,34 @@ public class FooWindow implements FooInterfaceWindow {
 		trackBackend.setDebugBackground(FooColor.fromString(debugBackground));
 
 		trackBackend.setContentProvider(albumBackend);
+
 		listTrack.setBackend(trackBackend);
 
-		listTrack.addAction(FooSource.MOUSE, trackBackend.ActionEnqueu(2));
-		listTrack.addAction(FooSource.KEYBOARD, trackBackend
-				.ActionEnqueu(SWT.CR));
-		listTrack.addAction(FooSource.KEYBOARD, trackBackend
-				.ActionDeselect(SWT.ESC));
-
-		FooMenu menu = new FooMenu(SHELL);
-
-		FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
-		orderItem.setText("change order");
-		orderItem.addAction(trackBackend.ActionOrder(0));
-
-		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
-		formatItem.setText("change format");
-		formatItem.addAction(trackBackend.ActionFormat(0));
-
-		listTrack.setMenu(menu);
-
+		/*
+		 * listTrack.addAction(FooSource.MOUSE, trackBackend.ActionEnqueu(2));
+		 * listTrack.addAction(FooSource.KEYBOARD, trackBackend
+		 * .ActionEnqueu(SWT.CR)); listTrack.addAction(FooSource.KEYBOARD,
+		 * trackBackend .ActionDeselect(SWT.ESC));
+		 * 
+		 * FooMenu menu = new FooMenu(SHELL);
+		 * 
+		 * FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
+		 * orderItem.setText("change order");
+		 * orderItem.addAction(trackBackend.ActionOrder(0));
+		 * 
+		 * FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		 * formatItem.setText("change format");
+		 * formatItem.addAction(trackBackend.ActionFormat(0));
+		 * 
+		 * listTrack.setMenu(menu);
+		 */
 	}
 
 	public void createComboPlaylist() {
-		Element view = FooXML.getElementWithName("views/shell/sash/composite", "comboPlaylist");
+		Element view = FooXML.getElementWithName("views/shell/sash/composite",
+				"comboPlaylist");
 		comboPlaylist = (FooCombo) viewFactory.create(view);
-		
+
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
 		comboData.left = new FormAttachment(0, 0);
@@ -494,7 +560,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createTablePlaylist() {
-		Element view = FooXML.getElementWithName("views/shell/sash/composite", "tablePlaylist");
+		Element view = FooXML.getElementWithName("views/shell/sash/composite",
+				"tablePlaylist");
 		tablePlaylist = (FooTable) viewFactory.create(view);
 
 		// TODO: find better way of layouting, this will kill me when parsing
@@ -522,26 +589,29 @@ public class FooWindow implements FooInterfaceWindow {
 
 		tablePlaylist.setBackend(playlistBackend);
 
-		tablePlaylist.addAction(FooSource.MOUSE, playlistBackend.ActionPlay(2));
-		tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
-				.ActionPlay(SWT.CR));
-		tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
-				.ActionDeselect(SWT.ESC));
-		tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
-				.ActionRemove(SWT.DEL));
-
-		FooMenu menu = new FooMenu(SHELL);
-
-		FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
-		formatItem.setText("change format");
-		formatItem.addAction(playlistBackend.ActionFormat(0));
-
-		tablePlaylist.setMenu(menu);
-
+		/*
+		 * tablePlaylist.addAction(FooSource.MOUSE,
+		 * playlistBackend.ActionPlay(2));
+		 * tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+		 * .ActionPlay(SWT.CR)); tablePlaylist.addAction(FooSource.KEYBOARD,
+		 * playlistBackend .ActionDeselect(SWT.ESC));
+		 * tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+		 * .ActionRemove(SWT.DEL));
+		 * 
+		 * FooMenu menu = new FooMenu(SHELL);
+		 * 
+		 * FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
+		 * formatItem.setText("change format");
+		 * formatItem.addAction(playlistBackend.ActionFormat(0));
+		 * 
+		 * tablePlaylist.setMenu(menu);
+		 */
 	}
 
 	public void createButtonsPlaylist() {
-		buttonsPlaylist = new FooButtonsPlaylist(compositePlaylist, SWT.NONE);
+		Element view = FooXML.getElementWithName("views/shell/sash/composite",
+				"buttonsPlaylist");
+		buttonsPlaylist = (FooButtonsPlaylist) viewFactory.create(view);
 
 		FormData buttonsplaylistData = new FormData();
 		buttonsplaylistData.left = new FormAttachment(0, 0);
@@ -552,13 +622,15 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createButtonsPlayback() {
-		buttonsPlayback = new FooButtonsPlayback(compositePlaylist, SWT.NONE);
+		Element view = FooXML.getElementWithName("views/shell/sash/composite",
+				"buttonsPlayback");
+		buttonsPlayback = (FooButtonsPlayback) viewFactory.create(view);
+
 		FormData buttonsPlaybackData = new FormData();
 		buttonsPlaybackData.left = new FormAttachment(0, 0);
 		buttonsPlaybackData.right = new FormAttachment(100, 0);
 		buttonsPlaybackData.bottom = new FormAttachment(100, 0);
 		buttonsPlayback.setLayoutData(buttonsPlaybackData);
-
 	}
 
 	public FooViewFactory getViewFactory() {

@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
@@ -18,11 +19,12 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class FooTable implements FooInterfaceViewPlaylist {
+public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl {
 
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;
@@ -197,6 +199,11 @@ public class FooTable implements FooInterfaceViewPlaylist {
 	}
 
 	public Table getTable() {
+		return table;
+	}
+
+	@Override
+	public Control getControl() {
 		return table;
 	}
 }

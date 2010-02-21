@@ -3,8 +3,9 @@ package org.dyndns.schuschu.xmms2client.view.element;
 import se.fnord.xmms2.client.internal.OrdinalMap;
 
 public enum FooViewType {
-	FooButton, FooCombo, FooLabel, FooList, FooTable, 
-	SashForm, Shell, Composite;
+	FooButton, FooCombo, FooLabel, FooList, FooTable,
+	FooButtonsPlaylist, FooButtonsPlayback, FooSashForm,
+	Shell, Composite;
 	
 	
     private static final OrdinalMap<FooViewType> ordinal_map = OrdinalMap.populate(FooViewType.class);

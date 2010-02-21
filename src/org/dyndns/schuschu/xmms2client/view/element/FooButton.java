@@ -3,13 +3,15 @@ package org.dyndns.schuschu.xmms2client.view.element;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-public class FooButton {
+public class FooButton implements FooInterfaceControl {
 
 	private Button button;
 	private Vector<FooAction> actions;
@@ -57,6 +59,11 @@ public class FooButton {
 
 	public void setText(String string) {
 		button.setText(string);
+	}
+
+	@Override
+	public Control getControl() {
+		return button;
 	}
 
 }

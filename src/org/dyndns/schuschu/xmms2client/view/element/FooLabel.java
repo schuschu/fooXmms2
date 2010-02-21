@@ -1,12 +1,19 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceText;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public class FooLabel implements FooInterfaceText {
+public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 
 	private Label label;
+	
+	public FooLabel(Composite parent) {
+		this(parent,SWT.NONE);
+	}
 
 	public FooLabel(Composite parent, int style) {
 		setLabel(new Label(parent, style));
@@ -30,6 +37,11 @@ public class FooLabel implements FooInterfaceText {
 
 	public void setLayoutData(Object layoutData) {
 		label.setLayoutData(layoutData);
+	}
+
+	@Override
+	public Control getControl() {
+		return label;
 	}
 
 }

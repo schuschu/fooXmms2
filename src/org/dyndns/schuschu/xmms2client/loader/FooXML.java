@@ -97,11 +97,11 @@ public class FooXML {
 		return item;
 	}
 
-	private static Element getElement(String elementPath) {
+	public static Element getElement(String elementPath) {
 		return getElement(document.getDocumentElement(), elementPath);
 	}
 
-	private static Element getElement(Element root, String elementPath) {
+	public static Element getElement(Element root, String elementPath) {
 
 		String[] path = elementPath.split("/");
 

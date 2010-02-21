@@ -1,12 +1,14 @@
 package org.dyndns.schuschu.xmms2client.view.composite;
 
 import org.dyndns.schuschu.xmms2client.Action.FooPlayback;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.element.FooButton;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
-public class FooButtonsPlayback {
+public class FooButtonsPlayback implements FooInterfaceControl{
 
 	private Composite composite;
 
@@ -46,6 +48,11 @@ public class FooButtonsPlayback {
 
 	public void setLayoutData(Object layoutData) {
 		composite.setLayoutData(layoutData);
+	}
+
+	@Override
+	public Control getControl() {
+		return composite;
 	}
 
 }
