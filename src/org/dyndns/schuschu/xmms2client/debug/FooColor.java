@@ -50,4 +50,8 @@ public enum FooColor {
 	public static FooColor get(int code) {
 		return lookup.get(code);
 	}
+	
+	public static FooColor fromString(String name){
+		return FooColor.valueOf(name);
+	}
 }

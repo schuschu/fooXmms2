@@ -40,6 +40,10 @@ public class FooTable implements FooInterfaceViewPlaylist {
 		getTable().addKeyListener(createKeyListener());
 	}
 
+	public FooTable(Composite parent) {
+		this(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.FULL_SELECTION);
+	}
+
 	@Override
 	public void setContent(Vector<String> content) {
 

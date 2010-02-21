@@ -38,20 +38,74 @@ public class FooXML {
 		return document;
 	}
 
+	public static int getInt(Element root, String elementName, String attrName) {
+		// TODO: Exceptionhandling
+		return Integer.parseInt(getString(root, elementName, attrName));
+	}
+
 	public static int getInt(String elementName, String attrName) {
 		// TODO: Exceptionhandling
 		return Integer.parseInt(getString(elementName, attrName));
+	}
+
+	public static boolean getBool(Element root, String elementName,
+			String attrName) {
+		return getString(root, elementName, attrName).equals("true");
 	}
 
 	public static boolean getBool(String elementName, String attrName) {
 		return getString(elementName, attrName).equals("true");
 	}
 
-	public static String getString(String elementName, String attrName) {
+	public static String getString(Element root, String elementPath,
+			String attrName) {
 
-		String[] path = elementName.split("/");
+		Element item = getElement(root, elementPath);
+		if (item != null) {
+			return getTagValue(attrName, item);
+		} else
+			return null;
+	}
 
-		Element item = document.getDocumentElement();
+	public static String getString(String elementPath, String attrName) {
+
+		Element item = getElement(elementPath);
+		return getTagValue(attrName, item);
+	}
+
+	public static Element getElementWithName(String elementPath,
+			String elementName) {
+
+		Element item = getElement(elementPath);
+
+		NodeList nodes = item.getChildNodes();
+		item = null;
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+				Element child = (Element) node;
+
+				if (getTagValue("name", child).equals(elementName)) {
+					item = child;
+					break;
+				}
+			}
+		}
+		return item;
+	}
+
+	private static Element getElement(String elementPath) {
+		return getElement(document.getDocumentElement(), elementPath);
+	}
+
+	private static Element getElement(Element root, String elementPath) {
+
+		String[] path = elementPath.split("/");
+
+		Element item = root;
 
 		for (int j = 0; j < path.length; j++) {
 
@@ -78,10 +132,10 @@ public class FooXML {
 			}
 		}
 
-		return getTagValue(attrName, item);
+		return item;
 	}
 
-	private static String getTagValue(String sTag, Element eElement) {
+	public static String getTagValue(String sTag, Element eElement) {
 		NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
 				.getChildNodes();
 		Node nValue = (Node) nlList.item(0);

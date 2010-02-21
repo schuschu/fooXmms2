@@ -13,4 +13,56 @@
 			<visual>false</visual>
 		</debug>
 	</config>
+	
+	<views>
+	</views>
+	
+	<backends>
+		<backend>
+			<type>FooBackendFilter</type>
+			<name>artistBackend</name>
+			<format>%artist%</format>
+			<filter>artist</filter>
+			<view>listArtist</view>
+			<debugForeground>DARK_MAGENTA</debugForeground>
+			<debugBackground>WHITE</debugBackground>
+			<contentprovider>ALL</contentprovider>
+		</backend>
+		
+		<backend>
+			<type>FooBackendFilter</type>
+			<name>albumBackend</name>
+			<format>%album% (%date%)</format>
+			<filter>album</filter>
+			<view>listAlbum</view>
+			<debugForeground>MAGENTA</debugForeground>
+			<debugBackground>WHITE</debugBackground>
+			<contentprovider>artistBackend</contentprovider>
+		</backend>
+		<backend>
+			<type>FooBackendFilter</type>
+			<name>trackBackend</name>
+			<format>%title%</format>
+			<filter>title</filter>
+			<view>listTrack</view>
+			<debugForeground>DARK_RED</debugForeground>
+			<debugBackground>WHITE</debugBackground>
+			<contentprovider>albumBackend</contentprovider>
+		</backend>
+		<backend>
+			<type>FooBackendPlaylist</type>
+			<name>playlistBackend</name>
+			<format>%artist% - %title%</format>
+			<debugForeground>BLUE</debugForeground>
+			<debugBackground>WHITE</debugBackground>
+		</backend>
+		
+	</backends>
+	
+	<actions>
+	</actions>
+	
+	<watchs>
+	</watchs>
+	
 </fooXmms2>

@@ -11,6 +11,7 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendText;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
 
 import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlayback;
 import org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlaylist;
@@ -35,6 +36,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.w3c.dom.Element;
 
 public class FooWindow implements FooInterfaceWindow {
 
@@ -340,12 +342,21 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListArtist() {
-		listArtist = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
+		listArtist = new FooList(sashFormMain);
 
-		artistBackend = new FooBackendFilter("%artist%", "artist", listArtist);
-		artistBackend.setName("Artistbackend");
-		artistBackend.setDebugForeground(FooColor.DARK_MAGENTA);
+		Element root = FooXML.getElementWithName("backends", "artistBackend");
+				
+		String format = FooXML.getTagValue("format", root);
+		String filter = FooXML.getTagValue("filter", root);
+		String name = FooXML.getTagValue("name", root);
+		String debugForeground = FooXML.getTagValue("debugForeground", root);
+		String debugBackground = FooXML.getTagValue("debugBackground", root);
+
+		artistBackend = new FooBackendFilter(format, filter, listArtist);
+		artistBackend.setName(name);
+		artistBackend.setDebugForeground(FooColor.fromString(debugForeground));
+		artistBackend.setDebugBackground(FooColor.fromString(debugBackground));
+		
 		artistBackend.setToAll();
 		listArtist.setBackend(artistBackend);
 
@@ -370,13 +381,21 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListAlbum() {
-		listAlbum = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
+		listAlbum = new FooList(sashFormMain);
 
-		albumBackend = new FooBackendFilter("%album% (%date%)", "album",
-				listAlbum);
-		albumBackend.setName("Albumbackend");
-		albumBackend.setDebugForeground(FooColor.MAGENTA);
+		Element root = FooXML.getElementWithName("backends", "albumBackend");
+		
+		String format = FooXML.getTagValue("format", root);
+		String filter = FooXML.getTagValue("filter", root);
+		String name = FooXML.getTagValue("name", root);
+		String debugForeground = FooXML.getTagValue("debugForeground", root);
+		String debugBackground = FooXML.getTagValue("debugBackground", root);
+		
+		albumBackend = new FooBackendFilter(format, filter, listAlbum);
+		albumBackend.setName(name);
+		albumBackend.setDebugForeground(FooColor.fromString(debugForeground));
+		albumBackend.setDebugBackground(FooColor.fromString(debugBackground));
+		
 		albumBackend.setContentProvider(artistBackend);
 		listAlbum.setBackend(albumBackend);
 
@@ -401,12 +420,21 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListTrack() {
-		listTrack = new FooList(sashFormMain, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL);
+		listTrack = new FooList(sashFormMain);
+		
+		Element root = FooXML.getElementWithName("backends", "trackBackend");
+		
+		String format = FooXML.getTagValue("format", root);
+		String filter = FooXML.getTagValue("filter", root);
+		String name = FooXML.getTagValue("name", root);
+		String debugForeground = FooXML.getTagValue("debugForeground", root);
+		String debugBackground = FooXML.getTagValue("debugBackground", root);
 
-		trackBackend = new FooBackendFilter("%title%", "title", listTrack);
-		trackBackend.setName("Trackbackend");
-		trackBackend.setDebugForeground(FooColor.DARK_RED);
+		trackBackend = new FooBackendFilter(format, filter, listTrack);
+		trackBackend.setName(name);
+		trackBackend.setDebugForeground(FooColor.fromString(debugForeground));
+		trackBackend.setDebugBackground(FooColor.fromString(debugBackground));
+		
 		trackBackend.setContentProvider(albumBackend);
 		listTrack.setBackend(trackBackend);
 
@@ -432,7 +460,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public void createComboPlaylist() {
 
-		comboPlaylist = new FooCombo(compositePlaylist, SWT.READ_ONLY);
+		comboPlaylist = new FooCombo(compositePlaylist);
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
 		comboData.left = new FormAttachment(0, 0);
@@ -448,9 +476,10 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListPlaylist() {
-		listPlaylist = new FooTable(compositePlaylist, SWT.BORDER | SWT.MULTI
-				| SWT.V_SCROLL | SWT.FULL_SELECTION);
+		listPlaylist = new FooTable(compositePlaylist);
 
+		
+		// TODO: find better way of layouting, this will kill me when parsing
 		FormData listData = new FormData();
 		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
 		listData.left = new FormAttachment(0, 0);
@@ -459,10 +488,19 @@ public class FooWindow implements FooInterfaceWindow {
 				.getComposite(), 0);
 		listPlaylist.setLayoutData(listData);
 
-		playlistBackend = new FooBackendPlaylist("%artist% - %title%",
+		Element root = FooXML.getElementWithName("backends", "playlistBackend");
+		
+		String format = FooXML.getTagValue("format", root);
+		String name = FooXML.getTagValue("name", root);
+		String debugForeground = FooXML.getTagValue("debugForeground", root);
+		String debugBackground = FooXML.getTagValue("debugBackground", root);		
+		
+		playlistBackend = new FooBackendPlaylist(format,
 				listPlaylist);
-		playlistBackend.setName("Playlistbackend");
-		playlistBackend.setDebugForeground(FooColor.BLUE);
+		playlistBackend.setName(name);
+		playlistBackend.setDebugForeground(FooColor.fromString(debugForeground));
+		playlistBackend.setDebugBackground(FooColor.fromString(debugBackground));
+		
 		listPlaylist.setBackend(playlistBackend);
 
 		listPlaylist.addAction(FooSource.MOUSE, playlistBackend.ActionPlay(2));

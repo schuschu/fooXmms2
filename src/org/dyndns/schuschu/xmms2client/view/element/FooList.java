@@ -7,6 +7,7 @@ import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -36,6 +37,10 @@ public class FooList implements FooInterfaceView {
 		getList().addMouseListener(createMouseListener());
 		getList().addKeyListener(createKeyListener());
 
+	}
+
+	public FooList(Composite parent) {
+		this(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 	}
 
 	private SelectionListener createSelectionListener() {

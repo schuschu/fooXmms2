@@ -22,7 +22,7 @@ This part is about the things that are wrong in the current version:
   The configuration architecture: there is no configuration architecture.
   in a later release a xml based configuration file will be created in 
   the xmms2 client directory (or closer to the client?)
-  -> utfg  
+  -> WORK IN PROGRESS (me)
    
   Icon/Pixmap mess!!! 
   
@@ -45,6 +45,10 @@ This part is about the things that are wrong in the current version:
   be selected; http://sourceforge.net/projects/swtaddons/
 
   XML magic: dynamic drawing of the ui
+  
+  Scripting magic: want to make format recoginze for and if (probably more) so
+  when i.e. if(%album% - %tracknumber%){tracknumber -} %title and no tracknumber
+  if found, the whole block will be gone   
 
   try out if a list/table for playlists(instead of combo) is possible, and
   introduce tabbar

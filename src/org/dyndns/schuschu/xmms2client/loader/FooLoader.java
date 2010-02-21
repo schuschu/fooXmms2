@@ -40,7 +40,7 @@ public class FooLoader {
 
 		// SWT stuff
 		FooSWT.createDebug();
-
+		
 		createClient(args);
 
 		FooSWT.init(show_on_start, max_on_start);

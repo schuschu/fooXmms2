@@ -6,6 +6,7 @@ import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -35,6 +36,10 @@ public class FooCombo implements FooInterfaceView {
 		getCombo().addMouseListener(createMouseListener());
 		getCombo().addKeyListener(createKeyListener());
 		getCombo().addSelectionListener(createSelectionListener());
+	}
+
+	public FooCombo(Composite parent) {
+		this(parent, SWT.READ_ONLY);
 	}
 
 	private SelectionListener createSelectionListener() {
