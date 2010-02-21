@@ -15,6 +15,41 @@
 	</config>
 	
 	<views>
+		<shell>
+			<type>Shell</type>
+			<name>SHELL</name>
+			<sash>
+				<type>SashForm</type>
+				<name>sashFormMain</name>
+				<view>
+					<type>FooList</type>
+					<name>listArtist</name>
+				</view>
+					
+				<view>
+					<type>FooList</type>
+					<name>listAlbum</name>
+				</view>
+					
+				<view>
+					<type>FooList</type>
+					<name>listTrack</name>
+				</view>
+				<composite>
+					<type>Composite</type>
+					<name>compositePlaylist</name>	
+					<view>
+						<type>FooCombo</type>
+						<name>comboPlaylist</name>
+					</view>
+						
+					<view>
+						<type>FooTable</type>
+						<name>tablePlaylist</name>
+					</view>
+				</composite>
+			</sash>
+		</shell>
 	</views>
 	
 	<backends>

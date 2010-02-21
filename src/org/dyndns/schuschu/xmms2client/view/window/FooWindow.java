@@ -3,6 +3,8 @@ package org.dyndns.schuschu.xmms2client.view.window;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.HashMap;
+
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
@@ -19,6 +21,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooCombo;
 import org.dyndns.schuschu.xmms2client.view.element.FooLabel;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
+import org.dyndns.schuschu.xmms2client.view.element.FooViewFactory;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
@@ -58,7 +61,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooBackendPlaylist playlistBackend;
 	private FooBackendPlaylistSwitch switchBackend;
 	private FooBackendText statusbarBackend;
-	private FooTable listPlaylist = null;
+	private FooTable tablePlaylist = null;
 	private FooCombo comboPlaylist = null;
 	private FooLabel statusbar = null;
 	private FooButtonsPlaylist buttonsPlaylist = null;
@@ -72,7 +75,11 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooWatchCurrentTrack watchPlaybackTrack = null;
 	private FooWatchPlaybackStatus watchPlaybackStatus = null;
 
+	private FooViewFactory viewFactory = null;
+
 	private Point location;
+
+	public HashMap<String, Object> items = new HashMap<String, Object>();
 
 	/**
 	 * This method initializes SHELL
@@ -105,7 +112,7 @@ public class FooWindow implements FooInterfaceWindow {
 		createSShell();
 
 		// init playlist
-		listPlaylist.getBackend().refresh();
+		tablePlaylist.getBackend().refresh();
 
 		// create Watches
 		getWatchCurrentPos().start();
@@ -121,6 +128,9 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private void createSShell() {
 		SHELL = new Shell(getDisplay());
+		
+		items.put("SHELL", SHELL);
+		
 		SHELL.setText("fooXmms2");
 		SHELL.setSize(new Point(WIDTH, HEIGHT));
 
@@ -167,7 +177,7 @@ public class FooWindow implements FooInterfaceWindow {
 		SHELL.setImage(image);
 
 	}
-
+	
 	private void createStatusbar() {
 		statusbar = new FooLabel(SHELL, SWT.BORDER);
 
@@ -180,7 +190,9 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createSashFormMain() {
-		sashFormMain = new SashForm(SHELL, SWT.NONE);
+		Element element = FooXML.getElementWithName("views/shell", "sashFormMain");
+		sashFormMain = (SashForm) getViewFactory().create(element); 
+		//sashFormMain = new SashForm(SHELL, SWT.NONE);
 
 		createListArtist();
 		createListAlbum();
@@ -190,11 +202,13 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private void createCompositePlaylist() {
 		compositePlaylist = new Composite(sashFormMain, SWT.NONE);
+		items.put("compositePlaylist", compositePlaylist);
+		
 		FormLayout layout = new FormLayout();
 		compositePlaylist.setLayout(layout);
 
 		createComboPlaylist();
-		createListPlaylist();
+		createTablePlaylist();
 		createButtonsPlaylist();
 		createButtonsPlayback();
 
@@ -257,11 +271,11 @@ public class FooWindow implements FooInterfaceWindow {
 		return listTrack;
 	}
 
-	public FooTable getListPlaylist() {
-		if (listPlaylist == null) {
-			createListPlaylist();
+	public FooTable getTablePlaylist() {
+		if (tablePlaylist == null) {
+			createTablePlaylist();
 		}
-		return listPlaylist;
+		return tablePlaylist;
 	}
 
 	public FooCombo getComboPlaylist() {
@@ -342,10 +356,11 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListArtist() {
-		listArtist = new FooList(sashFormMain);
+		Element view = FooXML.getElementWithName("views/shell/sash", "listArtist");
+		listArtist = (FooList) viewFactory.create(view);
 
 		Element root = FooXML.getElementWithName("backends", "artistBackend");
-				
+
 		String format = FooXML.getTagValue("format", root);
 		String filter = FooXML.getTagValue("filter", root);
 		String name = FooXML.getTagValue("name", root);
@@ -356,7 +371,7 @@ public class FooWindow implements FooInterfaceWindow {
 		artistBackend.setName(name);
 		artistBackend.setDebugForeground(FooColor.fromString(debugForeground));
 		artistBackend.setDebugBackground(FooColor.fromString(debugBackground));
-		
+
 		artistBackend.setToAll();
 		listArtist.setBackend(artistBackend);
 
@@ -381,21 +396,22 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListAlbum() {
-		listAlbum = new FooList(sashFormMain);
+		Element view = FooXML.getElementWithName("views/shell/sash", "listAlbum");
+		listAlbum = (FooList) viewFactory.create(view);
 
 		Element root = FooXML.getElementWithName("backends", "albumBackend");
-		
+
 		String format = FooXML.getTagValue("format", root);
 		String filter = FooXML.getTagValue("filter", root);
 		String name = FooXML.getTagValue("name", root);
 		String debugForeground = FooXML.getTagValue("debugForeground", root);
 		String debugBackground = FooXML.getTagValue("debugBackground", root);
-		
+
 		albumBackend = new FooBackendFilter(format, filter, listAlbum);
 		albumBackend.setName(name);
 		albumBackend.setDebugForeground(FooColor.fromString(debugForeground));
 		albumBackend.setDebugBackground(FooColor.fromString(debugBackground));
-		
+
 		albumBackend.setContentProvider(artistBackend);
 		listAlbum.setBackend(albumBackend);
 
@@ -420,10 +436,11 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createListTrack() {
-		listTrack = new FooList(sashFormMain);
-		
+		Element view = FooXML.getElementWithName("views/shell/sash", "listTrack");
+		listTrack = (FooList) viewFactory.create(view);
+
 		Element root = FooXML.getElementWithName("backends", "trackBackend");
-		
+
 		String format = FooXML.getTagValue("format", root);
 		String filter = FooXML.getTagValue("filter", root);
 		String name = FooXML.getTagValue("name", root);
@@ -434,7 +451,7 @@ public class FooWindow implements FooInterfaceWindow {
 		trackBackend.setName(name);
 		trackBackend.setDebugForeground(FooColor.fromString(debugForeground));
 		trackBackend.setDebugBackground(FooColor.fromString(debugBackground));
-		
+
 		trackBackend.setContentProvider(albumBackend);
 		listTrack.setBackend(trackBackend);
 
@@ -459,8 +476,9 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	public void createComboPlaylist() {
-
-		comboPlaylist = new FooCombo(compositePlaylist);
+		Element view = FooXML.getElementWithName("views/shell/sash/composite", "comboPlaylist");
+		comboPlaylist = (FooCombo) viewFactory.create(view);
+		
 		FormData comboData = new FormData();
 		comboData.top = new FormAttachment(0, 0);
 		comboData.left = new FormAttachment(0, 0);
@@ -475,10 +493,10 @@ public class FooWindow implements FooInterfaceWindow {
 
 	}
 
-	public void createListPlaylist() {
-		listPlaylist = new FooTable(compositePlaylist);
+	public void createTablePlaylist() {
+		Element view = FooXML.getElementWithName("views/shell/sash/composite", "tablePlaylist");
+		tablePlaylist = (FooTable) viewFactory.create(view);
 
-		
 		// TODO: find better way of layouting, this will kill me when parsing
 		FormData listData = new FormData();
 		listData.top = new FormAttachment(comboPlaylist.getCombo(), 0);
@@ -486,29 +504,30 @@ public class FooWindow implements FooInterfaceWindow {
 		listData.right = new FormAttachment(100, 0);
 		listData.bottom = new FormAttachment(getButtonsPlaylist()
 				.getComposite(), 0);
-		listPlaylist.setLayoutData(listData);
+		tablePlaylist.setLayoutData(listData);
 
 		Element root = FooXML.getElementWithName("backends", "playlistBackend");
-		
+
 		String format = FooXML.getTagValue("format", root);
 		String name = FooXML.getTagValue("name", root);
 		String debugForeground = FooXML.getTagValue("debugForeground", root);
-		String debugBackground = FooXML.getTagValue("debugBackground", root);		
-		
-		playlistBackend = new FooBackendPlaylist(format,
-				listPlaylist);
-		playlistBackend.setName(name);
-		playlistBackend.setDebugForeground(FooColor.fromString(debugForeground));
-		playlistBackend.setDebugBackground(FooColor.fromString(debugBackground));
-		
-		listPlaylist.setBackend(playlistBackend);
+		String debugBackground = FooXML.getTagValue("debugBackground", root);
 
-		listPlaylist.addAction(FooSource.MOUSE, playlistBackend.ActionPlay(2));
-		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+		playlistBackend = new FooBackendPlaylist(format, tablePlaylist);
+		playlistBackend.setName(name);
+		playlistBackend
+				.setDebugForeground(FooColor.fromString(debugForeground));
+		playlistBackend
+				.setDebugBackground(FooColor.fromString(debugBackground));
+
+		tablePlaylist.setBackend(playlistBackend);
+
+		tablePlaylist.addAction(FooSource.MOUSE, playlistBackend.ActionPlay(2));
+		tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
 				.ActionPlay(SWT.CR));
-		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+		tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
 				.ActionDeselect(SWT.ESC));
-		listPlaylist.addAction(FooSource.KEYBOARD, playlistBackend
+		tablePlaylist.addAction(FooSource.KEYBOARD, playlistBackend
 				.ActionRemove(SWT.DEL));
 
 		FooMenu menu = new FooMenu(SHELL);
@@ -517,7 +536,7 @@ public class FooWindow implements FooInterfaceWindow {
 		formatItem.setText("change format");
 		formatItem.addAction(playlistBackend.ActionFormat(0));
 
-		listPlaylist.setMenu(menu);
+		tablePlaylist.setMenu(menu);
 
 	}
 
@@ -540,5 +559,12 @@ public class FooWindow implements FooInterfaceWindow {
 		buttonsPlaybackData.bottom = new FormAttachment(100, 0);
 		buttonsPlayback.setLayoutData(buttonsPlaybackData);
 
+	}
+
+	public FooViewFactory getViewFactory() {
+		if (viewFactory == null) {
+			viewFactory = new FooViewFactory(this);
+		}
+		return viewFactory;
 	}
 }

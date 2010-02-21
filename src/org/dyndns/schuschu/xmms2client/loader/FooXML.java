@@ -87,8 +87,8 @@ public class FooXML {
 
 			if (node instanceof Element) {
 				Element child = (Element) node;
-
-				if (getTagValue("name", child).equals(elementName)) {
+				String name = getTagValue("name", child);
+				if (name!=null && name.equals(elementName)) {
 					item = child;
 					break;
 				}
@@ -136,7 +136,11 @@ public class FooXML {
 	}
 
 	public static String getTagValue(String sTag, Element eElement) {
-		NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
+		NodeList list = eElement.getElementsByTagName(sTag);
+		if(list.getLength()==0){
+			return null;
+		}
+		NodeList nlList = list.item(0)
 				.getChildNodes();
 		Node nValue = (Node) nlList.item(0);
 
