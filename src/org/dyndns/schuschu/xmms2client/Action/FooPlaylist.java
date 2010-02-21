@@ -21,31 +21,31 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
 public class FooPlaylist {
 
 	public static FooAction ActionDelete(int code) {
-		return new ActionPlaylist(code, PlaylistType.DELETE);
+		return new ActionPlaylist(code, "delete", PlaylistType.DELETE);
 	}
 
 	public static FooAction ActionNew(int code) {
-		return new ActionPlaylist(code, PlaylistType.NEW);
+		return new ActionPlaylist(code, "new", PlaylistType.NEW);
 	}
 
 	public static FooAction ActionSava(int code) {
-		return new ActionPlaylist(code, PlaylistType.SAVE);
+		return new ActionPlaylist(code, "save", PlaylistType.SAVE);
 	}
 
 	public static FooAction ActionShuffle(int code) {
-		return new ActionPlaylist(code, PlaylistType.SHUFFLE);
+		return new ActionPlaylist(code, "shuffle", PlaylistType.SHUFFLE);
 	}
 
 	public static FooAction ActionSort(int code) {
-		return new ActionPlaylist(code, PlaylistType.SORT);
+		return new ActionPlaylist(code, "sort", PlaylistType.SORT);
 	}
 
 	private static class ActionPlaylist extends FooAction {
 
 		private final PlaylistType type;
 
-		public ActionPlaylist(int code, PlaylistType type) {
-			super(code);
+		public ActionPlaylist(int code, String name, PlaylistType type) {
+			super(name,code);
 			this.type = type;
 		}
 

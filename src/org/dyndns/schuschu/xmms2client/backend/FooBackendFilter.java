@@ -590,7 +590,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		private final FooBackendFilter backend;
 
 		public ActionEnqueu(int code, FooBackendFilter backend) {
-			super(code);
+			super("enqueu", code);
 			this.backend = backend;
 		}
 
@@ -610,7 +610,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		private final FooInterfaceBackend backend;
 
 		public ActionDeselect(int code, FooInterfaceBackend backend) {
-			super(code);
+			super("deselect", code);
 			this.backend = backend;
 		}
 
@@ -626,12 +626,13 @@ public class FooBackendFilter extends Observable implements Serializable,
 		return new ActionOrder(code, this);
 	}
 
+	//TODO: rename to sort...
 	public class ActionOrder extends FooAction {
 
 		private FooBackendFilter backend;
 
 		public ActionOrder(int code, FooBackendFilter backend) {
-			super(code);
+			super("order", code);
 			this.backend = backend;
 		}
 
@@ -671,7 +672,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		private final FooBackendFilter backend;
 
 		public ActionFormat(int code, FooBackendFilter backend) {
-			super(code);
+			super("format", code);
 			this.backend = backend;
 		}
 

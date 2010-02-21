@@ -26,7 +26,7 @@ public class FooBackendFactory {
 				FooDebug.setForeground(debugForeground);
 				FooDebug.setBackground(debugBackground);
 			}
-			System.out.println("debug: ViewFactory " + message);
+			System.out.println("debug: BackendFactory " + message);
 		}
 	}
 
@@ -50,12 +50,9 @@ public class FooBackendFactory {
 				/*
 				 * ACTION
 				 * 
-				 * listTrack.addAction(FooSource.MOUSE,
-				 * trackBackend.ActionEnqueu(2));
-				 * listTrack.addAction(FooSource.KEYBOARD,
-				 * trackBackend.ActionEnqueu(SWT.CR));
-				 * listTrack.addAction(FooSource.KEYBOARD,
-				 * trackBackend.ActionDeselect(SWT.ESC));
+				 * listTrack.addAction(FooSource.MOUSE, trackBackend.ActionEnqueu(2));
+				 * listTrack.addAction(FooSource.KEYBOARD, trackBackend.ActionEnqueu(SWT.CR));
+				 * listTrack.addAction(FooSource.KEYBOARD, trackBackend.ActionDeselect(SWT.ESC));
 				 * 
 				 * 
 				 * MENU
@@ -111,7 +108,9 @@ public class FooBackendFactory {
 				playlistBackend.setName(name);
 				playlistBackend.setDebugForeground(FooColor.valueOf(debugForeground));
 				playlistBackend.setDebugBackground(FooColor.valueOf(debugBackground));
-			
+
+				playlistBackend.registerActionFactory();
+				
 				window.backends.put(name, playlistBackend);
 				return playlistBackend;
 				

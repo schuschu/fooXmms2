@@ -7,31 +7,31 @@ import se.fnord.xmms2.client.commands.Playback;
 public class FooPlayback {
 
 	public static FooAction ActionPlay(int code) {
-		return new ActionPlayback(code, PlaybackType.PLAY);
+		return new ActionPlayback(code, "play", PlaybackType.PLAY);
 	}
 
 	public static FooAction ActionPause(int code) {
-		return new ActionPlayback(code, PlaybackType.PAUSE);
+		return new ActionPlayback(code, "pause", PlaybackType.PAUSE);
 	}
 
 	public static FooAction ActionStop(int code) {
-		return new ActionPlayback(code, PlaybackType.STOP);
+		return new ActionPlayback(code, "stop", PlaybackType.STOP);
 	}
 
 	public static FooAction ActionNext(int code) {
-		return new ActionPlayback(code, PlaybackType.NEXT);
+		return new ActionPlayback(code, "next", PlaybackType.NEXT);
 	}
 
 	public static FooAction ActionPrev(int code) {
-		return new ActionPlayback(code, PlaybackType.PREV);
+		return new ActionPlayback(code, "prev", PlaybackType.PREV);
 	}
 
 	private static class ActionPlayback extends FooAction {
 
 		private final PlaybackType type;
 
-		public ActionPlayback(int code, PlaybackType type) {
-			super(code);
+		public ActionPlayback(int code, String name, PlaybackType type) {
+			super(name, code);
 			this.type = type;
 		}
 

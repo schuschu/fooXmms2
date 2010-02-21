@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendPlaylist;
@@ -83,7 +85,7 @@ public class FooBackendPlaylist implements Serializable,
 		debug("FooBackendPlaylist");
 		this.setView(view);
 		this.setFormat(format);
-
+		registerActionFactory();
 		refresh();
 
 	}
@@ -451,6 +453,38 @@ public class FooBackendPlaylist implements Serializable,
 	 * ACTION SECTION
 	 */
 
+	// TODO: move FooPlaylist actions here
+
+	public void registerActionFactory() {
+		FooActionFactorySub factory = new FooActionFactorySub() {
+
+			@Override
+			public FooAction create(String name, int code) {
+				try {
+					switch (ActionType.valueOf(name)) {
+						case play: return ActionPlay(code);
+						case deselect: return ActionDeselect(code);
+						case format: return ActionFormat(code);
+						case remove: return ActionRemove(code);
+					}
+
+				} catch (NullPointerException e) {
+					// TODO: this is bad you know...
+				} catch (IllegalArgumentException e) {
+					// Thats not an enum!
+				}
+				return null;
+			}
+
+		};
+
+		FooActionFactory.factories.put(name, factory);
+	}
+
+	private enum ActionType {
+		play, deselect, remove, format;
+	}
+
 	public FooAction ActionPlay(int code) {
 		return new ActionPlay(code, this);
 	}
@@ -460,7 +494,7 @@ public class FooBackendPlaylist implements Serializable,
 		private final FooBackendPlaylist backend;
 
 		public ActionPlay(int code, FooBackendPlaylist backend) {
-			super(code);
+			super("play", code);
 			this.backend = backend;
 		}
 
@@ -479,7 +513,7 @@ public class FooBackendPlaylist implements Serializable,
 		private final FooInterfaceBackend backend;
 
 		public ActionDeselect(int code, FooInterfaceBackend backend) {
-			super(code);
+			super("deselect", code);
 			this.backend = backend;
 		}
 
@@ -499,7 +533,7 @@ public class FooBackendPlaylist implements Serializable,
 		private final FooBackendPlaylist backend;
 
 		public ActionRemove(int code, FooBackendPlaylist backend) {
-			super(code);
+			super("remove", code);
 			this.backend = backend;
 		}
 
@@ -508,43 +542,7 @@ public class FooBackendPlaylist implements Serializable,
 			backend.removeSelection();
 		}
 	}
-	
-	// TODO: move FooPlaylist actions here 
-	
-/*
-	public class ActionOrder extends FooAction {
 
-		private FooBackendPlaylist backend;
-
-		public ActionOrder(int code, FooBackendPlaylist backend) {
-			super(code);
-			this.backend = backend;
-		}
-
-		@Override
-		public void execute() {
-			List<String> listCurrent = backend.getOrderBy();
-			StringBuffer buffer = new StringBuffer();
-			for (String s : listCurrent) {
-				buffer.append(s + " ");
-			}
-			buffer.deleteCharAt(buffer.length() - 1);
-			String current = buffer.toString();
-
-			String input = FooInputDialog.show(FooWindow.getsShell(),
-					"Please enter new order:\n(i.e.: artist album title",
-					"change order", current);
-
-			if (input != null) {
-				List<String> newOrder = Arrays.asList(input.split(" "));
-				backend.setOrderBy(newOrder);
-
-				backend.getView().setSelection(new int[] { -1 });
-				backend.refresh();
-			}
-		}
-	}
-*/
 	public FooAction ActionFormat(int code) {
 		return new ActionFormat(code, this);
 	}
@@ -554,7 +552,7 @@ public class FooBackendPlaylist implements Serializable,
 		private final FooBackendPlaylist backend;
 
 		public ActionFormat(int code, FooBackendPlaylist backend) {
-			super(code);
+			super("format", code);
 			this.backend = backend;
 		}
 

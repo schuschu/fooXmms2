@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
@@ -24,7 +25,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl {
+public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,FooInterfaceAction {
 
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;

@@ -3,9 +3,11 @@ package org.dyndns.schuschu.xmms2client.Action;
 public abstract class FooAction {
 
 	public final int code;
+	public final String name;
 
-	public FooAction(int code) {
+	public FooAction(String name, int code) {
 		this.code = code;
+		this.name = name;
 	}
 
 	abstract public void execute();

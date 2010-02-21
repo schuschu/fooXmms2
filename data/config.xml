@@ -171,6 +171,20 @@
 	</backends>
 	
 	<actions>
+		<action>
+			<path>playlistBackend</path>
+			<name>play</name>
+			<code>2</code>
+			<view>tablePlaylist</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>playlistBackend</path>
+			<name>play</name>
+			<code>CR</code>
+			<view>tablePlaylist</view>			
+			<source>KEYBOARD</source>
+		</action>
 	</actions>
 	
 	<watches>

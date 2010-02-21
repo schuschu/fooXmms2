@@ -9,7 +9,7 @@ public class FooSystem {
 	private static class ActionExit extends FooAction {
 
 		public ActionExit(int code) {
-			super(code);
+			super("exit",code);
 		}
 
 		@Override

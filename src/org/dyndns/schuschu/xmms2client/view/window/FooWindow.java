@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
 import org.dyndns.schuschu.xmms2client.view.element.factory.FooViewFactory;
 import org.dyndns.schuschu.xmms2client.watch.factory.FooWatchFactory;
@@ -33,6 +34,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooViewFactory viewFactory = null;
 	private FooBackendFactory backendFactory = null;
 	private FooWatchFactory watchFactory = null;
+	private FooActionFactory actionFactory = null;
 
 	private Point location;
 
@@ -80,6 +82,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 		createWatches();
 
+		createActions();
 	}
 
 	private void createSShell() {
@@ -196,6 +199,33 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 	}
 
+	private void createActions() {
+		createActionElements(FooXML.getElement("actions"));
+	}
+
+	private void createActionElements(Element root) {
+
+		NodeList nodes = root.getChildNodes();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				try {
+					getActionFactory().create(child);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+				// createBackendElements(child);
+			}
+
+		}
+	}
+
 	private void createWatches() {
 		createWatchElements(FooXML.getElement("watches"));
 	}
@@ -253,6 +283,13 @@ public class FooWindow implements FooInterfaceWindow {
 			watchFactory = new FooWatchFactory(this);
 		}
 		return watchFactory;
+	}
+
+	public FooActionFactory getActionFactory() {
+		if (actionFactory == null) {
+			actionFactory = new FooActionFactory(this);
+		}
+		return actionFactory;
 	}
 
 	@Override

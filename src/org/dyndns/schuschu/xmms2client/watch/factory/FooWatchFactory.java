@@ -27,7 +27,7 @@ public class FooWatchFactory {
 				FooDebug.setForeground(debugForeground);
 				FooDebug.setBackground(debugBackground);
 			}
-			System.out.println("debug: ViewFactory " + message);
+			System.out.println("debug: WatchFactory " + message);
 		}
 	}
 
