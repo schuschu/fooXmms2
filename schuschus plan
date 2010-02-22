@@ -10,28 +10,20 @@ This part is about the things that are wrong in the current version:
   The documentation. it is getting a little messy... (no volunteers?)
   
   The Readme.... 
-   
-  The definition of "defaults".  I don't care what anybody says the default 
-  port is, ether parse the config file or throw a error, don't set it 
-  randomly to something I don't use
-  
+    
   The plugin architecture: there is no plugin architecture. in a later
   release this project will be moved to a plugin framework 
   -> http://jpf.sourceforge.net/index.html or a similar framework
   
-  The configuration architecture: there is no configuration architecture.
-  in a later release a xml based configuration file will be created in 
-  the xmms2 client directory (or closer to the client?)
-  -> WORK IN PROGRESS (me)
+  The configuration architecture: RETHINK XML STRUCTURE!!!, 
+  add Factory Registration, port remaining actions?
    
   Icon/Pixmap mess!!! 
   
   Static icon
     
   Create Debug from ViewElements
-  
-  Create base class for classes with keyboard/mouselistener (list/table/combo)?
-  
+    
   Create debug output for all relevant operations (values not just name) and
   maybe timing (needed ms)  
   
@@ -43,8 +35,6 @@ This part is about the things that are wrong in the current version:
   combobox magic: set combobox back to editable, if you enter a name unknown
   a popup will ask you if you want to create it, if the name is known it will
   be selected; http://sourceforge.net/projects/swtaddons/
-
-  XML magic: dynamic drawing of the ui
   
   Scripting magic: want to make format recoginze for and if (probably more) so
   when i.e. if(%album% - %tracknumber%){tracknumber -} %title and no tracknumber
