@@ -79,14 +79,15 @@ public class FooWindow implements FooInterfaceWindow {
 		createSShell();
 
 		createViews();
+		
+		createMenus();
 
 		createBackends();
-
+		
 		createWatches();
 
 		createActions();
 		
-		createMenus();
 	}
 
 	private void createSShell() {
@@ -181,7 +182,6 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createBackendElements(Element root) {
-
 		NodeList nodes = root.getChildNodes();
 
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -197,9 +197,7 @@ public class FooWindow implements FooInterfaceWindow {
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
-				// createBackendElements(child);
 			}
-
 		}
 	}
 
@@ -208,7 +206,6 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createActionElements(Element root) {
-
 		NodeList nodes = root.getChildNodes();
 
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -224,14 +221,32 @@ public class FooWindow implements FooInterfaceWindow {
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
-				// createBackendElements(child);
 			}
-
 		}
 	}
-	
+
 	private void createMenus() {
-		getMenuFactory().create(FooXML.getElement("menus"));
+		createMenuElements(FooXML.getElement("menus"));
+	}
+
+	private void createMenuElements(Element root) {
+		NodeList nodes = root.getChildNodes();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				try {
+					getMenuFactory().create(child);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void createWatches() {
@@ -239,7 +254,6 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createWatchElements(Element root) {
-
 		NodeList nodes = root.getChildNodes();
 
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -255,9 +269,7 @@ public class FooWindow implements FooInterfaceWindow {
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
-				// createWatchElements(child);
 			}
-
 		}
 	}
 
@@ -299,7 +311,7 @@ public class FooWindow implements FooInterfaceWindow {
 		}
 		return actionFactory;
 	}
-	
+
 	public FooMenuFactory getMenuFactory() {
 		if (menuFactory == null) {
 			menuFactory = new FooMenuFactory(this);

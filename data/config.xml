@@ -31,19 +31,16 @@
 				<view>
 					<type>FooList</type>
 					<name>listArtist</name>
-					<backend>artistBackend</backend>
 				</view>
 					
 				<view>
 					<type>FooList</type>
 					<name>listAlbum</name>
-					<backend>albumBackend</backend>
 				</view>
 					
 				<view>
 					<type>FooList</type>
 					<name>listTrack</name>
-					<backend>trackBackend</backend>
 				</view>
 				<composite>
 					<type>Composite</type>
@@ -266,6 +263,58 @@
 			<source>KEYBOARD</source>
 		</action>
 		
+		<action>
+			<path>artistBackend</path>
+			<name>order</name>
+			<code>0</code>
+			<view>artistOrder</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>artistBackend</path>
+			<name>format</name>
+			<code>0</code>
+			<view>artistFormat</view>			
+			<source>MOUSE</source>
+		</action>
+		
+		<action>
+			<path>albumBackend</path>
+			<name>order</name>
+			<code>0</code>
+			<view>albumOrder</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>albumBackend</path>
+			<name>format</name>
+			<code>0</code>
+			<view>albumFormat</view>			
+			<source>MOUSE</source>
+		</action>
+		
+		<action>
+			<path>trackBackend</path>
+			<name>order</name>
+			<code>0</code>
+			<view>trackOrder</view>			
+			<source>MOUSE</source>
+		</action>
+		<action>
+			<path>trackBackend</path>
+			<name>format</name>
+			<code>0</code>
+			<view>trackFormat</view>			
+			<source>MOUSE</source>
+		</action>
+		
+		<action>
+			<path>playlistBackend</path>
+			<name>format</name>
+			<code>0</code>
+			<view>playlistFormat</view>			
+			<source>MOUSE</source>
+		</action>
 		
 	</actions>
 	
@@ -275,24 +324,10 @@
 			<item>
 				<name>artistOrder</name>
 				<text>change order</text>
-				<action>
-					<path>artistBackend</path>
-					<name>order</name>
-					<code>0</code>
-					<view>artistOrder</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 			<item>
 				<name>artistFormat</name>
 				<text>change format</text>
-				<action>
-					<path>artistBackend</path>
-					<name>format</name>
-					<code>0</code>
-					<view>artistFormat</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 		</menu>
 		<menu>
@@ -300,24 +335,10 @@
 			<item>
 				<name>albumOrder</name>
 				<text>change order</text>
-				<action>
-					<path>albumBackend</path>
-					<name>order</name>
-					<code>0</code>
-					<view>albumOrder</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 			<item>
 				<name>albumFormat</name>
 				<text>change format</text>
-				<action>
-					<path>albumBackend</path>
-					<name>format</name>
-					<code>0</code>
-					<view>albumFormat</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 		</menu>
 		<menu>
@@ -325,24 +346,10 @@
 			<item>
 				<name>trackOrder</name>
 				<text>change order</text>
-				<action>
-					<path>trackBackend</path>
-					<name>order</name>
-					<code>0</code>
-					<view>trackOrder</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 			<item>
 				<name>trackFormat</name>
 				<text>change format</text>
-				<action>
-					<path>trackBackend</path>
-					<name>format</name>
-					<code>0</code>
-					<view>trackFormat</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 		</menu>
 		<menu>
@@ -350,13 +357,6 @@
 			<item>
 				<name>playlistFormat</name>
 				<text>change format</text>
-				<action>
-					<path>playlistBackend</path>
-					<name>format</name>
-					<code>0</code>
-					<view>playlistFormat</view>			
-					<source>MOUSE</source>
-				</action>
 			</item>
 		</menu>
 	</menus>

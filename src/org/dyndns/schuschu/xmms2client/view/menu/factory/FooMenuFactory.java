@@ -12,9 +12,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
-//TODO: recreate like other factories
-
 public class FooMenuFactory {
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private FooColor debugForeground = FooColor.WHITE;
@@ -36,62 +33,47 @@ public class FooMenuFactory {
 		this.window = window;
 	}
 
-	public void create(Element element) {
+	public FooMenu create(Element element) {
 
-		NodeList nodes = element.getChildNodes();
+		if (element.getNodeName().equals("menu")) {
 
-		for (int i = 0; i < nodes.getLength(); i++) {
+			String view = FooXML.getTagValue("view", element);
 
-			Node node = nodes.item(i);
+			debug("creating menu for " + view);
 
-			if (node instanceof Element) {
+			FooMenu menu = new FooMenu();
 
-				if (node.getNodeName().equals("menu")) {
-					
-					String view = FooXML.getTagValue("view", (Element) node);
-					
-					debug("creating menu for " + view);
-					
-					FooMenu menu = new FooMenu();
+			getView(view).setMenu(menu);
 
+			NodeList children = element.getChildNodes();
 
-					getView(view).setMenu(menu);
+			for (int j = 0; j < children.getLength(); j++) {
 
-					NodeList children = node.getChildNodes();
+				Node menunode = children.item(j);
+				if (menunode instanceof Element) {
 
-					for (int j = 0; j < children.getLength(); j++) {
+					Element child = (Element) menunode;
 
-						Node menunode = children.item(j);
-						if (menunode instanceof Element) {
+					if (child.getNodeName().equals("item")) {
 
-							Element child = (Element) menunode;
+						try {
+							String text = FooXML.getTagValue("text", child);
+							String name = FooXML.getTagValue("name", child);
 
-							if (child.getNodeName().equals("item")) {
+							FooMenuItem item = new FooMenuItem(menu);
+							item.setText(text);
+							window.views.put(name, item);
 
-								try {
-									String text = FooXML.getTagValue("text",
-											child);
-									String name = FooXML.getTagValue("name",
-											child);
-
-									FooMenuItem item = new FooMenuItem(menu);
-									item.setText(text);
-									window.views.put(name, item);
-
-									Element action = FooXML.getElement(child,
-											"action");
-
-									window.getActionFactory().create(action);
-									debug("created menuentry " + name);
-								} catch (NullPointerException e) {
-									e.printStackTrace();
-								}
-							}
+							debug("created menuentry " + name);
+						} catch (NullPointerException e) {
+							e.printStackTrace();
 						}
 					}
 				}
 			}
+			return menu;
 		}
+		return null;
 	}
 
 	private FooInterfaceMenu getView(String s) {
