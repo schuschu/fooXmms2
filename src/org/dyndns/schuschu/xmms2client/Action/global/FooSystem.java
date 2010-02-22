@@ -28,7 +28,7 @@ public class FooSystem {
 
 		};
 
-		FooActionFactory.factories.put("Playback", factory);
+		FooActionFactory.factories.put("System", factory);
 	}
 
 	private enum ActionType {

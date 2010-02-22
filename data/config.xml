@@ -314,8 +314,7 @@
 			<code>0</code>
 			<view>playlistFormat</view>			
 			<source>MOUSE</source>
-		</action>
-		
+		</action>		
 	</actions>
 	
 	<menus>
@@ -357,7 +356,7 @@
 			<item>
 				<name>playlistFormat</name>
 				<text>change format</text>
-			</item>
+			</item>	
 		</menu>
 	</menus>
 	
