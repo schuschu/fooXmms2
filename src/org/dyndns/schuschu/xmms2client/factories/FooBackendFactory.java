@@ -159,8 +159,6 @@ public class FooBackendFactory {
 				FooFactory.putBackend(name, textBackend);
 				return textBackend;
 			}
-		} catch (NullPointerException e) {
-			// TODO: this is bad you know...
 		} catch (IllegalArgumentException e) {
 			// Thats not an enum!
 		}

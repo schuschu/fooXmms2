@@ -52,7 +52,6 @@ public class FooMenuFactory {
 
 					if (child.getNodeName().equals("item")) {
 
-						try {
 							String text = FooXML.getTagValue("text", child);
 							String name = FooXML.getTagValue("name", child);
 
@@ -61,9 +60,6 @@ public class FooMenuFactory {
 							FooFactory.putView(name, item);
 
 							debug("created menuentry " + name);
-						} catch (NullPointerException e) {
-							e.printStackTrace();
-						}
 					}
 				}
 			}

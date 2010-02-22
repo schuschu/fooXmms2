@@ -142,8 +142,6 @@ public class FooWatchFactory {
 				FooFactory.putWatch(name, playlistLoad);
 				return playlistLoad;
 			}
-		} catch (NullPointerException e) {
-			// TODO: this is bad you know...
 		} catch (IllegalArgumentException e) {
 			// Thats not an enum!
 		}

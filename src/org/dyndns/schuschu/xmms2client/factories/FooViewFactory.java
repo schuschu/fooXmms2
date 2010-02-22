@@ -47,6 +47,10 @@ public class FooViewFactory {
 		Element father = (Element) element.getParentNode();
 		String parent = FooXML.getTagValue("name", father);
 
+		if (type == null) {
+			return null;
+		}
+
 		try {
 			switch (FooViewType.valueOf(type)) {
 			case Composite:
@@ -98,8 +102,6 @@ public class FooViewFactory {
 				FooFactory.putView(name, sash);
 				return sash;
 			}
-		} catch (NullPointerException e) {
-			// TODO: this is bad you know...
 		} catch (IllegalArgumentException e) {
 			// Thats not an enum!
 		}

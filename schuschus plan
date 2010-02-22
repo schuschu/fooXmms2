@@ -17,7 +17,7 @@ This part is about the things that are wrong in the current version:
   
   The configuration architecture: RETHINK XML STRUCTURE!!!, 
   add Factory Registration (static in interfaces...), add more/optional
-  params, sanity checks
+  params, sanity checks1
    
   Icon/Pixmap mess!!! 
   
