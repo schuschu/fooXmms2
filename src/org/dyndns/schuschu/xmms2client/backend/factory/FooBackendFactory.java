@@ -39,7 +39,7 @@ public class FooBackendFactory {
 	public Object create(Element element) {
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
-		
+
 		String format, filter, view, contentprovider, debugForeground, debugBackground;
 
 		try {
@@ -48,13 +48,6 @@ public class FooBackendFactory {
 				debug("creating FooBackendFilter " + name);
 
 				/*
-				 * ACTION
-				 * 
-				 * listTrack.addAction(FooSource.MOUSE, trackBackend.ActionEnqueu(2));
-				 * listTrack.addAction(FooSource.KEYBOARD, trackBackend.ActionEnqueu(SWT.CR));
-				 * listTrack.addAction(FooSource.KEYBOARD, trackBackend.ActionDeselect(SWT.ESC));
-				 * 
-				 * 
 				 * MENU
 				 * 
 				 * FooMenu menu = new FooMenu(SHELL);
@@ -74,78 +67,99 @@ public class FooBackendFactory {
 				filter = FooXML.getTagValue("filter", element);
 				view = FooXML.getTagValue("view", element);
 
-				contentprovider = FooXML.getTagValue("contentprovider",
-						element);
+				contentprovider = FooXML
+						.getTagValue("contentprovider", element);
 
-				debugForeground = FooXML.getTagValue("debugForeground", element);
-				debugBackground = FooXML.getTagValue("debugBackground", element);
-				
-				FooBackendFilter filterBackend = new FooBackendFilter(format, filter,
-						getView(view));
+				debugForeground = FooXML
+						.getTagValue("debugForeground", element);
+				debugBackground = FooXML
+						.getTagValue("debugBackground", element);
+
+				FooBackendFilter filterBackend = new FooBackendFilter(format,
+						filter, getView(view));
 				filterBackend.setName(name);
-				filterBackend.setDebugForeground(FooColor.valueOf(debugForeground));
-				filterBackend.setDebugBackground(FooColor.valueOf(debugBackground));
+				filterBackend.setDebugForeground(FooColor
+						.valueOf(debugForeground));
+				filterBackend.setDebugBackground(FooColor
+						.valueOf(debugBackground));
 
 				if (contentprovider.equals("ALL")) {
 					filterBackend.setToAll();
 				} else {
-					filterBackend.setContentProvider((FooInterfaceBackendFilter) window.backends.get(contentprovider));
+					filterBackend
+							.setContentProvider((FooInterfaceBackendFilter) window.backends
+									.get(contentprovider));
 				}
-				
+
 				filterBackend.registerActionFactory();
 
 				window.backends.put(name, filterBackend);
 				return filterBackend;
-				
+
 			case FooBackendPlaylist:
 				debug("creating FooBackendPlaylist " + name);
-				
+
 				format = FooXML.getTagValue("format", element);
 				view = FooXML.getTagValue("view", element);
 
-				debugForeground = FooXML.getTagValue("debugForeground", element);
-				debugBackground = FooXML.getTagValue("debugBackground", element);
-				
-				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(format, getViewPlaylist(view));
+				debugForeground = FooXML
+						.getTagValue("debugForeground", element);
+				debugBackground = FooXML
+						.getTagValue("debugBackground", element);
+
+				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(
+						format, getViewPlaylist(view));
 				playlistBackend.setName(name);
-				playlistBackend.setDebugForeground(FooColor.valueOf(debugForeground));
-				playlistBackend.setDebugBackground(FooColor.valueOf(debugBackground));
+				playlistBackend.setDebugForeground(FooColor
+						.valueOf(debugForeground));
+				playlistBackend.setDebugBackground(FooColor
+						.valueOf(debugBackground));
 
 				playlistBackend.registerActionFactory();
-				
+
 				window.backends.put(name, playlistBackend);
 				return playlistBackend;
-				
+
 			case FooBackendPlaylistSwitch:
 				debug("creating FooBackendPlaylistSwitch " + name);
-				
+
 				view = FooXML.getTagValue("view", element);
 
-				debugForeground = FooXML.getTagValue("debugForeground", element);
-				debugBackground = FooXML.getTagValue("debugBackground", element);
-				
-				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(getView(view));
+				debugForeground = FooXML
+						.getTagValue("debugForeground", element);
+				debugBackground = FooXML
+						.getTagValue("debugBackground", element);
+
+				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(
+						getView(view));
 				playlistSwitchBackend.setName(name);
-				playlistSwitchBackend.setDebugForeground(FooColor.valueOf(debugForeground));
-				playlistSwitchBackend.setDebugBackground(FooColor.valueOf(debugBackground));
-			
+				playlistSwitchBackend.setDebugForeground(FooColor
+						.valueOf(debugForeground));
+				playlistSwitchBackend.setDebugBackground(FooColor
+						.valueOf(debugBackground));
+
 				window.backends.put(name, playlistSwitchBackend);
 				return playlistSwitchBackend;
-				
+
 			case FooBackendText:
 				debug("creating FooBackendText " + name);
-				
+
 				view = FooXML.getTagValue("view", element);
 				format = FooXML.getTagValue("format", element);
-				
-				debugForeground = FooXML.getTagValue("debugForeground", element);
-				debugBackground = FooXML.getTagValue("debugBackground", element);
-				
-				FooBackendText textBackend = new FooBackendText(format, getViewText(view));
+
+				debugForeground = FooXML
+						.getTagValue("debugForeground", element);
+				debugBackground = FooXML
+						.getTagValue("debugBackground", element);
+
+				FooBackendText textBackend = new FooBackendText(format,
+						getViewText(view));
 				textBackend.setName(name);
-				textBackend.setDebugForeground(FooColor.valueOf(debugForeground));
-				textBackend.setDebugBackground(FooColor.valueOf(debugBackground));
-			
+				textBackend.setDebugForeground(FooColor
+						.valueOf(debugForeground));
+				textBackend.setDebugBackground(FooColor
+						.valueOf(debugBackground));
+
 				window.backends.put(name, textBackend);
 				return textBackend;
 			}
@@ -164,7 +178,7 @@ public class FooBackendFactory {
 		}
 		return null;
 	}
-	
+
 	private FooInterfaceText getViewText(String s) {
 		Object o = window.views.get(s);
 		if (o instanceof FooInterfaceText) {
@@ -172,8 +186,8 @@ public class FooBackendFactory {
 		}
 		return null;
 	}
-	
-	private FooInterfaceViewPlaylist getViewPlaylist(String s){
+
+	private FooInterfaceViewPlaylist getViewPlaylist(String s) {
 		Object o = window.views.get(s);
 		if (o instanceof FooInterfaceViewPlaylist) {
 			return (FooInterfaceViewPlaylist) o;

@@ -11,6 +11,7 @@ import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
 import org.dyndns.schuschu.xmms2client.view.element.factory.FooViewFactory;
+import org.dyndns.schuschu.xmms2client.view.menu.factory.FooMenuFactory;
 import org.dyndns.schuschu.xmms2client.watch.factory.FooWatchFactory;
 
 import org.eclipse.swt.graphics.Image;
@@ -35,6 +36,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private FooBackendFactory backendFactory = null;
 	private FooWatchFactory watchFactory = null;
 	private FooActionFactory actionFactory = null;
+	private FooMenuFactory menuFactory = null;
 
 	private Point location;
 
@@ -83,6 +85,8 @@ public class FooWindow implements FooInterfaceWindow {
 		createWatches();
 
 		createActions();
+		
+		createMenus();
 	}
 
 	private void createSShell() {
@@ -225,6 +229,10 @@ public class FooWindow implements FooInterfaceWindow {
 
 		}
 	}
+	
+	private void createMenus() {
+		getMenuFactory().create(FooXML.getElement("menus"));
+	}
 
 	private void createWatches() {
 		createWatchElements(FooXML.getElement("watches"));
@@ -290,6 +298,13 @@ public class FooWindow implements FooInterfaceWindow {
 			actionFactory = new FooActionFactory(this);
 		}
 		return actionFactory;
+	}
+	
+	public FooMenuFactory getMenuFactory() {
+		if (menuFactory == null) {
+			menuFactory = new FooMenuFactory(this);
+		}
+		return menuFactory;
 	}
 
 	@Override

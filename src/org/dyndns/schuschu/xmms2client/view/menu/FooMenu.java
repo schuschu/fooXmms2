@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.menu;
 
-import org.eclipse.swt.widgets.Control;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
 
@@ -8,9 +9,12 @@ public class FooMenu {
 
 	private Menu menu;
 
-	// TODO: Interface for Control
-	public FooMenu(Control parent) {
-		setMenu(new Menu(parent));
+	public FooMenu() {
+		setMenu(new Menu(FooWindow.SHELL));
+	}
+
+	public FooMenu(FooInterfaceControl parent) {
+		setMenu(new Menu(parent.getControl()));
 	}
 
 	public FooMenu(Decorations parent, int style) {

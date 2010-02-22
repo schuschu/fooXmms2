@@ -2,13 +2,11 @@ package org.dyndns.schuschu.xmms2client.interfaces;
 
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
-
 /**
  * @author schuschu
  * 
  */
-public interface FooInterfaceView {
+public interface FooInterfaceView extends FooInterfaceMenu{
 
 	/**
 	 * gets the currently selected indices(or index) normally by calling the
@@ -30,7 +28,7 @@ public interface FooInterfaceView {
 
 	public void setLayoutData(Object layoutData);
 
-	public void setMenu(FooMenu menu);
+	
 
 	/**
 	 * sets the elements backend. this defines what information it will display

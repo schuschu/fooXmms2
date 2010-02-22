@@ -3,15 +3,21 @@ package org.dyndns.schuschu.xmms2client.view.menu;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.FooSource;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 
-public class FooMenuItem {
+public class FooMenuItem implements FooInterfaceAction{
 
 	private MenuItem item;
 	private Vector<FooAction> actions;
+
+	public FooMenuItem(FooMenu parent) {
+		this(parent, SWT.NONE);
+	}
 
 	public FooMenuItem(FooMenu parent, int style) {
 
@@ -34,16 +40,20 @@ public class FooMenuItem {
 		};
 	}
 
-	public void addAction(FooAction action) {
-		actions.add(action);
-	}
-
-	public void removeAction(FooAction action) {
-		actions.remove(action);
-	}
-
 	public void setText(String string) {
 		item.setText(string);
+	}
+
+	@Override
+	public void addAction(FooSource source, FooAction action) {
+		actions.add(action);
+		
+	}
+
+	@Override
+	public void removeAction(FooSource source, FooAction action) {
+		actions.remove(action);
+		
 	}
 
 }

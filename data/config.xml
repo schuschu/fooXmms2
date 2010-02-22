@@ -269,6 +269,98 @@
 		
 	</actions>
 	
+	<menus>
+		<menu>
+			<view>listArtist</view>
+			<item>
+				<name>artistOrder</name>
+				<text>change order</text>
+				<action>
+					<path>artistBackend</path>
+					<name>order</name>
+					<code>0</code>
+					<view>artistOrder</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+			<item>
+				<name>artistFormat</name>
+				<text>change format</text>
+				<action>
+					<path>artistBackend</path>
+					<name>format</name>
+					<code>0</code>
+					<view>artistFormat</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+		</menu>
+		<menu>
+			<view>listAlbum</view>
+			<item>
+				<name>albumOrder</name>
+				<text>change order</text>
+				<action>
+					<path>albumBackend</path>
+					<name>order</name>
+					<code>0</code>
+					<view>albumOrder</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+			<item>
+				<name>albumFormat</name>
+				<text>change format</text>
+				<action>
+					<path>albumBackend</path>
+					<name>format</name>
+					<code>0</code>
+					<view>albumFormat</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+		</menu>
+		<menu>
+			<view>listTrack</view>
+			<item>
+				<name>trackOrder</name>
+				<text>change order</text>
+				<action>
+					<path>trackBackend</path>
+					<name>order</name>
+					<code>0</code>
+					<view>trackOrder</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+			<item>
+				<name>trackFormat</name>
+				<text>change format</text>
+				<action>
+					<path>trackBackend</path>
+					<name>format</name>
+					<code>0</code>
+					<view>trackFormat</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+		</menu>
+		<menu>
+			<view>tablePlaylist</view>
+			<item>
+				<name>playlistFormat</name>
+				<text>change format</text>
+				<action>
+					<path>playlistBackend</path>
+					<name>format</name>
+					<code>0</code>
+					<view>playlistFormat</view>			
+					<source>MOUSE</source>
+				</action>
+			</item>
+		</menu>
+	</menus>
+	
 	<watches>
 		<watch>
 			<type>FooWatchPlaylist</type>
@@ -303,14 +395,14 @@
 		<watch>
 			<type>FooWatchCurrentTrack</type>
 			<name>watchCurrentPos</name>
-			<debugForeground>WHITE</debugForeground>
+			<debugForeground>BLACK</debugForeground>
 			<debugBackground>YELLOW</debugBackground>
 			<backend>playlistBackend</backend>
 		</watch>
 		<watch>
 			<type>FooWatchCurrentTrack</type>
 			<name>watchPlaybackTrack</name>
-			<debugForeground>BLUE</debugForeground>
+			<debugForeground>WHITE</debugForeground>
 			<debugBackground>DARK_YELLOW</debugBackground>
 			<backend>statusbarBackend</backend>
 		</watch>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.dyndns.schuschu.xmms2client.Action.FooPlayback;
+import org.dyndns.schuschu.xmms2client.Action.FooSource;
 import org.dyndns.schuschu.xmms2client.Action.FooSystem;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
@@ -90,37 +91,37 @@ public class FooTray {
 	public void createMenuPlay() {
 		FooMenuItem menuPlay = new FooMenuItem(menu, SWT.PUSH);
 		menuPlay.setText("Play");
-		menuPlay.addAction(FooPlayback.ActionPlay(0));
+		menuPlay.addAction(FooSource.MOUSE, FooPlayback.ActionPlay(0));
 	}
 
 	public void createMenuPause() {
 		FooMenuItem menuPause = new FooMenuItem(menu, SWT.PUSH);
 		menuPause.setText("Pause");
-		menuPause.addAction(FooPlayback.ActionPause(0));
+		menuPause.addAction(FooSource.MOUSE, FooPlayback.ActionPause(0));
 	}
 
 	public void createMenuStop() {
 		FooMenuItem menuStop = new FooMenuItem(menu, SWT.PUSH);
 		menuStop.setText("Stop");
-		menuStop.addAction(FooPlayback.ActionStop(0));
+		menuStop.addAction(FooSource.MOUSE, FooPlayback.ActionStop(0));
 	}
 
 	public void createMenuNext() {
 		FooMenuItem menuNext = new FooMenuItem(menu, SWT.PUSH);
 		menuNext.setText("Next");
-		menuNext.addAction(FooPlayback.ActionNext(0));
+		menuNext.addAction(FooSource.MOUSE, FooPlayback.ActionNext(0));
 	}
 
 	public void createMenuPrev() {
 		FooMenuItem menuPrev = new FooMenuItem(menu, SWT.PUSH);
 		menuPrev.setText("Prev");
-		menuPrev.addAction(FooPlayback.ActionPrev(0));
+		menuPrev.addAction(FooSource.MOUSE, FooPlayback.ActionPrev(0));
 	}
 
 	public void createMenuExit() {
 		FooMenuItem menuExit = new FooMenuItem(menu, SWT.PUSH);
 		menuExit.setText("Exit");
-		menuExit.addAction(FooSystem.ActionExit(0));
+		menuExit.addAction(FooSource.MOUSE, FooSystem.ActionExit(0));
 	}
 
 	public boolean isSupported() {
