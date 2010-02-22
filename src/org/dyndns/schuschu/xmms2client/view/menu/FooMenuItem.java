@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;

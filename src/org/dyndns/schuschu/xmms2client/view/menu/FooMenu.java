@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.menu;
 
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;

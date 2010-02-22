@@ -5,12 +5,15 @@ import java.util.HashMap;
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooKey;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
+import org.dyndns.schuschu.xmms2client.Action.global.FooPlayback;
+import org.dyndns.schuschu.xmms2client.Action.global.FooPlaylist;
+import org.dyndns.schuschu.xmms2client.Action.global.FooSystem;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.w3c.dom.Element;
 
 public class FooActionFactory {
@@ -29,10 +32,14 @@ public class FooActionFactory {
 	}
 
 	public static HashMap<String, FooActionFactorySub> factories = new HashMap<String, FooActionFactorySub>();
-	private FooWindow window;
 
-	public FooActionFactory(FooWindow window) {
-		this.window = window;
+	public FooActionFactory() {
+		
+		// TODO: dynamic vodoo
+		FooPlayback.registerActionFactory();
+		FooPlaylist.registerActionFactory();
+		FooSystem.registerActionFactory();
+		
 	}
 
 	public FooAction create(Element element) {
@@ -60,7 +67,6 @@ public class FooActionFactory {
 		debug("creating FooAction " + name + " in " + path);
 
 		FooActionFactorySub sub = factories.get(path);
-		sub.init(window);
 
 		FooAction action = sub.create(name, code);
 
@@ -71,7 +77,7 @@ public class FooActionFactory {
 	}
 
 	private FooInterfaceAction getView(String s) {
-		Object o = window.views.get(s);
+		Object o = FooFactory.getView(s);
 		if (o instanceof FooInterfaceAction) {
 			return (FooInterfaceAction) o;
 		}

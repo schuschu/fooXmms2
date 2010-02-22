@@ -4,10 +4,10 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.Action.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceAction;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;

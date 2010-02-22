@@ -1,8 +1,8 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendText;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceText;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;

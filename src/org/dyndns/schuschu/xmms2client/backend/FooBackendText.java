@@ -9,8 +9,8 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendText;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceText;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.eclipse.swt.widgets.Display;
 

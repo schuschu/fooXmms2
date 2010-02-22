@@ -3,16 +3,10 @@ package org.dyndns.schuschu.xmms2client.view.window;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.util.HashMap;
-
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
-import org.dyndns.schuschu.xmms2client.view.element.factory.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.view.menu.factory.FooMenuFactory;
-import org.dyndns.schuschu.xmms2client.watch.factory.FooWatchFactory;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -32,17 +26,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 	private Display display;
 
-	private FooViewFactory viewFactory = null;
-	private FooBackendFactory backendFactory = null;
-	private FooWatchFactory watchFactory = null;
-	private FooActionFactory actionFactory = null;
-	private FooMenuFactory menuFactory = null;
-
 	private Point location;
-
-	public HashMap<String, Object> views = null;
-	public HashMap<String, Object> backends = null;
-	public HashMap<String, Object> watches = null;
 
 	/**
 	 * This method initializes SHELL
@@ -72,10 +56,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 	public void initalize() {
 
-		views = new HashMap<String, Object>();
-		backends = new HashMap<String, Object>();
-		watches = new HashMap<String, Object>();
-
 		createSShell();
 
 		createViews();
@@ -93,7 +73,7 @@ public class FooWindow implements FooInterfaceWindow {
 	private void createSShell() {
 		SHELL = new Shell(getDisplay());
 
-		views.put("SHELL", SHELL);
+		FooFactory.putView("SHELL", SHELL);
 
 		SHELL.setText("fooXmms2");
 		SHELL.setSize(new Point(WIDTH, HEIGHT));
@@ -143,7 +123,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					getViewFactory().create(child);
+					FooFactory.getViewFactory().create(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
@@ -166,7 +146,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					getViewFactory().createLayoutData(child);
+					FooFactory.getViewFactory().createLayoutData(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
@@ -193,7 +173,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					getBackendFactory().create(child);
+					FooFactory.getBackendFactory().create(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
@@ -217,7 +197,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					getActionFactory().create(child);
+					FooFactory.getActionFactory().create(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
@@ -241,7 +221,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					getMenuFactory().create(child);
+					FooFactory.getMenuFactory().create(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
@@ -265,7 +245,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					getWatchFactory().create(child);
+					FooFactory.getWatchFactory().create(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
@@ -282,41 +262,6 @@ public class FooWindow implements FooInterfaceWindow {
 			display = Display.getDefault();
 		}
 		return display;
-	}
-
-	public FooViewFactory getViewFactory() {
-		if (viewFactory == null) {
-			viewFactory = new FooViewFactory(this);
-		}
-		return viewFactory;
-	}
-
-	public FooBackendFactory getBackendFactory() {
-		if (backendFactory == null) {
-			backendFactory = new FooBackendFactory(this);
-		}
-		return backendFactory;
-	}
-
-	public FooWatchFactory getWatchFactory() {
-		if (watchFactory == null) {
-			watchFactory = new FooWatchFactory(this);
-		}
-		return watchFactory;
-	}
-
-	public FooActionFactory getActionFactory() {
-		if (actionFactory == null) {
-			actionFactory = new FooActionFactory(this);
-		}
-		return actionFactory;
-	}
-
-	public FooMenuFactory getMenuFactory() {
-		if (menuFactory == null) {
-			menuFactory = new FooMenuFactory(this);
-		}
-		return menuFactory;
 	}
 
 	@Override

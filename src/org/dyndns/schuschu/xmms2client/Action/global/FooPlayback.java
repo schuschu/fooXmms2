@@ -1,10 +1,49 @@
-package org.dyndns.schuschu.xmms2client.Action;
+package org.dyndns.schuschu.xmms2client.Action.global;
 
+import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Playback;
 
 public class FooPlayback {
+
+	public static void registerActionFactory() {
+		FooActionFactorySub factory = new FooActionFactorySub() {
+
+			@Override
+			public FooAction create(String name, int code) {
+				try {
+					switch (ActionType.valueOf(name)) {
+					case play:
+						return ActionPlay(code);
+					case pause:
+						return ActionPause(code);
+					case stop:
+						return ActionStop(code);
+					case next:
+						return ActionNext(code);
+					case prev:
+						return ActionPrev(code);
+					}
+
+				} catch (NullPointerException e) {
+					// TODO: this is bad you know...
+				} catch (IllegalArgumentException e) {
+					// Thats not an enum!
+				}
+				return null;
+			}
+
+		};
+
+		FooActionFactory.factories.put("Playback", factory);
+	}
+
+	private enum ActionType {
+		play, pause, stop, next, prev;
+	}
 
 	public static FooAction ActionPlay(int code) {
 		return new ActionPlayback(code, "play", PlaybackType.PLAY);

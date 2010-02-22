@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.Action;
+package org.dyndns.schuschu.xmms2client.Action.global;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.Action.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
@@ -19,6 +22,37 @@ import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionNamespace;
 
 public class FooPlaylist {
+	
+	public static void registerActionFactory() {
+		FooActionFactorySub factory = new FooActionFactorySub() {
+
+			@Override
+			public FooAction create(String name, int code) {
+				try {
+					switch (ActionType.valueOf(name)) {
+						case delete: return ActionDelete(code);
+						case newlist: return ActionNew(code);
+						case save: return ActionSava(code);
+						case shuffle: return ActionShuffle(code);
+						case sort: return ActionSort(code);
+					}
+
+				} catch (NullPointerException e) {
+					// TODO: this is bad you know...
+				} catch (IllegalArgumentException e) {
+					// Thats not an enum!
+				}
+				return null;
+			}
+
+		};
+
+		FooActionFactory.factories.put("Playlist", factory);
+	}
+
+	private enum ActionType {
+		delete, newlist, save, shuffle, sort;
+	}
 
 	public static FooAction ActionDelete(int code) {
 		return new ActionPlaylist(code, "delete", PlaylistType.DELETE);

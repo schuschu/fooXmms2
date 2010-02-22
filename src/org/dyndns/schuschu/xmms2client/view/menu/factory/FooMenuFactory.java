@@ -2,12 +2,12 @@ package org.dyndns.schuschu.xmms2client.view.menu.factory;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceMenu;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
+import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,10 +27,7 @@ public class FooMenuFactory {
 		}
 	}
 
-	private FooWindow window;
-
-	public FooMenuFactory(FooWindow window) {
-		this.window = window;
+	public FooMenuFactory() {
 	}
 
 	public FooMenu create(Element element) {
@@ -62,7 +59,7 @@ public class FooMenuFactory {
 
 							FooMenuItem item = new FooMenuItem(menu);
 							item.setText(text);
-							window.views.put(name, item);
+							FooFactory.putView(name, item);
 
 							debug("created menuentry " + name);
 						} catch (NullPointerException e) {
@@ -77,7 +74,7 @@ public class FooMenuFactory {
 	}
 
 	private FooInterfaceMenu getView(String s) {
-		Object o = window.views.get(s);
+		Object o = FooFactory.getView(s);
 		if (o instanceof FooInterfaceMenu) {
 			return (FooInterfaceMenu) o;
 		}

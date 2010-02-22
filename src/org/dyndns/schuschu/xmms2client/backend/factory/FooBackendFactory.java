@@ -6,13 +6,13 @@ import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendText;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendFilter;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceText;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceView;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendFilter;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
+import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.w3c.dom.Element;
 
 public class FooBackendFactory {
@@ -30,10 +30,7 @@ public class FooBackendFactory {
 		}
 	}
 
-	private FooWindow window;
-
-	public FooBackendFactory(FooWindow window) {
-		this.window = window;
+	public FooBackendFactory() {
 	}
 
 	public Object create(Element element) {
@@ -87,13 +84,13 @@ public class FooBackendFactory {
 					filterBackend.setToAll();
 				} else {
 					filterBackend
-							.setContentProvider((FooInterfaceBackendFilter) window.backends
-									.get(contentprovider));
+							.setContentProvider((FooInterfaceBackendFilter) FooFactory
+									.getBackend(contentprovider));
 				}
 
 				filterBackend.registerActionFactory();
 
-				window.backends.put(name, filterBackend);
+				FooFactory.putBackend(name, filterBackend);
 				return filterBackend;
 
 			case FooBackendPlaylist:
@@ -117,7 +114,7 @@ public class FooBackendFactory {
 
 				playlistBackend.registerActionFactory();
 
-				window.backends.put(name, playlistBackend);
+				FooFactory.putBackend(name, playlistBackend);
 				return playlistBackend;
 
 			case FooBackendPlaylistSwitch:
@@ -138,7 +135,7 @@ public class FooBackendFactory {
 				playlistSwitchBackend.setDebugBackground(FooColor
 						.valueOf(debugBackground));
 
-				window.backends.put(name, playlistSwitchBackend);
+				FooFactory.putBackend(name, playlistSwitchBackend);
 				return playlistSwitchBackend;
 
 			case FooBackendText:
@@ -160,7 +157,7 @@ public class FooBackendFactory {
 				textBackend.setDebugBackground(FooColor
 						.valueOf(debugBackground));
 
-				window.backends.put(name, textBackend);
+				FooFactory.putBackend(name, textBackend);
 				return textBackend;
 			}
 		} catch (NullPointerException e) {
@@ -172,7 +169,7 @@ public class FooBackendFactory {
 	}
 
 	private FooInterfaceView getView(String s) {
-		Object o = window.views.get(s);
+		Object o = FooFactory.getView(s);
 		if (o instanceof FooInterfaceView) {
 			return (FooInterfaceView) o;
 		}
@@ -180,7 +177,7 @@ public class FooBackendFactory {
 	}
 
 	private FooInterfaceText getViewText(String s) {
-		Object o = window.views.get(s);
+		Object o = FooFactory.getView(s);
 		if (o instanceof FooInterfaceText) {
 			return (FooInterfaceText) o;
 		}
@@ -188,7 +185,7 @@ public class FooBackendFactory {
 	}
 
 	private FooInterfaceViewPlaylist getViewPlaylist(String s) {
-		Object o = window.views.get(s);
+		Object o = FooFactory.getView(s);
 		if (o instanceof FooInterfaceViewPlaylist) {
 			return (FooInterfaceViewPlaylist) o;
 		}

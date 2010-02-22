@@ -3,10 +3,10 @@ package org.dyndns.schuschu.xmms2client.view.tray;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.dyndns.schuschu.xmms2client.Action.FooPlayback;
 import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.Action.FooSystem;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.Action.global.FooPlayback;
+import org.dyndns.schuschu.xmms2client.Action.global.FooSystem;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.eclipse.swt.SWT;

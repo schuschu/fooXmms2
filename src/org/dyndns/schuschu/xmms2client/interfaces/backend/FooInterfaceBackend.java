@@ -1,6 +1,8 @@
-package org.dyndns.schuschu.xmms2client.interfaces;
+package org.dyndns.schuschu.xmms2client.interfaces.backend;
 
 import java.util.Vector;
+
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 
 /**
  * @author schuschu

@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceWindow;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.view.tray.FooTray;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 

@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceComposite;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;

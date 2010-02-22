@@ -12,9 +12,9 @@ import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackendPlaylist;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceViewPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
@@ -85,7 +85,6 @@ public class FooBackendPlaylist implements Serializable,
 		debug("FooBackendPlaylist");
 		this.setView(view);
 		this.setFormat(format);
-		registerActionFactory();
 		refresh();
 
 	}

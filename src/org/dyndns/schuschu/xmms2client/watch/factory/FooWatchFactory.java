@@ -2,13 +2,13 @@ package org.dyndns.schuschu.xmms2client.watch.factory;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceBackend;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceCurrentTrack;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfacePlaybackPos;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfacePlaybackStatus;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceCurrentTrack;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfacePlaybackPos;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfacePlaybackStatus;
+import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus;
@@ -31,10 +31,7 @@ public class FooWatchFactory {
 		}
 	}
 
-	private FooWindow window;
-
-	public FooWatchFactory(FooWindow window) {
-		this.window = window;
+	public FooWatchFactory() {
 	}
 
 	public Object create(Element element) {
@@ -63,7 +60,7 @@ public class FooWatchFactory {
 				
 				currentTrack.start();
 				
-				window.watches.put(name, currentTrack);
+				FooFactory.putWatch(name, currentTrack);
 				return currentTrack;
 			case FooWatchPlaybackPos:
 				debug("creating FooWatchPlaybackPos " + name);
@@ -83,7 +80,7 @@ public class FooWatchFactory {
 				
 				playbackPos.start();
 				
-				window.watches.put(name, playbackPos);
+				FooFactory.putWatch(name, playbackPos);
 				return playbackPos;
 			case FooWatchPlaybackStatus:
 				debug("creating FooWatchPlaybackStatus " + name);
@@ -103,7 +100,7 @@ public class FooWatchFactory {
 				
 				playbackStatus.start();
 				
-				window.watches.put(name, playbackStatus);
+				FooFactory.putWatch(name, playbackStatus);
 				return playbackStatus;
 			case FooWatchPlaylist:
 				debug("creating FooWatchPlaylist " + name);
@@ -123,7 +120,7 @@ public class FooWatchFactory {
 				
 				playlist.start();
 				
-				window.watches.put(name, playlist);
+				FooFactory.putWatch(name, playlist);
 				return playlist;
 			case FooWatchPlaylistLoad:
 				debug("creating FooWatchPlaylistLoad " + name);
@@ -143,7 +140,7 @@ public class FooWatchFactory {
 				
 				playlistLoad.start();
 				
-				window.watches.put(name, playlistLoad);
+				FooFactory.putWatch(name, playlistLoad);
 				return playlistLoad;
 			}
 		} catch (NullPointerException e) {
@@ -155,7 +152,7 @@ public class FooWatchFactory {
 	}
 	
 	private FooInterfaceBackend getBackend(String s) {
-		Object o = window.backends.get(s);
+		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfaceBackend) {
 			return (FooInterfaceBackend) o;
 		}
@@ -163,7 +160,7 @@ public class FooWatchFactory {
 	}
 		
 	private FooInterfaceCurrentTrack getBackendCurTrack(String s) {
-		Object o = window.backends.get(s);
+		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfaceCurrentTrack) {
 			return (FooInterfaceCurrentTrack) o;
 		}
@@ -171,7 +168,7 @@ public class FooWatchFactory {
 	}
 	
 	private FooInterfacePlaybackPos getBackendPlayPos(String s) {
-		Object o = window.backends.get(s);
+		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfacePlaybackPos) {
 			return (FooInterfacePlaybackPos) o;
 		}
@@ -179,7 +176,7 @@ public class FooWatchFactory {
 	}
 	
 	private FooInterfacePlaybackStatus getBackendPlayStatus(String s) {
-		Object o = window.backends.get(s);
+		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfacePlaybackStatus) {
 			return (FooInterfacePlaybackStatus) o;
 		}
