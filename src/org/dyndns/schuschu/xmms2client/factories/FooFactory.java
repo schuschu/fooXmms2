@@ -1,12 +1,7 @@
-package org.dyndns.schuschu.xmms2client.loader;
+package org.dyndns.schuschu.xmms2client.factories;
 
 import java.util.HashMap;
 
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.backend.factory.FooBackendFactory;
-import org.dyndns.schuschu.xmms2client.view.element.factory.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.view.menu.factory.FooMenuFactory;
-import org.dyndns.schuschu.xmms2client.watch.factory.FooWatchFactory;
 
 public class FooFactory {
 	

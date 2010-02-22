@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.Action.FooAction;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
+import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendFilter;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;

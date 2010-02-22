@@ -3,8 +3,8 @@ package org.dyndns.schuschu.xmms2client.view.window;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
-import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 

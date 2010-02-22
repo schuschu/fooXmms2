@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.watch.factory;
+package org.dyndns.schuschu.xmms2client.factories;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
@@ -6,7 +6,6 @@ import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceCurrentTrack;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfacePlaybackPos;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfacePlaybackStatus;
-import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack;

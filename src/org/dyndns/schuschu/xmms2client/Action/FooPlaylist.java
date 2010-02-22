@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.Action.global;
+package org.dyndns.schuschu.xmms2client.Action;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.Action.FooAction;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;

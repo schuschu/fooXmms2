@@ -16,7 +16,7 @@ This part is about the things that are wrong in the current version:
   -> http://jpf.sourceforge.net/index.html or a similar framework
   
   The configuration architecture: RETHINK XML STRUCTURE!!!, 
-  add Factory Registration, port remaining actions?
+  add Factory Registration (static in interfaces...)
    
   Icon/Pixmap mess!!! 
   

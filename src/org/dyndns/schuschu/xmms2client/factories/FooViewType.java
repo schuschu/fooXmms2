@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.view.element.factory;
+package org.dyndns.schuschu.xmms2client.factories;
 
 public enum FooViewType {
 	FooButton, FooCombo, FooLabel, FooList, FooTable,

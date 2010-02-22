@@ -1,8 +1,8 @@
-package org.dyndns.schuschu.xmms2client.Action.global;
+package org.dyndns.schuschu.xmms2client.Action;
 
-import org.dyndns.schuschu.xmms2client.Action.FooAction;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.Action.factory.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Playback;

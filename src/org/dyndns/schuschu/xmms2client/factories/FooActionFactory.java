@@ -1,17 +1,16 @@
-package org.dyndns.schuschu.xmms2client.Action.factory;
+package org.dyndns.schuschu.xmms2client.factories;
 
 import java.util.HashMap;
 
-import org.dyndns.schuschu.xmms2client.Action.FooAction;
-import org.dyndns.schuschu.xmms2client.Action.FooKey;
-import org.dyndns.schuschu.xmms2client.Action.FooSource;
-import org.dyndns.schuschu.xmms2client.Action.global.FooPlayback;
-import org.dyndns.schuschu.xmms2client.Action.global.FooPlaylist;
-import org.dyndns.schuschu.xmms2client.Action.global.FooSystem;
+import org.dyndns.schuschu.xmms2client.Action.FooPlayback;
+import org.dyndns.schuschu.xmms2client.Action.FooPlaylist;
+import org.dyndns.schuschu.xmms2client.Action.FooSystem;
+import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.Action.base.FooKey;
+import org.dyndns.schuschu.xmms2client.Action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
-import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;

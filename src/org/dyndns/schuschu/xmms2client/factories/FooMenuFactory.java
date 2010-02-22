@@ -1,9 +1,8 @@
-package org.dyndns.schuschu.xmms2client.view.menu.factory;
+package org.dyndns.schuschu.xmms2client.factories;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
-import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;

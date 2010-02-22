@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.backend.factory;
+package org.dyndns.schuschu.xmms2client.factories;
 
 import org.dyndns.schuschu.xmms2client.backend.FooBackendFilter;
 import org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist;
@@ -10,7 +10,6 @@ import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendFil
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
-import org.dyndns.schuschu.xmms2client.loader.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
