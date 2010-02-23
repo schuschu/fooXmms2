@@ -1,13 +1,14 @@
-package org.dyndns.schuschu.xmms2client.Action;
+package org.dyndns.schuschu.xmms2client.action;
 
 import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.factory.FooInterfaceFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 
 import se.fnord.xmms2.client.commands.Playback;
 
-public class FooPlayback {
+public class FooPlayback implements FooInterfaceFactory{
 
 	public static void registerActionFactory() {
 		FooActionFactorySub factory = new FooActionFactorySub() {

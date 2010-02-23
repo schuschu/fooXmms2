@@ -2,12 +2,12 @@ package org.dyndns.schuschu.xmms2client.factories;
 
 import java.util.HashMap;
 
-import org.dyndns.schuschu.xmms2client.Action.FooPlayback;
-import org.dyndns.schuschu.xmms2client.Action.FooPlaylist;
-import org.dyndns.schuschu.xmms2client.Action.FooSystem;
 import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.Action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.Action.base.FooSource;
+import org.dyndns.schuschu.xmms2client.action.FooPlayback;
+import org.dyndns.schuschu.xmms2client.action.FooPlaylist;
+import org.dyndns.schuschu.xmms2client.action.FooSystem;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;

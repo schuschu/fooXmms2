@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.Action;
+package org.dyndns.schuschu.xmms2client.action;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.factory.FooInterfaceFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
@@ -21,7 +22,7 @@ import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionNamespace;
 
-public class FooPlaylist {
+public class FooPlaylist implements FooInterfaceFactory {
 
 	public static void registerActionFactory() {
 		FooActionFactorySub factory = new FooActionFactorySub() {
