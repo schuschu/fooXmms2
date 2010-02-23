@@ -11,17 +11,10 @@ public class FooSystem {
 
 			@Override
 			public FooAction create(String name, int code) {
-				try {
-					switch (ActionType.valueOf(name)) {
-					case exit:
-						return ActionExit(code);
+				switch (ActionType.valueOf(name)) {
+				case exit:
+					return ActionExit(code);
 
-					}
-
-				} catch (NullPointerException e) {
-					// TODO: this is bad you know...
-				} catch (IllegalArgumentException e) {
-					// Thats not an enum!
 				}
 				return null;
 			}

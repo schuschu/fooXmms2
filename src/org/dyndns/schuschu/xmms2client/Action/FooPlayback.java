@@ -14,24 +14,18 @@ public class FooPlayback {
 
 			@Override
 			public FooAction create(String name, int code) {
-				try {
-					switch (ActionType.valueOf(name)) {
-					case play:
-						return ActionPlay(code);
-					case pause:
-						return ActionPause(code);
-					case stop:
-						return ActionStop(code);
-					case next:
-						return ActionNext(code);
-					case prev:
-						return ActionPrev(code);
-					}
 
-				} catch (NullPointerException e) {
-					// TODO: this is bad you know...
-				} catch (IllegalArgumentException e) {
-					// Thats not an enum!
+				switch (ActionType.valueOf(name)) {
+				case play:
+					return ActionPlay(code);
+				case pause:
+					return ActionPause(code);
+				case stop:
+					return ActionStop(code);
+				case next:
+					return ActionNext(code);
+				case prev:
+					return ActionPrev(code);
 				}
 				return null;
 			}

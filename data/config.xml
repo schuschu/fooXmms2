@@ -14,7 +14,7 @@
 		</debug>
 	</config>
 	
-	<views>
+	<window>
 		<view>
 			<type>Shell</type>
 			<name>SHELL</name>
@@ -28,23 +28,171 @@
 					<left>0</left>
 					<right>100</right>
 					<bottom>statusbar</bottom>
-				</layoutdata>
+				</layoutdata>				
 				<view>
 					<type>FooList</type>
 					<name>listArtist</name>
+					<backend>
+						<type>FooBackendFilter</type>
+						<name>artistBackend</name>
+						<format>%artist%</format>
+						<filter>artist</filter>
+						<debugForeground>DARK_MAGENTA</debugForeground>
+						<debugBackground>WHITE</debugBackground>
+						<contentprovider>ALL</contentprovider>
+					</backend>
+					<menu>
+						<item>
+							<name>artistOrder</name>
+							<text>change order</text>
+							<action>
+								<path>artistBackend</path>
+								<name>order</name>
+								<code>0</code>		
+								<source>MOUSE</source>
+							</action>
+						</item>
+						<item>
+							<name>artistFormat</name>
+							<text>change format</text>
+							<action>
+								<path>artistBackend</path>
+								<name>format</name>
+								<code>0</code>
+								<source>MOUSE</source>
+							</action>
+						</item>
+					</menu>
+					<action>
+						<path>artistBackend</path>
+						<name>enqueue</name>
+						<code>CR</code>	
+						<source>KEYBOARD</source>
+					</action>
+					<action>
+						<path>artistBackend</path>
+						<name>enqueue</name>
+						<code>2</code>		
+						<source>MOUSE</source>
+					</action>
+					<action>
+						<path>artistBackend</path>
+						<name>deselect</name>
+						<code>ESC</code>	
+						<source>KEYBOARD</source>
+					</action>
 				</view>
 				<view>
 					<type>FooList</type>
 					<name>listAlbum</name>
+					<backend>
+						<type>FooBackendFilter</type>
+						<name>albumBackend</name>
+						<format>%album% (%date%)</format>
+						<filter>album</filter>
+						<debugForeground>MAGENTA</debugForeground>
+						<debugBackground>WHITE</debugBackground>
+						<contentprovider>artistBackend</contentprovider>
+					</backend>
+					<menu>
+						<item>
+							<name>albumOrder</name>
+							<text>change order</text>
+							<action>
+								<path>albumBackend</path>
+								<name>order</name>
+								<code>0</code>	
+								<source>MOUSE</source>
+							</action>
+						</item>
+						<item>
+							<name>albumFormat</name>
+							<text>change format</text>
+							<action>
+								<path>albumBackend</path>
+								<name>format</name>
+								<code>0</code>		
+								<source>MOUSE</source>
+							</action>
+						</item>
+					</menu>		
+					<action>
+						<path>albumBackend</path>
+						<name>enqueue</name>
+						<code>CR</code>
+						<source>KEYBOARD</source>
+					</action>
+					<action>
+						<path>albumBackend</path>
+						<name>enqueue</name>
+						<code>2</code>		
+						<source>MOUSE</source>
+					</action>
+					<action>
+						<path>albumBackend</path>
+						<name>deselect</name>
+						<code>ESC</code>	
+						<source>KEYBOARD</source>
+					</action>			
 				</view>
 				<view>
 					<type>FooList</type>
 					<name>listTrack</name>
+					<backend>
+						<type>FooBackendFilter</type>
+						<name>trackBackend</name>
+						<format>%title%</format>
+						<filter>title</filter>
+						<debugForeground>DARK_RED</debugForeground>
+						<debugBackground>WHITE</debugBackground>
+						<contentprovider>albumBackend</contentprovider>
+					</backend>
+					<menu>
+						<item>
+							<name>trackOrder</name>
+							<text>change order</text>
+							<action>
+								<path>trackBackend</path>
+								<name>order</name>
+								<code>0</code>		
+								<source>MOUSE</source>
+							</action>
+						</item>
+						<item>
+							<name>trackFormat</name>
+							<text>change format</text>
+							<action>
+								<path>trackBackend</path>
+								<name>format</name>
+								<code>0</code>		
+								<source>MOUSE</source>
+							</action>
+						</item>
+					</menu>
+					<action>
+						<path>trackBackend</path>
+						<name>enqueue</name>
+						<code>CR</code>	
+						<source>KEYBOARD</source>
+					</action>
+					<action>
+						<path>trackBackend</path>
+						<name>enqueue</name>
+						<code>2</code>	
+						<source>MOUSE</source>
+					</action>
+					<action>
+						<path>trackBackend</path>
+						<name>deselect</name>
+						<code>ESC</code>		
+						<source>KEYBOARD</source>
+					</action>
 				</view>
 				<view>
 					<type>Composite</type>
 					<name>compositePlaylist</name>	
 					<layout>FormLayout</layout>
+					
 					<view>
 						<type>FooCombo</type>
 						<name>comboPlaylist</name>
@@ -54,8 +202,25 @@
 							<left>0</left>
 							<right>100</right>
 						</layoutdata>
+						<backend>
+							<type>FooBackendPlaylistSwitch</type>
+							<name>playlistComboBackend</name>
+							<debugForeground>GRAY</debugForeground>
+							<debugBackground>WHITE</debugBackground>
+							<watch>
+								<type>FooWatchPlaylist</type>
+								<name>watchPlaylistCombo</name>
+								<debugForeground>WHITE</debugForeground>
+								<debugBackground>RED</debugBackground>
+							</watch>
+							<watch>
+								<type>FooWatchPlaylistLoad</type>
+								<name>watchPlaylistComboLoad</name>
+								<debugForeground>WHITE</debugForeground>
+								<debugBackground>MAGENTA</debugBackground>
+							</watch>
+						</backend>
 					</view>
-						
 					<view>
 						<type>FooTable</type>
 						<name>tablePlaylist</name>
@@ -66,7 +231,68 @@
 							<right>100</right>
 							<bottom>buttonsPlaylist</bottom>
 						</layoutdata>
-					</view>
+						<backend>
+							<type>FooBackendPlaylist</type>
+							<name>playlistBackend</name>
+							<format>%artist% - %title%</format>
+							<debugForeground>BLUE</debugForeground>
+							<debugBackground>WHITE</debugBackground>
+							<watch>
+								<type>FooWatchPlaylist</type>
+								<name>watchPlaylistList</name>
+								<debugForeground>WHITE</debugForeground>
+								<debugBackground>DARK_RED</debugBackground>
+							</watch>
+							<watch>
+								<type>FooWatchPlaylistLoad</type>
+								<name>watchPlaylistListLoad</name>
+								<debugForeground>WHITE</debugForeground>
+								<debugBackground>DARK_MAGENTA</debugBackground>
+							</watch>
+							<watch>
+								<type>FooWatchCurrentTrack</type>
+								<name>watchCurrentPos</name>
+								<debugForeground>BLACK</debugForeground>
+								<debugBackground>YELLOW</debugBackground>
+							</watch>
+						</backend>
+						<menu>
+							<item>
+								<name>playlistFormat</name>
+								<text>change format</text>
+								<action>
+									<path>playlistBackend</path>
+									<name>format</name>
+									<code>0</code>
+									<source>MOUSE</source>
+								</action>	
+							</item>	
+						</menu>
+						<action>
+							<path>playlistBackend</path>
+							<name>play</name>
+							<code>2</code>	
+							<source>MOUSE</source>
+						</action>
+						<action>
+							<path>playlistBackend</path>
+							<name>play</name>
+							<code>CR</code>		
+							<source>KEYBOARD</source>
+						</action>
+						<action>
+							<path>playlistBackend</path>
+							<name>remove</name>
+							<code>DEL</code>	
+							<source>KEYBOARD</source>
+						</action>
+						<action>
+							<path>playlistBackend</path>
+							<name>deselect</name>
+							<code>ESC</code>		
+							<source>KEYBOARD</source>
+						</action>
+					</view>					
 					<view>
 						<type>FooButtonsPlaylist</type>
 						<name>buttonsPlaylist</name>
@@ -76,7 +302,7 @@
 							<right>100</right>
 							<bottom>buttonsPlayback</bottom>
 						</layoutdata>
-					</view>
+					</view>				
 					<view>
 						<type>FooButtonsPlayback</type>
 						<name>buttonsPlayback</name>
@@ -98,327 +324,32 @@
 					<right>100</right>
 					<bottom>100</bottom>
 				</layoutdata>
+				<backend>
+					<type>FooBackendText</type>
+					<name>statusbarBackend</name>
+					<format>%status%: %artist% - %title%: %currentTime%/%duration%</format>
+					<debugForeground>DARK_YELLOW</debugForeground>
+					<debugBackground>WHITE</debugBackground>
+					<watch>
+						<type>FooWatchCurrentTrack</type>
+						<name>watchPlaybackTrack</name>
+						<debugForeground>WHITE</debugForeground>
+						<debugBackground>DARK_YELLOW</debugBackground>
+					</watch>
+					<watch>
+						<type>FooWatchPlaybackPos</type>
+						<name>watchPlaybackPos</name>
+						<debugForeground>WHITE</debugForeground>
+						<debugBackground>BLACK</debugBackground>
+					</watch>
+					<watch>
+						<type>FooWatchPlaybackStatus</type>
+						<name>watchPlaybackStatus</name>
+						<debugForeground>WHITE</debugForeground>
+						<debugBackground>CYAN</debugBackground>
+					</watch>
+				</backend>
 			</view>
 		</view>
-	</views>
-	
-	<backends>
-		<backend>
-			<type>FooBackendFilter</type>
-			<name>artistBackend</name>
-			<format>%artist%</format>
-			<filter>artist</filter>
-			<view>listArtist</view>
-			<debugForeground>DARK_MAGENTA</debugForeground>
-			<debugBackground>WHITE</debugBackground>
-			<contentprovider>ALL</contentprovider>
-		</backend>
-		
-		<backend>
-			<type>FooBackendFilter</type>
-			<name>albumBackend</name>
-			<format>%album% (%date%)</format>
-			<filter>album</filter>
-			<view>listAlbum</view>
-			<debugForeground>MAGENTA</debugForeground>
-			<debugBackground>WHITE</debugBackground>
-			<contentprovider>artistBackend</contentprovider>
-		</backend>
-		<backend>
-			<type>FooBackendFilter</type>
-			<name>trackBackend</name>
-			<format>%title%</format>
-			<filter>title</filter>
-			<view>listTrack</view>
-			<debugForeground>DARK_RED</debugForeground>
-			<debugBackground>WHITE</debugBackground>
-			<contentprovider>albumBackend</contentprovider>
-		</backend>
-		
-		<backend>
-			<type>FooBackendPlaylistSwitch</type>
-			<name>playlistComboBackend</name>
-			<view>comboPlaylist</view>
-			<debugForeground>GRAY</debugForeground>
-			<debugBackground>WHITE</debugBackground>
-		</backend>
-		
-		
-		<backend>
-			<type>FooBackendPlaylist</type>
-			<name>playlistBackend</name>
-			<format>%artist% - %title%</format>
-			<view>tablePlaylist</view>
-			<debugForeground>BLUE</debugForeground>
-			<debugBackground>WHITE</debugBackground>
-		</backend>
-		
-		<backend>
-			<type>FooBackendText</type>
-			<name>statusbarBackend</name>
-			<format>%status%: %artist% - %title%: %currentTime%/%duration%</format>
-			<view>statusbar</view>
-			<debugForeground>DARK_YELLOW</debugForeground>
-			<debugBackground>WHITE</debugBackground>
-		</backend>
-		
-		
-	</backends>
-	
-	<actions>
-		<action>
-			<path>playlistBackend</path>
-			<name>play</name>
-			<code>2</code>
-			<view>tablePlaylist</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>playlistBackend</path>
-			<name>play</name>
-			<code>CR</code>
-			<view>tablePlaylist</view>			
-			<source>KEYBOARD</source>
-		</action>
-		<action>
-			<path>playlistBackend</path>
-			<name>remove</name>
-			<code>DEL</code>
-			<view>tablePlaylist</view>			
-			<source>KEYBOARD</source>
-		</action>
-		<action>
-			<path>playlistBackend</path>
-			<name>deselect</name>
-			<code>ESC</code>
-			<view>tablePlaylist</view>			
-			<source>KEYBOARD</source>
-		</action>
-		
-		<action>
-			<path>artistBackend</path>
-			<name>enqueue</name>
-			<code>CR</code>
-			<view>listArtist</view>			
-			<source>KEYBOARD</source>
-		</action>
-		<action>
-			<path>artistBackend</path>
-			<name>enqueue</name>
-			<code>2</code>
-			<view>listArtist</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>artistBackend</path>
-			<name>deselect</name>
-			<code>ESC</code>
-			<view>listArtist</view>			
-			<source>KEYBOARD</source>
-		</action>
-		
-		<action>
-			<path>albumBackend</path>
-			<name>enqueue</name>
-			<code>CR</code>
-			<view>listAlbum</view>			
-			<source>KEYBOARD</source>
-		</action>
-		<action>
-			<path>albumBackend</path>
-			<name>enqueue</name>
-			<code>2</code>
-			<view>listAlbum</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>albumBackend</path>
-			<name>deselect</name>
-			<code>ESC</code>
-			<view>listAlbum</view>			
-			<source>KEYBOARD</source>
-		</action>
-		
-		<action>
-			<path>trackBackend</path>
-			<name>enqueue</name>
-			<code>CR</code>
-			<view>listTrack</view>			
-			<source>KEYBOARD</source>
-		</action>
-		<action>
-			<path>trackBackend</path>
-			<name>enqueue</name>
-			<code>2</code>
-			<view>listTrack</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>trackBackend</path>
-			<name>deselect</name>
-			<code>ESC</code>
-			<view>listTrack</view>			
-			<source>KEYBOARD</source>
-		</action>
-		
-		<action>
-			<path>artistBackend</path>
-			<name>order</name>
-			<code>0</code>
-			<view>artistOrder</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>artistBackend</path>
-			<name>format</name>
-			<code>0</code>
-			<view>artistFormat</view>			
-			<source>MOUSE</source>
-		</action>
-		
-		<action>
-			<path>albumBackend</path>
-			<name>order</name>
-			<code>0</code>
-			<view>albumOrder</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>albumBackend</path>
-			<name>format</name>
-			<code>0</code>
-			<view>albumFormat</view>			
-			<source>MOUSE</source>
-		</action>
-		
-		<action>
-			<path>trackBackend</path>
-			<name>order</name>
-			<code>0</code>
-			<view>trackOrder</view>			
-			<source>MOUSE</source>
-		</action>
-		<action>
-			<path>trackBackend</path>
-			<name>format</name>
-			<code>0</code>
-			<view>trackFormat</view>			
-			<source>MOUSE</source>
-		</action>
-		
-		<action>
-			<path>playlistBackend</path>
-			<name>format</name>
-			<code>0</code>
-			<view>playlistFormat</view>			
-			<source>MOUSE</source>
-		</action>		
-	</actions>
-	
-	<menus>
-		<menu>
-			<view>listArtist</view>
-			<item>
-				<name>artistOrder</name>
-				<text>change order</text>
-			</item>
-			<item>
-				<name>artistFormat</name>
-				<text>change format</text>
-			</item>
-		</menu>
-		<menu>
-			<view>listAlbum</view>
-			<item>
-				<name>albumOrder</name>
-				<text>change order</text>
-			</item>
-			<item>
-				<name>albumFormat</name>
-				<text>change format</text>
-			</item>
-		</menu>
-		<menu>
-			<view>listTrack</view>
-			<item>
-				<name>trackOrder</name>
-				<text>change order</text>
-			</item>
-			<item>
-				<name>trackFormat</name>
-				<text>change format</text>
-			</item>
-		</menu>
-		<menu>
-			<view>tablePlaylist</view>
-			<item>
-				<name>playlistFormat</name>
-				<text>change format</text>
-			</item>	
-		</menu>
-	</menus>
-	
-	<watches>
-		<watch>
-			<type>FooWatchPlaylist</type>
-			<name>watchPlaylistCombo</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>RED</debugBackground>
-			<backend>playlistComboBackend</backend>
-		</watch>
-		<watch>
-			<type>FooWatchPlaylist</type>
-			<name>watchPlaylistList</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>DARK_RED</debugBackground>
-			<backend>playlistBackend</backend>
-		</watch>
-		
-		<watch>
-			<type>FooWatchPlaylistLoad</type>
-			<name>watchPlaylistComboLoad</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>MAGENTA</debugBackground>
-			<backend>playlistComboBackend</backend>
-		</watch>
-		<watch>
-			<type>FooWatchPlaylistLoad</type>
-			<name>watchPlaylistListLoad</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>DARK_MAGENTA</debugBackground>
-			<backend>playlistBackend</backend>
-		</watch>
-
-		<watch>
-			<type>FooWatchCurrentTrack</type>
-			<name>watchCurrentPos</name>
-			<debugForeground>BLACK</debugForeground>
-			<debugBackground>YELLOW</debugBackground>
-			<backend>playlistBackend</backend>
-		</watch>
-		<watch>
-			<type>FooWatchCurrentTrack</type>
-			<name>watchPlaybackTrack</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>DARK_YELLOW</debugBackground>
-			<backend>statusbarBackend</backend>
-		</watch>
-
-		<watch>
-			<type>FooWatchPlaybackPos</type>
-			<name>watchPlaybackPos</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>BLACK</debugBackground>
-			<backend>statusbarBackend</backend>
-		</watch>
-
-		<watch>
-			<type>FooWatchPlaybackStatus</type>
-			<name>watchPlaybackStatus</name>
-			<debugForeground>WHITE</debugForeground>
-			<debugBackground>CYAN</debugBackground>
-			<backend>statusbarBackend</backend>
-		</watch>	
-	</watches>
-	
+	</window>	
 </fooXmms2>

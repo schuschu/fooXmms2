@@ -34,124 +34,93 @@ public class FooWatchFactory {
 	}
 
 	public Object create(Element element) {
-		if(!element.getNodeName().equals("watch")){
-			return null;
-		}
-		
+
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
+		
+		String backend = FooXML.getTagValue("name", (Element) element.getParentNode());
 
-		String backend, debugForeground, debugBackground;
+		String debugForeground = FooXML.getTagValue("debugForeground", element);
+		String debugBackground = FooXML.getTagValue("debugBackground", element);
 
-		try {
-			switch (FooWatchType.valueOf(type)) {
-			case FooWatchCurrentTrack:
-				debug("creating FooWatchCurrentTrack " + name);
+		switch (FooWatchType.valueOf(type)) {
+		case FooWatchCurrentTrack:
+			debug("creating FooWatchCurrentTrack " + name);
+			
+			FooWatchCurrentTrack currentTrack = new FooWatchCurrentTrack(
+					getBackendCurTrack(backend));
 
-				backend = FooXML.getTagValue("backend", element);
+			currentTrack.setName(name);
+			currentTrack.setDebugForeground(FooColor.valueOf(debugForeground));
+			currentTrack.setDebugBackground(FooColor.valueOf(debugBackground));
 
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
+			currentTrack.start();
 
-				FooWatchCurrentTrack currentTrack = new FooWatchCurrentTrack(getBackendCurTrack(backend));
-				
-				currentTrack.setName(name);
-				currentTrack.setDebugForeground(FooColor.valueOf(debugForeground));
-				currentTrack.setDebugBackground(FooColor.valueOf(debugBackground));
-				
-				currentTrack.start();
-				
-				FooFactory.putWatch(name, currentTrack);
-				return currentTrack;
-			case FooWatchPlaybackPos:
-				debug("creating FooWatchPlaybackPos " + name);
+			FooFactory.putWatch(name, currentTrack);
+			return currentTrack;
+		case FooWatchPlaybackPos:
+			debug("creating FooWatchPlaybackPos " + name);
 
-				backend = FooXML.getTagValue("backend", element);
+			FooWatchPlaybackPos playbackPos = new FooWatchPlaybackPos(
+					getBackendPlayPos(backend));
 
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
+			playbackPos.setName(name);
+			playbackPos.setDebugForeground(FooColor.valueOf(debugForeground));
+			playbackPos.setDebugBackground(FooColor.valueOf(debugBackground));
 
-				FooWatchPlaybackPos playbackPos = new FooWatchPlaybackPos(getBackendPlayPos(backend));
-				
-				playbackPos.setName(name);
-				playbackPos.setDebugForeground(FooColor.valueOf(debugForeground));
-				playbackPos.setDebugBackground(FooColor.valueOf(debugBackground));
-				
-				playbackPos.start();
-				
-				FooFactory.putWatch(name, playbackPos);
-				return playbackPos;
-			case FooWatchPlaybackStatus:
-				debug("creating FooWatchPlaybackStatus " + name);
+			playbackPos.start();
 
-				backend = FooXML.getTagValue("backend", element);
+			FooFactory.putWatch(name, playbackPos);
+			return playbackPos;
+		case FooWatchPlaybackStatus:
+			debug("creating FooWatchPlaybackStatus " + name);
 
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
+			FooWatchPlaybackStatus playbackStatus = new FooWatchPlaybackStatus(
+					getBackendPlayStatus(backend));
 
-				FooWatchPlaybackStatus playbackStatus = new FooWatchPlaybackStatus(getBackendPlayStatus(backend));
-				
-				playbackStatus.setName(name);
-				playbackStatus.setDebugForeground(FooColor.valueOf(debugForeground));
-				playbackStatus.setDebugBackground(FooColor.valueOf(debugBackground));
-				
-				playbackStatus.start();
-				
-				FooFactory.putWatch(name, playbackStatus);
-				return playbackStatus;
-			case FooWatchPlaylist:
-				debug("creating FooWatchPlaylist " + name);
+			playbackStatus.setName(name);
+			playbackStatus
+					.setDebugForeground(FooColor.valueOf(debugForeground));
+			playbackStatus
+					.setDebugBackground(FooColor.valueOf(debugBackground));
 
-				backend = FooXML.getTagValue("backend", element);
+			playbackStatus.start();
 
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
+			FooFactory.putWatch(name, playbackStatus);
+			return playbackStatus;
+		case FooWatchPlaylist:
+			debug("creating FooWatchPlaylist " + name);
 
-				FooWatchPlaylist playlist = new FooWatchPlaylist(getBackend(backend));
-				
-				playlist.setName(name);
-				playlist.setDebugForeground(FooColor.valueOf(debugForeground));
-				playlist.setDebugBackground(FooColor.valueOf(debugBackground));
-				
-				playlist.start();
-				
-				FooFactory.putWatch(name, playlist);
-				return playlist;
-			case FooWatchPlaylistLoad:
-				debug("creating FooWatchPlaylistLoad " + name);
+			FooWatchPlaylist playlist = new FooWatchPlaylist(
+					getBackend(backend));
 
-				backend = FooXML.getTagValue("backend", element);
+			playlist.setName(name);
+			playlist.setDebugForeground(FooColor.valueOf(debugForeground));
+			playlist.setDebugBackground(FooColor.valueOf(debugBackground));
 
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
+			playlist.start();
 
-				FooWatchPlaylistLoad playlistLoad = new FooWatchPlaylistLoad(getBackend(backend));
-				
-				playlistLoad.setName(name);
-				playlistLoad.setDebugForeground(FooColor.valueOf(debugForeground));
-				playlistLoad.setDebugBackground(FooColor.valueOf(debugBackground));
-				
-				playlistLoad.start();
-				
-				FooFactory.putWatch(name, playlistLoad);
-				return playlistLoad;
-			}
-		} catch (IllegalArgumentException e) {
-			// Thats not an enum!
+			FooFactory.putWatch(name, playlist);
+			return playlist;
+		case FooWatchPlaylistLoad:
+			debug("creating FooWatchPlaylistLoad " + name);
+
+			FooWatchPlaylistLoad playlistLoad = new FooWatchPlaylistLoad(
+					getBackend(backend));
+
+			playlistLoad.setName(name);
+			playlistLoad.setDebugForeground(FooColor.valueOf(debugForeground));
+			playlistLoad.setDebugBackground(FooColor.valueOf(debugBackground));
+
+			playlistLoad.start();
+
+			FooFactory.putWatch(name, playlistLoad);
+			return playlistLoad;
 		}
+
 		return null;
 	}
-	
+
 	private FooInterfaceBackend getBackend(String s) {
 		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfaceBackend) {
@@ -159,7 +128,7 @@ public class FooWatchFactory {
 		}
 		return null;
 	}
-		
+
 	private FooInterfaceCurrentTrack getBackendCurTrack(String s) {
 		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfaceCurrentTrack) {
@@ -167,7 +136,7 @@ public class FooWatchFactory {
 		}
 		return null;
 	}
-	
+
 	private FooInterfacePlaybackPos getBackendPlayPos(String s) {
 		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfacePlaybackPos) {
@@ -175,7 +144,7 @@ public class FooWatchFactory {
 		}
 		return null;
 	}
-	
+
 	private FooInterfacePlaybackStatus getBackendPlayStatus(String s) {
 		Object o = FooFactory.getBackend(s);
 		if (o instanceof FooInterfacePlaybackStatus) {
@@ -183,5 +152,5 @@ public class FooWatchFactory {
 		}
 		return null;
 	}
-	
+
 }

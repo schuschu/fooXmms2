@@ -42,9 +42,6 @@ public class FooActionFactory {
 	}
 
 	public FooAction create(Element element) {
-		if(!element.getNodeName().equals("action")){
-			return null;
-		}
 
 		String path = FooXML.getTagValue("path", element);
 		String name = FooXML.getTagValue("name", element);
@@ -63,7 +60,7 @@ public class FooActionFactory {
 			break;
 		}
 
-		String viewstring = FooXML.getTagValue("view", element);
+		String viewstring = FooXML.getTagValue("name", (Element) element.getParentNode());
 		FooInterfaceAction view = getView(viewstring);
 
 		debug("creating FooAction " + name + " in " + path);

@@ -2,21 +2,20 @@ package org.dyndns.schuschu.xmms2client.factories;
 
 import java.util.HashMap;
 
+import org.w3c.dom.Element;
 
 public class FooFactory {
-	
-	
+
 	// TODO: make factories static
 	private static FooViewFactory viewFactory = null;
 	private static FooBackendFactory backendFactory = null;
 	private static FooWatchFactory watchFactory = null;
 	private static FooActionFactory actionFactory = null;
 	private static FooMenuFactory menuFactory = null;
-	
-	private static final HashMap<String, Object> views=new HashMap<String, Object>();
-	private static final HashMap<String, Object> backends=new HashMap<String, Object>();
-	private static final HashMap<String, Object> watches=new HashMap<String, Object>();
 
+	private static final HashMap<String, Object> views = new HashMap<String, Object>();
+	private static final HashMap<String, Object> backends = new HashMap<String, Object>();
+	private static final HashMap<String, Object> watches = new HashMap<String, Object>();
 
 	public static FooViewFactory getViewFactory() {
 		if (viewFactory == null) {
@@ -52,29 +51,49 @@ public class FooFactory {
 		}
 		return menuFactory;
 	}
-	
-	public static void putView(String name, Object object){
+
+	public static void putView(String name, Object object) {
 		views.put(name, object);
 	}
-	
-	public static Object getView(String name){
+
+	public static Object getView(String name) {
 		return views.get(name);
 	}
-	
-	public static void putBackend(String name, Object object){
+
+	public static void putBackend(String name, Object object) {
 		backends.put(name, object);
 	}
-	
-	public static Object getBackend(String name){
+
+	public static Object getBackend(String name) {
 		return backends.get(name);
 	}
-	
-	public static void putWatch(String name, Object object){
+
+	public static void putWatch(String name, Object object) {
 		watches.put(name, object);
 	}
-	
-	public static Object getWatch(String name){
+
+	public static Object getWatch(String name) {
 		return watches.get(name);
 	}
-	
+
+	public static Object create(Element element) {
+		try{
+		switch (FooNodeType.valueOf(element.getNodeName())) {
+		case view:
+			return getViewFactory().create(element);
+		case backend:
+			return getBackendFactory().create(element);
+		case menu:
+			return getMenuFactory().create(element);
+		case action:
+			return getActionFactory().create(element);
+		case watch:
+			return getWatchFactory().create(element);
+		}
+		} catch (IllegalArgumentException e) {
+			// not a valid node
+		}
+		return null;
+	}
+
 }

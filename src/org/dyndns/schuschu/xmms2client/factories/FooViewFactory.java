@@ -13,6 +13,7 @@ import org.dyndns.schuschu.xmms2client.view.element.FooLabel;
 import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooSashForm;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
+import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -43,9 +44,6 @@ public class FooViewFactory {
 	}
 
 	public Object create(Element element) {
-		if (!element.getNodeName().equals("view")) {
-			return null;
-		}
 
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
@@ -54,60 +52,59 @@ public class FooViewFactory {
 		String parent = FooXML.getTagValue("name", father);
 		String layoutstring = FooXML.getTagValue("layout", element);
 
-		try {
-			switch (FooViewType.valueOf(type)) {
-			case Composite:
-				debug("creating Composite " + name + " with parent " + parent);
-				Composite comp = new Composite(getComposite(parent), SWT.NONE);
-				if (layoutstring != null) {
-					comp.setLayout(createLayout(layoutstring));
-				}
-				FooFactory.putView(name, comp);
-				return comp;
-
-			case FooList:
-				debug("creating FooList " + name + " with parent " + parent);
-				FooList list = new FooList(getComposite(parent));
-				FooFactory.putView(name, list);
-				return list;
-			case FooCombo:
-				debug("creating FooCombo " + name + " with parent " + parent);
-				FooCombo combo = new FooCombo(getComposite(parent));
-				FooFactory.putView(name, combo);
-				return combo;
-			case FooTable:
-				debug("creating FooTable " + name + " with parent " + parent);
-				FooTable table = new FooTable(getComposite(parent));
-				FooFactory.putView(name, table);
-				return table;
-			case FooLabel:
-				debug("creating FooLabel " + name + " with parent " + parent);
-				FooLabel label = new FooLabel(getComposite(parent));
-				FooFactory.putView(name, label);
-				return label;
-
-			case FooButtonsPlaylist:
-				debug("creating FooButtonsPlaylist " + name + " with parent "
-						+ parent);
-				FooButtonsPlaylist listButtons = new FooButtonsPlaylist(
-						getComposite(parent), SWT.NONE);
-				FooFactory.putView(name, listButtons);
-				return listButtons;
-			case FooButtonsPlayback:
-				debug("creating FooButtonsPlayback " + name + " with parent "
-						+ parent);
-				FooButtonsPlayback playButtons = new FooButtonsPlayback(
-						getComposite(parent), SWT.NONE);
-				FooFactory.putView(name, playButtons);
-				return playButtons;
-			case FooSashForm:
-				debug("creating SashForm " + name + " with parent " + parent);
-				FooSashForm sash = new FooSashForm(getComposite(parent));
-				FooFactory.putView(name, sash);
-				return sash;
+		switch (FooViewType.valueOf(type)) {
+		case Shell:
+			debug("creating Shell " + name + " with parent " + parent + " ... not");
+			return FooWindow.SHELL;
+		case Composite:
+			debug("creating Composite " + name + " with parent " + parent);
+			Composite comp = new Composite(getComposite(parent), SWT.NONE);
+			if (layoutstring != null) {
+				comp.setLayout(createLayout(layoutstring));
 			}
-		} catch (IllegalArgumentException e) {
-			// Thats not an enum!
+			FooFactory.putView(name, comp);
+			return comp;
+
+		case FooList:
+			debug("creating FooList " + name + " with parent " + parent);
+			FooList list = new FooList(getComposite(parent));
+			FooFactory.putView(name, list);
+			return list;
+		case FooCombo:
+			debug("creating FooCombo " + name + " with parent " + parent);
+			FooCombo combo = new FooCombo(getComposite(parent));
+			FooFactory.putView(name, combo);
+			return combo;
+		case FooTable:
+			debug("creating FooTable " + name + " with parent " + parent);
+			FooTable table = new FooTable(getComposite(parent));
+			FooFactory.putView(name, table);
+			return table;
+		case FooLabel:
+			debug("creating FooLabel " + name + " with parent " + parent);
+			FooLabel label = new FooLabel(getComposite(parent));
+			FooFactory.putView(name, label);
+			return label;
+
+		case FooButtonsPlaylist:
+			debug("creating FooButtonsPlaylist " + name + " with parent "
+					+ parent);
+			FooButtonsPlaylist listButtons = new FooButtonsPlaylist(
+					getComposite(parent), SWT.NONE);
+			FooFactory.putView(name, listButtons);
+			return listButtons;
+		case FooButtonsPlayback:
+			debug("creating FooButtonsPlayback " + name + " with parent "
+					+ parent);
+			FooButtonsPlayback playButtons = new FooButtonsPlayback(
+					getComposite(parent), SWT.NONE);
+			FooFactory.putView(name, playButtons);
+			return playButtons;
+		case FooSashForm:
+			debug("creating SashForm " + name + " with parent " + parent);
+			FooSashForm sash = new FooSashForm(getComposite(parent));
+			FooFactory.putView(name, sash);
+			return sash;
 		}
 		return null;
 

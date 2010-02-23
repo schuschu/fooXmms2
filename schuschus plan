@@ -15,9 +15,8 @@ This part is about the things that are wrong in the current version:
   release this project will be moved to a plugin framework 
   -> http://jpf.sourceforge.net/index.html or a similar framework
   
-  The configuration architecture: RETHINK XML STRUCTURE!!!, 
-  add Factory Registration (static in interfaces...), add more/optional
-  params, sanity checks1
+  The configuration architecture: add Factory Registration (static in 
+  interfaces...), add more/optional params, sanity checks, dependencies?
    
   Icon/Pixmap mess!!! 
   

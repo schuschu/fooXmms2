@@ -33,47 +33,23 @@ public class FooBackendFactory {
 	}
 
 	public Object create(Element element) {
-		if(!element.getNodeName().equals("backend")){
-			return null;
-		}
-		
+
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
 
-		String format, filter, view, contentprovider, debugForeground, debugBackground;
+		String format = FooXML.getTagValue("format", element);
+		String filter = FooXML.getTagValue("filter", element);
+		
+		String contentprovider = FooXML.getTagValue("contentprovider", element);
 
-		try {
+		String debugForeground = FooXML.getTagValue("debugForeground", element);
+		String debugBackground = FooXML.getTagValue("debugBackground", element);
+
+		String view = FooXML.getTagValue("name", (Element) element.getParentNode());
+		
 			switch (FooBackendType.valueOf(type)) {
 			case FooBackendFilter:
 				debug("creating FooBackendFilter " + name);
-
-				/*
-				 * MENU
-				 * 
-				 * FooMenu menu = new FooMenu(SHELL);
-				 * 
-				 * FooMenuItem orderItem = new FooMenuItem(menu, SWT.NONE);
-				 * orderItem.setText("change order");
-				 * orderItem.addAction(trackBackend.ActionOrder(0));
-				 * 
-				 * FooMenuItem formatItem = new FooMenuItem(menu, SWT.NONE);
-				 * formatItem.setText("change format");
-				 * formatItem.addAction(trackBackend.ActionFormat(0));
-				 * 
-				 * listTrack.setMenu(menu);
-				 */
-
-				format = FooXML.getTagValue("format", element);
-				filter = FooXML.getTagValue("filter", element);
-				view = FooXML.getTagValue("view", element);
-
-				contentprovider = FooXML
-						.getTagValue("contentprovider", element);
-
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
 
 				FooBackendFilter filterBackend = new FooBackendFilter(format,
 						filter, getView(view));
@@ -99,14 +75,6 @@ public class FooBackendFactory {
 			case FooBackendPlaylist:
 				debug("creating FooBackendPlaylist " + name);
 
-				format = FooXML.getTagValue("format", element);
-				view = FooXML.getTagValue("view", element);
-
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
-
 				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(
 						format, getViewPlaylist(view));
 				playlistBackend.setName(name);
@@ -123,13 +91,6 @@ public class FooBackendFactory {
 			case FooBackendPlaylistSwitch:
 				debug("creating FooBackendPlaylistSwitch " + name);
 
-				view = FooXML.getTagValue("view", element);
-
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
-
 				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(
 						getView(view));
 				playlistSwitchBackend.setName(name);
@@ -144,14 +105,6 @@ public class FooBackendFactory {
 			case FooBackendText:
 				debug("creating FooBackendText " + name);
 
-				view = FooXML.getTagValue("view", element);
-				format = FooXML.getTagValue("format", element);
-
-				debugForeground = FooXML
-						.getTagValue("debugForeground", element);
-				debugBackground = FooXML
-						.getTagValue("debugBackground", element);
-
 				FooBackendText textBackend = new FooBackendText(format,
 						getViewText(view));
 				textBackend.setName(name);
@@ -163,9 +116,6 @@ public class FooBackendFactory {
 				FooFactory.putBackend(name, textBackend);
 				return textBackend;
 			}
-		} catch (IllegalArgumentException e) {
-			// Thats not an enum!
-		}
 		return null;
 	}
 

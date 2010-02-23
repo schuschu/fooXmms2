@@ -459,18 +459,15 @@ public class FooBackendPlaylist implements Serializable,
 
 			@Override
 			public FooAction create(String name, int code) {
-				try {
-					switch (ActionType.valueOf(name)) {
-						case play: return ActionPlay(code);
-						case deselect: return ActionDeselect(code);
-						case format: return ActionFormat(code);
-						case remove: return ActionRemove(code);
-					}
-
-				} catch (NullPointerException e) {
-					// TODO: this is bad you know...
-				} catch (IllegalArgumentException e) {
-					// Thats not an enum!
+				switch (ActionType.valueOf(name)) {
+				case play:
+					return ActionPlay(code);
+				case deselect:
+					return ActionDeselect(code);
+				case format:
+					return ActionFormat(code);
+				case remove:
+					return ActionRemove(code);
 				}
 				return null;
 			}

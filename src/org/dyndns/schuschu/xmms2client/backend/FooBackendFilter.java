@@ -588,22 +588,15 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 			@Override
 			public FooAction create(String name, int code) {
-				try {
-					switch (ActionType.valueOf(name)) {
-					case enqueue:
-						return ActionEnqueu(code);
-					case deselect:
-						return ActionDeselect(code);
-					case format:
-						return ActionFormat(code);
-					case order:
-						return ActionOrder(code);
-					}
-
-				} catch (NullPointerException e) {
-					// TODO: this is bad you know...
-				} catch (IllegalArgumentException e) {
-					// Thats not an enum!
+				switch (ActionType.valueOf(name)) {
+				case enqueue:
+					return ActionEnqueu(code);
+				case deselect:
+					return ActionDeselect(code);
+				case format:
+					return ActionFormat(code);
+				case order:
+					return ActionOrder(code);
 				}
 				return null;
 			}

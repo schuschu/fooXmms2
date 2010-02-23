@@ -58,16 +58,7 @@ public class FooWindow implements FooInterfaceWindow {
 
 		createSShell();
 
-		createViews();
-		
-		createMenus();
-
-		createBackends();
-		
-		createWatches();
-
-		createActions();
-		
+		createWindow();
 	}
 
 	private void createSShell() {
@@ -104,18 +95,18 @@ public class FooWindow implements FooInterfaceWindow {
 
 	}
 
-	private void createViews() {
-		createViewElements(FooXML.getElement("views"));
-		createLayout(FooXML.getElement("views"));
+	private void createWindow() {
+		createWindowElements(FooXML.getElement("window"));
+		createLayout(FooXML.getElement("window"));
 	}
 
-	private void createViewElements(Element root) {
+	private void createWindowElements(Element root) {
 		Element views = root;
 
 		NodeList nodes = views.getChildNodes();
-
+		
 		for (int i = 0; i < nodes.getLength(); i++) {
-
+			
 			Node node = nodes.item(i);
 
 			if (node instanceof Element) {
@@ -123,11 +114,11 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					FooFactory.getViewFactory().create(child);
+					FooFactory.create(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
-				createViewElements(child);
+				createWindowElements(child);
 			}
 
 		}
@@ -155,102 +146,6 @@ public class FooWindow implements FooInterfaceWindow {
 
 		}
 
-	}
-
-	private void createBackends() {
-		createBackendElements(FooXML.getElement("backends"));
-	}
-
-	private void createBackendElements(Element root) {
-		NodeList nodes = root.getChildNodes();
-
-		for (int i = 0; i < nodes.getLength(); i++) {
-
-			Node node = nodes.item(i);
-
-			if (node instanceof Element) {
-
-				Element child = (Element) node;
-
-				try {
-					FooFactory.getBackendFactory().create(child);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private void createActions() {
-		createActionElements(FooXML.getElement("actions"));
-	}
-
-	private void createActionElements(Element root) {
-		NodeList nodes = root.getChildNodes();
-
-		for (int i = 0; i < nodes.getLength(); i++) {
-
-			Node node = nodes.item(i);
-
-			if (node instanceof Element) {
-
-				Element child = (Element) node;
-
-				try {
-					FooFactory.getActionFactory().create(child);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private void createMenus() {
-		createMenuElements(FooXML.getElement("menus"));
-	}
-
-	private void createMenuElements(Element root) {
-		NodeList nodes = root.getChildNodes();
-
-		for (int i = 0; i < nodes.getLength(); i++) {
-
-			Node node = nodes.item(i);
-
-			if (node instanceof Element) {
-
-				Element child = (Element) node;
-
-				try {
-					FooFactory.getMenuFactory().create(child);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private void createWatches() {
-		createWatchElements(FooXML.getElement("watches"));
-	}
-
-	private void createWatchElements(Element root) {
-		NodeList nodes = root.getChildNodes();
-
-		for (int i = 0; i < nodes.getLength(); i++) {
-
-			Node node = nodes.item(i);
-
-			if (node instanceof Element) {
-
-				Element child = (Element) node;
-
-				try {
-					FooFactory.getWatchFactory().create(child);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	public void setDisplay(Display display) {

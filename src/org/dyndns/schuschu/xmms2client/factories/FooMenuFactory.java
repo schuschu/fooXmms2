@@ -31,10 +31,7 @@ public class FooMenuFactory {
 
 	public FooMenu create(Element element) {
 
-		if (!element.getNodeName().equals("menu")) {
-			return null;
-		}
-		String view = FooXML.getTagValue("view", element);
+		String view = FooXML.getTagValue("name", (Element) element.getParentNode());
 
 		debug("creating menu for " + view);
 
