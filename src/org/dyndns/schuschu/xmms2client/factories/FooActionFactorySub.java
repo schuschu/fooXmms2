@@ -4,6 +4,6 @@ import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
 
 public abstract class FooActionFactorySub {
 
-	public abstract FooAction create(String name,int code);
+	protected abstract FooAction create(String name,int code);
 
 }

@@ -34,6 +34,10 @@ public class FooWatchFactory {
 	}
 
 	public Object create(Element element) {
+		if(!element.getNodeName().equals("watch")){
+			return null;
+		}
+		
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
 

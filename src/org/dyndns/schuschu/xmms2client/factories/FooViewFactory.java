@@ -14,11 +14,13 @@ import org.dyndns.schuschu.xmms2client.view.element.FooList;
 import org.dyndns.schuschu.xmms2client.view.element.FooSashForm;
 import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Layout;
 import org.w3c.dom.Element;
 
 public class FooViewFactory {
@@ -41,23 +43,25 @@ public class FooViewFactory {
 	}
 
 	public Object create(Element element) {
-		if(!element.getNodeName().equals("view")){
+		if (!element.getNodeName().equals("view")) {
 			return null;
 		}
-		
+
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
 
 		Element father = (Element) element.getParentNode();
 		String parent = FooXML.getTagValue("name", father);
+		String layoutstring = FooXML.getTagValue("layout", element);
 
 		try {
 			switch (FooViewType.valueOf(type)) {
 			case Composite:
 				debug("creating Composite " + name + " with parent " + parent);
 				Composite comp = new Composite(getComposite(parent), SWT.NONE);
-				comp.setLayout(new FormLayout());
-
+				if (layoutstring != null) {
+					comp.setLayout(createLayout(layoutstring));
+				}
 				FooFactory.putView(name, comp);
 				return comp;
 
@@ -125,6 +129,24 @@ public class FooViewFactory {
 		Object o = FooFactory.getView(s);
 		if (o instanceof FooInterfaceControl) {
 			return ((FooInterfaceControl) o).getControl();
+		}
+		return null;
+	}
+
+	enum LayoutType {
+		FillLayout, FormLayout;
+	}
+
+	public Layout createLayout(String layoutstring) {
+		try {
+			switch (LayoutType.valueOf(layoutstring)) {
+			case FillLayout:
+				return new FillLayout();
+			case FormLayout:
+				return new FormLayout();
+			}
+		} catch (IllegalArgumentException e) {
+			// Thats not an enum!
 		}
 		return null;
 	}

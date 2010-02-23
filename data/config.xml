@@ -18,6 +18,7 @@
 		<view>
 			<type>Shell</type>
 			<name>SHELL</name>
+			<layout>FormLayout</layout>
 			<view>
 				<type>FooSashForm</type>
 				<name>sashFormMain</name>
@@ -43,8 +44,7 @@
 				<view>
 					<type>Composite</type>
 					<name>compositePlaylist</name>	
-					<Layout>FormLayout</Layout>					
-					
+					<layout>FormLayout</layout>
 					<view>
 						<type>FooCombo</type>
 						<name>comboPlaylist</name>

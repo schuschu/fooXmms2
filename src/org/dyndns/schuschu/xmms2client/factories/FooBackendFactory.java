@@ -33,6 +33,10 @@ public class FooBackendFactory {
 	}
 
 	public Object create(Element element) {
+		if(!element.getNodeName().equals("backend")){
+			return null;
+		}
+		
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
 

@@ -31,41 +31,40 @@ public class FooMenuFactory {
 
 	public FooMenu create(Element element) {
 
-		if (element.getNodeName().equals("menu")) {
+		if (!element.getNodeName().equals("menu")) {
+			return null;
+		}
+		String view = FooXML.getTagValue("view", element);
 
-			String view = FooXML.getTagValue("view", element);
+		debug("creating menu for " + view);
 
-			debug("creating menu for " + view);
+		FooMenu menu = new FooMenu();
 
-			FooMenu menu = new FooMenu();
+		getView(view).setMenu(menu);
 
-			getView(view).setMenu(menu);
+		NodeList children = element.getChildNodes();
 
-			NodeList children = element.getChildNodes();
+		for (int j = 0; j < children.getLength(); j++) {
 
-			for (int j = 0; j < children.getLength(); j++) {
+			Node menunode = children.item(j);
+			if (menunode instanceof Element) {
 
-				Node menunode = children.item(j);
-				if (menunode instanceof Element) {
+				Element child = (Element) menunode;
 
-					Element child = (Element) menunode;
+				if (child.getNodeName().equals("item")) {
 
-					if (child.getNodeName().equals("item")) {
+					String text = FooXML.getTagValue("text", child);
+					String name = FooXML.getTagValue("name", child);
 
-							String text = FooXML.getTagValue("text", child);
-							String name = FooXML.getTagValue("name", child);
+					FooMenuItem item = new FooMenuItem(menu);
+					item.setText(text);
+					FooFactory.putView(name, item);
 
-							FooMenuItem item = new FooMenuItem(menu);
-							item.setText(text);
-							FooFactory.putView(name, item);
-
-							debug("created menuentry " + name);
-					}
+					debug("created menuentry " + name);
 				}
 			}
-			return menu;
 		}
-		return null;
+		return menu;
 	}
 
 	private FooInterfaceMenu getView(String s) {

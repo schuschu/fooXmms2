@@ -42,6 +42,9 @@ public class FooActionFactory {
 	}
 
 	public FooAction create(Element element) {
+		if(!element.getNodeName().equals("action")){
+			return null;
+		}
 
 		String path = FooXML.getTagValue("path", element);
 		String name = FooXML.getTagValue("name", element);
