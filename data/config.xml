@@ -15,10 +15,10 @@
 	</config>
 	
 	<views>
-		<shell>
+		<view>
 			<type>Shell</type>
 			<name>SHELL</name>
-			<sash>
+			<view>
 				<type>FooSashForm</type>
 				<name>sashFormMain</name>
 				<layoutdata>
@@ -32,17 +32,15 @@
 					<type>FooList</type>
 					<name>listArtist</name>
 				</view>
-					
 				<view>
 					<type>FooList</type>
 					<name>listAlbum</name>
 				</view>
-					
 				<view>
 					<type>FooList</type>
 					<name>listTrack</name>
 				</view>
-				<composite>
+				<view>
 					<type>Composite</type>
 					<name>compositePlaylist</name>	
 					<Layout>FormLayout</Layout>					
@@ -89,9 +87,9 @@
 							<bottom>100</bottom>
 						</layoutdata>
 					</view>
-				</composite>
-			</sash>
-			<statusbar>
+				</view>
+			</view>
+			<view>
 				<type>FooLabel</type>
 				<name>statusbar</name>
 				<layoutdata>
@@ -100,8 +98,8 @@
 					<right>100</right>
 					<bottom>100</bottom>
 				</layoutdata>
-			</statusbar>
-		</shell>
+			</view>
+		</view>
 	</views>
 	
 	<backends>

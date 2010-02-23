@@ -41,15 +41,15 @@ public class FooViewFactory {
 	}
 
 	public Object create(Element element) {
+		if(!element.getNodeName().equals("view")){
+			return null;
+		}
+		
 		String type = FooXML.getTagValue("type", element);
 		String name = FooXML.getTagValue("name", element);
 
 		Element father = (Element) element.getParentNode();
 		String parent = FooXML.getTagValue("name", father);
-
-		if (type == null) {
-			return null;
-		}
 
 		try {
 			switch (FooViewType.valueOf(type)) {
