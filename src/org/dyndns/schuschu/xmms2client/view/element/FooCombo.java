@@ -2,7 +2,7 @@ package org.dyndns.schuschu.xmms2client.view.element;
 
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;

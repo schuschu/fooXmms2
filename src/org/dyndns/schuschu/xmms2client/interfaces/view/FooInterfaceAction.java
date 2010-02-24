@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.interfaces.view;
 
-import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
-import org.dyndns.schuschu.xmms2client.Action.base.FooSource;
+import org.dyndns.schuschu.xmms2client.action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 
 public interface FooInterfaceAction {
 	

@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.Action.base;
+package org.dyndns.schuschu.xmms2client.action.base;
 
 import org.eclipse.swt.SWT;
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.factory.FooInterfaceFactory;

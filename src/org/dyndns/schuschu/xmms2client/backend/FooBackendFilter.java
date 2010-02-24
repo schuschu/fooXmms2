@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;

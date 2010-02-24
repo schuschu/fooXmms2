@@ -1,6 +1,6 @@
 package org.dyndns.schuschu.xmms2client.factories;
 
-import org.dyndns.schuschu.xmms2client.Action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 
 public abstract class FooActionFactorySub {
 
