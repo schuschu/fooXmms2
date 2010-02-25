@@ -10,7 +10,7 @@
 			<view type="FooSashForm" name="sashFormMain">
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist">
-					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist" contentprovider="ALL">
+					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist">
 						<debugfg>DARK_MAGENTA</debugfg>
 						<debugbg>WHITE</debugbg>
 					</backend>

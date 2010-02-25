@@ -34,89 +34,100 @@ public class FooBackendFactory {
 
 	public Object create(Element element) {
 
+		// type of the backend (class), no default
 		String type = element.getAttribute("type");
+
+		// name equals variable name, no default
 		String name = element.getAttribute("name");
 
+		// TODO: docu
+		// format (so documentation for further infos), no default
 		String format = element.getAttribute("format");
-		String filter = element.getAttribute("filter");
-		
-		String contentprovider = element.getAttribute("contentprovider");
 
+		// filter defines which part of the selected items will be used to
+		// filter the content for the next backend, no default
+		String filter = element.getAttribute("filter");
+
+		// defines which backend will be supplying the current backend with
+		// data, default ALL (no input filtering)
+		String contentprovider = element.hasAttribute("contentprovider") ? element
+				.getAttribute("contentprovider")
+				: "ALL";
+
+		// TODO: think about these
 		String debugForeground = FooXML.getTagValue("debugfg", element);
 		String debugBackground = FooXML.getTagValue("debugbg", element);
 
+		// get the parent nodes name for view (since backends are always direct
+		// below (hirachical) their view element)
 		Element father = (Element) element.getParentNode();
 		String view = father.getAttribute("name");
-		
-			switch (FooBackendType.valueOf(type)) {
-			case FooBackendFilter:
-				debug("creating FooBackendFilter " + name);
 
-				FooBackendFilter filterBackend = new FooBackendFilter(format,
-						filter, getView(view));
-				filterBackend.setName(name);
-				filterBackend.setDebugForeground(FooColor
-						.valueOf(debugForeground));
-				filterBackend.setDebugBackground(FooColor
-						.valueOf(debugBackground));
+		switch (FooBackendType.valueOf(type)) {
+		case FooBackendFilter:
+			debug("creating FooBackendFilter " + name);
 
-				if (contentprovider.equals("ALL")) {
-					filterBackend.setToAll();
-				} else {
-					filterBackend
-							.setContentProvider((FooInterfaceBackendFilter) FooFactory
-									.getBackend(contentprovider));
-				}
+			FooBackendFilter filterBackend = new FooBackendFilter(format,
+					filter, getView(view));
+			filterBackend.setName(name);
+			filterBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+			filterBackend.setDebugBackground(FooColor.valueOf(debugBackground));
 
-				filterBackend.registerActionFactory();
-
-				FooFactory.putBackend(name, filterBackend);
-				return filterBackend;
-
-			case FooBackendPlaylist:
-				debug("creating FooBackendPlaylist " + name);
-
-				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(
-						format, getViewPlaylist(view));
-				playlistBackend.setName(name);
-				playlistBackend.setDebugForeground(FooColor
-						.valueOf(debugForeground));
-				playlistBackend.setDebugBackground(FooColor
-						.valueOf(debugBackground));
-
-				playlistBackend.registerActionFactory();
-
-				FooFactory.putBackend(name, playlistBackend);
-				return playlistBackend;
-
-			case FooBackendPlaylistSwitch:
-				debug("creating FooBackendPlaylistSwitch " + name);
-
-				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(
-						getView(view));
-				playlistSwitchBackend.setName(name);
-				playlistSwitchBackend.setDebugForeground(FooColor
-						.valueOf(debugForeground));
-				playlistSwitchBackend.setDebugBackground(FooColor
-						.valueOf(debugBackground));
-
-				FooFactory.putBackend(name, playlistSwitchBackend);
-				return playlistSwitchBackend;
-
-			case FooBackendText:
-				debug("creating FooBackendText " + name);
-
-				FooBackendText textBackend = new FooBackendText(format,
-						getViewText(view));
-				textBackend.setName(name);
-				textBackend.setDebugForeground(FooColor
-						.valueOf(debugForeground));
-				textBackend.setDebugBackground(FooColor
-						.valueOf(debugBackground));
-
-				FooFactory.putBackend(name, textBackend);
-				return textBackend;
+			if (contentprovider.equals("ALL")) {
+				filterBackend.setToAll();
+			} else {
+				filterBackend
+						.setContentProvider((FooInterfaceBackendFilter) FooFactory
+								.getBackend(contentprovider));
 			}
+
+			filterBackend.registerActionFactory();
+
+			FooFactory.putBackend(name, filterBackend);
+			return filterBackend;
+
+		case FooBackendPlaylist:
+			debug("creating FooBackendPlaylist " + name);
+
+			FooBackendPlaylist playlistBackend = new FooBackendPlaylist(format,
+					getViewPlaylist(view));
+			playlistBackend.setName(name);
+			playlistBackend.setDebugForeground(FooColor
+					.valueOf(debugForeground));
+			playlistBackend.setDebugBackground(FooColor
+					.valueOf(debugBackground));
+
+			playlistBackend.registerActionFactory();
+
+			FooFactory.putBackend(name, playlistBackend);
+			return playlistBackend;
+
+		case FooBackendPlaylistSwitch:
+			debug("creating FooBackendPlaylistSwitch " + name);
+
+			FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(
+					getView(view));
+			playlistSwitchBackend.setName(name);
+			playlistSwitchBackend.setDebugForeground(FooColor
+					.valueOf(debugForeground));
+			playlistSwitchBackend.setDebugBackground(FooColor
+					.valueOf(debugBackground));
+
+			FooFactory.putBackend(name, playlistSwitchBackend);
+			return playlistSwitchBackend;
+
+		case FooBackendText:
+			debug("creating FooBackendText " + name);
+
+			FooBackendText textBackend = new FooBackendText(format,
+					getViewText(view));
+			textBackend.setName(name);
+			textBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+			textBackend.setDebugBackground(FooColor.valueOf(debugBackground));
+
+			FooFactory.putBackend(name, textBackend);
+			return textBackend;
+		}
 		return null;
 	}
 

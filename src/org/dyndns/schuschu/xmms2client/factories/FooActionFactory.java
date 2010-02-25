@@ -72,7 +72,7 @@ public class FooActionFactory {
 		}
 
 		// get the parent nodes name for view (since actions are always direct
-		// below (hirachical) their view element
+		// below (hirachical) their view element)
 		Element father = (Element) element.getParentNode();
 		String viewstring = father.getAttribute("name");
 		FooInterfaceAction view = getView(viewstring);
