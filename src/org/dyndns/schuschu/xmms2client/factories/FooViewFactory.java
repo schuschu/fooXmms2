@@ -51,7 +51,7 @@ public class FooViewFactory {
 		Element father = (Element) element.getParentNode();
 		String parent = father.getAttribute("name");
 		
-		String layoutstring = FooXML.getTagValue("layout", element);
+		String layoutstring = element.getAttribute("layout");
 
 		switch (FooViewType.valueOf(type)) {
 		case Shell:

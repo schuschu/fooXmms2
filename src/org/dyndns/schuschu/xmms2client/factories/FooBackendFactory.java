@@ -37,10 +37,10 @@ public class FooBackendFactory {
 		String type = element.getAttribute("type");
 		String name = element.getAttribute("name");
 
-		String format = FooXML.getTagValue("format", element);
-		String filter = FooXML.getTagValue("filter", element);
+		String format = element.getAttribute("format");
+		String filter = element.getAttribute("filter");
 		
-		String contentprovider = FooXML.getTagValue("contentprovider", element);
+		String contentprovider = element.getAttribute("contentprovider");
 
 		String debugForeground = FooXML.getTagValue("debugfg", element);
 		String debugBackground = FooXML.getTagValue("debugbg", element);

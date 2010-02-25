@@ -12,7 +12,6 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
 
 public class FooActionFactory {
@@ -44,10 +43,9 @@ public class FooActionFactory {
 	public FooAction create(Element element) {
 
 		String name = element.getAttribute("name");
-		
-		String path = FooXML.getTagValue("path", element);
-		String sourcestring = FooXML.getTagValue("source", element);
-		String codestring = FooXML.getTagValue("code", element);
+		String path = element.getAttribute("path");
+		String sourcestring = element.getAttribute("source");
+		String codestring = element.getAttribute("code");
 		
 		FooSource source = FooSource.valueOf(sourcestring);
 		
