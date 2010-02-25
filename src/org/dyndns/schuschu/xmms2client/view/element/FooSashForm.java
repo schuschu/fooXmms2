@@ -52,6 +52,18 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				FooFactory.putView(name, sash);
 				return sash;
 			}
+			private Composite getComposite(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceComposite) {
+					return ((FooInterfaceComposite) o).getComposite();
+				}
+				// TODO: remove once FooShell exists
+				if (o instanceof Composite) {
+					return (Composite) o;
+				}
+
+				return null;
+			}
 		};
 		
 		FooViewFactory.factories.put("FooSashForm", factory);

@@ -4,6 +4,7 @@ import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.eclipse.swt.SWT;
@@ -79,6 +80,18 @@ public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 				FooLabel label = new FooLabel(getComposite(parent));
 				FooFactory.putView(name, label);
 				return label;
+			}
+			private Composite getComposite(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceComposite) {
+					return ((FooInterfaceComposite) o).getComposite();
+				}
+				//TODO: remove once FooShell exists
+				if (o instanceof Composite) {
+					return (Composite) o;
+				}
+
+				return null;
 			}
 		};
 		FooViewFactory.factories.put("FooLabel", factory);

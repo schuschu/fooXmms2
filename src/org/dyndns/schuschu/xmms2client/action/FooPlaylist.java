@@ -128,7 +128,7 @@ public class FooPlaylist implements FooInterfaceFactory {
 				String[] values = new String[content.size()];
 				content.toArray(values);
 
-				input = FooComboDialog.show(FooWindow.SHELL,
+				input = FooComboDialog.show(FooWindow.SHELL.getShell(),
 						"Please choose the playlist you want to delete",
 						"delete playlist", values);
 

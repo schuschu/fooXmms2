@@ -1,5 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.dialog;
 
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -14,24 +15,43 @@ import org.eclipse.swt.widgets.Text;
 
 public class FooInputDialog {
 
+	public static String show(FooShell parent, String message, String text,
+			String preset, int style) {
+		return show(parent.getShell(), message, text, preset, style);
+	}
+	
 	public static String show(Shell parent, String message, String text,
 			String preset, int style) {
 		InputDialog dialog = new InputDialog(parent, style);
 		return setup(dialog, message, text, preset);
 	}
-
+	
+	public static String show(FooShell parent, String message, String text,
+			int style) {
+		return show(parent.getShell(), message, text,style);
+	}
+	
 	public static String show(Shell parent, String message, String text,
 			int style) {
-		InputDialog dialog = new InputDialog(parent, style);
+		InputDialog dialog = new InputDialog(parent,style);
 		return setup(dialog, message, text, "");
 	}
 
+	public static String show(FooShell parent, String message, String text,
+			String preset) {
+		return show(parent.getShell(), message, text, preset);
+	}
+	
 	public static String show(Shell parent, String message, String text,
 			String preset) {
 		InputDialog dialog = new InputDialog(parent);
 		return setup(dialog, message, text, preset);
 	}
 
+	public static String show(FooShell parent, String message, String text) {
+		return show(parent.getShell(), message, text);
+	}
+	
 	public static String show(Shell parent, String message, String text) {
 		InputDialog dialog = new InputDialog(parent);
 		return setup(dialog, message, text, "");

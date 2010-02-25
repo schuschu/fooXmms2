@@ -73,6 +73,14 @@ public class FooComposite implements FooInterfaceComposite{
 				}
 				return null;
 			}
+			private Composite getComposite(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceComposite) {
+					return ((FooInterfaceComposite) o).getComposite();
+				}
+
+				return null;
+			}
 		};
 		
 		FooViewFactory.factories.put("FooComposite", factory);

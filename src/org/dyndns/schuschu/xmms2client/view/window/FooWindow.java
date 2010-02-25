@@ -1,28 +1,20 @@
 package org.dyndns.schuschu.xmms2client.view.window;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.layout.FormLayout;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class FooWindow implements FooInterfaceWindow {
 
-	final static int WIDTH = 1000;
-	final static int HEIGHT = 600;
-
-	public static Shell SHELL = null;
+	public static FooShell SHELL = null;
 
 	private Display display;
 
@@ -54,49 +46,7 @@ public class FooWindow implements FooInterfaceWindow {
 		setVisible(!SHELL.getVisible());
 	}
 
-	public void initalize() {
-
-		createSShell();
-
-		createWindow();
-	}
-
-	private void createSShell() {
-		//TODO: shell from xml 
-		SHELL = new Shell();
-
-		FooFactory.putView("SHELL", SHELL);
-
-		SHELL.setText("fooXmms2");
-		SHELL.setSize(new Point(WIDTH, HEIGHT));
-
-		FormLayout layout = new FormLayout();
-		SHELL.setLayout(layout);
-
-		Image image = null;
-
-		InputStream stream = this.getClass().getResourceAsStream(
-				"/pixmaps/xmms2-128.png");
-		if (stream != null) {
-			try {
-				image = new Image(getDisplay(), stream);
-			} catch (IllegalArgumentException e) {
-			} finally {
-				try {
-					stream.close();
-				} catch (IOException e) {
-				}
-			}
-		} else {
-			// TODO: find better way to do this
-			image = new Image(getDisplay(), "pixmaps/xmms2-128.png");
-		}
-
-		SHELL.setImage(image);
-
-	}
-
-	private void createWindow() {
+	private void initalize() {
 		createWindowElements(FooXML.getElement("window"));
 		createLayout(FooXML.getElement("window"));
 	}

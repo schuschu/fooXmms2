@@ -1,5 +1,6 @@
 package org.dyndns.schuschu.xmms2client.view.dialog;
 
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -14,12 +15,22 @@ import org.eclipse.swt.widgets.Shell;
 
 public class FooComboDialog {
 
+	public static String show(FooShell parent, String message, String text,
+			String[] values, int style) {
+		return show(parent.getShell(),message,text,values, style);
+	}
+	
 	public static String show(Shell parent, String message, String text,
 			String[] values, int style) {
 		ComboDialog dialog = new ComboDialog(parent, style);
 		return setup(dialog, message, text, values);
 	}
 
+	public static String show(FooShell parent, String message, String text,
+			String[] values) {
+		return show(parent.getShell(), message, text, values);
+	}
+	
 	public static String show(Shell parent, String message, String text,
 			String[] values) {
 		ComboDialog dialog = new ComboDialog(parent);

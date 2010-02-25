@@ -6,6 +6,7 @@
 	</config>
 	
 	<plugins>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooShell"/>
 		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooComposite"/>
 		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooList"/>
 		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooCombo"/>
@@ -29,7 +30,7 @@
 	</plugins>
 	
 	<window>
-		<view type="Shell" name="SHELL" layout="FormLayout">
+		<view type="FooShell" name="SHELL" layout="FormLayout">
 			<view type="FooSashForm" name="sashFormMain">
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist">

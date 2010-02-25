@@ -65,5 +65,7 @@ public class FooButton implements FooInterfaceControl {
 	public Control getControl() {
 		return button;
 	}
+	
+	//TODO: factories and registration
 
 }

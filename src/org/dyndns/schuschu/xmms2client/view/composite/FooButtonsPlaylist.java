@@ -4,6 +4,7 @@ import org.dyndns.schuschu.xmms2client.action.FooPlaylist;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.element.FooButton;
 import org.eclipse.swt.SWT;
@@ -77,6 +78,17 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 						getComposite(parent), SWT.NONE);
 				FooFactory.putView(name, listButtons);
 				return listButtons;
+			}
+			private Composite getComposite(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceComposite) {
+					return ((FooInterfaceComposite) o).getComposite();
+				}
+				if (o instanceof Composite) {
+					return (Composite) o;
+				}
+
+				return null;
 			}
 		}; 
 		

@@ -10,7 +10,7 @@ public class FooMenu {
 	private Menu menu;
 
 	public FooMenu() {
-		setMenu(new Menu(FooWindow.SHELL));
+		setMenu(new Menu(FooWindow.SHELL.getShell()));
 	}
 
 	public FooMenu(FooInterfaceControl parent) {

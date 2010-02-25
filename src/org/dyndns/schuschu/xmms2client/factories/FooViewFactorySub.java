@@ -2,9 +2,7 @@ package org.dyndns.schuschu.xmms2client.factories;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.eclipse.swt.widgets.Composite;
 import org.w3c.dom.Element;
 
 public abstract class FooViewFactorySub {
@@ -21,19 +19,6 @@ public abstract class FooViewFactorySub {
 			}
 			System.out.println("debug: BackendFactory " + message);
 		}
-	}
-	
-	// TODO: ??? really here
-	protected Composite getComposite(String s) {
-		Object o = FooFactory.getView(s);
-		if (o instanceof FooInterfaceComposite) {
-			return ((FooInterfaceComposite) o).getComposite();
-		}
-		if (o instanceof Composite) {
-			return (Composite) o;
-		}
-
-		return null;
 	}
 
 	protected abstract Object create(Element element);

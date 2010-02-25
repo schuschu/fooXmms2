@@ -9,6 +9,7 @@ import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
@@ -193,6 +194,14 @@ public class FooList implements FooInterfaceView,FooInterfaceControl,FooInterfac
 				FooList list = new FooList(getComposite(parent));
 				FooFactory.putView(name, list);
 				return list;
+			}
+			private Composite getComposite(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceComposite) {
+					return ((FooInterfaceComposite) o).getComposite();
+				}
+
+				return null;
 			}
 		};
 		
