@@ -21,6 +21,11 @@
 		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooPlayback"/>
 		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooPlaylist"/>
 		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooSystem"/>
+		<plugin type="watch" name="org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack"/>
+		<plugin type="watch" name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos"/>
+		<plugin type="watch" name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus"/>
+		<plugin type="watch" name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist"/>
+		<plugin type="watch" name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad"/>
 	</plugins>
 	
 	<window>
