@@ -4,6 +4,9 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
@@ -21,6 +24,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.List;
+import org.w3c.dom.Element;
 
 public class FooList implements FooInterfaceView,FooInterfaceControl,FooInterfaceAction {
 
@@ -170,5 +174,28 @@ public class FooList implements FooInterfaceView,FooInterfaceControl,FooInterfac
 	@Override
 	public Control getControl() {
 		return list;
+	}
+	
+	public static void registerFactory(){
+		FooViewFactorySub factory = new FooViewFactorySub() {
+			
+			@Override
+			protected Object create(Element element) {
+			
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+
+				// get the parent nodes name for parent (hirachical xml)
+				Element father = (Element) element.getParentNode();
+				String parent = father.getAttribute("name");
+				
+				debug("creating FooList " + name + " with parent " + parent);
+				FooList list = new FooList(getComposite(parent));
+				FooFactory.putView(name, list);
+				return list;
+			}
+		};
+		
+		FooViewFactory.factories.put("FooList", factory);
 	}
 }

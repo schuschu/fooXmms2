@@ -1,5 +1,8 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
@@ -7,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.w3c.dom.Element;
 
 public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 
@@ -57,4 +61,27 @@ public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 		return backend;
 	}
 
+	public  static void registerFactory(){
+		//VIEW
+		FooViewFactorySub factory = new FooViewFactorySub() {
+			
+			@Override
+			protected Object create(Element element) {
+
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+
+				// get the parent nodes name for parent (hirachical xml)
+				Element father = (Element) element.getParentNode();
+				String parent = father.getAttribute("name");
+				
+				debug("creating FooLabel " + name + " with parent " + parent);
+				FooLabel label = new FooLabel(getComposite(parent));
+				FooFactory.putView(name, label);
+				return label;
+			}
+		};
+		FooViewFactory.factories.put("FooLabel", factory);
+	}
+	
 }

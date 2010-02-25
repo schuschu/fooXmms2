@@ -6,12 +6,21 @@
 	</config>
 	
 	<plugins>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooComposite"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooList"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooCombo"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooTable"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooLabel"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlaylist"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlayback"/>
+		<plugin type="view" name="org.dyndns.schuschu.xmms2client.view.element.FooSashForm"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendFilter"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendText"/>
 		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooPlayback"/>
 		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooPlaylist"/>
 		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooSystem"/>
-		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendFilter"/>
-		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist"/>
-		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendText"/>
 	</plugins>
 	
 	<window>
@@ -69,7 +78,7 @@
 					<action name="enqueue" code="2" source="MOUSE"/>
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
-				<view type="Composite" name="compositePlaylist" layout="FormLayout">
+				<view type="FooComposite" name="compositePlaylist" layout="FormLayout">
 					<view type="FooCombo" name="comboPlaylist">
 						<layoutdata type="FormData" top="0" left="0" right="100" />
 						<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">

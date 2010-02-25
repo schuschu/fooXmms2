@@ -1,12 +1,16 @@
 package org.dyndns.schuschu.xmms2client.view.composite;
 
 import org.dyndns.schuschu.xmms2client.action.FooPlaylist;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.element.FooButton;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.w3c.dom.Element;
 
 public class FooButtonsPlaylist implements FooInterfaceControl{
 
@@ -51,6 +55,32 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 	@Override
 	public Control getControl() {
 		return composite;
+	}
+	
+	public static void registerFactory(){
+		//VIEW
+		FooViewFactorySub factory = new FooViewFactorySub() {
+			
+			@Override
+			protected Object create(Element element) {	
+
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+
+				// get the parent nodes name for parent (hirachical xml)
+				Element father = (Element) element.getParentNode();
+				String parent = father.getAttribute("name");
+				
+				debug("creating FooButtonsPlaylist " + name + " with parent "
+						+ parent);
+				FooButtonsPlaylist listButtons = new FooButtonsPlaylist(
+						getComposite(parent), SWT.NONE);
+				FooFactory.putView(name, listButtons);
+				return listButtons;
+			}
+		}; 
+		
+		FooViewFactory.factories.put("FooButtonsPlaylist", factory);
 	}
 
 }

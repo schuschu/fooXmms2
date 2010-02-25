@@ -62,7 +62,8 @@ public class FooWindow implements FooInterfaceWindow {
 	}
 
 	private void createSShell() {
-		SHELL = new Shell(getDisplay());
+		//TODO: shell from xml 
+		SHELL = new Shell();
 
 		FooFactory.putView("SHELL", SHELL);
 

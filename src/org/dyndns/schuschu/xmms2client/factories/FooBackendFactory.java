@@ -63,11 +63,8 @@ public class FooBackendFactory {
 		// type of the backend (class), no default
 		String type = element.getAttribute("type");
 
-		if (factories.get(type) != null) {
-			return factories.get(type).create(element);
-		}
-
-		return null;
+		return factories.containsKey(type) ? factories.get(type)
+				.create(element) : null;
 	}
 
 
