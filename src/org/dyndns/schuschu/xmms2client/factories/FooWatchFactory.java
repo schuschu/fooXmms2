@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class FooWatchFactory {
-	
+
 	public static HashMap<String, FooWatchFactorySub> factories = new HashMap<String, FooWatchFactorySub>();
 
 	public FooWatchFactory() {
@@ -62,10 +62,8 @@ public class FooWatchFactory {
 		// type of the watch (class), no default
 		String type = element.getAttribute("type");
 
-		if(factories.containsKey(type)){
-			return factories.get(type).create(element);
-		}
+		return factories.containsKey(type) ? factories.get(type)
+				.create(element) : null;
 
-		return null;
 	}
 }
