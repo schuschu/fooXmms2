@@ -5,6 +5,12 @@
 		<debug enabled="false" visual="false"/>
 	</config>
 	
+	<plugins>
+		<plugin name="org.dyndns.schuschu.xmms2client.action.FooPlayback"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.action.FooPlaylist"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.action.FooSystem"/>
+	</plugins>
+	
 	<window>
 		<view type="Shell" name="SHELL" layout="FormLayout">
 			<view type="FooSashForm" name="sashFormMain">
