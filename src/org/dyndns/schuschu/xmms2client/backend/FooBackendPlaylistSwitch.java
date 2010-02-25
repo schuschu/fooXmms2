@@ -9,9 +9,14 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
+import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playlist;
@@ -226,5 +231,52 @@ public class FooBackendPlaylistSwitch extends Observable implements
 		debug("setView");
 		this.view = view;
 		view.setBackend(this);
+	}
+	
+	public static void registerFactory(){
+		//BACKEND
+		
+		FooBackendFactorySub factory = new FooBackendFactorySub() {
+			
+			@Override
+			protected Object create(Element element) {
+
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+
+				// TODO: think about these
+				String debugForeground = FooXML.getTagValue("debugfg", element);
+				String debugBackground = FooXML.getTagValue("debugbg", element);
+
+				// get the parent nodes name for view (since backends are always direct
+				// below (hirachical) their view element)
+				Element father = (Element) element.getParentNode();
+				String view = father.getAttribute("name");
+
+				debug("creating FooBackendPlaylistSwitch " + name);
+				
+				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(
+						getView(view));
+				playlistSwitchBackend.setName(name);
+				playlistSwitchBackend.setDebugForeground(FooColor
+						.valueOf(debugForeground));
+				playlistSwitchBackend.setDebugBackground(FooColor
+						.valueOf(debugBackground));
+
+				FooFactory.putBackend(name, playlistSwitchBackend);
+				return playlistSwitchBackend;
+
+			}
+			
+			private FooInterfaceView getView(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceView) {
+					return (FooInterfaceView) o;
+				}
+				return null;
+			}
+		};
+		
+		FooBackendFactory.factories.put("FooBackendPlaylistSwitch", factory);
 	}
 }

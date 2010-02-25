@@ -12,12 +12,17 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.Client;
 import se.fnord.xmms2.client.CommandErrorException;
@@ -446,6 +451,62 @@ public class FooBackendPlaylist implements Serializable,
 	public String getFormat() {
 		debug("getFormat");
 		return format;
+	}
+
+	public static void registerFactory() {
+		// BACKEND
+
+		FooBackendFactorySub factory = new FooBackendFactorySub() {
+
+			@Override
+			protected Object create(Element element) {
+
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+
+				// TODO: docu
+				// format (so documentation for further infos), no default
+				String format = element.getAttribute("format");
+
+				// TODO: think about these
+				String debugForeground = FooXML.getTagValue("debugfg", element);
+				String debugBackground = FooXML.getTagValue("debugbg", element);
+
+				// get the parent nodes name for view (since backends are always
+				// direct
+				// below (hirachical) their view element)
+				Element father = (Element) element.getParentNode();
+				String view = father.getAttribute("name");
+
+				debug("creating FooBackendPlaylist " + name);
+
+				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(
+						format, getViewPlaylist(view));
+				playlistBackend.setName(name);
+				playlistBackend.setDebugForeground(FooColor
+						.valueOf(debugForeground));
+				playlistBackend.setDebugBackground(FooColor
+						.valueOf(debugBackground));
+
+				playlistBackend.registerActionFactory();
+
+				FooFactory.putBackend(name, playlistBackend);
+				return playlistBackend;
+
+			}
+
+			private FooInterfaceViewPlaylist getViewPlaylist(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceViewPlaylist) {
+					return (FooInterfaceViewPlaylist) o;
+				}
+				return null;
+			}
+
+		};
+
+		FooBackendFactory.factories.put("FooBackendPlaylist", factory);
+
 	}
 
 	/*

@@ -10,7 +10,8 @@ import se.fnord.xmms2.client.commands.Playback;
 
 public class FooPlayback implements FooInterfaceFactory{
 
-	public static void registerActionFactory() {
+	public static void registerFactory() {
+		// ACTION
 		FooActionFactorySub factory = new FooActionFactorySub() {
 
 			@Override

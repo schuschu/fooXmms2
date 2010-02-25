@@ -24,7 +24,8 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
 
 public class FooPlaylist implements FooInterfaceFactory {
 
-	public static void registerActionFactory() {
+	public static void registerFactory() {
+		// ACTION
 		FooActionFactorySub factory = new FooActionFactorySub() {
 
 			@Override

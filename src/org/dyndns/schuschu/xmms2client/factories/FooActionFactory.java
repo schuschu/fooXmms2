@@ -47,11 +47,13 @@ public class FooActionFactory {
 				if (node.getNodeName().equals("plugin")) {
 
 					Element element = (Element) node;
-					String plugin = element.getAttribute("name");
+					if (element.getAttribute("type").equals("action")) {
+						String plugin = element.getAttribute("name");
 
-					Class<?> clazz = Class.forName(plugin);
-					Method meth = clazz.getMethod("registerActionFactory");
-					meth.invoke(clazz);
+						Class<?> clazz = Class.forName(plugin);
+						Method meth = clazz.getMethod("registerFactory");
+						meth.invoke(clazz);
+					}
 				}
 			}
 

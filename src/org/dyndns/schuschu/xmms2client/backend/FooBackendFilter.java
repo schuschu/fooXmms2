@@ -11,13 +11,18 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendFilter;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
@@ -577,6 +582,75 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 	public FooColor getDebugBackground() {
 		return debugBackground;
+	}
+	
+	public static void registerFactory(){
+		//BACKEND
+		
+	FooBackendFactorySub factory = new FooBackendFactorySub() {
+		
+		@Override
+		protected Object create(Element element) {
+			
+			// name equals variable name, no default
+			String name = element.getAttribute("name");
+
+			// TODO: docu
+			// format (so documentation for further infos), no default
+			String format = element.getAttribute("format");
+
+			// filter defines which part of the selected items will be used to
+			// filter the content for the next backend, no default
+			String filter = element.getAttribute("filter");
+
+			// defines which backend will be supplying the current backend with
+			// data, default ALL (no input filtering)
+			String contentprovider = element.hasAttribute("contentprovider") ? element
+					.getAttribute("contentprovider")
+					: "ALL";
+
+			// TODO: think about these
+			String debugForeground = FooXML.getTagValue("debugfg", element);
+			String debugBackground = FooXML.getTagValue("debugbg", element);
+			
+			// get the parent nodes name for view (since backends are always direct
+			// below (hirachical) their view element)
+			Element father = (Element) element.getParentNode();
+			String view = father.getAttribute("name");
+			
+			debug("creating FooBackendFilter " + name);
+
+			FooBackendFilter filterBackend = new FooBackendFilter(format,
+					filter, getView(view));
+			filterBackend.setName(name);
+			filterBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+			filterBackend.setDebugBackground(FooColor.valueOf(debugBackground));
+
+			if (contentprovider.equals("ALL")) {
+				filterBackend.setToAll();
+			} else {
+				filterBackend
+						.setContentProvider((FooInterfaceBackendFilter) FooFactory
+								.getBackend(contentprovider));
+			}
+
+			filterBackend.registerActionFactory();
+
+			FooFactory.putBackend(name, filterBackend);
+			return filterBackend;
+		}
+		
+		private FooInterfaceView getView(String s) {
+			Object o = FooFactory.getView(s);
+			if (o instanceof FooInterfaceView) {
+				return (FooInterfaceView) o;
+			}
+			return null;
+		}
+	};
+	
+	FooBackendFactory.factories.put("FooBackendFilter", factory);
+	
 	}
 
 	/*

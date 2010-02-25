@@ -7,7 +7,8 @@ import org.dyndns.schuschu.xmms2client.interfaces.factory.FooInterfaceFactory;
 
 public class FooSystem implements FooInterfaceFactory {
 
-	public static void registerActionFactory() {
+	public static void registerFactory() {
+		// ACTION
 		FooActionFactorySub factory = new FooActionFactorySub() {
 
 			@Override

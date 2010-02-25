@@ -9,10 +9,15 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.eclipse.swt.widgets.Display;
+import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
@@ -264,6 +269,55 @@ public class FooBackendText implements FooInterfaceBackendText {
 		debug("setStatus");
 		this.status = status;
 		refresh();
+	}
+	
+	public static void registerFactory(){
+		//BACKEND
+		
+		FooBackendFactorySub factory = new FooBackendFactorySub() {
+			
+			@Override
+			protected Object create(Element element) {
+				
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+
+				// TODO: docu
+				// format (so documentation for further infos), no default
+				String format = element.getAttribute("format");
+
+				// TODO: think about these
+				String debugForeground = FooXML.getTagValue("debugfg", element);
+				String debugBackground = FooXML.getTagValue("debugbg", element);
+
+				// get the parent nodes name for view (since backends are always direct
+				// below (hirachical) their view element)
+				Element father = (Element) element.getParentNode();
+				String view = father.getAttribute("name");
+				
+				debug("creating FooBackendText " + name);
+
+				FooBackendText textBackend = new FooBackendText(format,
+						getViewText(view));
+				textBackend.setName(name);
+				textBackend.setDebugForeground(FooColor.valueOf(debugForeground));
+				textBackend.setDebugBackground(FooColor.valueOf(debugBackground));
+
+				FooFactory.putBackend(name, textBackend);
+				return textBackend;
+			}
+			
+			private FooInterfaceText getViewText(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceText) {
+					return (FooInterfaceText) o;
+				}
+				return null;
+			}
+		};
+		
+		FooBackendFactory.factories.put("FooBackendText", factory);
+		
 	}
 
 }

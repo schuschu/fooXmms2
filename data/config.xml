@@ -6,9 +6,12 @@
 	</config>
 	
 	<plugins>
-		<plugin name="org.dyndns.schuschu.xmms2client.action.FooPlayback"/>
-		<plugin name="org.dyndns.schuschu.xmms2client.action.FooPlaylist"/>
-		<plugin name="org.dyndns.schuschu.xmms2client.action.FooSystem"/>
+		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooPlayback"/>
+		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooPlaylist"/>
+		<plugin type="action" name="org.dyndns.schuschu.xmms2client.action.FooSystem"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendFilter"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist"/>
+		<plugin type="backend" name="org.dyndns.schuschu.xmms2client.backend.FooBackendText"/>
 	</plugins>
 	
 	<window>
