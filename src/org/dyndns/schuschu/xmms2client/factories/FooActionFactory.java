@@ -43,7 +43,7 @@ public class FooActionFactory {
 
 	public FooAction create(Element element) {
 
-		// equals varialbe name, no default possible
+		// the name of the action within the backend , no default possible
 		String name = element.getAttribute("name");
 
 		// path is the name of the backend which contains the action. if none is

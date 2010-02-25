@@ -35,19 +35,25 @@ public class FooWatchFactory {
 
 	public Object create(Element element) {
 
+		// type of the watch (class), no default
 		String type = element.getAttribute("type");
+
+		// name equals variable name, no default
 		String name = element.getAttribute("name");
-		
+
+		// get the parent nodes name for backend (since watches are always
+		// direct below (hirachical) their backend)
 		Element father = (Element) element.getParentNode();
 		String backend = father.getAttribute("name");
 
+		// TODO: think about these
 		String debugForeground = FooXML.getTagValue("debugfg", element);
 		String debugBackground = FooXML.getTagValue("debugbg", element);
 
 		switch (FooWatchType.valueOf(type)) {
 		case FooWatchCurrentTrack:
 			debug("creating FooWatchCurrentTrack " + name);
-			
+
 			FooWatchCurrentTrack currentTrack = new FooWatchCurrentTrack(
 					getBackendCurTrack(backend));
 

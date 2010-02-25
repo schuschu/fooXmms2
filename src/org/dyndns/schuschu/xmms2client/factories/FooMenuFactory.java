@@ -29,7 +29,10 @@ public class FooMenuFactory {
 	}
 
 	public FooMenu create(Element element) {
-
+		//creating menu for view from here
+		
+		// get the parent nodes name for view (since menu are always direct
+		// below (hirachical) their view element)
 		Element father =(Element) element.getParentNode();
 		String view = father.getAttribute("name");
 
@@ -41,6 +44,7 @@ public class FooMenuFactory {
 
 		NodeList children = element.getChildNodes();
 
+		//creating menuitems for menu from here
 		for (int j = 0; j < children.getLength(); j++) {
 
 			Node menunode = children.item(j);
@@ -50,7 +54,10 @@ public class FooMenuFactory {
 
 				if (child.getNodeName().equals("item")) {
 
+					//text of the menuitem, no default
 					String text = child.getAttribute("text");
+					
+					// name equals variable name, no default
 					String name = child.getAttribute("name");
 
 					FooMenuItem item = new FooMenuItem(menu);

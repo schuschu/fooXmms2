@@ -45,18 +45,25 @@ public class FooViewFactory {
 
 	public Object create(Element element) {
 		
+		// type of the view element (class), no default
 		String type = element.getAttribute("type");
+		
+		// name equals variable name, no default
 		String name = element.getAttribute("name");
 
+		// get the parent nodes name for parent (hirachical xml)
 		Element father = (Element) element.getParentNode();
 		String parent = father.getAttribute("name");
 		
-		String layoutstring = element.getAttribute("layout");
+		// gets the layout of the composite/shell , default is FillLayout
+		String layoutstring = element.hasAttribute("layout") ? element.getAttribute("layout") : "FillLayout";
 
 		switch (FooViewType.valueOf(type)) {
+		// TODO: FooShell + real work
 		case Shell:
 			debug("creating Shell " + name + " with parent " + parent + " ... not");
 			return FooWindow.SHELL;
+		// TODO: FooComposite
 		case Composite:
 			debug("creating Composite " + name + " with parent " + parent);
 			Composite comp = new Composite(getComposite(parent), SWT.NONE);
