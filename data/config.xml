@@ -1,352 +1,226 @@
 <fooXmms2>
 	<config>
- 		<client>
- 			<ip>127.0.0.1</ip>
- 			<port>1234</port>
-		</client>
-		<window>
-			<maximised>false</maximised>
-			<visible>true</visible>
-		</window>
-		<debug>
-			<enabled>false</enabled>
-			<visual>false</visual>
-		</debug>
+ 		<client ip="127.0.0.1" port="1234"/>
+		<window maximised="false" visible="true"/>
+		<debug enabled="false" visual="false"/>
 	</config>
 	
 	<window>
-		<view>
-			<type>Shell</type>
-			<name>SHELL</name>
+		<view type="Shell" name="SHELL">
 			<layout>FormLayout</layout>
-			<view>
-				<type>FooSashForm</type>
-				<name>sashFormMain</name>
-				<layoutdata>
-					<type>FormData</type>
-					<top>0</top>
-					<left>0</left>
-					<right>100</right>
-					<bottom>statusbar</bottom>
-				</layoutdata>				
-				<view>
-					<type>FooList</type>
-					<name>listArtist</name>
-					<backend>
-						<type>FooBackendFilter</type>
-						<name>artistBackend</name>
+			<view type="FooSashForm" name="sashFormMain">
+				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
+				<view type="FooList" name="listArtist">
+					<backend type="FooBackendFilter" name="artistBackend">
 						<format>%artist%</format>
 						<filter>artist</filter>
-						<debugForeground>DARK_MAGENTA</debugForeground>
-						<debugBackground>WHITE</debugBackground>
+						<debugfg>DARK_MAGENTA</debugfg>
+						<debugbg>WHITE</debugbg>
 						<contentprovider>ALL</contentprovider>
 					</backend>
 					<menu>
-						<item>
-							<name>artistOrder</name>
-							<text>change order</text>
-							<action>
+						<item name="artistOrder" text="change order">
+							<action name="order">
 								<path>artistBackend</path>
-								<name>order</name>
 								<code>0</code>		
 								<source>MOUSE</source>
 							</action>
 						</item>
-						<item>
-							<name>artistFormat</name>
-							<text>change format</text>
-							<action>
+						<item name="artistFormat" text="change format">
+							<action name="format">
 								<path>artistBackend</path>
-								<name>format</name>
 								<code>0</code>
 								<source>MOUSE</source>
 							</action>
 						</item>
 					</menu>
-					<action>
+					<action name="enqueue">
 						<path>artistBackend</path>
-						<name>enqueue</name>
 						<code>CR</code>	
 						<source>KEYBOARD</source>
 					</action>
-					<action>
+					<action name="enqueue">
 						<path>artistBackend</path>
-						<name>enqueue</name>
 						<code>2</code>		
 						<source>MOUSE</source>
 					</action>
-					<action>
+					<action name="deselect">
 						<path>artistBackend</path>
-						<name>deselect</name>
 						<code>ESC</code>	
 						<source>KEYBOARD</source>
 					</action>
 				</view>
-				<view>
-					<type>FooList</type>
-					<name>listAlbum</name>
-					<backend>
-						<type>FooBackendFilter</type>
-						<name>albumBackend</name>
+				<view type="FooList" name="listAlbum">
+					<backend type="FooBackendFilter" name="albumBackend">
 						<format>%album% (%date%)</format>
 						<filter>album</filter>
-						<debugForeground>MAGENTA</debugForeground>
-						<debugBackground>WHITE</debugBackground>
+						<debugfg>MAGENTA</debugfg>
+						<debugbg>WHITE</debugbg>
 						<contentprovider>artistBackend</contentprovider>
 					</backend>
 					<menu>
-						<item>
-							<name>albumOrder</name>
-							<text>change order</text>
-							<action>
+						<item name="albumOrder" text="change order">
+							<action name="order">
 								<path>albumBackend</path>
-								<name>order</name>
 								<code>0</code>	
 								<source>MOUSE</source>
 							</action>
 						</item>
-						<item>
-							<name>albumFormat</name>
-							<text>change format</text>
-							<action>
+						<item name="albumFormat" text="change format">
+							<action name="format">
 								<path>albumBackend</path>
-								<name>format</name>
 								<code>0</code>		
 								<source>MOUSE</source>
 							</action>
 						</item>
 					</menu>		
-					<action>
+					<action name="enqueue">
 						<path>albumBackend</path>
-						<name>enqueue</name>
 						<code>CR</code>
 						<source>KEYBOARD</source>
 					</action>
-					<action>
+					<action name="enqueue">
 						<path>albumBackend</path>
-						<name>enqueue</name>
 						<code>2</code>		
 						<source>MOUSE</source>
 					</action>
-					<action>
+					<action name="deselect">
 						<path>albumBackend</path>
-						<name>deselect</name>
 						<code>ESC</code>	
 						<source>KEYBOARD</source>
 					</action>			
 				</view>
-				<view>
-					<type>FooList</type>
-					<name>listTrack</name>
-					<backend>
-						<type>FooBackendFilter</type>
-						<name>trackBackend</name>
+				<view type="FooList" name="listTrack">
+					<backend type="FooBackendFilter" name="trackBackend">
 						<format>%title%</format>
 						<filter>title</filter>
-						<debugForeground>DARK_RED</debugForeground>
-						<debugBackground>WHITE</debugBackground>
+						<debugfg>DARK_RED</debugfg>
+						<debugbg>WHITE</debugbg>
 						<contentprovider>albumBackend</contentprovider>
 					</backend>
 					<menu>
-						<item>
-							<name>trackOrder</name>
-							<text>change order</text>
-							<action>
+						<item name="trackOrder" text="change order">
+							<action name="order">
 								<path>trackBackend</path>
-								<name>order</name>
 								<code>0</code>		
 								<source>MOUSE</source>
 							</action>
 						</item>
-						<item>
-							<name>trackFormat</name>
-							<text>change format</text>
-							<action>
+						<item name="trackFormat" text="change format">
+							<action name="format">
 								<path>trackBackend</path>
-								<name>format</name>
 								<code>0</code>		
 								<source>MOUSE</source>
 							</action>
 						</item>
 					</menu>
-					<action>
+					<action name="enqueue">
 						<path>trackBackend</path>
-						<name>enqueue</name>
 						<code>CR</code>	
 						<source>KEYBOARD</source>
 					</action>
-					<action>
+					<action name="enqueue">
 						<path>trackBackend</path>
-						<name>enqueue</name>
 						<code>2</code>	
 						<source>MOUSE</source>
 					</action>
-					<action>
+					<action name="deselect">
 						<path>trackBackend</path>
-						<name>deselect</name>
 						<code>ESC</code>		
 						<source>KEYBOARD</source>
 					</action>
 				</view>
-				<view>
-					<type>Composite</type>
-					<name>compositePlaylist</name>	
-					<layout>FormLayout</layout>
-					
-					<view>
-						<type>FooCombo</type>
-						<name>comboPlaylist</name>
-						<layoutdata>
-							<type>FormData</type>
-							<top>0</top>
-							<left>0</left>
-							<right>100</right>
-						</layoutdata>
-						<backend>
-							<type>FooBackendPlaylistSwitch</type>
-							<name>playlistComboBackend</name>
-							<debugForeground>GRAY</debugForeground>
-							<debugBackground>WHITE</debugBackground>
-							<watch>
-								<type>FooWatchPlaylist</type>
-								<name>watchPlaylistCombo</name>
-								<debugForeground>WHITE</debugForeground>
-								<debugBackground>RED</debugBackground>
+				<view type="Composite" name="compositePlaylist">
+					<layout>FormLayout</layout>		
+					<view type="FooCombo" name="comboPlaylist">
+						<layoutdata type="FormData" top="0" left="0" right="100" />
+						<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
+							<debugfg>GRAY</debugfg>
+							<debugbg>WHITE</debugbg>
+							<watch type="FooWatchPlaylist" name="watchPlaylistCombo">
+								<debugfg>WHITE</debugfg>
+								<debugbg>RED</debugbg>
 							</watch>
-							<watch>
-								<type>FooWatchPlaylistLoad</type>
-								<name>watchPlaylistComboLoad</name>
-								<debugForeground>WHITE</debugForeground>
-								<debugBackground>MAGENTA</debugBackground>
+							<watch type="FooWatchPlaylistLoad" name="watchPlaylistComboLoad">
+								<debugfg>WHITE</debugfg>
+								<debugbg>MAGENTA</debugbg>
 							</watch>
 						</backend>
 					</view>
-					<view>
-						<type>FooTable</type>
-						<name>tablePlaylist</name>
-						<layoutdata>
-						<type>FormData</type>
-							<top>comboPlaylist</top>
-							<left>0</left>
-							<right>100</right>
-							<bottom>buttonsPlaylist</bottom>
-						</layoutdata>
-						<backend>
-							<type>FooBackendPlaylist</type>
-							<name>playlistBackend</name>
+					<view type="FooTable" name="tablePlaylist">
+						<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/>
+						<backend type="FooBackendPlaylist" name="playlistBackend">
 							<format>%artist% - %title%</format>
-							<debugForeground>BLUE</debugForeground>
-							<debugBackground>WHITE</debugBackground>
-							<watch>
-								<type>FooWatchPlaylist</type>
-								<name>watchPlaylistList</name>
-								<debugForeground>WHITE</debugForeground>
-								<debugBackground>DARK_RED</debugBackground>
+							<debugfg>BLUE</debugfg>
+							<debugbg>WHITE</debugbg>
+							<watch type="FooWatchPlaylist" name="watchPlaylistList">
+								<debugfg>WHITE</debugfg>
+								<debugbg>DARK_RED</debugbg>
 							</watch>
-							<watch>
-								<type>FooWatchPlaylistLoad</type>
-								<name>watchPlaylistListLoad</name>
-								<debugForeground>WHITE</debugForeground>
-								<debugBackground>DARK_MAGENTA</debugBackground>
+							<watch type="FooWatchPlaylistLoad" name="watchPlaylistListLoad">
+								<debugfg>WHITE</debugfg>
+								<debugbg>DARK_MAGENTA</debugbg>
 							</watch>
-							<watch>
-								<type>FooWatchCurrentTrack</type>
-								<name>watchCurrentPos</name>
-								<debugForeground>BLACK</debugForeground>
-								<debugBackground>YELLOW</debugBackground>
+							<watch type="FooWatchCurrentTrack" name="watchCurrentPos">
+								<debugfg>BLACK</debugfg>
+								<debugbg>YELLOW</debugbg>
 							</watch>
 						</backend>
 						<menu>
-							<item>
-								<name>playlistFormat</name>
-								<text>change format</text>
-								<action>
+							<item name="playlistFormat" text="change format">
+								<action name="format">
 									<path>playlistBackend</path>
-									<name>format</name>
 									<code>0</code>
 									<source>MOUSE</source>
 								</action>	
 							</item>	
 						</menu>
-						<action>
+						<action name="play">
 							<path>playlistBackend</path>
-							<name>play</name>
 							<code>2</code>	
 							<source>MOUSE</source>
 						</action>
-						<action>
+						<action name="play">
 							<path>playlistBackend</path>
-							<name>play</name>
 							<code>CR</code>		
 							<source>KEYBOARD</source>
 						</action>
-						<action>
+						<action name="remove">
 							<path>playlistBackend</path>
-							<name>remove</name>
 							<code>DEL</code>	
 							<source>KEYBOARD</source>
 						</action>
-						<action>
+						<action name="deselect">
 							<path>playlistBackend</path>
-							<name>deselect</name>
 							<code>ESC</code>		
 							<source>KEYBOARD</source>
 						</action>
 					</view>					
-					<view>
-						<type>FooButtonsPlaylist</type>
-						<name>buttonsPlaylist</name>
-						<layoutdata>
-							<type>FormData</type>
-							<left>0</left>
-							<right>100</right>
-							<bottom>buttonsPlayback</bottom>
-						</layoutdata>
+					<view type="FooButtonsPlaylist" name="buttonsPlaylist">
+						<layoutdata type="FormData" left="0" right="100" bottom="buttonsPlayback"/>
 					</view>				
-					<view>
-						<type>FooButtonsPlayback</type>
-						<name>buttonsPlayback</name>
-						<layoutdata>
-							<type>FormData</type>
-							<left>0</left>
-							<right>100</right>
-							<bottom>100</bottom>
-						</layoutdata>
+					<view type="FooButtonsPlayback" name="buttonsPlayback">
+						<layoutdata type="FormData" left="0" right="100" bottom="100"/>
 					</view>
 				</view>
 			</view>
-			<view>
-				<type>FooLabel</type>
-				<name>statusbar</name>
-				<layoutdata>
-					<type>FormData</type>
-					<left>0</left>
-					<right>100</right>
-					<bottom>100</bottom>
-				</layoutdata>
-				<backend>
-					<type>FooBackendText</type>
-					<name>statusbarBackend</name>
+			<view type="FooLabel" name="statusbar">
+				<layoutdata type="FormData" left="0" right="100" bottom="100"/>
+				<backend type="FooBackendText" name="statusbarBackend">
 					<format>%status%: %artist% - %title%: %currentTime%/%duration%</format>
-					<debugForeground>DARK_YELLOW</debugForeground>
-					<debugBackground>WHITE</debugBackground>
-					<watch>
-						<type>FooWatchCurrentTrack</type>
-						<name>watchPlaybackTrack</name>
-						<debugForeground>WHITE</debugForeground>
-						<debugBackground>DARK_YELLOW</debugBackground>
+					<debugfg>DARK_YELLOW</debugfg>
+					<debugbg>WHITE</debugbg>
+					<watch type="FooWatchCurrentTrack" name="watchPlaybackTrack">
+						<debugfg>WHITE</debugfg>
+						<debugbg>DARK_YELLOW</debugbg>
 					</watch>
-					<watch>
-						<type>FooWatchPlaybackPos</type>
-						<name>watchPlaybackPos</name>
-						<debugForeground>WHITE</debugForeground>
-						<debugBackground>BLACK</debugBackground>
+					<watch type="FooWatchPlaybackPos" name="watchPlaybackPos">
+						<debugfg>WHITE</debugfg>
+						<debugbg>BLACK</debugbg>
 					</watch>
-					<watch>
-						<type>FooWatchPlaybackStatus</type>
-						<name>watchPlaybackStatus</name>
-						<debugForeground>WHITE</debugForeground>
-						<debugBackground>CYAN</debugBackground>
+					<watch type="FooWatchPlaybackStatus" name="watchPlaybackStatus">
+						<debugfg>WHITE</debugfg>
+						<debugbg>CYAN</debugbg>
 					</watch>
 				</backend>
 			</view>

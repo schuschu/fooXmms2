@@ -4,7 +4,6 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem;
 import org.w3c.dom.Element;
@@ -31,7 +30,8 @@ public class FooMenuFactory {
 
 	public FooMenu create(Element element) {
 
-		String view = FooXML.getTagValue("name", (Element) element.getParentNode());
+		Element father =(Element) element.getParentNode();
+		String view = father.getAttribute("name");
 
 		debug("creating menu for " + view);
 
@@ -50,8 +50,8 @@ public class FooMenuFactory {
 
 				if (child.getNodeName().equals("item")) {
 
-					String text = FooXML.getTagValue("text", child);
-					String name = FooXML.getTagValue("name", child);
+					String text = child.getAttribute("text");
+					String name = child.getAttribute("name");
 
 					FooMenuItem item = new FooMenuItem(menu);
 					item.setText(text);

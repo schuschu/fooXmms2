@@ -34,18 +34,19 @@ public class FooBackendFactory {
 
 	public Object create(Element element) {
 
-		String type = FooXML.getTagValue("type", element);
-		String name = FooXML.getTagValue("name", element);
+		String type = element.getAttribute("type");
+		String name = element.getAttribute("name");
 
 		String format = FooXML.getTagValue("format", element);
 		String filter = FooXML.getTagValue("filter", element);
 		
 		String contentprovider = FooXML.getTagValue("contentprovider", element);
 
-		String debugForeground = FooXML.getTagValue("debugForeground", element);
-		String debugBackground = FooXML.getTagValue("debugBackground", element);
+		String debugForeground = FooXML.getTagValue("debugfg", element);
+		String debugBackground = FooXML.getTagValue("debugbg", element);
 
-		String view = FooXML.getTagValue("name", (Element) element.getParentNode());
+		Element father = (Element) element.getParentNode();
+		String view = father.getAttribute("name");
 		
 			switch (FooBackendType.valueOf(type)) {
 			case FooBackendFilter:

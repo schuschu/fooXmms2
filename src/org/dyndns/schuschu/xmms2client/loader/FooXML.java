@@ -70,7 +70,7 @@ public class FooXML {
 	public static String getString(String elementPath, String attrName) {
 
 		Element item = getElement(elementPath);
-		return getTagValue(attrName, item);
+		return item.getAttribute(attrName);
 	}
 
 	public static Element getElementWithName(String elementPath,

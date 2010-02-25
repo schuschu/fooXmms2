@@ -35,13 +35,14 @@ public class FooWatchFactory {
 
 	public Object create(Element element) {
 
-		String type = FooXML.getTagValue("type", element);
-		String name = FooXML.getTagValue("name", element);
+		String type = element.getAttribute("type");
+		String name = element.getAttribute("name");
 		
-		String backend = FooXML.getTagValue("name", (Element) element.getParentNode());
+		Element father = (Element) element.getParentNode();
+		String backend = father.getAttribute("name");
 
-		String debugForeground = FooXML.getTagValue("debugForeground", element);
-		String debugBackground = FooXML.getTagValue("debugBackground", element);
+		String debugForeground = FooXML.getTagValue("debugfg", element);
+		String debugBackground = FooXML.getTagValue("debugbg", element);
 
 		switch (FooWatchType.valueOf(type)) {
 		case FooWatchCurrentTrack:

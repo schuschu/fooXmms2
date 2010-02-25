@@ -43,8 +43,9 @@ public class FooActionFactory {
 
 	public FooAction create(Element element) {
 
+		String name = element.getAttribute("name");
+		
 		String path = FooXML.getTagValue("path", element);
-		String name = FooXML.getTagValue("name", element);
 		String sourcestring = FooXML.getTagValue("source", element);
 		String codestring = FooXML.getTagValue("code", element);
 		
@@ -60,7 +61,9 @@ public class FooActionFactory {
 			break;
 		}
 
-		String viewstring = FooXML.getTagValue("name", (Element) element.getParentNode());
+		Element father =(Element) element.getParentNode();
+		String viewstring = father.getAttribute("name");
+		
 		FooInterfaceAction view = getView(viewstring);
 
 		debug("creating FooAction " + name + " in " + path);

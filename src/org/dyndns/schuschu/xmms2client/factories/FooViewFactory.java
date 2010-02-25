@@ -44,12 +44,13 @@ public class FooViewFactory {
 	}
 
 	public Object create(Element element) {
-
-		String type = FooXML.getTagValue("type", element);
-		String name = FooXML.getTagValue("name", element);
+		
+		String type = element.getAttribute("type");
+		String name = element.getAttribute("name");
 
 		Element father = (Element) element.getParentNode();
-		String parent = FooXML.getTagValue("name", father);
+		String parent = father.getAttribute("name");
+		
 		String layoutstring = FooXML.getTagValue("layout", element);
 
 		switch (FooViewType.valueOf(type)) {
@@ -150,14 +151,14 @@ public class FooViewFactory {
 
 	public Object createLayoutData(Element item) {
 		Element layout = FooXML.getElement(item, "layoutdata");
-
+		
 		if (layout != null) {
 			// TODO: other layouts
 			FormData data = new FormData();
-			String top = FooXML.getTagValue("top", layout);
-			String bottom = FooXML.getTagValue("bottom", layout);
-			String left = FooXML.getTagValue("left", layout);
-			String right = FooXML.getTagValue("right", layout);
+			String top = layout.getAttribute("top");
+			String bottom = layout.getAttribute("bottom");
+			String left = layout.getAttribute("left");
+			String right = layout.getAttribute("right");
 
 			if (getControl(top) != null) {
 				data.top = new FormAttachment(getControl(top));
@@ -199,9 +200,11 @@ public class FooViewFactory {
 				}
 			}
 
-			debug("layout for " + FooXML.getTagValue("name", item)
+			debug("layout for " + item.getAttribute("name")
 					+ " created!");
-			Control c = getControl(FooXML.getTagValue("name", item));
+			
+			Control c = getControl(item.getAttribute("name"));
+			
 			if (c == null) {
 				debug("THIS SHOULD NOT HAPPEN!");
 				return null;
