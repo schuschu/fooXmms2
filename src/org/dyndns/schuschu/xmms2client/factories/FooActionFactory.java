@@ -52,13 +52,14 @@ public class FooActionFactory {
 				.getAttribute("path") : getDefaultPath(element);
 
 		// Source of the event that triggers the event, default is KEYBOARD
-		String sourcestring = element.hasAttribute("source") ?  element.getAttribute("source") : "KEYBOARD";
-		
+		String sourcestring = element.hasAttribute("source") ? element
+				.getAttribute("source") : "KEYBOARD";
+		FooSource source = FooSource.valueOf(sourcestring);
+
 		// TODO: mousecode
 		// Code (keycode, mousecode) that triggers the event, default is NONE
-		String codestring = element.hasAttribute("code") ? element.getAttribute("code") : "NONE";
-
-		FooSource source = FooSource.valueOf(sourcestring);
+		String codestring = element.hasAttribute("code") ? element
+				.getAttribute("code") : "NONE";
 
 		int code = 0;
 		switch (source) {
@@ -70,9 +71,10 @@ public class FooActionFactory {
 			break;
 		}
 
+		// get the parent nodes name for view (since actions are always direct
+		// below (hirachical) their view element
 		Element father = (Element) element.getParentNode();
 		String viewstring = father.getAttribute("name");
-
 		FooInterfaceAction view = getView(viewstring);
 
 		debug("creating FooAction " + name + " in " + path);
