@@ -4,7 +4,7 @@ import org.eclipse.swt.SWT;
 
 public enum FooKey {
 	//TODO: add all the other
-	CR(SWT.CR), DEL(SWT.DEL), ESC(SWT.ESC);
+	NONE(0), CR(SWT.CR), DEL(SWT.DEL), ESC(SWT.ESC);
 	
 	private int code;
 

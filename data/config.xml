@@ -16,15 +16,15 @@
 					</backend>
 					<menu>
 						<item name="artistOrder" text="change order">
-							<action name="order" path="artistBackend" code="0" source="MOUSE"/>
+							<action name="order"/>
 						</item>
 						<item name="artistFormat" text="change format">
-							<action name="format" path="artistBackend" code="0" source="MOUSE"/>
+							<action name="format"/>
 						</item>
 					</menu>
-					<action name="enqueue" path="artistBackend" code="CR" source="KEYBOARD"/>
-					<action name="enqueue" path="artistBackend" code="2" source="MOUSE"/>
-					<action name="deselect" path="artistBackend" code="ESC" source="KEYBOARD"/>
+					<action name="enqueue" code="CR" source="KEYBOARD"/>
+					<action name="enqueue" code="2" source="MOUSE"/>
+					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
 				<view type="FooList" name="listAlbum">
 					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" contentprovider="artistBackend">
@@ -33,15 +33,15 @@
 					</backend>
 					<menu>
 						<item name="albumOrder" text="change order">
-							<action name="order" path="albumBackend" code="0" source="MOUSE"/>
+							<action name="order"/>
 						</item>
 						<item name="albumFormat" text="change format">
-							<action name="format" path="albumBackend" code="0" source="MOUSE"/>
+							<action name="format"/>
 						</item>
 					</menu>		
-					<action name="enqueue" path="albumBackend" code="CR" source="KEYBOARD"/>
-					<action name="enqueue" path="albumBackend" code="2" source="MOUSE"/>
-					<action name="deselect" path="albumBackend" code="ESC" source="KEYBOARD"/>			
+					<action name="enqueue" code="CR" source="KEYBOARD"/>
+					<action name="enqueue" code="2" source="MOUSE"/>
+					<action name="deselect" code="ESC" source="KEYBOARD"/>			
 				</view>
 				<view type="FooList" name="listTrack">
 					<backend type="FooBackendFilter" name="trackBackend" format="%title%" filter="title" contentprovider="albumBackend">
@@ -50,15 +50,15 @@
 					</backend>
 					<menu>
 						<item name="trackOrder" text="change order">
-							<action name="order" path="trackBackend" code="0" source="MOUSE"/>
+							<action name="order"/>
 						</item>
 						<item name="trackFormat" text="change format">
-							<action name="format" path="trackBackend" code="0" source="MOUSE"/>
+							<action name="format"/>
 						</item>
 					</menu>
-					<action name="enqueue" path="trackBackend" code="CR" source="KEYBOARD"/>
-					<action name="enqueue" path="trackBackend" code="2" source="MOUSE"/>
-					<action name="deselect" path="trackBackend" code="ESC" source="KEYBOARD"/>
+					<action name="enqueue" code="CR" source="KEYBOARD"/>
+					<action name="enqueue" code="2" source="MOUSE"/>
+					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
 				<view type="Composite" name="compositePlaylist" layout="FormLayout">
 					<view type="FooCombo" name="comboPlaylist">
@@ -96,13 +96,13 @@
 						</backend>
 						<menu>
 							<item name="playlistFormat" text="change format">
-								<action name="format" path="playlistBackend" code="0" source="MOUSE"/>
+								<action name="format"/>
 							</item>	
 						</menu>
-						<action name="play" path="playlistBackend" code="2" source="MOUSE"/>
-						<action name="play" path="playlistBackend" code="CR" source="KEYBOARD"/>
-						<action name="remove" path="playlistBackend" code="DEL" source="KEYBOARD"/>
-						<action name="deselect" path="playlistBackend" code="ESC" source="KEYBOARD"/>
+						<action name="play" code="2" source="MOUSE"/>
+						<action name="play" code="CR" source="KEYBOARD"/>
+						<action name="remove" code="DEL" source="KEYBOARD"/>
+						<action name="deselect" code="ESC" source="KEYBOARD"/>
 					</view>					
 					<view type="FooButtonsPlaylist" name="buttonsPlaylist">
 						<layoutdata type="FormData" left="0" right="100" bottom="buttonsPlayback"/>

@@ -12,6 +12,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
 
 public class FooActionFactory {
@@ -32,23 +33,33 @@ public class FooActionFactory {
 	public static HashMap<String, FooActionFactorySub> factories = new HashMap<String, FooActionFactorySub>();
 
 	public FooActionFactory() {
-		
+
 		// TODO: dynamic vodoo
 		FooPlayback.registerActionFactory();
 		FooPlaylist.registerActionFactory();
 		FooSystem.registerActionFactory();
-		
+
 	}
 
 	public FooAction create(Element element) {
 
+		// equals varialbe name, no default possible
 		String name = element.getAttribute("name");
-		String path = element.getAttribute("path");
-		String sourcestring = element.getAttribute("source");
-		String codestring = element.getAttribute("code");
+
+		// path is the name of the backend which contains the action. if none is
+		// specified the next (hirachical up) backend will be taken
+		String path = element.hasAttribute("path") ? element
+				.getAttribute("path") : getDefaultPath(element);
+
+		// Source of the event that triggers the event, default is KEYBOARD
+		String sourcestring = element.hasAttribute("source") ?  element.getAttribute("source") : "KEYBOARD";
 		
+		// TODO: mousecode
+		// Code (keycode, mousecode) that triggers the event, default is NONE
+		String codestring = element.hasAttribute("code") ? element.getAttribute("code") : "NONE";
+
 		FooSource source = FooSource.valueOf(sourcestring);
-		
+
 		int code = 0;
 		switch (source) {
 		case MOUSE:
@@ -59,9 +70,9 @@ public class FooActionFactory {
 			break;
 		}
 
-		Element father =(Element) element.getParentNode();
+		Element father = (Element) element.getParentNode();
 		String viewstring = father.getAttribute("name");
-		
+
 		FooInterfaceAction view = getView(viewstring);
 
 		debug("creating FooAction " + name + " in " + path);
@@ -74,6 +85,17 @@ public class FooActionFactory {
 
 		return action;
 
+	}
+
+	private String getDefaultPath(Element element) {
+		Element root = element;
+		do {
+			root = (Element) root.getParentNode();
+		} while (FooXML.getElement(root, "backend") == null);
+
+		Element back = FooXML.getElement(root, "backend");
+
+		return back.getAttribute("name");
 	}
 
 	private FooInterfaceAction getView(String s) {
