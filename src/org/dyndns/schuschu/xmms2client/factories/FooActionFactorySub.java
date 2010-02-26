@@ -4,6 +4,7 @@ import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.w3c.dom.Element;
 
 public abstract class FooActionFactorySub {
 	
@@ -21,6 +22,6 @@ public abstract class FooActionFactorySub {
 		}
 	}
 	
-	protected abstract FooAction create(String name,int code);
+	protected abstract FooAction create(Element element);
 
 }

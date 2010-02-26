@@ -7,12 +7,17 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooKey;
+import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
@@ -28,24 +33,66 @@ public class FooPlaylist  {
 		FooActionFactorySub factory = new FooActionFactorySub() {
 
 			@Override
-			public FooAction create(String name, int code) {
+			public FooAction create(Element element) {
+								
+				// the name of the action within the backend , no default possible
+				String name = element.getAttribute("name");
+
+				// Source of the event that triggers the event, default is KEYBOARD
+				String sourcestring = element.hasAttribute("source") ? element
+						.getAttribute("source") : "KEYBOARD";
+				FooSource source = FooSource.valueOf(sourcestring);
+
+				// TODO: mousecode
+				// Code (keycode, mousecode) that triggers the event, default is NONE
+				String codestring = element.hasAttribute("code") ? element
+						.getAttribute("code") : "NONE";
+
+				int code = 0;
+				switch (source) {
+				case MOUSE:
+					code = Integer.parseInt(codestring);
+					break;
+				case KEYBOARD:
+					code = FooKey.valueOf(codestring).getCode();
+					break;
+				}
+
+				// get the parent nodes name for view (since actions are always direct
+				// below (hirachical) their view element)
+				Element father = (Element) element.getParentNode();
+				String viewstring = father.getAttribute("name");
+				FooInterfaceAction view = getView(viewstring);
+				
+				FooAction action=null;
+
 				switch (ActionType.valueOf(name)) {
 				case delete:
-					return ActionDelete(code);
+					action= ActionDelete(code); break;
 				case newlist:
-					return ActionNew(code);
+					action= ActionNew(code); break;
 				case save:
-					return ActionSava(code);
+					action= ActionSava(code); break;
 				case shuffle:
-					return ActionShuffle(code);
+					action= ActionShuffle(code); break;
 				case sort:
-					return ActionSort(code);
+					action= ActionSort(code); break;
+				}
+				
+				view.addAction(source, action);
+				return action;
+			}
+			
+			private FooInterfaceAction getView(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceAction) {
+					return (FooInterfaceAction) o;
 				}
 				return null;
 			}
+			
 
 		};
-
 		FooActionFactory.factories.put("Playlist", factory);
 	}
 
