@@ -88,7 +88,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					FooFactory.getViewFactory().createLayoutData(child);
+					FooFactory.createLayout(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}

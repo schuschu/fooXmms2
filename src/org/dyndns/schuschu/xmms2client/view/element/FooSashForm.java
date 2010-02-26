@@ -1,8 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.element;
 
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.eclipse.swt.SWT;
@@ -35,7 +34,7 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 
 	public static void registerFactory() {
 		// VIEW
-		FooViewFactorySub factory = new FooViewFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 
 			@Override
 			protected Object create(Element element) {
@@ -66,7 +65,7 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 			}
 		};
 		
-		FooViewFactory.factories.put("FooSashForm", factory);
+		FooFactory.factories.put("FooSashForm", factory);
 	}
 
 }

@@ -1,48 +1,68 @@
 package org.dyndns.schuschu.xmms2client.factories;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class FooFactory {
 
 	// TODO: make factories static
-	private static FooViewFactory viewFactory = null;
-	private static FooBackendFactory backendFactory = null;
-	private static FooWatchFactory watchFactory = null;
-	private static FooActionFactory actionFactory = null;
 	private static FooMenuFactory menuFactory = null;
 
 	private static final HashMap<String, Object> views = new HashMap<String, Object>();
 	private static final HashMap<String, Object> backends = new HashMap<String, Object>();
 	private static final HashMap<String, Object> watches = new HashMap<String, Object>();
 
-	public static FooViewFactory getViewFactory() {
-		if (viewFactory == null) {
-			viewFactory = new FooViewFactory();
-		}
-		return viewFactory;
-	}
+	public static final HashMap<String, FooFactorySub> factories = new HashMap<String, FooFactorySub>();
 
-	public static FooBackendFactory getBackendFactory() {
-		if (backendFactory == null) {
-			backendFactory = new FooBackendFactory();
-		}
-		return backendFactory;
-	}
+	public static void loadPlugins() {
 
-	public static FooWatchFactory getWatchFactory() {
-		if (watchFactory == null) {
-			watchFactory = new FooWatchFactory();
-		}
-		return watchFactory;
-	}
+		// TODO: sudo make it good
+		try {
+			Element plugins = FooXML.getElement("plugins");
 
-	public static FooActionFactory getActionFactory() {
-		if (actionFactory == null) {
-			actionFactory = new FooActionFactory();
+			NodeList children = plugins.getChildNodes();
+
+			for (int i = 0; i < children.getLength(); i++) {
+				Node node = children.item(i);
+
+				if (node.getNodeName().equals("plugin")) {
+
+					Element element = (Element) node;
+
+					String plugin = element.getAttribute("name");
+
+					Class<?> clazz = Class.forName(plugin);
+					Method meth = clazz.getMethod("registerFactory");
+					meth.invoke(clazz);
+
+				}
+			}
+
+		} catch (SecurityException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+			System.exit(1);
 		}
-		return actionFactory;
 	}
 
 	public static FooMenuFactory getMenuFactory() {
@@ -77,23 +97,65 @@ public class FooFactory {
 	}
 
 	public static Object create(Element element) {
-		try{
-		switch (FooNodeType.valueOf(element.getNodeName())) {
-		case view:
-			return getViewFactory().create(element);
-		case backend:
-			return getBackendFactory().create(element);
-		case menu:
+
+		// type is the name of the backend which contains the action. if none is
+		// specified the next (hirachical up) backend will be taken
+		String type = element.getAttribute("type");
+
+		// TODO: dependencies
+		if (element.getNodeName().equals("layoutdata")) {
+			return null;
+		}
+
+		if (!element.hasAttribute("type")
+				&& element.getNodeName().equals("action")) {
+			type = getDefaultType(element);
+		}
+
+		// TODO: register menu factory, think about actions (toggle)
+		if (element.getNodeName().equals("menu")) {
 			return getMenuFactory().create(element);
-		case action:
-			return getActionFactory().create(element);
-		case watch:
-			return getWatchFactory().create(element);
+		} else {
+
+			// TODO: move debug
+			FooFactorySub sub = factories.get(type);
+			if (sub == null) {
+				return null;
+			}
+
+			return sub.create(element);
 		}
-		} catch (IllegalArgumentException e) {
-			// not a valid node
+	}
+
+	public static Object createLayout(Element element) {
+
+		// type is the name of the backend which contains the action. if none is
+		// specified the next (hirachical up) backend will be taken
+		String type = element.getAttribute("type");
+
+		// TODO: dependencies
+		if (!element.getNodeName().equals("layoutdata")) {
+			return null;
 		}
-		return null;
+		
+		// TODO: move debug
+		FooFactorySub sub = factories.get(type);
+		if (sub == null) {
+			return null;
+		}
+
+		return sub.create(element);
+	}
+
+	private static String getDefaultType(Element element) {
+		Element root = element;
+		do {
+			root = (Element) root.getParentNode();
+		} while (FooXML.getElement(root, "backend") == null);
+
+		Element back = FooXML.getElement(root, "backend");
+
+		return back.getAttribute("name");
 	}
 
 }

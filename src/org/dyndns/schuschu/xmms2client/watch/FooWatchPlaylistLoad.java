@@ -5,8 +5,7 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooWatchFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooWatchFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
@@ -90,7 +89,7 @@ public class FooWatchPlaylistLoad extends Thread {
 	public static void registerFactory(){
 		//VIEW
 		
-		FooWatchFactorySub factory = new FooWatchFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {
@@ -129,6 +128,6 @@ public class FooWatchPlaylistLoad extends Thread {
 				return null;
 			}
 		};
-		FooWatchFactory.factories.put("FooWatchPlaylistLoad", factory);
+		FooFactory.factories.put("FooWatchPlaylistLoad", factory);
 	}
 }

@@ -2,8 +2,7 @@ package org.dyndns.schuschu.xmms2client.view.composite;
 
 import org.dyndns.schuschu.xmms2client.action.FooPlaylist;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.element.FooButton;
@@ -60,7 +59,7 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 	
 	public static void registerFactory(){
 		//VIEW
-		FooViewFactorySub factory = new FooViewFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {	
@@ -92,7 +91,7 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 			}
 		}; 
 		
-		FooViewFactory.factories.put("FooButtonsPlaylist", factory);
+		FooFactory.factories.put("FooButtonsPlaylist", factory);
 	}
 
 }

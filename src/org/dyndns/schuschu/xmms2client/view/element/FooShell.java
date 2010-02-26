@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.graphics.Image;
@@ -76,7 +75,7 @@ public class FooShell implements FooInterfaceComposite{
 	
 	public static void registerFactory(){
 		//VIEW
-		FooViewFactorySub factory = new FooViewFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {
@@ -150,7 +149,7 @@ public class FooShell implements FooInterfaceComposite{
 			}
 		};
 		
-		FooViewFactory.factories.put("FooShell", factory);
+		FooFactory.factories.put("FooShell", factory);
 	}
 
 }

@@ -9,9 +9,8 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
@@ -275,7 +274,7 @@ public class FooBackendText implements FooInterfaceBackendText {
 	public static void registerFactory(){
 		//BACKEND
 		
-		FooBackendFactorySub factory = new FooBackendFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {
@@ -317,7 +316,7 @@ public class FooBackendText implements FooInterfaceBackendText {
 			}
 		};
 		
-		FooBackendFactory.factories.put("FooBackendText", factory);
+		FooFactory.factories.put("FooBackendText", factory);
 		
 	}
 

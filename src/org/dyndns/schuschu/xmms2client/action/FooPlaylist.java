@@ -9,9 +9,8 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
-import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
@@ -30,7 +29,7 @@ public class FooPlaylist  {
 
 	public static void registerFactory() {
 		// ACTION
-		FooActionFactorySub factory = new FooActionFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 
 			@Override
 			public FooAction create(Element element) {
@@ -93,7 +92,7 @@ public class FooPlaylist  {
 			
 
 		};
-		FooActionFactory.factories.put("Playlist", factory);
+		FooFactory.factories.put("Playlist", factory);
 	}
 
 	private enum ActionType {

@@ -11,11 +11,8 @@ import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
-import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendFilter;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
@@ -590,7 +587,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	public static void registerFactory(){
 		//BACKEND
 		
-	FooBackendFactorySub factory = new FooBackendFactorySub() {
+	FooFactorySub factory = new FooFactorySub() {
 		
 		@Override
 		protected Object create(Element element) {
@@ -652,7 +649,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		}
 	};
 	
-	FooBackendFactory.factories.put("FooBackendFilter", factory);
+	FooFactory.factories.put("FooBackendFilter", factory);
 	
 	}
 
@@ -661,7 +658,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	 */
 
 	public void registerActionFactory() {
-		FooActionFactorySub factory = new FooActionFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 
 			@Override
 			public FooAction create(Element element) {
@@ -721,7 +718,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			}
 		};
 
-		FooActionFactory.factories.put(name, factory);
+		FooFactory.factories.put(name, factory);
 	}
 
 	private enum ActionType {

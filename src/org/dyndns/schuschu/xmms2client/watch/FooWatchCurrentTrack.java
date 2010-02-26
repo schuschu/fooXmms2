@@ -3,8 +3,7 @@ package org.dyndns.schuschu.xmms2client.watch;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooWatchFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooWatchFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceCurrentTrack;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
@@ -86,7 +85,7 @@ public class FooWatchCurrentTrack extends Thread {
 	
 	public static void registerFactory(){
 		//WATCH
-		FooWatchFactorySub factory = new FooWatchFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {
@@ -127,6 +126,6 @@ public class FooWatchCurrentTrack extends Thread {
 			}
 		};
 		
-		FooWatchFactory.factories.put("FooWatchCurrentTrack", factory);
+		FooFactory.factories.put("FooWatchCurrentTrack", factory);
 	}
 }

@@ -3,6 +3,7 @@ package org.dyndns.schuschu.xmms2client.loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.xml.sax.SAXException;
 
 import se.fnord.xmms2.client.Client;
@@ -33,11 +34,13 @@ public class FooLoader {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		
 		parseXML();
 
 		parseArgs(args);
 
+		FooFactory.loadPlugins();
+		
 		// SWT stuff
 		FooSWT.createDebug();
 		

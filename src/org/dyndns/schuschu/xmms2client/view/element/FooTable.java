@@ -5,8 +5,7 @@ import java.util.Vector;
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooViewFactorySub;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
@@ -214,7 +213,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 	
 	public static void registerFactory(){
 		//VIEW
-		FooViewFactorySub factory = new FooViewFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {
@@ -240,6 +239,6 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 			}
 		};
 		
-		FooViewFactory.factories.put("FooTable", factory);
+		FooFactory.factories.put("FooTable", factory);
 	}
 }

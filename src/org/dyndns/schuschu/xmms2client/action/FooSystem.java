@@ -3,9 +3,8 @@ package org.dyndns.schuschu.xmms2client.action;
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
-import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.w3c.dom.Element;
 
@@ -13,7 +12,7 @@ public class FooSystem {
 
 	public static void registerFactory() {
 		// ACTION
-		FooActionFactorySub factory = new FooActionFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 
 			@Override
 			public FooAction create(Element element) {
@@ -69,7 +68,7 @@ public class FooSystem {
 			
 
 		};
-		FooActionFactory.factories.put("System", factory);
+		FooFactory.factories.put("System", factory);
 	}
 
 	private enum ActionType {

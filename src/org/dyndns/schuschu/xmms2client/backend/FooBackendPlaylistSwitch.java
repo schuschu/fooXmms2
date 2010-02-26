@@ -9,9 +9,8 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
-import org.dyndns.schuschu.xmms2client.factories.FooBackendFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooBackendFactorySub;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
@@ -236,7 +235,7 @@ public class FooBackendPlaylistSwitch extends Observable implements
 	public static void registerFactory(){
 		//BACKEND
 		
-		FooBackendFactorySub factory = new FooBackendFactorySub() {
+		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
 			protected Object create(Element element) {
@@ -277,6 +276,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 			}
 		};
 		
-		FooBackendFactory.factories.put("FooBackendPlaylistSwitch", factory);
+		FooFactory.factories.put("FooBackendPlaylistSwitch", factory);
 	}
 }

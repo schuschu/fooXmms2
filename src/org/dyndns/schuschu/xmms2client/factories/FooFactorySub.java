@@ -5,7 +5,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.w3c.dom.Element;
 
-public abstract class FooWatchFactorySub {
+public abstract class FooFactorySub {
 	
 	protected static final boolean DEBUG = FooLoader.DEBUG;
 	protected FooColor debugForeground = FooColor.WHITE;
@@ -20,7 +20,7 @@ public abstract class FooWatchFactorySub {
 			System.out.println("debug: BackendFactory " + message);
 		}
 	}
-
+	
 	protected abstract Object create(Element element);
 
 }
