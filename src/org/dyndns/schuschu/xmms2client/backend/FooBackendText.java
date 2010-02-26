@@ -87,8 +87,9 @@ public class FooBackendText implements FooInterfaceBackendText {
 		String current;
 
 		for (String match : query_fields) {
+			//TODO: find good message
 			if (currentTrack == null) {
-				return "error";
+				return "not playing";
 			}
 			if (currentTrack.get(match) == null) {
 				current = new String("no " + match);
@@ -242,7 +243,7 @@ public class FooBackendText implements FooInterfaceBackendText {
 		try {
 			List<Dict> list = command.executeSync(FooLoader.CLIENT);
 
-			currentTrack = list.get(0);
+			currentTrack = list.isEmpty() ? null : list.get(0);
 
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
