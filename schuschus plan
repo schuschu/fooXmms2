@@ -11,12 +11,11 @@ This part is about the things that are wrong in the current version:
   
   The Readme.... 
     
-  The plugin architecture: there is no plugin architecture. in a later
-  release this project will be moved to a plugin framework 
-  -> http://jpf.sourceforge.net/index.html or a similar framework
+  The plugin architecture: define plugin path, throw in all you want
+  it will be paresed (xml is nice but not perfect)
   
-  The configuration architecture: add Factory Registration (static in 
-  interfaces...), add more/optional params, sanity checks, dependencies?
+  The configuration architecture: add more/optional params, sanity 
+  checks, Layout (dependencies)?
    
   Icon/Pixmap mess!!! 
   

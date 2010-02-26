@@ -5,6 +5,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.element.FooShell;
+import org.dyndns.schuschu.xmms2client.view.layout.FooLayouter;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
@@ -88,7 +89,7 @@ public class FooWindow implements FooInterfaceWindow {
 				Element child = (Element) node;
 
 				try {
-					FooFactory.createLayout(child);
+					FooLayouter.createLayout(child);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}

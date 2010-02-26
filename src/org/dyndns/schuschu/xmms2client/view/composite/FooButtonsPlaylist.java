@@ -62,7 +62,7 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
-			protected Object create(Element element) {	
+			public Object create(Element element) {	
 
 				// name equals variable name, no default
 				String name = element.getAttribute("name");

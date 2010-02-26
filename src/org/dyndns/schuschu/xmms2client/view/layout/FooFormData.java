@@ -14,7 +14,7 @@ public class FooFormData {
 		FooFactorySub factory = new FooFactorySub() {
 			
 			@Override
-			protected Object create(Element element) {
+			public Object create(Element element) {
 
 				if (element != null) {
 					// TODO: other layouts

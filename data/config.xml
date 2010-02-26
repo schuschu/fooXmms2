@@ -28,6 +28,8 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.layout.FooFormData"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.view.menu.FooMenu"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem"/>
 	</plugins>
 	
 	<window>
@@ -39,11 +41,11 @@
 						<debugfg>DARK_MAGENTA</debugfg>
 						<debugbg>WHITE</debugbg>
 					</backend>
-					<menu>
-						<item name="artistOrder" text="change order">
+					<menu type="FooMenu" name="artistMenu">
+						<item type="FooMenuItem" name="artistOrder" text="change order">
 							<action name="order"/>
 						</item>
-						<item name="artistFormat" text="change format">
+						<item type="FooMenuItem" name="artistFormat" text="change format">
 							<action name="format"/>
 						</item>
 					</menu>
@@ -56,11 +58,11 @@
 						<debugfg>MAGENTA</debugfg>
 						<debugbg>WHITE</debugbg>
 					</backend>
-					<menu>
-						<item name="albumOrder" text="change order">
+					<menu type="FooMenu" name="albumMenu">
+						<item type="FooMenuItem" name="albumOrder" text="change order">
 							<action name="order"/>
 						</item>
-						<item name="albumFormat" text="change format">
+						<item type="FooMenuItem" name="albumFormat" text="change format">
 							<action name="format"/>
 						</item>
 					</menu>		
@@ -73,11 +75,11 @@
 						<debugfg>DARK_RED</debugfg>
 						<debugbg>WHITE</debugbg>
 					</backend>
-					<menu>
-						<item name="trackOrder" text="change order">
+					<menu type="FooMenu" name="trackMenu">
+						<item type="FooMenuItem" name="trackOrder" text="change order">
 							<action name="order"/>
 						</item>
-						<item name="trackFormat" text="change format">
+						<item type="FooMenuItem" name="trackFormat" text="change format">
 							<action name="format"/>
 						</item>
 					</menu>
@@ -119,8 +121,8 @@
 								<debugbg>YELLOW</debugbg>
 							</watch>
 						</backend>
-						<menu>
-							<item name="playlistFormat" text="change format">
+						<menu type="FooMenu" name="playlistMenu">
+							<item type="FooMenuItem" name="playlistFormat" text="change format">
 								<action name="format"/>
 							</item>	
 						</menu>

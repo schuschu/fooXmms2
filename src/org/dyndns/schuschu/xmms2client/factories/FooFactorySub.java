@@ -21,6 +21,6 @@ public abstract class FooFactorySub {
 		}
 	}
 	
-	protected abstract Object create(Element element);
+	public abstract Object create(Element element);
 
 }

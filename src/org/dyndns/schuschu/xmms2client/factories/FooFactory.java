@@ -11,9 +11,6 @@ import org.w3c.dom.NodeList;
 
 public class FooFactory {
 
-	// TODO: make factories static
-	private static FooMenuFactory menuFactory = null;
-
 	private static final HashMap<String, Object> views = new HashMap<String, Object>();
 	private static final HashMap<String, Object> backends = new HashMap<String, Object>();
 	private static final HashMap<String, Object> watches = new HashMap<String, Object>();
@@ -65,13 +62,6 @@ public class FooFactory {
 		}
 	}
 
-	public static FooMenuFactory getMenuFactory() {
-		if (menuFactory == null) {
-			menuFactory = new FooMenuFactory();
-		}
-		return menuFactory;
-	}
-
 	public static void putView(String name, Object object) {
 		views.put(name, object);
 	}
@@ -112,32 +102,6 @@ public class FooFactory {
 			type = getDefaultType(element);
 		}
 
-		// TODO: register menu factory, think about actions (toggle)
-		if (element.getNodeName().equals("menu")) {
-			return getMenuFactory().create(element);
-		} else {
-
-			// TODO: move debug
-			FooFactorySub sub = factories.get(type);
-			if (sub == null) {
-				return null;
-			}
-
-			return sub.create(element);
-		}
-	}
-
-	public static Object createLayout(Element element) {
-
-		// type is the name of the backend which contains the action. if none is
-		// specified the next (hirachical up) backend will be taken
-		String type = element.getAttribute("type");
-
-		// TODO: dependencies
-		if (!element.getNodeName().equals("layoutdata")) {
-			return null;
-		}
-		
 		// TODO: move debug
 		FooFactorySub sub = factories.get(type);
 		if (sub == null) {
@@ -145,8 +109,9 @@ public class FooFactory {
 		}
 
 		return sub.create(element);
-	}
 
+	}
+	
 	private static String getDefaultType(Element element) {
 		Element root = element;
 		do {
@@ -157,5 +122,4 @@ public class FooFactory {
 
 		return back.getAttribute("name");
 	}
-
 }
