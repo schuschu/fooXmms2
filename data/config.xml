@@ -12,9 +12,11 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooCombo"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooTable"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooLabel"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooSashForm"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.composite.FooButtonsPlayback"/>
-		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooSashForm"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.view.menu.FooMenu"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendFilter"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch"/>
@@ -28,8 +30,6 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.layout.FooFormData"/>
-		<plugin name="org.dyndns.schuschu.xmms2client.view.menu.FooMenu"/>
-		<plugin name="org.dyndns.schuschu.xmms2client.view.menu.FooMenuItem"/>
 	</plugins>
 	
 	<window>
