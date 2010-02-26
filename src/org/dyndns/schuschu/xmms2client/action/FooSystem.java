@@ -3,9 +3,8 @@ package org.dyndns.schuschu.xmms2client.action;
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooActionFactorySub;
-import org.dyndns.schuschu.xmms2client.interfaces.factory.FooInterfaceFactory;
 
-public class FooSystem implements FooInterfaceFactory {
+public class FooSystem {
 
 	public static void registerFactory() {
 		// ACTION
