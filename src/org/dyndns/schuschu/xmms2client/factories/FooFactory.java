@@ -3,6 +3,7 @@ package org.dyndns.schuschu.xmms2client.factories;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
@@ -17,10 +18,13 @@ public class FooFactory {
 
 	public static final HashMap<String, FooFactorySub> factories = new HashMap<String, FooFactorySub>();
 
+	private static final Vector<Element> layoutdata = new Vector<Element>();
+
 	public static void loadPlugins() {
 
 		// TODO: sudo make it good
 		try {
+
 			Element plugins = FooXML.getElement("plugins");
 
 			NodeList children = plugins.getChildNodes();
@@ -94,6 +98,7 @@ public class FooFactory {
 
 		// TODO: dependencies
 		if (element.getNodeName().equals("layoutdata")) {
+			layoutdata.add(element);
 			return null;
 		}
 
@@ -111,13 +116,27 @@ public class FooFactory {
 		return sub.create(element);
 
 	}
-	
+
+	public static void createLayout() {
+
+		for (Element element : layoutdata) {
+
+			String type = element.getAttribute("type");
+
+			// TODO: move debug
+			FooFactorySub sub = FooFactory.factories.get(type);
+			if (sub != null) {
+				sub.create(element);
+			}
+		}
+	}
+
 	private static String getDefaultType(Element element) {
 		Element root = element;
 		do {
 			root = (Element) root.getParentNode();
 		} while (FooXML.getElement(root, "backend") == null);
-		
+
 		Element back = FooXML.getElement(root, "backend");
 
 		return back.getAttribute("name");
