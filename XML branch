@@ -1,6 +1,6 @@
 XML branch TODOs
 
-Move parsing of elements to factory and pass them as vararg
+Move parsing of elements to factory and pass them as vararg/map
 
 Create Tray from XML
 
