@@ -6,6 +6,7 @@
 	</config>
 	
 	<plugins>
+		<plugin name="org.dyndns.schuschu.xmms2client.debug.FooDebug"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooShell"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooComposite"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooList"/>
@@ -38,8 +39,7 @@
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist">
 					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist">
-						<debugfg>DARK_MAGENTA</debugfg>
-						<debugbg>WHITE</debugbg>
+						<debug type="FooDebug" fg="DARK_MAGENTA" bg="WHITE"/>
 					</backend>
 					<menu type="FooMenu" name="artistMenu">
 						<item type="FooMenuItem" name="artistOrder" text="change order">
@@ -55,8 +55,7 @@
 				</view>
 				<view type="FooList" name="listAlbum">
 					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" contentprovider="artistBackend">
-						<debugfg>MAGENTA</debugfg>
-						<debugbg>WHITE</debugbg>
+						<debug type="FooDebug" fg="MAGENTA" bg="WHITE"/>
 					</backend>
 					<menu type="FooMenu" name="albumMenu">
 						<item type="FooMenuItem" name="albumOrder" text="change order">
@@ -72,8 +71,7 @@
 				</view>
 				<view type="FooList" name="listTrack">
 					<backend type="FooBackendFilter" name="trackBackend" format="%title%" filter="title" contentprovider="albumBackend">
-						<debugfg>DARK_RED</debugfg>
-						<debugbg>WHITE</debugbg>
+						<debug type="FooDebug" fg="DARK_RED" bg="WHITE"/>
 					</backend>
 					<menu type="FooMenu" name="trackMenu">
 						<item type="FooMenuItem" name="trackOrder" text="change order">
@@ -91,34 +89,27 @@
 					<view type="FooCombo" name="comboPlaylist">
 						<layoutdata type="FormData" top="0" left="0" right="100" />
 						<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
-							<debugfg>GRAY</debugfg>
-							<debugbg>WHITE</debugbg>
+							<debug type="FooDebug" fg="GRAY" bg="WHITE"/>
 							<watch type="FooWatchPlaylist" name="watchPlaylistCombo">
-								<debugfg>WHITE</debugfg>
-								<debugbg>RED</debugbg>
+								<debug type="FooDebug" fg="WHITE" bg="RED"/>
 							</watch>
 							<watch type="FooWatchPlaylistLoad" name="watchPlaylistComboLoad">
-								<debugfg>WHITE</debugfg>
-								<debugbg>MAGENTA</debugbg>
+								<debug type="FooDebug" fg="WHITE" bg="MAGENTA"/>
 							</watch>
 						</backend>
 					</view>
 					<view type="FooTable" name="tablePlaylist">
 						<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/>
 						<backend type="FooBackendPlaylist" name="playlistBackend" format="%artist% - %title%">
-							<debugfg>BLUE</debugfg>
-							<debugbg>WHITE</debugbg>
+							<debug type="FooDebug" fg="BLUE" bg="WHITE"/>
 							<watch type="FooWatchPlaylist" name="watchPlaylistList">
-								<debugfg>WHITE</debugfg>
-								<debugbg>DARK_RED</debugbg>
+								<debug type="FooDebug" fg="WHITE" bg="DARK_RED"/>
 							</watch>
 							<watch type="FooWatchPlaylistLoad" name="watchPlaylistListLoad">
-								<debugfg>WHITE</debugfg>
-								<debugbg>DARK_MAGENTA</debugbg>
+								<debug type="FooDebug" fg="WHITE" bg="DARK_MAGENTA"/>
 							</watch>
 							<watch type="FooWatchCurrentTrack" name="watchCurrentPos">
-								<debugfg>BLACK</debugfg>
-								<debugbg>YELLOW</debugbg>
+								<debug type="FooDebug" fg="BLACK" bg="YELLOW"/>
 							</watch>
 						</backend>
 						<menu type="FooMenu" name="playlistMenu">
@@ -142,19 +133,15 @@
 			<view type="FooLabel" name="statusbar">
 				<layoutdata type="FormData" left="0" right="100" bottom="100"/>
 				<backend type="FooBackendText" name="statusbarBackend" format="%status%: %artist% - %title%: %currentTime%/%duration%">
-					<debugfg>DARK_YELLOW</debugfg>
-					<debugbg>WHITE</debugbg>
+					<debug type="FooDebug" fg="DARK_YELLOW" bg="WHITE"/>
 					<watch type="FooWatchCurrentTrack" name="watchPlaybackTrack">
-						<debugfg>WHITE</debugfg>
-						<debugbg>DARK_YELLOW</debugbg>
+						<debug type="FooDebug" fg="WHITE" bg="DARK_YELLOW"/>
 					</watch>
 					<watch type="FooWatchPlaybackPos" name="watchPlaybackPos">
-						<debugfg>WHITE</debugfg>
-						<debugbg>BLACK</debugbg>
+						<debug type="FooDebug" fg="WHITE" bg="BLACK"/>
 					</watch>
 					<watch type="FooWatchPlaybackStatus" name="watchPlaybackStatus">
-						<debugfg>WHITE</debugfg>
-						<debugbg>CYAN</debugbg>
+						<debug type="FooDebug" fg="WHITE" bg="CYAN"/>
 					</watch>
 				</backend>
 			</view>

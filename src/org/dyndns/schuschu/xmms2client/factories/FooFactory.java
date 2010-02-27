@@ -117,7 +117,7 @@ public class FooFactory {
 		do {
 			root = (Element) root.getParentNode();
 		} while (FooXML.getElement(root, "backend") == null);
-
+		
 		Element back = FooXML.getElement(root, "backend");
 
 		return back.getAttribute("name");

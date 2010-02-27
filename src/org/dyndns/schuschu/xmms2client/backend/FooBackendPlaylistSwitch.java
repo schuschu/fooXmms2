@@ -11,10 +11,10 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.commands.Command;
@@ -26,7 +26,7 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
  * 
  */
 public class FooBackendPlaylistSwitch extends Observable implements
-		Serializable, FooInterfaceBackend {
+		Serializable, FooInterfaceBackend,FooInterfaceDebug {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -243,10 +243,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
 
-				// TODO: think about these
-				String debugForeground = FooXML.getTagValue("debugfg", element);
-				String debugBackground = FooXML.getTagValue("debugbg", element);
-
 				// get the parent nodes name for view (since backends are always direct
 				// below (hirachical) their view element)
 				Element father = (Element) element.getParentNode();
@@ -257,10 +253,6 @@ public class FooBackendPlaylistSwitch extends Observable implements
 				FooBackendPlaylistSwitch playlistSwitchBackend = new FooBackendPlaylistSwitch(
 						getView(view));
 				playlistSwitchBackend.setName(name);
-				playlistSwitchBackend.setDebugForeground(FooColor
-						.valueOf(debugForeground));
-				playlistSwitchBackend.setDebugBackground(FooColor
-						.valueOf(debugBackground));
 
 				FooFactory.putBackend(name, playlistSwitchBackend);
 				return playlistSwitchBackend;

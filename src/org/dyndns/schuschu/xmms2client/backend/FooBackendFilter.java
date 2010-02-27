@@ -13,12 +13,12 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendFilter;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
@@ -39,7 +39,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * 
  */
 public class FooBackendFilter extends Observable implements Serializable,
-		FooInterfaceBackendFilter {
+		FooInterfaceBackendFilter,FooInterfaceDebug {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -609,10 +609,6 @@ public class FooBackendFilter extends Observable implements Serializable,
 					.getAttribute("contentprovider")
 					: "ALL";
 
-			// TODO: think about these
-			String debugForeground = FooXML.getTagValue("debugfg", element);
-			String debugBackground = FooXML.getTagValue("debugbg", element);
-			
 			// get the parent nodes name for view (since backends are always direct
 			// below (hirachical) their view element)
 			Element father = (Element) element.getParentNode();
@@ -623,9 +619,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			FooBackendFilter filterBackend = new FooBackendFilter(format,
 					filter, getView(view));
 			filterBackend.setName(name);
-			filterBackend.setDebugForeground(FooColor.valueOf(debugForeground));
-			filterBackend.setDebugBackground(FooColor.valueOf(debugBackground));
-
+			
 			if (contentprovider.equals("ALL")) {
 				filterBackend.setToAll();
 			} else {

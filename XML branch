@@ -17,7 +17,7 @@ groups/presets - limited options)
 
 icons/images (essential for buttons and shell, unicode is no fun under xp)
 
-CLEAN UP DEBUG YOU LAZY BASTARD!!! (me->me)
+Remove all white bg, (black fg)
 
 client node default params (in loader)
 

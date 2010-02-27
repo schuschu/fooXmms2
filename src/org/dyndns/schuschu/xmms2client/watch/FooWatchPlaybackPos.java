@@ -4,15 +4,15 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfacePlaybackPos;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.commands.Command;
 import se.fnord.xmms2.client.commands.Playback;
 
-public class FooWatchPlaybackPos extends Thread {
+public class FooWatchPlaybackPos extends Thread implements FooInterfaceDebug{
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private FooColor debugForeground = FooColor.WHITE;
@@ -106,19 +106,13 @@ public class FooWatchPlaybackPos extends Thread {
 				Element father = (Element) element.getParentNode();
 				String backend = father.getAttribute("name");
 
-				// TODO: think about these
-				String debugForeground = FooXML.getTagValue("debugfg", element);
-				String debugBackground = FooXML.getTagValue("debugbg", element);
-
 				debug("creating FooWatchPlaybackPos " + name);
 
 				FooWatchPlaybackPos playbackPos = new FooWatchPlaybackPos(
 						getBackendPlayPos(backend));
 
 				playbackPos.setName(name);
-				playbackPos.setDebugForeground(FooColor.valueOf(debugForeground));
-				playbackPos.setDebugBackground(FooColor.valueOf(debugBackground));
-
+				
 				playbackPos.start();
 
 				FooFactory.putWatch(name, playbackPos);

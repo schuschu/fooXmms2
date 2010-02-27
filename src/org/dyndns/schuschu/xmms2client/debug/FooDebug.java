@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooConfirmationDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
@@ -24,8 +27,48 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.w3c.dom.Element;
 
 public class FooDebug extends OutputStream {
+
+	public static void registerFactory() {
+		FooFactorySub factory = new FooFactorySub() {
+
+			@Override
+			public Object create(Element element) {
+				// TODO: think about these
+				String debugForeground = element.hasAttribute("fg") ? element
+						.getAttribute("fg") : "BLACK";
+				String debugBackground = element.hasAttribute("bg") ? element
+						.getAttribute("bg") : "WHITE";
+
+				Element father = (Element) element.getParentNode();
+				String parent = father.getAttribute("name");
+
+				FooInterfaceDebug debug = getDebug(parent);
+				System.out.println(debugForeground);
+				debug.setDebugForeground(FooColor.valueOf(debugForeground));
+				System.out.println(debugBackground);
+				debug.setDebugBackground(FooColor.valueOf(debugBackground));
+
+				return null;
+			}
+
+			private FooInterfaceDebug getDebug(String s) {
+				Object o = FooFactory.getBackend(s);
+				if (o instanceof FooInterfaceDebug) {
+					return (FooInterfaceDebug) o;
+				}
+				o = FooFactory.getWatch(s);
+				if (o instanceof FooInterfaceDebug) {
+					return (FooInterfaceDebug) o;
+				}
+
+				return null;
+			}
+		};
+		FooFactory.factories.put("FooDebug", factory);
+	}
 
 	// TODO: replace with fooview elements?
 
@@ -91,7 +134,7 @@ public class FooDebug extends OutputStream {
 								if (editAutoScrollItem.getSelection()) {
 									table.showItem(item);
 								}
-								if (limit !=0 && table.getItemCount() > limit) {
+								if (limit != 0 && table.getItemCount() > limit) {
 									table.remove(0);
 								}
 							}
@@ -261,8 +304,8 @@ public class FooDebug extends OutputStream {
 			@Override
 			public void handleEvent(Event arg0) {
 				String temp = FooInputDialog.show(sShell,
-						"Please enter new scrollback limit (0 to disable)", "scrollback",
-						limit + "");
+						"Please enter new scrollback limit (0 to disable)",
+						"scrollback", limit + "");
 				if (temp != null) {
 					try {
 						int i = Integer.parseInt(temp);
@@ -380,5 +423,4 @@ class BufferEntry {
 	public String getText() {
 		return text;
 	}
-
 }

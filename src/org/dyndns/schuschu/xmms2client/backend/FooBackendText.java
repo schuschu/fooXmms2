@@ -11,10 +11,10 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Element;
 
@@ -26,7 +26,7 @@ import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 import se.fnord.xmms2.client.types.PlaybackStatus;
 
-public class FooBackendText implements FooInterfaceBackendText {
+public class FooBackendText implements FooInterfaceBackendText,FooInterfaceDebug {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -286,10 +286,6 @@ public class FooBackendText implements FooInterfaceBackendText {
 				// format (so documentation for further infos), no default
 				String format = element.getAttribute("format");
 
-				// TODO: think about these
-				String debugForeground = FooXML.getTagValue("debugfg", element);
-				String debugBackground = FooXML.getTagValue("debugbg", element);
-
 				// get the parent nodes name for view (since backends are always direct
 				// below (hirachical) their view element)
 				Element father = (Element) element.getParentNode();
@@ -300,8 +296,6 @@ public class FooBackendText implements FooInterfaceBackendText {
 				FooBackendText textBackend = new FooBackendText(format,
 						getViewText(view));
 				textBackend.setName(name);
-				textBackend.setDebugForeground(FooColor.valueOf(debugForeground));
-				textBackend.setDebugBackground(FooColor.valueOf(debugBackground));
 
 				FooFactory.putBackend(name, textBackend);
 				return textBackend;

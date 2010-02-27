@@ -14,12 +14,12 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factories.FooFactory;
 import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendPlaylist;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
-import org.dyndns.schuschu.xmms2client.loader.FooXML;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.w3c.dom.Element;
@@ -35,7 +35,7 @@ import se.fnord.xmms2.client.types.Dict;
 import se.fnord.xmms2.client.types.InfoQuery;
 
 public class FooBackendPlaylist implements Serializable,
-		FooInterfaceBackendPlaylist {
+		FooInterfaceBackendPlaylist,FooInterfaceDebug {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -468,10 +468,6 @@ public class FooBackendPlaylist implements Serializable,
 				// format (so documentation for further infos), no default
 				String format = element.getAttribute("format");
 
-				// TODO: think about these
-				String debugForeground = FooXML.getTagValue("debugfg", element);
-				String debugBackground = FooXML.getTagValue("debugbg", element);
-
 				// get the parent nodes name for view (since backends are always
 				// direct
 				// below (hirachical) their view element)
@@ -483,11 +479,7 @@ public class FooBackendPlaylist implements Serializable,
 				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(
 						format, getViewPlaylist(view));
 				playlistBackend.setName(name);
-				playlistBackend.setDebugForeground(FooColor
-						.valueOf(debugForeground));
-				playlistBackend.setDebugBackground(FooColor
-						.valueOf(debugBackground));
-
+				
 				playlistBackend.registerActionFactory();
 
 				FooFactory.putBackend(name, playlistBackend);
