@@ -31,45 +31,6 @@ import org.w3c.dom.Element;
 
 public class FooDebug extends OutputStream {
 
-	public static void registerFactory() {
-		FooFactorySub factory = new FooFactorySub() {
-
-			@Override
-			public Object create(Element element) {
-				// TODO: think about these
-				String debugForeground = element.hasAttribute("fg") ? element
-						.getAttribute("fg") : "BLACK";
-				String debugBackground = element.hasAttribute("bg") ? element
-						.getAttribute("bg") : "WHITE";
-
-				Element father = (Element) element.getParentNode();
-				String parent = father.getAttribute("name");
-
-				FooInterfaceDebug debug = getDebug(parent);
-				System.out.println(debugForeground);
-				debug.setDebugForeground(FooColor.valueOf(debugForeground));
-				System.out.println(debugBackground);
-				debug.setDebugBackground(FooColor.valueOf(debugBackground));
-
-				return null;
-			}
-
-			private FooInterfaceDebug getDebug(String s) {
-				Object o = FooFactory.getBackend(s);
-				if (o instanceof FooInterfaceDebug) {
-					return (FooInterfaceDebug) o;
-				}
-				o = FooFactory.getWatch(s);
-				if (o instanceof FooInterfaceDebug) {
-					return (FooInterfaceDebug) o;
-				}
-
-				return null;
-			}
-		};
-		FooFactory.factories.put("FooDebug", factory);
-	}
-
 	// TODO: replace with fooview elements?
 
 	private static final FooColor defForeground = FooColor.BLACK;
@@ -392,6 +353,45 @@ public class FooDebug extends OutputStream {
 	public static void setBackground(FooColor background) {
 		FooDebug.background = background;
 	}
+	
+	public static void registerFactory() {
+		FooFactorySub factory = new FooFactorySub() {
+
+			@Override
+			public Object create(Element element) {
+				// TODO: think about these
+				String debugForeground = element.hasAttribute("fg") ? element
+						.getAttribute("fg") : "BLACK";
+				String debugBackground = element.hasAttribute("bg") ? element
+						.getAttribute("bg") : "WHITE";
+
+				Element father = (Element) element.getParentNode();
+				String parent = father.getAttribute("name");
+
+				FooInterfaceDebug debug = getDebug(parent);
+
+				debug.setDebugForeground(FooColor.valueOf(debugForeground));
+				debug.setDebugBackground(FooColor.valueOf(debugBackground));
+
+				return null;
+			}
+
+			private FooInterfaceDebug getDebug(String s) {
+				Object o = FooFactory.getBackend(s);
+				if (o instanceof FooInterfaceDebug) {
+					return (FooInterfaceDebug) o;
+				}
+				o = FooFactory.getWatch(s);
+				if (o instanceof FooInterfaceDebug) {
+					return (FooInterfaceDebug) o;
+				}
+
+				return null;
+			}
+		};
+		FooFactory.factories.put("FooDebug", factory);
+	}
+	
 
 }
 
