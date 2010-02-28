@@ -10,7 +10,7 @@ import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooConfirmationDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
@@ -359,7 +359,7 @@ public class FooDebug extends OutputStream {
 
 			@Override
 			public Object create(Element element) {
-				// TODO: think about these
+
 				String debugForeground = element.hasAttribute("fg") ? element
 						.getAttribute("fg") : "BLACK";
 				String debugBackground = element.hasAttribute("bg") ? element

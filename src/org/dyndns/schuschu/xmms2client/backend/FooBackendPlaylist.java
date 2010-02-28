@@ -14,9 +14,9 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendPlaylist;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
@@ -504,8 +504,6 @@ public class FooBackendPlaylist implements Serializable,
 	/*
 	 * ACTION SECTION
 	 */
-
-	// TODO: move FooPlaylist actions here
 
 	public void registerActionFactory() {
 		FooFactorySub factory = new FooFactorySub() {

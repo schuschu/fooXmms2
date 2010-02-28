@@ -1,4 +1,4 @@
-package org.dyndns.schuschu.xmms2client.interfaces;
+package org.dyndns.schuschu.xmms2client.interfaces.backend;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 

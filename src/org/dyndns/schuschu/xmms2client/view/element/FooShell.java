@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
+import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -86,7 +87,6 @@ public class FooShell implements FooInterfaceComposite{
 				// title of the window, default fooXmms2
 				String text = element.hasAttribute("text") ? element.getAttribute("text") : "fooXmms2";
 
-				// TODO: defaults
 				// dimensions of the window, has defualts
 				String widthstring = element.hasAttribute("width") ? element.getAttribute("width") : "1000";
 				String heigthstring = element.hasAttribute("heigth")  ? element.getAttribute("heigth") : "600";
@@ -97,7 +97,6 @@ public class FooShell implements FooInterfaceComposite{
 				String layoutstring = element.hasAttribute("layout") ? element
 						.getAttribute("layout") : "FillLayout";
 				
-				//TODO: shell from xml 
 				FooShell shell = new FooShell();
 
 				FooFactory.putView(name, shell);
@@ -136,7 +135,7 @@ public class FooShell implements FooInterfaceComposite{
 			
 			private Layout createLayout(String layoutstring) {
 				try {
-					switch (LayoutType.valueOf(layoutstring)) {
+					switch (FooLayoutType.valueOf(layoutstring)) {
 					case FillLayout:
 						return new FillLayout();
 					case FormLayout:

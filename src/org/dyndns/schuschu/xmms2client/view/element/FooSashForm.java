@@ -56,10 +56,6 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				if (o instanceof FooInterfaceComposite) {
 					return ((FooInterfaceComposite) o).getComposite();
 				}
-				// TODO: remove once FooShell exists
-				if (o instanceof Composite) {
-					return (Composite) o;
-				}
 
 				return null;
 			}

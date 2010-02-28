@@ -4,7 +4,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
-import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfacePlaybackStatus;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.w3c.dom.Element;

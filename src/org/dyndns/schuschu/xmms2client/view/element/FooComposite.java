@@ -3,6 +3,7 @@ package org.dyndns.schuschu.xmms2client.view.element;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
+import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
@@ -61,7 +62,7 @@ public class FooComposite implements FooInterfaceComposite{
 			
 			private Layout createLayout(String layoutstring) {
 				try {
-					switch (LayoutType.valueOf(layoutstring)) {
+					switch (FooLayoutType.valueOf(layoutstring)) {
 					case FillLayout:
 						return new FillLayout();
 					case FormLayout:
@@ -84,9 +85,4 @@ public class FooComposite implements FooInterfaceComposite{
 		
 		FooFactory.factories.put("FooComposite", factory);
 	}
-}
-
-//TODO: move
-enum LayoutType {
-	FillLayout, FormLayout;
 }
