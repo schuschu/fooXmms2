@@ -35,17 +35,18 @@ public class FooLoader {
 	 */
 	public static void main(String[] args) {
 
+		//Params, core
 		parseXML();
-
 		parseArgs(args);
-
-		FooFactory.loadPlugins();
-
-		// SWT stuff
-		FooSWT.createDebug();
-
 		createClient(args);
 
+		//GUI init (debug(
+		FooSWT.createDebug();
+		
+		//Window elements
+		FooFactory.loadPlugins();
+
+		//Open window
 		FooSWT.init(show_on_start, max_on_start);
 	}
 
