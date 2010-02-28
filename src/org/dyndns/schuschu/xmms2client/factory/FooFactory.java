@@ -163,6 +163,7 @@ public class FooFactory {
 		// TODO: move debug
 		FooFactorySub sub = factories.get(type);
 		if (sub == null) {
+			debug("no factory for "+ type);
 			return null;
 		}
 
@@ -180,6 +181,8 @@ public class FooFactory {
 			FooFactorySub sub = FooFactory.factories.get(type);
 			if (sub != null) {
 				sub.create(element);
+			} else {
+				debug("no factory for " + type);
 			}
 		}
 	}

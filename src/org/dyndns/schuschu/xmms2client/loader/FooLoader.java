@@ -38,10 +38,11 @@ public class FooLoader {
 		//Params, core
 		parseXML();
 		parseArgs(args);
-		createClient(args);
-
+		
 		//GUI init (debug(
 		FooSWT.createDebug();
+		
+		createClient(args);
 		
 		//Window elements
 		FooFactory.loadPlugins();
