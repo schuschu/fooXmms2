@@ -103,7 +103,7 @@ public class FooLoader {
 		host = FooXML.exists("config/client", "ip") ? FooXML.getString(
 				"config/client", "ip") : "127.0.0.1";
 		port = FooXML.exists("config/client", "port") ? FooXML.getInt(
-				"config/client", "port") : 1234;
+				"config/client", "port") : 9667;
 
 		show_on_start = FooXML.exists("config/window", "visible") ? FooXML
 				.getBool("config/window", "visible") : true;
