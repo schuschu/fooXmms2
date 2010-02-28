@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
 
-import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.factory.FooFactory;
+import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooConfirmationDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;

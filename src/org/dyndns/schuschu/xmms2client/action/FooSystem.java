@@ -3,8 +3,8 @@ package org.dyndns.schuschu.xmms2client.action;
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
-import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.factory.FooFactory;
+import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.w3c.dom.Element;
 

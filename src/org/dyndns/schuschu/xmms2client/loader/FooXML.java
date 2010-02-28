@@ -88,13 +88,27 @@ public class FooXML {
 			if (node instanceof Element) {
 				Element child = (Element) node;
 				String name = getTagValue("name", child);
-				if (name!=null && name.equals(elementName)) {
+				if (name != null && name.equals(elementName)) {
 					item = child;
 					break;
 				}
 			}
 		}
 		return item;
+	}
+
+	public static boolean exists(Element root, String elementPath,
+			String attrName) {
+		Element item = getElement(root, elementPath);
+		return item.hasAttribute(attrName);
+	}
+
+	public static boolean exists(String elementPath, String attrName) {
+		Element item = getElement(elementPath);
+		if (item==null) {
+			return false;
+		}
+		return item.hasAttribute(attrName);
 	}
 
 	public static Element getElement(String elementPath) {
@@ -137,11 +151,10 @@ public class FooXML {
 
 	public static String getTagValue(String sTag, Element eElement) {
 		NodeList list = eElement.getElementsByTagName(sTag);
-		if(list.getLength()==0){
+		if (list.getLength() == 0) {
 			return null;
 		}
-		NodeList nlList = list.item(0)
-				.getChildNodes();
+		NodeList nlList = list.item(0).getChildNodes();
 		Node nValue = (Node) nlList.item(0);
 
 		return nValue.getNodeValue();

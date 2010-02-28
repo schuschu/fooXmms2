@@ -1,7 +1,7 @@
 package org.dyndns.schuschu.xmms2client.view.menu;
 
-import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.factory.FooFactory;
+import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;

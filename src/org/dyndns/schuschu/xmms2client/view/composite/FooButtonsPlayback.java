@@ -1,8 +1,8 @@
 package org.dyndns.schuschu.xmms2client.view.composite;
 
 import org.dyndns.schuschu.xmms2client.action.FooPlayback;
-import org.dyndns.schuschu.xmms2client.factories.FooFactory;
-import org.dyndns.schuschu.xmms2client.factories.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.factory.FooFactory;
+import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.element.FooButton;

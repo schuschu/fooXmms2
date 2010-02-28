@@ -1,23 +1,19 @@
 XML branch TODOs
-
-Move parsing of elements to factory and pass them as vararg/map
+================
 
 Create Tray from XML
 
-Use dependencies for layout
-alternatives: 
-1.) create a array of layoutdata elements and parse them last
-2.) separate layoutdata form window (unnatural,seperate factory?)
-Remove/Rethink composites for playlistplayback
-
 Missing TAGS!!!
 
-style (via int - unreadable, unique attributes - many, 
-groups/presets - limited options)
+	style (via int - unreadable, unique attributes - many, 
+	groups/presets - limited options)
+	
+	icons/images (essential for buttons and shell, unicode is no fun under xp)
+	
+	sorting/grouping
 
-icons/images (essential for buttons and shell, unicode is no fun under xp)
+Rethink Debug plugin and visual/debug switch
 
-Remove all white bg, (black fg)
+Rethink layout
 
-client node default params (in loader)
-
+Debug for actions

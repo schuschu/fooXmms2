@@ -39,7 +39,7 @@
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist">
 					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist">
-						<debug type="FooDebug" fg="DARK_MAGENTA" bg="WHITE"/>
+						<debug type="FooDebug" fg="DARK_MAGENTA"/>
 					</backend>
 					<menu type="FooMenu" name="artistMenu">
 						<item type="FooMenuItem" name="artistOrder" text="change order">
@@ -55,7 +55,7 @@
 				</view>
 				<view type="FooList" name="listAlbum">
 					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" contentprovider="artistBackend">
-						<debug type="FooDebug" fg="MAGENTA" bg="WHITE"/>
+						<debug type="FooDebug" fg="MAGENTA"/>
 					</backend>
 					<menu type="FooMenu" name="albumMenu">
 						<item type="FooMenuItem" name="albumOrder" text="change order">
@@ -71,7 +71,7 @@
 				</view>
 				<view type="FooList" name="listTrack">
 					<backend type="FooBackendFilter" name="trackBackend" format="%title%" filter="title" contentprovider="albumBackend">
-						<debug type="FooDebug" fg="DARK_RED" bg="WHITE"/>
+						<debug type="FooDebug" fg="DARK_RED"/>
 					</backend>
 					<menu type="FooMenu" name="trackMenu">
 						<item type="FooMenuItem" name="trackOrder" text="change order">
@@ -89,7 +89,7 @@
 					<view type="FooCombo" name="comboPlaylist">
 						<layoutdata type="FormData" top="0" left="0" right="100" />
 						<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
-							<debug type="FooDebug" fg="GRAY" bg="WHITE"/>
+							<debug type="FooDebug" fg="GRAY"/>
 							<watch type="FooWatchPlaylist" name="watchPlaylistCombo">
 								<debug type="FooDebug" fg="WHITE" bg="RED"/>
 							</watch>
@@ -101,7 +101,7 @@
 					<view type="FooTable" name="tablePlaylist">
 						<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/>
 						<backend type="FooBackendPlaylist" name="playlistBackend" format="%artist% - %title%">
-							<debug type="FooDebug" fg="BLUE" bg="WHITE"/>
+							<debug type="FooDebug" fg="BLUE"/>
 							<watch type="FooWatchPlaylist" name="watchPlaylistList">
 								<debug type="FooDebug" fg="WHITE" bg="DARK_RED"/>
 							</watch>
@@ -133,7 +133,7 @@
 			<view type="FooLabel" name="statusbar">
 				<layoutdata type="FormData" left="0" right="100" bottom="100"/>
 				<backend type="FooBackendText" name="statusbarBackend" format="%status%: %artist% - %title%: %currentTime%/%duration%">
-					<debug type="FooDebug" fg="DARK_YELLOW" bg="WHITE"/>
+					<debug type="FooDebug" fg="DARK_YELLOW"/>
 					<watch type="FooWatchCurrentTrack" name="watchPlaybackTrack">
 						<debug type="FooDebug" fg="WHITE" bg="DARK_YELLOW"/>
 					</watch>

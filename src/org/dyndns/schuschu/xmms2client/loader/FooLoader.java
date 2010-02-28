@@ -3,7 +3,7 @@ package org.dyndns.schuschu.xmms2client.loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.dyndns.schuschu.xmms2client.factories.FooFactory;
+import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.xml.sax.SAXException;
 
 import se.fnord.xmms2.client.Client;
@@ -34,16 +34,16 @@ public class FooLoader {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		parseXML();
 
 		parseArgs(args);
 
 		FooFactory.loadPlugins();
-		
+
 		// SWT stuff
 		FooSWT.createDebug();
-		
+
 		createClient(args);
 
 		FooSWT.init(show_on_start, max_on_start);
@@ -98,14 +98,20 @@ public class FooLoader {
 
 	public static void parseArgs(String[] args) {
 
-		host = FooXML.getString("config/client", "ip");
-		port = FooXML.getInt("config/client", "port");
+		host = FooXML.exists("config/client", "ip") ? FooXML.getString(
+				"config/client", "ip") : "127.0.0.1";
+		port = FooXML.exists("config/client", "port") ? FooXML.getInt(
+				"config/client", "port") : 1234;
 
-		show_on_start = FooXML.getBool("config/window", "visible");
-		max_on_start = FooXML.getBool("config/window", "maximised");
+		show_on_start = FooXML.exists("config/window", "visible") ? FooXML
+				.getBool("config/window", "visible") : true;
+		max_on_start = FooXML.exists("config/window", "maximised") ? FooXML
+				.getBool("config/window", "maximised") : false;
 
-		DEBUG = FooXML.getBool("config/debug", "enabled");
-		VISUAL = FooXML.getBool("config/debug", "visual");
+		DEBUG = FooXML.exists("config/debug", "enabled") ? FooXML.getBool(
+				"config/debug", "enabled") : false;
+		VISUAL = FooXML.exists("config/debug", "visual") ? FooXML.getBool(
+				"config/debug", "visual") : false;
 
 		// parsing command line arguments
 		// if argument is invalid, drop user shit and assume default
