@@ -17,7 +17,7 @@ public abstract class FooFactorySub {
 				FooDebug.setForeground(debugForeground);
 				FooDebug.setBackground(debugBackground);
 			}
-			System.out.println("debug: BackendFactory " + message);
+			System.out.println("debug: FooFactory " + message);
 		}
 	}
 	
