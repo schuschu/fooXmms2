@@ -4,7 +4,6 @@ import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
-import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
@@ -72,13 +71,6 @@ public class FooMenu {
 				return null;
 			}
 
-			private FooInterfaceDecorations getDecoration(String s) {
-				Object o = FooFactory.getView(s);
-				if (o instanceof FooInterfaceDecorations) {
-					return (FooInterfaceDecorations) o;
-				}
-				return null;
-			}
 		};
 		FooFactory.factories.put("FooMenu", factory);
 	}
