@@ -135,43 +135,46 @@
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
 				<view type="FooComposite" name="compositePlaylist" layout="FormLayout">
-					<view type="FooCombo" name="comboPlaylist" style="READ_ONLY">
-						<layoutdata type="FormData" top="0" left="0" right="100" /> 
-						<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
-							<debug type="FooDebug" fg="GRAY"/>
-							<watch type="FooWatchPlaylist" name="watchPlaylistCombo">
-								<debug type="FooDebug" fg="WHITE" bg="RED"/>
-							</watch>
-							<watch type="FooWatchPlaylistLoad" name="watchPlaylistComboLoad">
-								<debug type="FooDebug" fg="WHITE" bg="MAGENTA"/>
-							</watch>
-						</backend>
+					<view type="FooSashForm" name="playlistDiv" style="VERTICAL">
+						<layoutdata type="WeightData" weights="4 13"/>
+						<layoutdata type="FormData" top="0" left="0" right="100" bottom="buttonsPlaylist" />
+						<view type="FooList" name="comboPlaylist" style="BORDER SINGLE V_SCROLL">
+<!--							<layoutdata type="FormData" top="0" left="0" right="100" /> -->
+							<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
+								<debug type="FooDebug" fg="GRAY"/>
+								<watch type="FooWatchPlaylist" name="watchPlaylistCombo">
+									<debug type="FooDebug" fg="WHITE" bg="RED"/>
+								</watch>
+								<watch type="FooWatchPlaylistLoad" name="watchPlaylistComboLoad">
+									<debug type="FooDebug" fg="WHITE" bg="MAGENTA"/>
+								</watch>
+							</backend>
+						</view>
+						<view type="FooTable" name="tablePlaylist" style="BORDER MULTI FULL_SELECTION">
+<!--							<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/> -->
+							<backend type="FooBackendPlaylist" name="playlistBackend" format="%artist% - %title%">
+								<debug type="FooDebug" fg="BLUE"/>
+									<watch type="FooWatchPlaylist" name="watchPlaylistList">
+									<debug type="FooDebug" fg="WHITE" bg="DARK_RED"/>
+								</watch>
+								<watch type="FooWatchPlaylistLoad" name="watchPlaylistListLoad">
+									<debug type="FooDebug" fg="WHITE" bg="DARK_MAGENTA"/>
+								</watch>
+								<watch type="FooWatchCurrentTrack" name="watchCurrentPos">
+									<debug type="FooDebug" fg="BLACK" bg="YELLOW"/>
+								</watch>
+							</backend>
+							<menu type="FooMenu" name="playlistMenu">
+								<item type="FooMenuItem" name="playlistFormat" text="change format">
+									<action name="format"/>
+								</item>	
+							</menu>
+							<action name="play" code="2" source="MOUSE"/>
+							<action name="play" code="CR" source="KEYBOARD"/>
+							<action name="remove" code="DEL" source="KEYBOARD"/>
+							<action name="deselect" code="ESC" source="KEYBOARD"/>
+						</view>					
 					</view>
-					<view type="FooTable" name="tablePlaylist" style="BORDER MULTI FULL_SELECTION">
-						<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/> 
-						<backend type="FooBackendPlaylist" name="playlistBackend" format="%artist% - %title%">
-							<debug type="FooDebug" fg="BLUE"/>
-								<watch type="FooWatchPlaylist" name="watchPlaylistList">
-								<debug type="FooDebug" fg="WHITE" bg="DARK_RED"/>
-							</watch>
-							<watch type="FooWatchPlaylistLoad" name="watchPlaylistListLoad">
-								<debug type="FooDebug" fg="WHITE" bg="DARK_MAGENTA"/>
-							</watch>
-							<watch type="FooWatchCurrentTrack" name="watchCurrentPos">
-								<debug type="FooDebug" fg="BLACK" bg="YELLOW"/>
-							</watch>
-						</backend>
-						<menu type="FooMenu" name="playlistMenu">
-							<item type="FooMenuItem" name="playlistFormat" text="change format">
-								<action name="format"/>
-							</item>	
-						</menu>
-						<action name="play" code="2" source="MOUSE"/>
-						<action name="play" code="CR" source="KEYBOARD"/>
-						<action name="remove" code="DEL" source="KEYBOARD"/>
-						<action name="deselect" code="ESC" source="KEYBOARD"/>
-					</view>					
-
 					<view type="FooButtonsPlaylist" name="buttonsPlaylist">
 						<layoutdata type="FormData" left="0" right="100" bottom="buttonsPlayback"/>
 					</view>				

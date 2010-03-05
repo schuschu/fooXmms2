@@ -60,7 +60,12 @@ public class FooButton implements FooInterfaceControl {
 	public void setText(String string) {
 		button.setText(string);
 	}
+	
+	public void setToolTipText(String string) {
+		button.setToolTipText(string);
+	}
 
+	
 	@Override
 	public Control getControl() {
 		return button;

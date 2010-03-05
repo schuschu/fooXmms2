@@ -28,10 +28,15 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 		FooButton saveButton = new FooButton(getComposite(), SWT.NONE);
 
 		sortButton.setText("⤑");
+		sortButton.setToolTipText("sort playlist");
 		shuffleButton.setText("⥂");
+		shuffleButton.setToolTipText("shuffle playlist");
 		newButton.setText("+");
+		newButton.setToolTipText("create new playlist");
 		deleteButton.setText("-");
+		deleteButton.setToolTipText("delete playlist");
 		saveButton.setText("⎇");
+		saveButton.setToolTipText("save current playlist");
 
 		sortButton.addAction(FooPlaylist.ActionSort(0));
 		shuffleButton.addAction(FooPlaylist.ActionShuffle(0));

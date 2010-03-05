@@ -29,10 +29,15 @@ public class FooButtonsPlayback implements FooInterfaceControl{
 
 		// TODO: icons
 		prevButton.setText("◂◂");
+		prevButton.setToolTipText("previous track");
 		stopButton.setText("◾");
+		stopButton.setToolTipText("stop");
 		pauseButton.setText("▮▮");
+		pauseButton.setToolTipText("pause");
 		playButton.setText("►");
+		playButton.setToolTipText("play");
 		nextButton.setText("▸▸");
+		nextButton.setToolTipText("next track");
 
 		prevButton.addAction(FooPlayback.ActionPrev(0));
 		stopButton.addAction(FooPlayback.ActionStop(0));
