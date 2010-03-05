@@ -3,6 +3,7 @@ package org.dyndns.schuschu.xmms2client.view.element;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
+import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
@@ -33,7 +34,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.w3c.dom.Element;
 
-public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,FooInterfaceAction {
+public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
+		FooInterfaceAction {
 
 	private Vector<FooAction> mouseActions;
 	private Vector<FooAction> keyboardActions;
@@ -76,7 +78,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 
 	@Override
 	public void highlight(int index) {
-			
+
 		final Color hlcolor = getTable().getDisplay().getSystemColor(
 				SWT.COLOR_WIDGET_NORMAL_SHADOW);
 		final Color defcolor = getTable().getDisplay().getSystemColor(
@@ -116,7 +118,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 			@Override
 			public void mouseUp(MouseEvent arg0) {
 				for (FooAction a : mouseActions) {
-					if (a.code == 1) {
+					if (a.code == 1 && arg0.button == FooKey.BUTTON1.getCode()) {
 						a.execute();
 					}
 				}
@@ -125,7 +127,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				for (FooAction a : mouseActions) {
-					if (a.code == 2) {
+					if (a.code == 2 && arg0.button == FooKey.BUTTON1.getCode()) {
 						a.execute();
 					}
 				}
@@ -148,14 +150,14 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 			}
 		};
 	}
-	
-	private SelectionListener createSelectionListener(){
+
+	private SelectionListener createSelectionListener() {
 		return new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				backend.selectionChanged();
-				
+
 			}
 		};
 	}
@@ -226,21 +228,21 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 	public Control getControl() {
 		return table;
 	}
-	
-	public static void registerFactory(){
-		//VIEW
+
+	public static void registerFactory() {
+		// VIEW
 		FooFactorySub factory = new FooFactorySub() {
-			
+
 			@Override
 			public Object create(Element element) {
-				
+
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
 
 				// get the parent nodes name for parent (hirachical xml)
 				Element father = (Element) element.getParentNode();
 				String parent = father.getAttribute("name");
-				
+
 				// style attribute defines the look of the widget, default is
 				// none
 				int style = SWT.NONE;
@@ -253,12 +255,13 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 						style = style | i;
 					}
 				}
-				
+
 				debug("creating FooTable " + name + " with parent " + parent);
-				FooTable table = new FooTable(getComposite(parent),style);
+				FooTable table = new FooTable(getComposite(parent), style);
 				FooFactory.putView(name, table);
 				return table;
 			}
+
 			private Composite getComposite(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceComposite) {
@@ -267,7 +270,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 				return null;
 			}
 		};
-		
+
 		FooFactory.factories.put("FooTable", factory);
 	}
 }
