@@ -31,6 +31,7 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaylistLoad"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.layout.FooFormData"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.view.layout.FooWeightData"/>
 	</plugins>
 	
 	<window>
@@ -45,6 +46,7 @@
 				</menu>
 			</view>	
 			<view type="FooSashForm" name="sashFormMain">
+				<layoutdata type="WeightData" weights="3 3 3 4" />
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist">

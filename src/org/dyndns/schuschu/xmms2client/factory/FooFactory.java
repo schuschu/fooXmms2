@@ -113,6 +113,7 @@ public class FooFactory {
 	public static void parse(){
 		debug("parsing xml window");
 		parse(FooXML.getElement("window"));
+		FooFactory.createLayout();
 		debug("xml window parsed");
 	}
 	
@@ -139,8 +140,6 @@ public class FooFactory {
 				parse(child);
 			}
 		}
-		
-		FooFactory.createLayout();
 	}
 
 	public static Object create(Element element) {

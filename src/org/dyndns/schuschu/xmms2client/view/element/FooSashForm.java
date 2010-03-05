@@ -23,14 +23,18 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 		sash = new SashForm(parent, style);
 	}
 
+	public void setWeights(int[] weights) {
+		getSash().setWeights(weights);
+	}
+
 	@Override
 	public Control getControl() {
-		return sash;
+		return getSash();
 	}
 
 	@Override
 	public Composite getComposite() {
-		return sash;
+		return getSash();
 	}
 
 	public static void registerFactory() {
@@ -46,7 +50,7 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				// get the parent nodes name for parent (hirachical xml)
 				Element father = (Element) element.getParentNode();
 				String parent = father.getAttribute("name");
-				
+
 				// style attribute defines the look of the widget, default is
 				// none
 				int style = SWT.NONE;
@@ -61,10 +65,13 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				}
 
 				debug("creating SashForm " + name + " with parent " + parent);
-				FooSashForm sash = new FooSashForm(getComposite(parent),style);
+				FooSashForm sash = new FooSashForm(getComposite(parent), style);
+				
+
 				FooFactory.putView(name, sash);
 				return sash;
 			}
+
 			private Composite getComposite(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceComposite) {
@@ -74,8 +81,12 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				return null;
 			}
 		};
-		
+
 		FooFactory.factories.put("FooSashForm", factory);
+	}
+
+	public SashForm getSash() {
+		return sash;
 	}
 
 }
