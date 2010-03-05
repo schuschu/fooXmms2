@@ -37,7 +37,7 @@
 		<view type="FooShell" name="SHELL" layout="FormLayout">
 			<view type="FooSashForm" name="sashFormMain">
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
-				<view type="FooList" name="listArtist">
+				<view type="FooList" name="listArtist" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist">
 						<debug type="FooDebug" fg="DARK_MAGENTA"/>
 					</backend>
@@ -53,7 +53,7 @@
 					<action name="enqueue" code="2" source="MOUSE"/>
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
-				<view type="FooList" name="listAlbum">
+				<view type="FooList" name="listAlbum" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" sort="album" contentprovider="artistBackend">
 						<debug type="FooDebug" fg="MAGENTA"/>
 					</backend>
@@ -69,7 +69,7 @@
 					<action name="enqueue" code="2" source="MOUSE"/>
 					<action name="deselect" code="ESC" source="KEYBOARD"/>			
 				</view>
-				<view type="FooList" name="listTrack">
+				<view type="FooList" name="listTrack" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="trackBackend" format="%title%" filter="title" contentprovider="albumBackend">
 						<debug type="FooDebug" fg="DARK_RED"/>
 					</backend>
@@ -86,7 +86,7 @@
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
 				<view type="FooComposite" name="compositePlaylist" layout="FormLayout">
-					<view type="FooCombo" name="comboPlaylist">
+					<view type="FooCombo" name="comboPlaylist" style="READ_ONLY">
 						<layoutdata type="FormData" top="0" left="0" right="100" />
 						<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
 							<debug type="FooDebug" fg="GRAY"/>
@@ -98,7 +98,7 @@
 							</watch>
 						</backend>
 					</view>
-					<view type="FooTable" name="tablePlaylist">
+					<view type="FooTable" name="tablePlaylist" style="BORDER MULTI V_SCROLL FULL_SELECTION">
 						<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/>
 						<backend type="FooBackendPlaylist" name="playlistBackend" format="%artist% - %title%">
 							<debug type="FooDebug" fg="BLUE"/>

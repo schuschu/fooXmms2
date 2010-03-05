@@ -6,19 +6,20 @@ import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendTex
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
+import org.dyndns.schuschu.xmms2client.view.FooStyle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.w3c.dom.Element;
 
-public class FooLabel implements FooInterfaceText,FooInterfaceControl {
+public class FooLabel implements FooInterfaceText, FooInterfaceControl {
 
 	private Label label;
 	private FooInterfaceBackendText backend;
-	
+
 	public FooLabel(Composite parent) {
-		this(parent,SWT.NONE);
+		this(parent, SWT.NONE);
 	}
 
 	public FooLabel(Composite parent, int style) {
@@ -53,7 +54,7 @@ public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 	@Override
 	public void setBackend(FooInterfaceBackendText backend) {
 		this.backend = backend;
-		
+
 	}
 
 	@Override
@@ -61,10 +62,10 @@ public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 		return backend;
 	}
 
-	public  static void registerFactory(){
-		//VIEW
+	public static void registerFactory() {
+		// VIEW
 		FooFactorySub factory = new FooFactorySub() {
-			
+
 			@Override
 			public Object create(Element element) {
 
@@ -74,22 +75,36 @@ public class FooLabel implements FooInterfaceText,FooInterfaceControl {
 				// get the parent nodes name for parent (hirachical xml)
 				Element father = (Element) element.getParentNode();
 				String parent = father.getAttribute("name");
-				
+
+				// style attribute defines the look of the widget, default is
+				// none
+				int style = SWT.NONE;
+
+				if (element.hasAttribute("style")) {
+					String s = element.getAttribute("style");
+					String[] p = s.split(" ");
+					for (String x : p) {
+						int i = FooStyle.valueOf(x).getCode();
+						style = style | i;
+					}
+				}
+
 				debug("creating FooLabel " + name + " with parent " + parent);
-				FooLabel label = new FooLabel(getComposite(parent));
+				FooLabel label = new FooLabel(getComposite(parent),style);
 				FooFactory.putView(name, label);
 				return label;
 			}
+
 			private Composite getComposite(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceComposite) {
 					return ((FooInterfaceComposite) o).getComposite();
 				}
-		
+
 				return null;
 			}
 		};
 		FooFactory.factories.put("FooLabel", factory);
 	}
-	
+
 }

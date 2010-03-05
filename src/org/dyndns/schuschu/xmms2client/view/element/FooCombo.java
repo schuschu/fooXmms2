@@ -9,6 +9,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
+import org.dyndns.schuschu.xmms2client.view.FooStyle;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
@@ -45,7 +46,7 @@ public class FooCombo implements FooInterfaceView, FooInterfaceControl {
 	}
 
 	public FooCombo(Composite parent) {
-		this(parent, SWT.READ_ONLY);
+		this(parent, SWT.NONE);
 	}
 
 	private SelectionListener createSelectionListener() {
@@ -163,11 +164,25 @@ public class FooCombo implements FooInterfaceView, FooInterfaceControl {
 				Element father = (Element) element.getParentNode();
 				String parent = father.getAttribute("name");
 
+				// style attribute defines the look of the widget, default is
+				// none
+				int style = SWT.NONE;
+
+				if (element.hasAttribute("style")) {
+					String s = element.getAttribute("style");
+					String[] p = s.split(" ");
+					for (String x : p) {
+						int i = FooStyle.valueOf(x).getCode();
+						style = style | i;
+					}
+				}
+
 				debug("creating FooCombo " + name + " with parent " + parent);
-				FooCombo combo = new FooCombo(getComposite(parent));
+				FooCombo combo = new FooCombo(getComposite(parent), style);
 				FooFactory.putView(name, combo);
 				return combo;
 			}
+
 			private Composite getComposite(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceComposite) {

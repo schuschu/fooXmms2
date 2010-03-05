@@ -4,6 +4,7 @@ import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.view.FooStyle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
@@ -45,9 +46,22 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				// get the parent nodes name for parent (hirachical xml)
 				Element father = (Element) element.getParentNode();
 				String parent = father.getAttribute("name");
+				
+				// style attribute defines the look of the widget, default is
+				// none
+				int style = SWT.NONE;
+
+				if (element.hasAttribute("style")) {
+					String s = element.getAttribute("style");
+					String[] p = s.split(" ");
+					for (String x : p) {
+						int i = FooStyle.valueOf(x).getCode();
+						style = style | i;
+					}
+				}
 
 				debug("creating SashForm " + name + " with parent " + parent);
-				FooSashForm sash = new FooSashForm(getComposite(parent));
+				FooSashForm sash = new FooSashForm(getComposite(parent),style);
 				FooFactory.putView(name, sash);
 				return sash;
 			}
