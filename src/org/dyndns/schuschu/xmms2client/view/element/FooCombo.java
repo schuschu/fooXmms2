@@ -3,7 +3,6 @@ package org.dyndns.schuschu.xmms2client.view.element;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.action.base.FooAction;
-import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
@@ -67,7 +66,7 @@ public class FooCombo implements FooInterfaceView, FooInterfaceControl {
 			@Override
 			public void mouseUp(MouseEvent arg0) {
 				for (FooAction a : mouseActions) {
-					if (a.code == 1 && arg0.button == FooKey.BUTTON1.getCode()) {
+					if (a.code == 1 && arg0.button==1) {
 						a.execute();
 					}
 				}
@@ -76,7 +75,7 @@ public class FooCombo implements FooInterfaceView, FooInterfaceControl {
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				for (FooAction a : mouseActions) {
-					if (a.code == 2 && arg0.button == FooKey.BUTTON1.getCode()) {
+					if (a.code == 2 && arg0.button==1) {
 						a.execute();
 					}
 				}

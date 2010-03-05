@@ -26,7 +26,6 @@ public class FooWeightData {
 					for (int i = 0; i < weights.length; i++) {
 						weights[i] = Integer.parseInt(split[i]);
 					}
-					System.out.println(sash.getSash().getChildren().length);
 					sash.setWeights(weights);
 					return weights;
 				}
