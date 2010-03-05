@@ -3,10 +3,6 @@
 ******************************************************************************
 
 
-All work will be stalled until a decision about further progress is made.
-Dr. No is not supported and therefore work in this client (not the bindings) is
-probably wasted work
-
 
 This part is about the things that are wrong in the current version:
 ====================================================================
@@ -43,8 +39,7 @@ This part is about the things that are wrong in the current version:
   when i.e. if(%album% - %tracknumber%){tracknumber -} %title and no tracknumber
   if found, the whole block will be gone   
 
-  try out if a list/table for playlists(instead of combo) is possible, and
-  introduce tabbar
+  introduce tabbar (playlists, filter selection)
   
   Sliders: seekbar (broadcast strom ahead), volume
   
