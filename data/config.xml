@@ -34,9 +34,7 @@
 	</plugins>
 	
 	<window>
-		<view type="FooShell" name="SHELL" layout="FormLayout">
-			<view type="FooMenu" name="menuBar" style="BAR"/>	
-		
+		<view type="FooShell" name="SHELL" layout="FormLayout">	
 			<view type="FooSashForm" name="sashFormMain">
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist" style="BORDER MULTI V_SCROLL">
