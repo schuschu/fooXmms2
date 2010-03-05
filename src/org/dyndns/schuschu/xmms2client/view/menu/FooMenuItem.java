@@ -6,14 +6,16 @@ import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
+import org.dyndns.schuschu.xmms2client.view.FooStyle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 import org.w3c.dom.Element;
 
-public class FooMenuItem implements FooInterfaceAction{
+public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 
 	private MenuItem item;
 	private Vector<FooAction> actions;
@@ -77,11 +79,24 @@ public class FooMenuItem implements FooInterfaceAction{
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
 				
-				FooMenuItem item = new FooMenuItem(getMenu(menu));
+				// style attribute defines the look of the widget, default is
+				// none
+				int style = SWT.NONE;
+
+				if (element.hasAttribute("style")) {
+					String s = element.getAttribute("style");
+					String[] p = s.split(" ");
+					for (String x : p) {
+						int i = FooStyle.valueOf(x).getCode();
+						style = style | i;
+					}
+				}
+ 
+				FooMenuItem item = new FooMenuItem(getMenu(menu),style);
 				item.setText(text);
 				
 				FooFactory.putView(name, item);
-				
+
 				return menu;
 			}
 		
@@ -94,6 +109,11 @@ public class FooMenuItem implements FooInterfaceAction{
 			}
 		};
 		FooFactory.factories.put("FooMenuItem", factory);
+	}
+
+	@Override
+	public void setMenu(FooMenu menu) {
+		item.setMenu(menu.getMenu());		
 	}
 
 }

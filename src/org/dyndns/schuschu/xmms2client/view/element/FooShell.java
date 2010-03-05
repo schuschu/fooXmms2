@@ -137,7 +137,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 				}
 
 				shell.setImage(image);
-
+				
 				// TODO: replace static with search in map! (everywhere)
 				FooWindow.SHELL = shell;
 				return shell;
@@ -169,6 +169,11 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	@Override
 	public Decorations getDecorations() {
 		return shell;
+	}
+
+	@Override
+	public void setMenubar(FooMenu menu) {
+		shell.setMenuBar(menu.getMenu());		
 	}
 
 }
