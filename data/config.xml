@@ -54,7 +54,7 @@
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
 				</view>
 				<view type="FooList" name="listAlbum">
-					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" contentprovider="artistBackend">
+					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" sort="album" contentprovider="artistBackend">
 						<debug type="FooDebug" fg="MAGENTA"/>
 					</backend>
 					<menu type="FooMenu" name="albumMenu">

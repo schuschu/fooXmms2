@@ -39,7 +39,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  * 
  */
 public class FooBackendFilter extends Observable implements Serializable,
-		FooInterfaceBackendFilter,FooInterfaceDebug {
+		FooInterfaceBackendFilter, FooInterfaceDebug {
 
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
@@ -583,68 +583,78 @@ public class FooBackendFilter extends Observable implements Serializable,
 	public FooColor getDebugBackground() {
 		return debugBackground;
 	}
-	
-	public static void registerFactory(){
-		//BACKEND
-		
-	FooFactorySub factory = new FooFactorySub() {
-		
-		@Override
-		public Object create(Element element) {
-			
-			// name equals variable name, no default
-			String name = element.getAttribute("name");
 
-			// TODO: docu
-			// format (so documentation for further infos), no default
-			String format = element.getAttribute("format");
+	public static void registerFactory() {
+		// BACKEND
 
-			// filter defines which part of the selected items will be used to
-			// filter the content for the next backend, no default
-			String filter = element.getAttribute("filter");
+		FooFactorySub factory = new FooFactorySub() {
 
-			// defines which backend will be supplying the current backend with
-			// data, default ALL (no input filtering)
-			String contentprovider = element.hasAttribute("contentprovider") ? element
-					.getAttribute("contentprovider")
-					: "ALL";
+			@Override
+			public Object create(Element element) {
 
-			// get the parent nodes name for view (since backends are always direct
-			// below (hirachical) their view element)
-			Element father = (Element) element.getParentNode();
-			String view = father.getAttribute("name");
-			
-			debug("creating FooBackendFilter " + name);
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
 
-			FooBackendFilter filterBackend = new FooBackendFilter(format,
-					filter, getView(view));
-			filterBackend.setName(name);
-			
-			if (contentprovider.equals("ALL")) {
-				filterBackend.setToAll();
-			} else {
-				filterBackend
-						.setContentProvider((FooInterfaceBackendFilter) FooFactory
-								.getBackend(contentprovider));
+				// TODO: docu
+				// format (so documentation for further infos), no default
+				String format = element.getAttribute("format");
+
+				// filter defines which part of the selected items will be used
+				// to
+				// filter the content for the next backend, no default
+				String filter = element.getAttribute("filter");
+
+				// defines which backend will be supplying the current backend
+				// with
+				// data, default ALL (no input filtering)
+				String contentprovider = element
+						.hasAttribute("contentprovider") ? element
+						.getAttribute("contentprovider") : "ALL";
+
+				// get the parent nodes name for view (since backends are always
+				// direct
+				// below (hirachical) their view element)
+				Element father = (Element) element.getParentNode();
+				String view = father.getAttribute("name");
+
+				debug("creating FooBackendFilter " + name);
+
+				FooBackendFilter filterBackend = new FooBackendFilter(format,
+						filter, getView(view));
+				filterBackend.setName(name);
+
+				// list sorting parameters, optional (if none: backends handle sorting)
+				String sort = element.getAttribute("sort");
+				if (!sort.isEmpty()) {
+					List<String> newOrder = Arrays.asList(sort.split(" "));
+					filterBackend.setOrderBy(newOrder);
+				}
+				
+				if (contentprovider.equals("ALL")) {
+					filterBackend.setToAll();
+				} else {
+					filterBackend
+							.setContentProvider((FooInterfaceBackendFilter) FooFactory
+									.getBackend(contentprovider));
+				}
+
+				filterBackend.registerActionFactory();
+
+				FooFactory.putBackend(name, filterBackend);
+				return filterBackend;
 			}
 
-			filterBackend.registerActionFactory();
-
-			FooFactory.putBackend(name, filterBackend);
-			return filterBackend;
-		}
-		
-		private FooInterfaceView getView(String s) {
-			Object o = FooFactory.getView(s);
-			if (o instanceof FooInterfaceView) {
-				return (FooInterfaceView) o;
+			private FooInterfaceView getView(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceView) {
+					return (FooInterfaceView) o;
+				}
+				return null;
 			}
-			return null;
-		}
-	};
-	
-	FooFactory.factories.put("FooBackendFilter", factory);
-	
+		};
+
+		FooFactory.factories.put("FooBackendFilter", factory);
+
 	}
 
 	/*
@@ -656,17 +666,20 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 			@Override
 			public FooAction create(Element element) {
-			
-				// the name of the action within the backend , no default possible
+
+				// the name of the action within the backend , no default
+				// possible
 				String name = element.getAttribute("name");
 
-				// Source of the event that triggers the event, default is KEYBOARD
+				// Source of the event that triggers the event, default is
+				// KEYBOARD
 				String sourcestring = element.hasAttribute("source") ? element
 						.getAttribute("source") : "KEYBOARD";
 				FooSource source = FooSource.valueOf(sourcestring);
 
 				// TODO: mousecode
-				// Code (keycode, mousecode) that triggers the event, default is NONE
+				// Code (keycode, mousecode) that triggers the event, default is
+				// NONE
 				String codestring = element.hasAttribute("code") ? element
 						.getAttribute("code") : "NONE";
 
@@ -680,29 +693,34 @@ public class FooBackendFilter extends Observable implements Serializable,
 					break;
 				}
 
-				// get the parent nodes name for view (since actions are always direct
+				// get the parent nodes name for view (since actions are always
+				// direct
 				// below (hirachical) their view element)
 				Element father = (Element) element.getParentNode();
 				String viewstring = father.getAttribute("name");
 				FooInterfaceAction view = getView(viewstring);
-				
-				FooAction action=null;
+
+				FooAction action = null;
 
 				switch (ActionType.valueOf(name)) {
 				case enqueue:
-					action= ActionEnqueu(code); break;
+					action = ActionEnqueu(code);
+					break;
 				case deselect:
-					action= ActionDeselect(code); break;
+					action = ActionDeselect(code);
+					break;
 				case format:
-					action= ActionFormat(code); break;
+					action = ActionFormat(code);
+					break;
 				case order:
-					action= ActionOrder(code); break;
+					action = ActionOrder(code);
+					break;
 				}
-				
+
 				view.addAction(source, action);
 				return action;
 			}
-			
+
 			private FooInterfaceAction getView(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceAction) {
