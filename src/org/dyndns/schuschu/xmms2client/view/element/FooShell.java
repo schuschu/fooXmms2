@@ -5,23 +5,28 @@ import java.io.InputStream;
 
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
 import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
+import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 
-public class FooShell implements FooInterfaceComposite{
+public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
+		FooInterfaceDecorations {
 	private Shell shell;
-	
-	public FooShell(){
+
+	public FooShell() {
 		shell = new Shell();
 	}
 
@@ -29,74 +34,78 @@ public class FooShell implements FooInterfaceComposite{
 	public Composite getComposite() {
 		return shell;
 	}
-	
-	public void setLayout(Layout layout){
+
+	public void setLayout(Layout layout) {
 		shell.setLayout(layout);
 	}
-	
-	public void setMaximized(boolean maximized){
+
+	public void setMaximized(boolean maximized) {
 		shell.setMaximized(maximized);
 	}
-	
-	public void setVisible(boolean visible){
+
+	public void setVisible(boolean visible) {
 		shell.setVisible(visible);
 	}
-	
-	public boolean getVisible(){
+
+	public boolean getVisible() {
 		return shell.getVisible();
 	}
-	
-	public Point getLocation(){
+
+	public Point getLocation() {
 		return shell.getLocation();
 	}
-	
-	public void setLocation(Point location){
+
+	public void setLocation(Point location) {
 		shell.setLocation(location);
 	}
-	
-	public void setText(String string){
+
+	public void setText(String string) {
 		shell.setText(string);
 	}
-	
-	public void setSize(Point size){
+
+	public void setSize(Point size) {
 		shell.setSize(size);
 	}
-	
-	public void setImage(Image image){
+
+	public void setImage(Image image) {
 		shell.setImage(image);
 	}
-	
-	public boolean isDisposed(){
+
+	public boolean isDisposed() {
 		return shell.isDisposed();
 	}
-	
-	public Shell getShell(){
+
+	public Shell getShell() {
 		return shell;
 	}
-	
-	public static void registerFactory(){
-		//VIEW
+
+	public static void registerFactory() {
+		// VIEW
 		FooFactorySub factory = new FooFactorySub() {
-			
+
 			@Override
 			public Object create(Element element) {
-				
+
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
 
 				// title of the window, default fooXmms2
-				String text = element.hasAttribute("text") ? element.getAttribute("text") : "fooXmms2";
+				String text = element.hasAttribute("text") ? element
+						.getAttribute("text") : "fooXmms2";
 
 				// dimensions of the window, has defualts
-				String widthstring = element.hasAttribute("width") ? element.getAttribute("width") : "1000";
-				String heigthstring = element.hasAttribute("heigth")  ? element.getAttribute("heigth") : "600";
+				String widthstring = element.hasAttribute("width") ? element
+						.getAttribute("width") : "1000";
+				String heigthstring = element.hasAttribute("heigth") ? element
+						.getAttribute("heigth") : "600";
 				int width = Integer.parseInt(widthstring);
 				int heigth = Integer.parseInt(heigthstring);
-				
-				// gets the layout of the composite/shell , default is FillLayout
+
+				// gets the layout of the composite/shell , default is
+				// FillLayout
 				String layoutstring = element.hasAttribute("layout") ? element
 						.getAttribute("layout") : "FillLayout";
-				
+
 				FooShell shell = new FooShell();
 
 				FooFactory.putView(name, shell);
@@ -108,7 +117,7 @@ public class FooShell implements FooInterfaceComposite{
 
 				Image image = null;
 
-				//TODO: image from xml
+				// TODO: image from xml
 				InputStream stream = this.getClass().getResourceAsStream(
 						"/pixmaps/xmms2-128.png");
 				if (stream != null) {
@@ -123,16 +132,17 @@ public class FooShell implements FooInterfaceComposite{
 					}
 				} else {
 					// TODO: find better way to do this
-					image = new Image(Display.getDefault(), "pixmaps/xmms2-128.png");
+					image = new Image(Display.getDefault(),
+							"pixmaps/xmms2-128.png");
 				}
 
 				shell.setImage(image);
-				
-				//TODO: replace static with search in map! (everywhere)
+
+				// TODO: replace static with search in map! (everywhere)
 				FooWindow.SHELL = shell;
 				return shell;
 			}
-			
+
 			private Layout createLayout(String layoutstring) {
 				try {
 					switch (FooLayoutType.valueOf(layoutstring)) {
@@ -147,8 +157,18 @@ public class FooShell implements FooInterfaceComposite{
 				return null;
 			}
 		};
-		
+
 		FooFactory.factories.put("FooShell", factory);
+	}
+
+	@Override
+	public void setMenu(FooMenu menu) {
+		shell.setMenu(menu.getMenu());
+	}
+
+	@Override
+	public Decorations getDecorations() {
+		return shell;
 	}
 
 }

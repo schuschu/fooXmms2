@@ -35,6 +35,8 @@
 	
 	<window>
 		<view type="FooShell" name="SHELL" layout="FormLayout">
+			<view type="FooMenu" name="menuBar" style="BAR"/>	
+		
 			<view type="FooSashForm" name="sashFormMain">
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
 				<view type="FooList" name="listArtist" style="BORDER MULTI V_SCROLL">
@@ -98,7 +100,7 @@
 							</watch>
 						</backend>
 					</view>
-					<view type="FooTable" name="tablePlaylist" style="BORDER MULTI V_SCROLL FULL_SELECTION">
+					<view type="FooTable" name="tablePlaylist" style="BORDER MULTI FULL_SELECTION">
 						<layoutdata type="FormData" top="comboPlaylist" left="0" right="100" bottom="buttonsPlaylist"/>
 						<backend type="FooBackendPlaylist" name="playlistBackend" format="%artist% - %title%">
 							<debug type="FooDebug" fg="BLUE"/>

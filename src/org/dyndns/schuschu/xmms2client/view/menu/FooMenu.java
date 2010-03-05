@@ -4,6 +4,7 @@ import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
@@ -36,35 +37,45 @@ public class FooMenu {
 	public void setVisible(boolean visible) {
 		menu.setVisible(visible);
 	}
-	
-	public static void registerFactory(){
+
+	public static void registerFactory() {
 		FooFactorySub factory = new FooFactorySub() {
-			
+
 			@Override
 			public Object create(Element element) {
-				//VIEW
+				// VIEW
 
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
-				
-				// get the parent nodes name for view (since menu are always direct
+
+				// get the parent nodes name for view (since menu are always
+				// direct
 				// below (hirachical) their view element)
-				Element father =(Element) element.getParentNode();
+				Element father = (Element) element.getParentNode();
 				String view = father.getAttribute("name");
 
 				debug("creating menu for " + view);
 
 				FooMenu menu = new FooMenu();
-
 				getView(view).setMenu(menu);
+				
 				
 				FooFactory.putView(name, menu);
 				return menu;
 			}
+
 			private FooInterfaceMenu getView(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceMenu) {
 					return (FooInterfaceMenu) o;
+				}
+				return null;
+			}
+
+			private FooInterfaceDecorations getDecoration(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooInterfaceDecorations) {
+					return (FooInterfaceDecorations) o;
 				}
 				return null;
 			}
