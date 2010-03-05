@@ -20,6 +20,9 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -46,6 +49,7 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 
 		getTable().addMouseListener(createMouseListener());
 		getTable().addKeyListener(createKeyListener());
+		getTable().addSelectionListener(createSelectionListener());
 	}
 
 	public FooTable(Composite parent) {
@@ -141,6 +145,17 @@ public class FooTable implements FooInterfaceViewPlaylist,FooInterfaceControl,Fo
 					}
 				}
 
+			}
+		};
+	}
+	
+	private SelectionListener createSelectionListener(){
+		return new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				backend.selectionChanged();
+				
 			}
 		};
 	}
