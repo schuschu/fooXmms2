@@ -36,15 +36,53 @@
 	
 	<window>
 		<view type="FooShell" name="SHELL" layout="FormLayout">
-			<view type="FooMenu" name="menubar" style="BAR">
+			<menubar type="FooMenu" name="menubar" style="BAR">
 				<menu type="FooMenuItem" name="fileHeader" style="CASCADE" text="&amp;File">
 					<menu type="FooMenu" name="fileMenu" style="DROP_DOWN">
-						<item type="FooMenuItem" name="fileQuit" style="PUSH" text="&amp;Quit">
+						<item type="FooMenuItem" name="fileQuit" style="PUSH" text="Quit">
 							<action name="exit" type="System"/>
 						</item>
 					</menu>
 				</menu>
-			</view>	
+				<menu type="FooMenuItem" name="playbackHeader" style="CASCADE" text="Play&amp;back">
+					<menu type="FooMenu" name="playbackMenu" style="DROP_DOWN">
+						<item type="FooMenuItem" name="playbackPlay" style="PUSH" text="Play">
+							<action name="play" type="Playback"/>
+						</item>
+						<item type="FooMenuItem" name="playbackPause" style="PUSH" text="Pause">
+							<action name="pause" type="Playback"/>
+						</item>
+						<item type="FooMenuItem" name="playbackStop" style="PUSH" text="Stop">
+							<action name="stop" type="Playback"/>
+						</item>
+						<item type="FooMenuItem" name="playbackPrev" style="PUSH" text="Prev">
+							<action name="prev" type="Playback"/>
+						</item>
+						<item type="FooMenuItem" name="playbackNext" style="PUSH" text="Next">
+							<action name="next" type="Playback"/>
+						</item>
+					</menu>
+				</menu>
+				<menu type="FooMenuItem" name="playlistHeader" style="CASCADE" text="Play&amp;list">
+					<menu type="FooMenu" name="playlistMenu" style="DROP_DOWN">
+						<item type="FooMenuItem" name="playlistAdd" style="PUSH" text="New">
+							<action name="newlist" type="Playlist"/>
+						</item>
+						<item type="FooMenuItem" name="playlistDel" style="PUSH" text="Delete">
+							<action name="delete" type="Playlist"/>
+						</item>
+						<item type="FooMenuItem" name="playlistSort" style="PUSH" text="Change order">
+							<action name="sort" type="Playlist"/>
+						</item>
+						<item type="FooMenuItem" name="playlistShuffle" style="PUSH" text="Shuffle">
+							<action name="shuffle" type="Playlist"/>
+						</item>
+						<item type="FooMenuItem" name="playlistSave" style="PUSH" text="Export">
+							<action name="save" type="Playlist"/>
+						</item>
+					</menu>
+				</menu>
+			</menubar>
 			<view type="FooSashForm" name="sashFormMain">
 				<layoutdata type="WeightData" weights="3 3 3 4" />
 				<layoutdata type="FormData" top="0" left="0" right="100" bottom="statusbar"/>				
