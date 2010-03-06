@@ -6,6 +6,7 @@ import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.view.element.FooButton;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -16,7 +17,7 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 
 	private Composite composite;
 
-	public FooButtonsPlaylist(Composite parent, int style) {
+	public FooButtonsPlaylist(Composite parent, int style, FooShell shell) {
 		this.setComposite(new Composite(parent, style));
 
 		composite.setLayout(new FillLayout());
@@ -38,11 +39,11 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 		saveButton.setText("⎇");
 		saveButton.setToolTipText("save current playlist");
 
-		sortButton.addAction(FooPlaylist.ActionSort(0));
-		shuffleButton.addAction(FooPlaylist.ActionShuffle(0));
-		newButton.addAction(FooPlaylist.ActionNew(0));
-		deleteButton.addAction(FooPlaylist.ActionDelete(0));
-		saveButton.addAction(FooPlaylist.ActionSava(0));
+		sortButton.addAction(FooPlaylist.ActionSort(0,shell));
+		shuffleButton.addAction(FooPlaylist.ActionShuffle(0,shell));
+		newButton.addAction(FooPlaylist.ActionNew(0,shell));
+		deleteButton.addAction(FooPlaylist.ActionDelete(0,shell));
+		saveButton.addAction(FooPlaylist.ActionSava(0,shell));
 	}
 
 	public void setComposite(Composite composite) {
@@ -79,7 +80,7 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 				debug("creating FooButtonsPlaylist " + name + " with parent "
 						+ parent);
 				FooButtonsPlaylist listButtons = new FooButtonsPlaylist(
-						getComposite(parent), SWT.NONE);
+						getComposite(parent), SWT.NONE,getShell(element));
 				FooFactory.putView(name, listButtons);
 				return listButtons;
 			}
@@ -93,6 +94,21 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 				}
 
 				return null;
+			}
+			
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
+
 			}
 		}; 
 		

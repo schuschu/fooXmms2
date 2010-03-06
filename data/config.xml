@@ -35,33 +35,31 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.view.tray.FooTrayItem"/>
 	</plugins>
 	
-	<window>
-	
-		<item type="FooTrayItem" name="tray">
-			<menu type="FooMenu" name="trayMenu" style="POP_UP">
-				<item type="FooMenuItem" name="trayPlay" style="PUSH" text="Play">
-					<action name="play" type="Playback"/>
-				</item>
-				<item type="FooMenuItem" name="trayPause" style="PUSH" text="Pause">
-					<action name="pause" type="Playback"/>
-				</item>
-				<item type="FooMenuItem" name="trayStop" style="PUSH" text="Stop">
-					<action name="stop" type="Playback"/>
-				</item>
-				<item type="FooMenuItem" name="trayPrev" style="PUSH" text="Prev">
-					<action name="prev" type="Playback"/>
-				</item>
-				<item type="FooMenuItem" name="trayNext" style="PUSH" text="Next">
-					<action name="next" type="Playback"/>
-				</item>
-				<item type="FooMenuItem" name="traySeperator" style="SEPARATOR"/>
-				<item type="FooMenuItem" name="trayQuit" style="PUSH" text="Quit">
-					<action name="exit" type="System"/>
-				</item>				
-			</menu>
-		</item>
-	
-		<view type="FooShell" name="SHELL" layout="FormLayout">
+	<GUI>
+		<shell type="FooShell" name="main" layout="FormLayout" maximized="false" visible="true">
+			<item type="FooTrayItem" name="tray">
+				<menu type="FooMenu" name="trayMenu" style="POP_UP">
+					<item type="FooMenuItem" name="trayPlay" style="PUSH" text="Play">
+						<action name="play" type="Playback"/>
+					</item>
+					<item type="FooMenuItem" name="trayPause" style="PUSH" text="Pause">
+						<action name="pause" type="Playback"/>
+					</item>
+					<item type="FooMenuItem" name="trayStop" style="PUSH" text="Stop">
+						<action name="stop" type="Playback"/>
+					</item>
+					<item type="FooMenuItem" name="trayPrev" style="PUSH" text="Prev">
+						<action name="prev" type="Playback"/>
+					</item>
+					<item type="FooMenuItem" name="trayNext" style="PUSH" text="Next">
+						<action name="next" type="Playback"/>
+					</item>
+					<item type="FooMenuItem" name="traySeperator" style="SEPARATOR"/>
+					<item type="FooMenuItem" name="trayQuit" style="PUSH" text="Quit">
+						<action name="exit" type="System"/>
+					</item>				
+				</menu>
+			</item>	
 			<menubar type="FooMenu" name="menubar" style="BAR">
 				<menu type="FooMenuItem" name="fileHeader" style="CASCADE" text="&amp;File">
 					<menu type="FooMenu" name="fileMenu" style="DROP_DOWN">
@@ -221,6 +219,6 @@
 					</watch>
 				</backend>
 			</view>
-		</view>
-	</window>	
+		</shell>	
+	</GUI>
 </fooXmms2>

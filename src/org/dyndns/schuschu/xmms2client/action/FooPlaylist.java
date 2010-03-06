@@ -15,7 +15,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooComboDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.commands.Collection;
@@ -25,7 +25,7 @@ import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionNamespace;
 
-public class FooPlaylist  {
+public class FooPlaylist {
 
 	public static void registerFactory() {
 		// ACTION
@@ -33,17 +33,20 @@ public class FooPlaylist  {
 
 			@Override
 			public FooAction create(Element element) {
-								
-				// the name of the action within the backend , no default possible
+
+				// the name of the action within the backend , no default
+				// possible
 				String name = element.getAttribute("name");
 
-				// Source of the event that triggers the event, default is KEYBOARD
+				// Source of the event that triggers the event, default is
+				// KEYBOARD
 				String sourcestring = element.hasAttribute("source") ? element
 						.getAttribute("source") : "KEYBOARD";
 				FooSource source = FooSource.valueOf(sourcestring);
 
 				// TODO: mousecode
-				// Code (keycode, mousecode) that triggers the event, default is NONE
+				// Code (keycode, mousecode) that triggers the event, default is
+				// NONE
 				String codestring = element.hasAttribute("code") ? element
 						.getAttribute("code") : "NONE";
 
@@ -57,31 +60,39 @@ public class FooPlaylist  {
 					break;
 				}
 
-				// get the parent nodes name for view (since actions are always direct
+				// get the parent nodes name for view (since actions are always
+				// direct
 				// below (hirachical) their view element)
 				Element father = (Element) element.getParentNode();
 				String viewstring = father.getAttribute("name");
 				FooInterfaceAction view = getView(viewstring);
-				
-				FooAction action=null;
+
+				FooShell shell = getShell(element);
+
+				FooAction action = null;
 
 				switch (ActionType.valueOf(name)) {
 				case delete:
-					action= ActionDelete(code); break;
+					action = ActionDelete(code, shell);
+					break;
 				case newlist:
-					action= ActionNew(code); break;
+					action = ActionNew(code, shell);
+					break;
 				case save:
-					action= ActionSava(code); break;
+					action = ActionSava(code, shell);
+					break;
 				case shuffle:
-					action= ActionShuffle(code); break;
+					action = ActionShuffle(code, shell);
+					break;
 				case sort:
-					action= ActionSort(code); break;
+					action = ActionSort(code, shell);
+					break;
 				}
-				
+
 				view.addAction(source, action);
 				return action;
 			}
-			
+
 			private FooInterfaceAction getView(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooInterfaceAction) {
@@ -89,7 +100,21 @@ public class FooPlaylist  {
 				}
 				return null;
 			}
-			
+
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
+
+			}
 
 		};
 		FooFactory.factories.put("Playlist", factory);
@@ -99,33 +124,36 @@ public class FooPlaylist  {
 		delete, newlist, save, shuffle, sort;
 	}
 
-	public static FooAction ActionDelete(int code) {
-		return new ActionPlaylist(code, "delete", PlaylistType.DELETE);
+	public static FooAction ActionDelete(int code, FooShell shell) {
+		return new ActionPlaylist(code, "delete", PlaylistType.DELETE, shell);
 	}
 
-	public static FooAction ActionNew(int code) {
-		return new ActionPlaylist(code, "new", PlaylistType.NEW);
+	public static FooAction ActionNew(int code, FooShell shell) {
+		return new ActionPlaylist(code, "new", PlaylistType.NEW, shell);
 	}
 
-	public static FooAction ActionSava(int code) {
-		return new ActionPlaylist(code, "save", PlaylistType.SAVE);
+	public static FooAction ActionSava(int code, FooShell shell) {
+		return new ActionPlaylist(code, "save", PlaylistType.SAVE, shell);
 	}
 
-	public static FooAction ActionShuffle(int code) {
-		return new ActionPlaylist(code, "shuffle", PlaylistType.SHUFFLE);
+	public static FooAction ActionShuffle(int code, FooShell shell) {
+		return new ActionPlaylist(code, "shuffle", PlaylistType.SHUFFLE, shell);
 	}
 
-	public static FooAction ActionSort(int code) {
-		return new ActionPlaylist(code, "sort", PlaylistType.SORT);
+	public static FooAction ActionSort(int code, FooShell shell) {
+		return new ActionPlaylist(code, "sort", PlaylistType.SORT, shell);
 	}
 
 	private static class ActionPlaylist extends FooAction {
 
 		private final PlaylistType type;
+		private final FooShell shell;
 
-		public ActionPlaylist(int code, String name, PlaylistType type) {
+		public ActionPlaylist(int code, String name, PlaylistType type,
+				FooShell shell) {
 			super(name, code);
 			this.type = type;
+			this.shell = shell;
 		}
 
 		@Override
@@ -173,7 +201,7 @@ public class FooPlaylist  {
 				String[] values = new String[content.size()];
 				content.toArray(values);
 
-				input = FooComboDialog.show(FooWindow.SHELL.getShell(),
+				input = FooComboDialog.show(shell,
 						"Please choose the playlist you want to delete",
 						"delete playlist", values);
 
@@ -191,7 +219,7 @@ public class FooPlaylist  {
 
 		private void newlist() {
 
-			String input = FooInputDialog.show(FooWindow.SHELL,
+			String input = FooInputDialog.show(shell,
 					"Please enter the name of the new playlist",
 					"create playlist");
 
@@ -206,7 +234,7 @@ public class FooPlaylist  {
 
 		private void save() {
 
-			String input = FooInputDialog.show(FooWindow.SHELL,
+			String input = FooInputDialog.show(shell,
 					"Please enter the name of the new playlist",
 					"save playlist");
 
@@ -240,7 +268,7 @@ public class FooPlaylist  {
 
 		private void sort() {
 
-			String input = FooInputDialog.show(FooWindow.SHELL,
+			String input = FooInputDialog.show(shell,
 					"Please enter sort order:\n(i.e.: artist album title)",
 					"change order");
 

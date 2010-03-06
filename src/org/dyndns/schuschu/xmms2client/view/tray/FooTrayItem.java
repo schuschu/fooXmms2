@@ -7,7 +7,7 @@ import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
-import org.dyndns.schuschu.xmms2client.loader.FooSWT;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
 import org.w3c.dom.Element;
@@ -25,19 +24,19 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 	private TrayItem item;
 	private Image image;
 	private FooMenu menu = null;
-	private Shell shell;
+	private FooShell shell;
 	Tray tray;
 
-	public FooTrayItem(int style) {
+	public FooTrayItem(FooShell shell, int style) {
 		tray = Display.getDefault().getSystemTray();
-		shell = new Shell(Display.getCurrent(),SWT.NONE);
+		this.shell = shell;
 		// TODO: checks
 		item = new TrayItem(tray, style);
 		createItem();
 	}
 
-	public FooTrayItem() {
-		this(SWT.NONE);
+	public FooTrayItem(FooShell shell) {
+		this(shell, SWT.NONE);
 	}
 
 	public TrayItem getItem() {
@@ -71,8 +70,8 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				if (FooSWT.main != null) {
-					FooSWT.main.toggleVisible();
+				if (shell != null) {
+					shell.toggleVisible();
 				}
 			}
 		});
@@ -109,11 +108,27 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 				String name = element.getAttribute("name");
 
 				debug("creating FooTray " + name);
-				FooTrayItem item = new FooTrayItem();
+				FooTrayItem item = new FooTrayItem(getShell(element));
 
 				FooFactory.putView(name, item);
 
 				return item;
+
+			}
+			
+
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
 
 			}
 		};
@@ -123,12 +138,12 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 
 	@Override
 	public Decorations getDecorations() {
-		return shell;
+		return shell.getShell();
 	}
 
 	@Override
 	public void setMenubar(FooMenu menu) {
-		shell.setMenuBar(menu.getMenu());
+		shell.setMenubar(menu);
 		
 	}
 }

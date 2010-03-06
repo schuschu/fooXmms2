@@ -21,7 +21,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceAction;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceViewPlaylist;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.Client;
@@ -52,6 +52,8 @@ public class FooBackendPlaylist implements Serializable,
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
+	
+	private FooShell shell;
 
 	/**
 	 * this List contains all values which will be usable by this list it should
@@ -86,8 +88,9 @@ public class FooBackendPlaylist implements Serializable,
 
 	private Vector<String> content;
 
-	public FooBackendPlaylist(String format, FooInterfaceViewPlaylist view) {
+	public FooBackendPlaylist(String format, FooInterfaceViewPlaylist view, FooShell shell) {
 		debug("FooBackendPlaylist");
+		this.setShell(shell);
 		this.setView(view);
 		this.setFormat(format);
 		refresh();
@@ -452,6 +455,16 @@ public class FooBackendPlaylist implements Serializable,
 		debug("getFormat");
 		return format;
 	}
+	
+	public FooShell getShell() {
+		debug("getShell");
+		return shell;
+	}
+	
+	public void setShell(FooShell shell){
+		debug("setShell");
+		this.shell=shell;
+	}
 
 	public static void registerFactory() {
 		// BACKEND
@@ -477,7 +490,7 @@ public class FooBackendPlaylist implements Serializable,
 				debug("creating FooBackendPlaylist " + name);
 
 				FooBackendPlaylist playlistBackend = new FooBackendPlaylist(
-						format, getViewPlaylist(view));
+						format, getViewPlaylist(view),getShell(element));
 				playlistBackend.setName(name);
 				
 				playlistBackend.registerActionFactory();
@@ -493,6 +506,21 @@ public class FooBackendPlaylist implements Serializable,
 					return (FooInterfaceViewPlaylist) o;
 				}
 				return null;
+			}
+			
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
+
 			}
 
 		};
@@ -632,15 +660,17 @@ public class FooBackendPlaylist implements Serializable,
 	}
 
 	public FooAction ActionFormat(int code) {
-		return new ActionFormat(code, this);
+		return new ActionFormat(code, this,shell);
 	}
 
 	public class ActionFormat extends FooAction {
 
 		private final FooBackendPlaylist backend;
+		private FooShell shell;
 
-		public ActionFormat(int code, FooBackendPlaylist backend) {
+		public ActionFormat(int code, FooBackendPlaylist backend, FooShell shell) {
 			super("format", code);
+			this.shell=shell;
 			this.backend = backend;
 		}
 
@@ -650,7 +680,7 @@ public class FooBackendPlaylist implements Serializable,
 
 			String input = FooInputDialog
 					.show(
-							FooWindow.SHELL,
+							shell,
 							"Please enter new format:\n(i.e.: %artist% - %album%: %title% ",
 							"change format", current);
 

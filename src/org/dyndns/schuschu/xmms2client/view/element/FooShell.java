@@ -10,7 +10,6 @@ import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
 import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -25,9 +24,10 @@ import org.w3c.dom.Element;
 public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 		FooInterfaceDecorations {
 	private Shell shell;
+	private Point location;
 
 	public FooShell() {
-		shell = new Shell();
+		shell = new Shell(Display.getDefault());
 	}
 
 	@Override
@@ -49,6 +49,17 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 
 	public boolean getVisible() {
 		return shell.getVisible();
+	}
+
+	public void toggleVisible() {
+		if (getVisible()) {
+			location = getLocation();
+		} else {
+			if (location != null) {
+				setLocation(location);
+			}
+		}
+		setVisible(!getVisible());
 	}
 
 	public Point getLocation() {
@@ -106,11 +117,20 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 				String layoutstring = element.hasAttribute("layout") ? element
 						.getAttribute("layout") : "FillLayout";
 
+				boolean maximized = element.hasAttribute("maximized") ? element
+						.getAttribute("maximized").equals("true") : false;
+				boolean visible = element.hasAttribute("visible") ? element
+						.getAttribute("visible").equals("true") : false;
+
+				debug("creating FooShell " + name);
+
 				FooShell shell = new FooShell();
 
-				FooFactory.putView(name, shell);
-
 				shell.setText(text);
+
+				shell.setMaximized(maximized);
+				shell.setVisible(visible);
+
 				shell.setSize(new Point(width, heigth));
 
 				shell.setLayout(createLayout(layoutstring));
@@ -137,9 +157,9 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 				}
 
 				shell.setImage(image);
-				
-				// TODO: replace static with search in map! (everywhere)
-				FooWindow.SHELL = shell;
+
+				FooFactory.putView(name, shell);
+
 				return shell;
 			}
 
@@ -173,7 +193,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 
 	@Override
 	public void setMenubar(FooMenu menu) {
-		shell.setMenuBar(menu.getMenu());		
+		shell.setMenuBar(menu.getMenu());
 	}
 
 }

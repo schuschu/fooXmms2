@@ -112,7 +112,7 @@ public class FooFactory {
 	
 	public static void parse(){
 		debug("parsing xml window");
-		parse(FooXML.getElement("window"));
+		parse(FooXML.getElement("GUI"));
 		FooFactory.createLayout();
 		debug("xml window parsed");
 	}

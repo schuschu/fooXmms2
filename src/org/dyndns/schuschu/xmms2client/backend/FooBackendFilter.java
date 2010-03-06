@@ -21,7 +21,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.w3c.dom.Element;
 
 import se.fnord.xmms2.client.CommandErrorException;
@@ -40,7 +40,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  */
 public class FooBackendFilter extends Observable implements Serializable,
 		FooInterfaceBackendFilter, FooInterfaceDebug {
-
+	
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
 
@@ -56,6 +56,8 @@ public class FooBackendFilter extends Observable implements Serializable,
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
+	
+	private FooShell shell;
 
 	/**
 	 * this List contains all values which will be usable by this list it should
@@ -284,8 +286,9 @@ public class FooBackendFilter extends Observable implements Serializable,
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendFilter(String format, String filter, FooInterfaceView view) {
+	public FooBackendFilter(String format, String filter, FooInterfaceView view, FooShell shell) {
 		debug("FooBackendFilter");
+		this.setShell(shell);
 		this.setView(view);
 		this.setFilter(filter);
 		this.setFormat(format);
@@ -523,7 +526,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			} catch (InterruptedException e1) {
 				Thread.currentThread().interrupt();
 			} catch (CommandErrorException e) {
-				FooMessageDialog.show(FooWindow.SHELL, "invalid selection",
+				FooMessageDialog.show(getShell(), "invalid selection",
 						"Error");
 			}
 		}
@@ -583,6 +586,16 @@ public class FooBackendFilter extends Observable implements Serializable,
 	public FooColor getDebugBackground() {
 		return debugBackground;
 	}
+	
+	public FooShell getShell() {
+		debug("getShell");
+		return shell;
+	}
+	
+	public void setShell(FooShell shell){
+		debug("setShell");
+		this.shell=shell;
+	}
 
 	public static void registerFactory() {
 		// BACKEND
@@ -620,7 +633,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 				debug("creating FooBackendFilter " + name);
 
 				FooBackendFilter filterBackend = new FooBackendFilter(format,
-						filter, getView(view));
+						filter, getView(view),getShell(element));
 				filterBackend.setName(name);
 
 				// list sorting parameters, optional (if none: backends handle sorting)
@@ -651,6 +664,22 @@ public class FooBackendFilter extends Observable implements Serializable,
 				}
 				return null;
 			}
+			
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
+
+			}
+			
 		};
 
 		FooFactory.factories.put("FooBackendFilter", factory);
@@ -779,17 +808,19 @@ public class FooBackendFilter extends Observable implements Serializable,
 	}
 
 	public FooAction ActionOrder(int code) {
-		return new ActionOrder(code, this);
+		return new ActionOrder(code, this, shell);
 	}
 
 	// TODO: rename to sort...
 	public class ActionOrder extends FooAction {
 
 		private FooBackendFilter backend;
+		private FooShell shell;
 
-		public ActionOrder(int code, FooBackendFilter backend) {
+		public ActionOrder(int code, FooBackendFilter backend, FooShell shell) {
 			super("order", code);
 			this.backend = backend;
+			this.shell = shell;
 		}
 
 		@Override
@@ -802,7 +833,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			buffer.deleteCharAt(buffer.length() - 1);
 			String current = buffer.toString();
 
-			String input = FooInputDialog.show(FooWindow.SHELL,
+			String input = FooInputDialog.show(shell,
 					"Please enter new order:\n(i.e.: artist album title",
 					"change order", current);
 
@@ -820,16 +851,18 @@ public class FooBackendFilter extends Observable implements Serializable,
 	}
 
 	public FooAction ActionFormat(int code) {
-		return new ActionFormat(code, this);
+		return new ActionFormat(code, this, shell);
 	}
 
 	public class ActionFormat extends FooAction {
 
 		private final FooBackendFilter backend;
+		private FooShell shell;
 
-		public ActionFormat(int code, FooBackendFilter backend) {
+		public ActionFormat(int code, FooBackendFilter backend, FooShell shell) {
 			super("format", code);
 			this.backend = backend;
+			this.shell = shell;
 		}
 
 		@Override
@@ -838,7 +871,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 			String input = FooInputDialog
 					.show(
-							FooWindow.SHELL,
+							shell,
 							"Please enter new format:\n(i.e.: %artist% - %album%: %title% ",
 							"change format", current);
 

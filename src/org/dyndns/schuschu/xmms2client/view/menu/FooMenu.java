@@ -6,7 +6,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceControl;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
 import org.dyndns.schuschu.xmms2client.view.FooStyle;
-import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
@@ -16,8 +16,8 @@ public class FooMenu implements FooInterfaceMenu {
 
 	private Menu menu;
 
-	public FooMenu() {
-		setMenu(new Menu(FooWindow.SHELL.getShell()));
+	public FooMenu(FooShell shell) {
+		setMenu(new Menu(shell.getShell()));
 	}
 
 	public FooMenu(FooInterfaceControl parent) {
@@ -77,7 +77,7 @@ public class FooMenu implements FooInterfaceMenu {
 						break;
 					case SWT.DROP_DOWN:
 						debug("creating dropdown menu for " + view);
-						menu= new FooMenu(FooWindow.SHELL, style);
+						menu= new FooMenu(getShell(element), style);
 						getView(view).setMenu(menu);
 						break;
 					case SWT.POP_UP:
@@ -89,7 +89,7 @@ public class FooMenu implements FooInterfaceMenu {
 
 					debug("creating menu for " + view);
 
-					menu = new FooMenu();
+					menu = new FooMenu(getShell(element));
 					getView(view).setMenu(menu);
 				}
 				
@@ -104,6 +104,21 @@ public class FooMenu implements FooInterfaceMenu {
 					return (FooInterfaceMenu) o;
 				}
 				return null;
+			}
+			
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
+
 			}
 
 			private FooInterfaceDecorations getDecoration(String s) {
