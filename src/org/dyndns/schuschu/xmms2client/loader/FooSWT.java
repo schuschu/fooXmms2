@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceWindow;
-import org.dyndns.schuschu.xmms2client.view.tray.FooTray;
 import org.dyndns.schuschu.xmms2client.view.window.FooWindow;
 
 public class FooSWT {
@@ -15,13 +14,13 @@ public class FooSWT {
 		init(true, false);
 	}
 
+	public static FooInterfaceWindow main;
+	
 	public static void init(boolean show_on_start, boolean max_on_start) {
-		FooInterfaceWindow main = new FooWindow(max_on_start);
+		
+		main = new FooWindow(max_on_start);
 
-		FooTray tray = new FooTray(main);
-		tray.initialize();
-
-		if (!tray.isSupported() || show_on_start) {
+		if (show_on_start) {
 			main.setVisible(true);
 		}
 
