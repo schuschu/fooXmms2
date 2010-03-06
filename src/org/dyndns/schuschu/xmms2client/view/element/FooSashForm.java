@@ -67,7 +67,6 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 				debug("creating SashForm " + name + " with parent " + parent);
 				FooSashForm sash = new FooSashForm(getComposite(parent), style);
 				
-
 				FooFactory.putView(name, sash);
 				return sash;
 			}

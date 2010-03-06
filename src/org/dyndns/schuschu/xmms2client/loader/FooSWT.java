@@ -12,15 +12,13 @@ public class FooSWT {
 	// Initialization for SWT
 
 	public static void init() {
-		init(true, false);
-	}
-
-	public static void init(boolean show_on_start, boolean max_on_start) {
 		
 		FooFactory.parse();
 
-		FooShell main = (FooShell) FooFactory.getView("main");
+		Display.getDefault().update();
 		
+		FooShell main = (FooShell) FooFactory.getView("main");
+				
 		if(main==null){
 			System.out.println("Please name the main shell main");
 			System.exit(1);

@@ -21,10 +21,6 @@ public class FooLoader {
 
 	public static Client CLIENT;
 
-	// set default initial state of the window
-	private static boolean show_on_start;
-	private static boolean max_on_start;
-
 	private static String host;
 	private static int port;
 
@@ -48,7 +44,7 @@ public class FooLoader {
 		FooFactory.loadPlugins();
 
 		//Open window
-		FooSWT.init(show_on_start, max_on_start);
+		FooSWT.init();
 	}
 
 	/**
@@ -105,11 +101,6 @@ public class FooLoader {
 		port = FooXML.exists("config/client", "port") ? FooXML.getInt(
 				"config/client", "port") : 9667;
 
-		show_on_start = FooXML.exists("config/window", "visible") ? FooXML
-				.getBool("config/window", "visible") : true;
-		max_on_start = FooXML.exists("config/window", "maximised") ? FooXML
-				.getBool("config/window", "maximised") : false;
-
 		DEBUG = FooXML.exists("config/debug", "enabled") ? FooXML.getBool(
 				"config/debug", "enabled") : false;
 		VISUAL = FooXML.exists("config/debug", "visual") ? FooXML.getBool(
@@ -147,34 +138,6 @@ public class FooLoader {
 					port = trial_port;
 				} else {
 					exitWithError("illegal port!");
-				}
-			}
-
-			// check if the window is supposed to go into tray directly
-			else if (args[run].equals("--icon") || args[run].equals("-i")) {
-				try {
-					run++;
-					if (args[run].equals("on") || args[run].equals("off")) {
-						show_on_start = args[run].equals("on");
-					} else {
-						exitWithError("please specify either on or off");
-					}
-				} catch (ArrayIndexOutOfBoundsException e) {
-					exitWithError("please specify either on or off");
-				}
-			}
-
-			// check if the window is supposed to start maximized
-			else if (args[run].equals("--maximized") || args[run].equals("-m")) {
-				try {
-					run++;
-					if (args[run].equals("on") || args[run].equals("off")) {
-						max_on_start = args[run].equals("on");
-					} else {
-						exitWithError("please specify either on or off");
-					}
-				} catch (ArrayIndexOutOfBoundsException e) {
-					exitWithError("please specify either on or off");
 				}
 			}
 

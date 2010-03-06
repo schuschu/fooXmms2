@@ -1,7 +1,6 @@
 <fooXmms2>
 	<config>
  		<client ip="127.0.0.1" port="9667"/>
-		<window maximised="false" visible="true"/>
 		<debug enabled="false" visual="false"/>
 	</config>
 	

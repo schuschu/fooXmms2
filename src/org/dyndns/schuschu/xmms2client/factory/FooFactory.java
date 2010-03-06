@@ -10,6 +10,7 @@ import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -112,8 +113,10 @@ public class FooFactory {
 	
 	public static void parse(){
 		debug("parsing xml window");
-		parse(FooXML.getElement("GUI"));
-		FooFactory.createLayout();
+		Element root = FooXML.getElement("GUI");
+		parse(root);
+		createLayout();
+		finishLayout(root);
 		debug("xml window parsed");
 	}
 	
@@ -185,7 +188,33 @@ public class FooFactory {
 			}
 		}
 	}
+	
+	private static void finishLayout(Element root) {
+		
+		Element views = root;
 
+		NodeList nodes = views.getChildNodes();
+		
+		for (int i = 0; i < nodes.getLength(); i++) {
+			
+			Node node = nodes.item(i);
+
+			if (node instanceof Element) {
+
+				Element child = (Element) node;
+
+				if (child.getNodeName().equals("shell")){
+					Object o = getView(child.getAttribute("name"));
+					if (o instanceof FooShell){
+						((FooShell) o).getShell().layout();
+					}
+				}
+
+				finishLayout(child);
+			}
+		}		
+	}
+	
 	private static String getDefaultType(Element element) {
 		Element root = element;
 		do {
