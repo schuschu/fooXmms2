@@ -79,8 +79,12 @@ public class FooMenu implements FooInterfaceMenu {
 						debug("creating dropdown menu for " + view);
 						menu= new FooMenu(FooWindow.SHELL, style);
 						getView(view).setMenu(menu);
+						break;
+					case SWT.POP_UP:
+						debug("creating popup menu for " + view);
+						menu= new FooMenu(getDecoration(view), style);
+						getView(view).setMenu(menu);
 					}
-
 				} else {
 
 					debug("creating menu for " + view);
