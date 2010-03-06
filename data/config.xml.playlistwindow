@@ -35,7 +35,21 @@
 	</plugins>
 	
 	<GUI>
-		<shell type="FooShell" name="main" layout="FormLayout" maximized="false" x="center" y="center">
+		<shell type="FooShell" name="playlistshell" width="200" heigth="200" xoff="-750" yoff="0" text="Playlists">
+			<view type="FooList" name="listPlaylistSwitch" style="BORDER SINGLE V_SCROLL">
+				<layoutdata type="FormData" top="0" left="0" right="100" /> 
+				<backend type="FooBackendPlaylistSwitch" name="playlistComboBackend">
+					<debug type="FooDebug" fg="GRAY"/>
+					<watch type="FooWatchPlaylist" name="watchPlaylistCombo">
+						<debug type="FooDebug" fg="WHITE" bg="RED"/>
+					</watch>
+					<watch type="FooWatchPlaylistLoad" name="watchPlaylistComboLoad">
+						<debug type="FooDebug" fg="WHITE" bg="MAGENTA"/>
+					</watch>
+				</backend>
+			</view>
+		</shell>
+		<shell type="FooShell" name="main" layout="FormLayout" maximized="false">
 			<item type="FooTrayItem" name="tray">
 				<menu type="FooMenu" name="trayMenu" style="POP_UP">
 					<item type="FooMenuItem" name="trayPlay" style="PUSH" text="Play">

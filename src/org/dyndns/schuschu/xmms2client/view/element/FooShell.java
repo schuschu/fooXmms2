@@ -12,12 +12,14 @@ import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 
@@ -90,6 +92,10 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 		return shell;
 	}
 
+	public Rectangle getBounds() {
+		return shell.getBounds();
+	}
+
 	public static void registerFactory() {
 		// VIEW
 		FooFactorySub factory = new FooFactorySub() {
@@ -104,7 +110,6 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 				String text = element.hasAttribute("text") ? element
 						.getAttribute("text") : "fooXmms2";
 
-				// dimensions of the window, has defualts
 				String widthstring = element.hasAttribute("width") ? element
 						.getAttribute("width") : "1000";
 				String heigthstring = element.hasAttribute("heigth") ? element
@@ -120,18 +125,49 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 				boolean maximized = element.hasAttribute("maximized") ? element
 						.getAttribute("maximized").equals("true") : false;
 				boolean visible = element.hasAttribute("visible") ? element
-						.getAttribute("visible").equals("true") : false;
+						.getAttribute("visible").equals("true") : true;
 
 				debug("creating FooShell " + name);
 
 				FooShell shell = new FooShell();
 
+				shell.setSize(new Point(width, heigth));
+
+				// position of the window, has defualts
+				Monitor primary = Display.getDefault().getPrimaryMonitor();
+				Rectangle bounds = primary.getBounds();
+				Rectangle rect = shell.getBounds();
+
+				// absolute values, one to default and windowmanager does the magic
+				String xstring = element.hasAttribute("x") ? element
+						.getAttribute("x") : "default";
+				String ystring = element.hasAttribute("y") ? element
+						.getAttribute("y") : "default";
+
+				if (!ystring.equals("default") || !xstring.equals("default")) {
+
+					int x = xstring.equals("center") ? bounds.x
+							+ (bounds.width - rect.width) / 2 : Integer
+							.parseInt(xstring);
+					int y = ystring.equals("center") ? bounds.y
+							+ (bounds.height - rect.height) / 2 : Integer
+							.parseInt(ystring);
+
+					// offset values
+					String xoffstring = element.hasAttribute("xoff") ? element
+							.getAttribute("xoff") : "0";
+					String yoffstring = element.hasAttribute("yoff") ? element
+							.getAttribute("yoff") : "0";
+					int xoff = Integer.parseInt(xoffstring);
+					int yoff = Integer.parseInt(yoffstring);
+
+					shell.setLocation(new Point(x + xoff, y + yoff));
+					
+				}
 				shell.setText(text);
 
 				shell.setMaximized(maximized);
 				shell.setVisible(visible);
-
-				shell.setSize(new Point(width, heigth));
 
 				shell.setLayout(createLayout(layoutstring));
 
