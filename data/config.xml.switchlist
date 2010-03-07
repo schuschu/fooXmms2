@@ -34,8 +34,8 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.view.layout.FooWeightData"/>
 	</plugins>
 	
-	<window>
-		<view type="FooShell" name="SHELL" layout="FormLayout">
+	<GUI>
+		<shell type="FooShell" name="main" layout="FormLayout">
 			<menubar type="FooMenu" name="menubar" style="BAR">
 				<menu type="FooMenuItem" name="fileHeader" style="CASCADE" text="&amp;File">
 					<menu type="FooMenu" name="fileMenu" style="DROP_DOWN">
@@ -198,6 +198,6 @@
 					</watch>
 				</backend>
 			</view>
-		</view>
-	</window>	
+		</shell>
+	</GUI>	
 </fooXmms2>
