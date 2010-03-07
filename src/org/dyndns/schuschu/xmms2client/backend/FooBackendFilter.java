@@ -1,7 +1,10 @@
 package org.dyndns.schuschu.xmms2client.backend;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
@@ -155,6 +158,10 @@ public class FooBackendFilter extends Observable implements Serializable,
 				current = new String("no " + match);
 			} else {
 				current = token.get(match).toString();
+			}
+			if (match.equals("duration")) {
+				DateFormat df = new SimpleDateFormat("mm':'ss");
+				current = df.format(new Date(Integer.parseInt(current)));
 			}
 
 			tokenString = tokenString.replaceAll("%" + match + "%", current);
