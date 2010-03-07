@@ -30,11 +30,13 @@ import org.w3c.dom.Element;
 import se.fnord.xmms2.client.CommandErrorException;
 import se.fnord.xmms2.client.commands.Collection;
 import se.fnord.xmms2.client.commands.Command;
+import se.fnord.xmms2.client.commands.Medialib;
 import se.fnord.xmms2.client.commands.Playlist;
 import se.fnord.xmms2.client.types.CollectionBuilder;
 import se.fnord.xmms2.client.types.CollectionExpression;
 import se.fnord.xmms2.client.types.CollectionType;
 import se.fnord.xmms2.client.types.Dict;
+import se.fnord.xmms2.client.types.IdQuery;
 import se.fnord.xmms2.client.types.InfoQuery;
 
 /**
@@ -207,7 +209,6 @@ public class FooBackendFilter extends Observable implements Serializable,
 			master.setType(CollectionType.UNION);
 
 			master.addOps(ops);
-
 			setFilteredConetent(master.build());
 
 		} else {
@@ -539,6 +540,25 @@ public class FooBackendFilter extends Observable implements Serializable,
 		}
 	}
 
+	public void removeSelection() {
+		debug("removeSelection");
+		CollectionExpression filtered = getFilteredConetent();
+		if (filtered != null) {
+			try {
+				Command l = Collection.query(new IdQuery(filtered, 0, 0,
+						new String[0]));
+				List<Integer> ids = l.executeSync(FooLoader.CLIENT);
+				for (int id : ids) {
+					Command c = Medialib.removeId(id);
+					c.execute(FooLoader.CLIENT);
+				}
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+		refresh();
+	}
+
 	@Override
 	public FooInterfaceBackendFilter getContentProvider() {
 		debug("getContentProvider");
@@ -755,6 +775,9 @@ public class FooBackendFilter extends Observable implements Serializable,
 				case refresh:
 					action = ActionRefresh(code);
 					break;
+				case remove:
+					action = ActionRemove(code);
+					break;
 				}
 
 				view.addAction(source, action);
@@ -774,7 +797,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	}
 
 	private enum ActionType {
-		enqueue, deselect, format, order, refresh;
+		enqueue, deselect, format, order, refresh, remove;
 	}
 
 	public FooAction ActionEnqueu(int code) {
@@ -894,7 +917,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		}
 
 	}
-	
+
 	public FooAction ActionRefresh(int code) {
 		return new ActionRefresh(code, this);
 	}
@@ -911,6 +934,26 @@ public class FooBackendFilter extends Observable implements Serializable,
 		@Override
 		public void execute() {
 			backend.refresh();
+		}
+
+	}
+
+	public FooAction ActionRemove(int code) {
+		return new ActionRemove(code, this);
+	}
+
+	public class ActionRemove extends FooAction {
+
+		private final FooBackendFilter backend;
+
+		public ActionRemove(int code, FooBackendFilter backend) {
+			super("format", code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			backend.removeSelection();
 		}
 
 	}

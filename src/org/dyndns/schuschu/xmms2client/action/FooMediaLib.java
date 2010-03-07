@@ -16,6 +16,8 @@ import se.fnord.xmms2.client.commands.Medialib;
 
 public class FooMediaLib {
 
+	//TODO: Add File
+	
 	public static void registerFactory() {
 		// ACTION
 		FooFactorySub factory = new FooFactorySub() {

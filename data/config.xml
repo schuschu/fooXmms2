@@ -140,6 +140,9 @@
 						<item type="FooMenuItem" name="artistFormat" text="change format">
 							<action name="format"/>
 						</item>
+						<item type="FooMenuItem" name="artistRemove" text="Remove from Medialib">
+							<action name="remove"/>
+						</item>
 					</menu>
 					<action name="enqueue" code="CR" source="KEYBOARD"/>
 					<action name="enqueue" code="2" source="MOUSE"/>
@@ -157,6 +160,9 @@
 						<item type="FooMenuItem" name="albumFormat" text="change format">
 							<action name="format"/>
 						</item>
+						<item type="FooMenuItem" name="albumRemove" text="Remove from Medialib">
+							<action name="remove"/>
+						</item>
 					</menu>		
 					<action name="enqueue" code="CR" source="KEYBOARD"/>
 					<action name="enqueue" code="2" source="MOUSE"/>
@@ -173,6 +179,9 @@
 						</item>
 						<item type="FooMenuItem" name="trackFormat" text="change format">
 							<action name="format"/>
+						</item>
+						<item type="FooMenuItem" name="trackRemove" text="Remove from Medialib">
+							<action name="remove"/>
 						</item>
 					</menu>
 					<action name="enqueue" code="CR" source="KEYBOARD"/>
