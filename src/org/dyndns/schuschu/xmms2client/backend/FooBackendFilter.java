@@ -532,9 +532,16 @@ public class FooBackendFilter extends Observable implements Serializable,
 	public void enqueuSelection() {
 		debug("enqueuSelection");
 		CollectionExpression filtered = getFilteredConetent();
+
 		if (filtered != null) {
-			Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST, filtered, 0);
 			try {
+				Command l = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
+				
+				List<Integer> list = l.executeSync(FooLoader.CLIENT);
+
+				Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST, filtered,
+						list.size());
+
 				c.executeSync(FooLoader.CLIENT);
 			} catch (InterruptedException e1) {
 				Thread.currentThread().interrupt();
