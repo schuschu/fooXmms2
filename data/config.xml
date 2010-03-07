@@ -35,7 +35,7 @@
 	</plugins>
 	
 	<GUI>
-		<shell type="FooShell" name="main" layout="FormLayout" maximized="false" x="center" y="center">
+		<shell type="FooShell" name="main" layout="FormLayout">
 			<item type="FooTrayItem" name="tray">
 				<menu type="FooMenu" name="trayMenu" style="POP_UP">
 					<item type="FooMenuItem" name="trayPlay" style="PUSH" text="Play">

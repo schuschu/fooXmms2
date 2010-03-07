@@ -30,9 +30,12 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 	public FooTrayItem(FooShell shell, int style) {
 		tray = Display.getDefault().getSystemTray();
 		this.shell = shell;
-		// TODO: checks
-		item = new TrayItem(tray, style);
-		createItem();
+		if (tray == null) {
+			shell.setVisible(true);
+		} else {
+			item = new TrayItem(tray, style);
+			createItem();
+		}
 	}
 
 	public FooTrayItem(FooShell shell) {
@@ -115,7 +118,6 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 				return item;
 
 			}
-			
 
 			private FooShell getShell(Element element) {
 				Element root = element;
@@ -144,6 +146,6 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 	@Override
 	public void setMenubar(FooMenu menu) {
 		shell.setMenubar(menu);
-		
+
 	}
 }
