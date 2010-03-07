@@ -36,6 +36,18 @@
 	
 	<GUI>
 		<shell type="FooShell" name="main" layout="FormLayout">
+			<backend type="FooBackendText" name="windowtitleBackend" format="fooXmms2: (%status%) %artist% - %title%: %currentTime%/%duration%">
+				<debug type="FooDebug" fg="DARK_YELLOW"/>
+				<watch type="FooWatchCurrentTrack" name="watchWindowTrack">
+					<debug type="FooDebug" fg="RED" bg="DARK_YELLOW"/>
+				</watch>
+				<watch type="FooWatchPlaybackPos" name="watchWindowPos">
+					<debug type="FooDebug" fg="RED" bg="BLACK"/>
+				</watch>
+				<watch type="FooWatchPlaybackStatus" name="watchWindowStatus">
+					<debug type="FooDebug" fg="RED" bg="CYAN"/>
+				</watch>
+			</backend>
 			<item type="FooTrayItem" name="tray">
 				<menu type="FooMenu" name="trayMenu" style="POP_UP">
 					<item type="FooMenuItem" name="trayPlay" style="PUSH" text="Play">

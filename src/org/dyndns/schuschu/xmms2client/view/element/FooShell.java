@@ -5,9 +5,11 @@ import java.io.InputStream;
 
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
 import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.graphics.Image;
@@ -24,9 +26,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 
 public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
-		FooInterfaceDecorations {
+		FooInterfaceDecorations, FooInterfaceText {
 	private Shell shell;
 	private Point location;
+	private FooInterfaceBackendText backend;
 
 	public FooShell() {
 		shell = new Shell(Display.getDefault());
@@ -230,6 +233,17 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	@Override
 	public void setMenubar(FooMenu menu) {
 		shell.setMenuBar(menu.getMenu());
+	}
+
+	@Override
+	public FooInterfaceBackendText getBackend() {
+		return backend;
+	}
+
+	@Override
+	public void setBackend(FooInterfaceBackendText backend) {
+		this.backend = backend;
+		
 	}
 
 }
