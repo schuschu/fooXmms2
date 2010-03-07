@@ -160,7 +160,8 @@
 					</menu>		
 					<action name="enqueue" code="CR" source="KEYBOARD"/>
 					<action name="enqueue" code="2" source="MOUSE"/>
-					<action name="deselect" code="ESC" source="KEYBOARD"/>			
+					<action name="deselect" code="ESC" source="KEYBOARD"/>		
+					<action name="refresh" code="F5" source="KEYBOARD"/>	
 				</view>
 				<view type="FooList" name="listTrack" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="trackBackend" format="%title%" filter="title" contentprovider="albumBackend">
@@ -177,6 +178,7 @@
 					<action name="enqueue" code="CR" source="KEYBOARD"/>
 					<action name="enqueue" code="2" source="MOUSE"/>
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
+					<action name="refresh" code="F5" source="KEYBOARD"/>
 				</view>
 				<view type="FooComposite" name="compositePlaylist" layout="FormLayout">
 					<view type="FooCombo" name="comboPlaylist" style="READ_ONLY">
