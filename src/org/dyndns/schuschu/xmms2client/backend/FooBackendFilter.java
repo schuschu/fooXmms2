@@ -212,7 +212,11 @@ public class FooBackendFilter extends Observable implements Serializable,
 			setFilteredConetent(master.build());
 
 		} else {
-			setFilteredConetent(CollectionBuilder.getEmptyExpression());
+			if (baseConetent.equals(CollectionBuilder.getAllMediaReference())) {
+				setFilteredConetent(CollectionBuilder.getEmptyExpression());
+			} else {
+				setFilteredConetent(baseConetent);
+			}
 		}
 	}
 
