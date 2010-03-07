@@ -42,7 +42,7 @@ public class FooWatchMediaLib extends Thread implements FooInterfaceDebug{
 	private Runnable r;
 
 	public FooWatchMediaLib(final FooInterfaceBackend backend) {
-		c = Medialib.changeBroadcast();
+		c = Medialib.addBroadcast();
 		c.execute(FooLoader.CLIENT);
 
 		r = new Runnable() {

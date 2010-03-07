@@ -43,7 +43,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
  */
 public class FooBackendFilter extends Observable implements Serializable,
 		FooInterfaceBackendFilter, FooInterfaceDebug {
-	
+
 	private static final boolean DEBUG = FooLoader.DEBUG;
 	private String name;
 
@@ -59,7 +59,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			System.out.println("debug: " + getName() + " " + message);
 		}
 	}
-	
+
 	private FooShell shell;
 
 	/**
@@ -293,7 +293,8 @@ public class FooBackendFilter extends Observable implements Serializable,
 	 *            the view element associated with this backend (wont crunch
 	 *            numbers for nothing)
 	 */
-	public FooBackendFilter(String format, String filter, FooInterfaceView view, FooShell shell) {
+	public FooBackendFilter(String format, String filter,
+			FooInterfaceView view, FooShell shell) {
 		debug("FooBackendFilter");
 		this.setShell(shell);
 		this.setView(view);
@@ -533,8 +534,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 			} catch (InterruptedException e1) {
 				Thread.currentThread().interrupt();
 			} catch (CommandErrorException e) {
-				FooMessageDialog.show(getShell(), "invalid selection",
-						"Error");
+				FooMessageDialog.show(getShell(), "invalid selection", "Error");
 			}
 		}
 	}
@@ -593,15 +593,15 @@ public class FooBackendFilter extends Observable implements Serializable,
 	public FooColor getDebugBackground() {
 		return debugBackground;
 	}
-	
+
 	public FooShell getShell() {
 		debug("getShell");
 		return shell;
 	}
-	
-	public void setShell(FooShell shell){
+
+	public void setShell(FooShell shell) {
 		debug("setShell");
-		this.shell=shell;
+		this.shell = shell;
 	}
 
 	public static void registerFactory() {
@@ -640,16 +640,17 @@ public class FooBackendFilter extends Observable implements Serializable,
 				debug("creating FooBackendFilter " + name);
 
 				FooBackendFilter filterBackend = new FooBackendFilter(format,
-						filter, getView(view),getShell(element));
+						filter, getView(view), getShell(element));
 				filterBackend.setName(name);
 
-				// list sorting parameters, optional (if none: backends handle sorting)
+				// list sorting parameters, optional (if none: backends handle
+				// sorting)
 				String sort = element.getAttribute("sort");
 				if (!sort.isEmpty()) {
 					List<String> newOrder = Arrays.asList(sort.split(" "));
 					filterBackend.setOrderBy(newOrder);
 				}
-				
+
 				if (contentprovider.equals("ALL")) {
 					filterBackend.setToAll();
 				} else {
@@ -671,7 +672,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 				}
 				return null;
 			}
-			
+
 			private FooShell getShell(Element element) {
 				Element root = element;
 				do {
@@ -686,7 +687,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 				return null;
 
 			}
-			
+
 		};
 
 		FooFactory.factories.put("FooBackendFilter", factory);
@@ -751,6 +752,9 @@ public class FooBackendFilter extends Observable implements Serializable,
 				case order:
 					action = ActionOrder(code);
 					break;
+				case refresh:
+					action = ActionRefresh(code);
+					break;
 				}
 
 				view.addAction(source, action);
@@ -770,7 +774,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 	}
 
 	private enum ActionType {
-		enqueue, deselect, format, order;
+		enqueue, deselect, format, order, refresh;
 	}
 
 	public FooAction ActionEnqueu(int code) {
@@ -850,7 +854,6 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 				backend.getView().setSelection(new int[] { -1 });
 				backend.refresh();
-				backend.generateFilteredContent();
 			}
 
 		}
@@ -886,9 +889,28 @@ public class FooBackendFilter extends Observable implements Serializable,
 				backend.setFormat(input);
 				backend.getView().setSelection(new int[] { -1 });
 				backend.refresh();
-				backend.generateFilteredContent();
 			}
 
+		}
+
+	}
+	
+	public FooAction ActionRefresh(int code) {
+		return new ActionRefresh(code, this);
+	}
+
+	public class ActionRefresh extends FooAction {
+
+		private final FooBackendFilter backend;
+
+		public ActionRefresh(int code, FooBackendFilter backend) {
+			super("format", code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			backend.refresh();
 		}
 
 	}

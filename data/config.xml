@@ -144,6 +144,7 @@
 					<action name="enqueue" code="CR" source="KEYBOARD"/>
 					<action name="enqueue" code="2" source="MOUSE"/>
 					<action name="deselect" code="ESC" source="KEYBOARD"/>
+					<action name="refresh" code="F5" source="KEYBOARD"/>
 				</view>
 				<view type="FooList" name="listAlbum" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" sort="album" contentprovider="artistBackend">
