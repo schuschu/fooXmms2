@@ -64,6 +64,8 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 	private FooShell shell;
 
+	private boolean passthrough;
+
 	/**
 	 * this List contains all values which will be usable by this list it should
 	 * by possible to be modified by all ViewElements in the CLIENT. Maybe a
@@ -211,13 +213,12 @@ public class FooBackendFilter extends Observable implements Serializable,
 			master.addOps(ops);
 			setFilteredConetent(master.build());
 
+		} else if (passthrough) {
+			setFilteredConetent(baseConetent);
 		} else {
-			if (baseConetent.equals(CollectionBuilder.getAllMediaReference())) {
-				setFilteredConetent(CollectionBuilder.getEmptyExpression());
-			} else {
-				setFilteredConetent(baseConetent);
-			}
+			setFilteredConetent(CollectionBuilder.getEmptyExpression());
 		}
+
 	}
 
 	/**
@@ -536,7 +537,7 @@ public class FooBackendFilter extends Observable implements Serializable,
 		if (filtered != null) {
 			try {
 				Command l = Playlist.listEntries(Playlist.ACTIVE_PLAYLIST);
-				
+
 				List<Integer> list = l.executeSync(FooLoader.CLIENT);
 
 				Command c = Playlist.insert(Playlist.ACTIVE_PLAYLIST, filtered,
@@ -681,6 +682,10 @@ public class FooBackendFilter extends Observable implements Serializable,
 					List<String> newOrder = Arrays.asList(sort.split(" "));
 					filterBackend.setOrderBy(newOrder);
 				}
+				
+				// when set the backend will pass through basecontent when nothing is selected
+				boolean passthrough = element.hasAttribute("passthrough") ? element.getAttribute("passthrough").equals("true") : false;
+				filterBackend.setPassthrough(passthrough);
 
 				if (contentprovider.equals("ALL")) {
 					filterBackend.setToAll();
@@ -951,6 +956,10 @@ public class FooBackendFilter extends Observable implements Serializable,
 
 	public FooAction ActionRemove(int code) {
 		return new ActionRemove(code, this);
+	}
+
+	public void setPassthrough(boolean passthrough) {
+		this.passthrough = passthrough;
 	}
 
 	public class ActionRemove extends FooAction {

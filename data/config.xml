@@ -150,7 +150,7 @@
 					<action name="refresh" code="F5" source="KEYBOARD"/>
 				</view>
 				<view type="FooList" name="listAlbum" style="BORDER MULTI V_SCROLL">
-					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" sort="album" contentprovider="artistBackend">
+					<backend type="FooBackendFilter" name="albumBackend" format="%album% (%date%)" filter="album" sort="album" contentprovider="artistBackend" passthrough="false">
 						<debug type="FooDebug" fg="MAGENTA"/>
 					</backend>
 					<menu type="FooMenu" name="albumMenu">
