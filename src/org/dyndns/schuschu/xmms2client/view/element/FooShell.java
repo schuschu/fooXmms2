@@ -76,7 +76,9 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	}
 
 	public void setText(String string) {
-		shell.setText(string);
+		if (!shell.isDisposed()) {
+			shell.setText(string);
+		}
 	}
 
 	public void setSize(Point size) {
@@ -141,7 +143,8 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 				Rectangle bounds = primary.getBounds();
 				Rectangle rect = shell.getBounds();
 
-				// absolute values, one to default and windowmanager does the magic
+				// absolute values, one to default and windowmanager does the
+				// magic
 				String xstring = element.hasAttribute("x") ? element
 						.getAttribute("x") : "default";
 				String ystring = element.hasAttribute("y") ? element
@@ -165,7 +168,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 					int yoff = Integer.parseInt(yoffstring);
 
 					shell.setLocation(new Point(x + xoff, y + yoff));
-					
+
 				}
 				shell.setText(text);
 
@@ -243,7 +246,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	@Override
 	public void setBackend(FooInterfaceBackendText backend) {
 		this.backend = backend;
-		
+
 	}
 
 }

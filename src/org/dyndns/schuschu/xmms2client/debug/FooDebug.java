@@ -12,6 +12,7 @@ import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceDebug;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooConfirmationDialog;
+import org.dyndns.schuschu.xmms2client.view.dialog.FooFileDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
 import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
 import org.eclipse.swt.SWT;
@@ -20,7 +21,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -303,10 +303,7 @@ public class FooDebug extends OutputStream {
 			@Override
 			public void handleEvent(Event arg0) {
 				pause = true;
-				FileDialog fd = new FileDialog(sShell, SWT.SAVE);
-				fd.setText("Save logfile");
-				fd.setFileName("fooXmms2.log");
-				String selected = fd.open();
+				String selected = FooFileDialog.show(sShell,"Save logfile");
 
 				if (selected != null) {
 					try {

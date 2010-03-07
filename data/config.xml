@@ -21,9 +21,11 @@
 		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendPlaylistSwitch"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendText"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.action.FooMediaLib"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.action.FooPlayback"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.action.FooPlaylist"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.action.FooSystem"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchMediaLib"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchCurrentTrack"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackPos"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.watch.FooWatchPlaybackStatus"/>
@@ -74,6 +76,9 @@
 			<menubar type="FooMenu" name="menubar" style="BAR">
 				<menu type="FooMenuItem" name="fileHeader" style="CASCADE" text="&amp;File">
 					<menu type="FooMenu" name="fileMenu" style="DROP_DOWN">
+						<item type="FooMenuItem" name="fileAddDir" style="PUSH" text="Add Folder">
+							<action name="add_dir" type="MediaLib"/>
+						</item>
 						<item type="FooMenuItem" name="fileQuit" style="PUSH" text="Quit">
 							<action name="exit" type="System"/>
 						</item>
@@ -124,6 +129,9 @@
 				<view type="FooList" name="listArtist" style="BORDER MULTI V_SCROLL">
 					<backend type="FooBackendFilter" name="artistBackend" format="%artist%" filter="artist">
 						<debug type="FooDebug" fg="DARK_MAGENTA"/>
+						<watch type="FooWatchMediaLib" name="watchArtistMedialib">
+							<debug type="FooDebug" fg="BLUE" bg="RED"/>
+						</watch>
 					</backend>
 					<menu type="FooMenu" name="artistMenu">
 						<item type="FooMenuItem" name="artistOrder" text="change order">
