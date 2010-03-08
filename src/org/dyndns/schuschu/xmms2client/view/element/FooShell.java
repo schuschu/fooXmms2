@@ -27,8 +27,10 @@ import org.w3c.dom.Element;
 
 public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 		FooInterfaceDecorations, FooInterfaceText {
+	
 	private Shell shell;
 	private Point location;
+	private boolean maximized;
 	private FooInterfaceBackendText backend;
 
 	public FooShell() {
@@ -44,10 +46,14 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 		shell.setLayout(layout);
 	}
 
+	public boolean getMaximized(){
+		return shell.getMaximized();
+	}
+	
 	public void setMaximized(boolean maximized) {
 		shell.setMaximized(maximized);
 	}
-
+	
 	public void setVisible(boolean visible) {
 		shell.setVisible(visible);
 	}
@@ -59,7 +65,10 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	public void toggleVisible() {
 		if (getVisible()) {
 			location = getLocation();
+			location = location.x<0 || location.y<0 ? null: location;
+			maximized = getMaximized();
 		} else {
+			setMaximized(maximized);
 			if (location != null) {
 				setLocation(location);
 			}
