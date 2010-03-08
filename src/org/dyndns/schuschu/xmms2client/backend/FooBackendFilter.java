@@ -13,7 +13,6 @@ import org.dyndns.schuschu.xmms2client.action.base.FooAction;
 import org.dyndns.schuschu.xmms2client.action.base.FooKey;
 import org.dyndns.schuschu.xmms2client.action.base.FooSource;
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
@@ -55,8 +54,8 @@ public class FooBackendFilter extends Observable implements Serializable,
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(getDebugForeground());
-				FooDebug.setBackground(getDebugBackground());
+				FooLoader.DOUTPUT.setForeground(getDebugForeground());
+				FooLoader.DOUTPUT.setBackground(getDebugBackground());
 			}
 			System.out.println("debug: " + getName() + " " + message);
 		}

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackendText;
@@ -37,8 +36,8 @@ public class FooBackendText implements FooInterfaceBackendText,FooInterfaceDebug
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(getDebugForeground());
-				FooDebug.setBackground(getDebugBackground());
+				FooLoader.DOUTPUT.setForeground(getDebugForeground());
+				FooLoader.DOUTPUT.setBackground(getDebugBackground());
 			}
 			System.out.println("debug: " + getName() + " " + message);
 		}

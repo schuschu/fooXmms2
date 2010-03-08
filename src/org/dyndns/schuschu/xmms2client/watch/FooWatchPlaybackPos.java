@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceDebug;
@@ -26,8 +25,8 @@ public class FooWatchPlaybackPos extends Thread implements FooInterfaceDebug {
 			if (FooLoader.VISUAL) {
 				FooColor fg = debugForeground.containsKey(backend) ? debugForeground.get(backend) : FooColor.WHITE;
 				FooColor bg = debugBackground.containsKey(backend) ? debugBackground.get(backend) : FooColor.RED;
-				FooDebug.setForeground(fg);
-				FooDebug.setBackground(bg);
+				FooLoader.DOUTPUT.setForeground(fg);
+				FooLoader.DOUTPUT.setBackground(bg);
 			}
 			System.out.println("debug: " + super.getName() + " " + message);
 		}

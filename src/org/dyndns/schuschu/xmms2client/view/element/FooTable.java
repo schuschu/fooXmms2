@@ -53,8 +53,16 @@ public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
 		getTable().addSelectionListener(createSelectionListener());
 	}
 
+	public FooTable(FooInterfaceComposite parent, int style) {
+		this(parent.getComposite(), style);
+	}
+
 	public FooTable(Composite parent) {
 		this(parent, SWT.NONE);
+	}
+
+	public FooTable(FooInterfaceComposite parent) {
+		this(parent.getComposite(), SWT.NONE);
 	}
 
 	@Override
@@ -117,7 +125,7 @@ public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
 			@Override
 			public void mouseUp(MouseEvent arg0) {
 				for (FooAction a : mouseActions) {
-					if (a.code == 1 && arg0.button==1) {
+					if (a.code == 1 && arg0.button == 1) {
 						a.execute();
 					}
 				}
@@ -126,7 +134,7 @@ public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				for (FooAction a : mouseActions) {
-					if (a.code == 2 && arg0.button==1) {
+					if (a.code == 2 && arg0.button == 1) {
 						a.execute();
 					}
 				}
@@ -155,8 +163,10 @@ public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				backend.selectionChanged();
-
+				//should this be used without backend?
+				if (backend != null) {
+					backend.selectionChanged();
+				}
 			}
 		};
 	}
@@ -181,6 +191,30 @@ public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
 			keyboardActions.remove(action);
 			break;
 		}
+	}
+
+	public void showItem(TableItem item) {
+		table.showItem(item);
+	}
+
+	public int getItemCount() {
+		return table.getItemCount();
+	}
+
+	public void remove(int index) {
+		table.remove(index);
+	}
+
+	public void clearAll() {
+		table.clearAll();
+	}
+
+	public void setItemCount(int count) {
+		table.setItemCount(count);
+	}
+
+	public TableItem[] getItems() {
+		return table.getItems();
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package org.dyndns.schuschu.xmms2client.watch;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceCurrentTrack;
@@ -21,8 +20,8 @@ public class FooWatchCurrentTrack extends Thread implements FooInterfaceDebug{
 	private void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(debugForeground);
-				FooDebug.setBackground(debugBackground);
+				FooLoader.DOUTPUT.setForeground(debugForeground);
+				FooLoader.DOUTPUT.setBackground(debugBackground);
 			}
 			System.out.println("debug: " +  super.getName() +" " + message);
 		}

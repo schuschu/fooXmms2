@@ -5,7 +5,7 @@
 	</config>
 	
 	<plugins>
-		<plugin name="org.dyndns.schuschu.xmms2client.debug.FooDebug"/>
+		<plugin name="org.dyndns.schuschu.xmms2client.backend.FooBackendDebug"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooShell"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooComposite"/>
 		<plugin name="org.dyndns.schuschu.xmms2client.view.element.FooList"/>
@@ -37,6 +37,11 @@
 	</plugins>
 	
 	<GUI>
+		<shell type="FooShell" name="debug" width="400" heigth="400">
+			<view type="FooTable" name="debugTable" style="FULL_SELECTION">
+				<backend type="FooBackendDebug" name="debugBackend"/>
+			</view>
+		</shell>
 		<shell type="FooShell" name="main" layout="FormLayout">
 			<backend type="FooBackendText" name="windowtitleBackend" format="fooXmms2: (%status%) %artist% - %title%: %currentTime%/%duration%">
 				<debug type="FooDebug" fg="DARK_YELLOW"/>

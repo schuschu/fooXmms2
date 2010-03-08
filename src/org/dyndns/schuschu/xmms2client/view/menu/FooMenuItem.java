@@ -44,6 +44,19 @@ public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 			}
 		};
 	}
+	
+	//TODO: remove
+	public void addListener(int eventType, Listener listener){
+		item.addListener(eventType, listener);
+	}
+	
+	public void setSelection(boolean selected){
+		item.setSelection(selected);
+	}
+	
+	public boolean getSelection(){
+		return item.getSelection();
+	}
 
 	public void setText(String string) {
 		item.setText(string);

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.loader.FooXML;
@@ -22,8 +21,8 @@ public class FooFactory {
 	private static void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(FooColor.WHITE);
-				FooDebug.setBackground(FooColor.DARK_BLUE);
+				FooLoader.DOUTPUT.setForeground(FooColor.WHITE);
+				FooLoader.DOUTPUT.setBackground(FooColor.DARK_BLUE);
 			}
 			System.out.println("debug: FooFactory " + message);
 		}

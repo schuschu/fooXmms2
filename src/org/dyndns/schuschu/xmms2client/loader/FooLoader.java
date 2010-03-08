@@ -3,6 +3,7 @@ package org.dyndns.schuschu.xmms2client.loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.dyndns.schuschu.xmms2client.backend.FooBackendDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.xml.sax.SAXException;
 
@@ -20,6 +21,7 @@ public class FooLoader {
 	public static boolean VISUAL;
 
 	public static Client CLIENT;
+	public static FooBackendDebug DOUTPUT;
 
 	private static String host;
 	private static int port;

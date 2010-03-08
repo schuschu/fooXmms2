@@ -1,55 +1,42 @@
-package org.dyndns.schuschu.xmms2client.debug;
+package org.dyndns.schuschu.xmms2client.backend;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Vector;
 
+import org.dyndns.schuschu.xmms2client.debug.FooColor;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
 import org.dyndns.schuschu.xmms2client.factory.FooFactorySub;
+import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceBackend;
 import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceDebug;
-import org.dyndns.schuschu.xmms2client.view.dialog.FooConfirmationDialog;
-import org.dyndns.schuschu.xmms2client.view.dialog.FooFileDialog;
-import org.dyndns.schuschu.xmms2client.view.dialog.FooInputDialog;
-import org.dyndns.schuschu.xmms2client.view.dialog.FooMessageDialog;
+import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceView;
+import org.dyndns.schuschu.xmms2client.loader.FooLoader;
+import org.dyndns.schuschu.xmms2client.view.element.FooShell;
+import org.dyndns.schuschu.xmms2client.view.element.FooTable;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.w3c.dom.Element;
 
-public class FooDebug extends OutputStream {
+public class FooBackendDebug extends OutputStream implements FooInterfaceBackend  {
 
+	private String name;
+	
 	// TODO: replace with fooview elements?
 
-	private static final FooColor defForeground = FooColor.BLACK;
-	private static final FooColor defBackground = FooColor.WHITE;
+	private final FooColor defForeground = FooColor.BLACK;
+	private final FooColor defBackground = FooColor.WHITE;
 
-	private static FooColor foreground;
-	private static FooColor background;
+	private FooColor foreground;
+	private FooColor background;
 
 	private boolean run = true;
 	private boolean pause = false;
+	
+	private boolean autoscroll = true;
 
-	private Shell sShell;
-	private Display display;
-	private Table table;
-	private Image image;
-	private Menu menuBar, fileMenu, editMenu;
-	private MenuItem fileMenuHeader, editMenuHeader;
-	private MenuItem fileExitItem, fileSaveItem, editAutoScrollItem,
-			editScrollbackItem, editClearItem;
+	private FooTable table;
 
 	private StringBuffer sb;
 
@@ -58,9 +45,10 @@ public class FooDebug extends OutputStream {
 
 	private Thread updater;
 
-	public FooDebug() {
+	public FooBackendDebug(FooTable table_, FooShell shell) {
 
-		this.display = Display.getDefault();
+		table=table_;
+		
 		buffer = new Vector<BufferEntry>();
 		sb = new StringBuffer();
 		limit = 1000;
@@ -68,33 +56,32 @@ public class FooDebug extends OutputStream {
 		setForeground(defForeground);
 		setBackground(defBackground);
 
-		createSShell();
-
 		Runnable runable = new Runnable() {
 
 			@Override
 			public void run() {
 				while (run) {
 					waiter();
-					if (!display.isDisposed()) {
-						display.syncExec(new Runnable() {
+					if (!table.getTable().isDisposed()) {
+						Display.getDefault().syncExec(new Runnable() {
 							public void run() {
-								if (sShell.isDisposed()) {
-									createSShell();
-								}
+								//TODO: sanity if shell closed?
 
-								TableItem item = new TableItem(table, SWT.NONE);
+								TableItem item = new TableItem(table.getTable(), SWT.NONE);
 								item.setText(buffer.get(0).getText());
-								item.setBackground(display
+								
+								item.setBackground(Display.getDefault()
 										.getSystemColor(buffer.get(0)
 												.getBackground().getCode()));
-								item.setForeground(display
+								item.setForeground(Display.getDefault()
 										.getSystemColor(buffer.get(0)
 												.getForeground().getCode()));
 								buffer.remove(0);
-								if (editAutoScrollItem.getSelection()) {
+								
+								if (autoscroll) {
 									table.showItem(item);
 								}
+								
 								if (limit != 0 && table.getItemCount() > limit) {
 									table.remove(0);
 								}
@@ -107,7 +94,13 @@ public class FooDebug extends OutputStream {
 
 		updater = new Thread(runable);
 		updater.start();
-
+		
+		PrintStream out = new PrintStream(this);
+		System.setOut(out);
+		
+		FooLoader.DOUTPUT = this;
+		FooLoader.VISUAL = true;
+		
 	}
 
 	public void done() {
@@ -137,16 +130,14 @@ public class FooDebug extends OutputStream {
 		}
 	}
 
-	private synchronized void refresh() {
+	public synchronized void refresh() {
 		notify();
 	}
 
 	@Override
 	public void write(int b) throws IOException {
-		if (sShell.isDisposed()) {
-			createSShell();
-		}
-
+		//TODO: sanity checks
+		
 		if ((char) b != '\n' && (char) b != '\r') {
 			sb.append((char) b);
 		} else {
@@ -155,110 +146,7 @@ public class FooDebug extends OutputStream {
 			}
 		}
 	}
-
-	private void createSShell() {
-		sShell = new Shell(display);
-		sShell.setText("debug console");
-		sShell.setSize(new Point(400, 400));
-
-		sShell.setLayout(new FillLayout());
-
-		createImage();
-		sShell.setImage(image);
-
-		createMenuBar();
-		sShell.setMenuBar(menuBar);
-
-		createTable();
-
-		sShell.open();
-	}
-
-	public void createImage() {
-		InputStream stream = this.getClass().getResourceAsStream(
-				"/pixmaps/xmms2-128.png");
-		if (stream != null) {
-			try {
-				image = new Image(display, stream);
-			} catch (IllegalArgumentException e) {
-			} finally {
-				try {
-					stream.close();
-				} catch (IOException e) {
-				}
-			}
-		} else {
-			// TODO: find better way to do this
-			image = new Image(display, "pixmaps/xmms2-128.png");
-		}
-	}
-
-	public void createTable() {
-		table = new Table(sShell, SWT.FULL_SELECTION);
-
-		// TODO: Windows: width of list
-
-		// use list mode
-		// new TableColumn(table, SWT.NONE);
-		// table.getColumn(0).pack();
-	}
-
-	public void createMenuBar() {
-		menuBar = new Menu(sShell, SWT.BAR);
-
-		createFileMenu();
-		createEditMenu();
-
-	}
-
-	public void createFileMenu() {
-		fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-		fileMenuHeader.setText("&File");
-
-		fileMenu = new Menu(sShell, SWT.DROP_DOWN);
-		fileMenuHeader.setMenu(fileMenu);
-
-		fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileSaveItem.setText("&Save");
-		fileSaveItem.addListener(SWT.Selection, createSaveListener());
-
-		fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileExitItem.setText("E&xit");
-		fileExitItem.addListener(SWT.Selection, createExitListener());
-	}
-
-	public void createEditMenu() {
-		editMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-		editMenuHeader.setText("&Edit");
-
-		editMenu = new Menu(sShell, SWT.DROP_DOWN);
-		editMenuHeader.setMenu(editMenu);
-
-		editAutoScrollItem = new MenuItem(editMenu, SWT.CHECK);
-		editAutoScrollItem.setText("&Autoscroll");
-		editAutoScrollItem.setSelection(true);
-
-		editScrollbackItem = new MenuItem(editMenu, SWT.PUSH);
-		editScrollbackItem.setText("&Scrollback");
-		editScrollbackItem.setSelection(true);
-		editScrollbackItem.addListener(SWT.Selection,
-				createScrollbackListener());
-
-		editClearItem = new MenuItem(editMenu, SWT.PUSH);
-		editClearItem.setText("&Clear");
-		editClearItem.addListener(SWT.Selection, createClearListener());
-	}
-
-	public Listener createExitListener() {
-		return new Listener() {
-
-			@Override
-			public void handleEvent(Event arg0) {
-				sShell.close();
-			}
-		};
-	}
-
+/*
 	public Listener createScrollbackListener() {
 		return new Listener() {
 
@@ -284,7 +172,9 @@ public class FooDebug extends OutputStream {
 			}
 		};
 	}
-
+*/
+	
+/*
 	public Listener createClearListener() {
 		return new Listener() {
 
@@ -296,7 +186,9 @@ public class FooDebug extends OutputStream {
 			}
 		};
 	}
+*/
 
+/*
 	public Listener createSaveListener() {
 		return new Listener() {
 
@@ -342,16 +234,17 @@ public class FooDebug extends OutputStream {
 			}
 		};
 	}
+*/
 
-	public static void setForeground(FooColor foreground) {
-		FooDebug.foreground = foreground;
+	public void setForeground(FooColor foreground) {
+		this.foreground = foreground;
 	}
 
-	public static void setBackground(FooColor background) {
-		FooDebug.background = background;
+	public void setBackground(FooColor background) {
+		this.background = background;
 	}
 	
-	public static void registerFactory() {
+	public static void registerDebugFactory() {
 		FooFactorySub factory = new FooFactorySub() {
 
 			@Override
@@ -388,8 +281,82 @@ public class FooDebug extends OutputStream {
 		};
 		FooFactory.factories.put("FooDebug", factory);
 	}
-	
 
+	@Override
+	public Vector<String> getContent() {
+		//none
+		return null;
+	}
+
+	@Override
+	public FooInterfaceView getView() {
+		return table;
+	}
+
+	@Override
+	public void selectionChanged() {
+		//ignore		
+	}
+	
+	public static void registerFactory(){
+		FooFactorySub factory = new FooFactorySub() {
+			
+			@Override
+			public Object create(Element element) {
+				// name equals variable name, no default
+				String name = element.getAttribute("name");
+				
+				// get the parent nodes name for view (since backends are always direct
+				// below (hirachical) their view element)
+				Element father = (Element) element.getParentNode();
+				String view = father.getAttribute("name");
+				
+				debug("creating FooBackendDebug " + name);
+
+				FooBackendDebug debugBackend = new FooBackendDebug(getViewText(view),getShell(element));
+				debugBackend.setName(name);
+
+				FooFactory.putBackend(name, debugBackend);
+				
+				//Register debug nodes
+				registerDebugFactory();
+				
+				return debugBackend;
+			}
+			private FooTable getViewText(String s) {
+				Object o = FooFactory.getView(s);
+				if (o instanceof FooTable) {
+					return (FooTable) o;
+				}
+				return null;
+			}
+			private FooShell getShell(Element element) {
+				Element root = element;
+				do {
+					root = (Element) root.getParentNode();
+				} while (!root.getNodeName().equals("shell"));
+
+				Object o = FooFactory.getView(root.getAttribute("name"));
+
+				if (o instanceof FooShell) {
+					return (FooShell) o;
+				}
+				return null;
+
+			}
+		};
+		
+		FooFactory.factories.put("FooBackendDebug", factory);
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
 }
 
 class BufferEntry {

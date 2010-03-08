@@ -36,6 +36,14 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	public FooShell() {
 		shell = new Shell(Display.getDefault());
 	}
+	
+	public void open(){
+		shell.open();
+	}
+	
+	public void close(){
+		shell.close();
+	}
 
 	@Override
 	public Composite getComposite() {

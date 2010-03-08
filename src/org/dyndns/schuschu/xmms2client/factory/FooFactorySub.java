@@ -1,7 +1,6 @@
 package org.dyndns.schuschu.xmms2client.factory;
 
 import org.dyndns.schuschu.xmms2client.debug.FooColor;
-import org.dyndns.schuschu.xmms2client.debug.FooDebug;
 import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.w3c.dom.Element;
 
@@ -14,8 +13,8 @@ public abstract class FooFactorySub {
 	protected void debug(String message) {
 		if (DEBUG) {
 			if (FooLoader.VISUAL) {
-				FooDebug.setForeground(debugForeground);
-				FooDebug.setBackground(debugBackground);
+				FooLoader.DOUTPUT.setForeground(debugForeground);
+				FooLoader.DOUTPUT.setBackground(debugBackground);
 			}
 			System.out.println("debug: FooFactory " + message);
 		}
