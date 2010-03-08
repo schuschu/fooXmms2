@@ -10,10 +10,8 @@ Missing TAGS!!!
 	grouping
 		Find out what that stupid thing does and how to use it
 
-Rethink Debug plugin and visual/debug switch
-	Make FooDebug a Backend, parse it from xml, and register a factory for debug 
-	nodes and action nodes (save log, clear log ...). Need a new type of action
-	for toggle? (Autoscroll)	
+Debug backend actions (Scrollback, Clear, Save), and make it start early!
+	
 
 Debug for actions
 	Difficult for Colors... make them all the same, display some message and good

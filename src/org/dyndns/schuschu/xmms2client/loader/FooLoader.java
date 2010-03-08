@@ -33,19 +33,19 @@ public class FooLoader {
 	 */
 	public static void main(String[] args) {
 
-		//Params, core
+		// Params, core
 		parseXML();
 		parseArgs(args);
-		
-		//GUI init (debug(
+
+		// GUI init (debug(
 		FooSWT.createDebug();
-		
+
 		createClient(args);
-		
-		//Window elements
+
+		// Window elements
 		FooFactory.loadPlugins();
 
-		//Open window
+		// Open window
 		FooSWT.init();
 	}
 
@@ -105,8 +105,6 @@ public class FooLoader {
 
 		DEBUG = FooXML.exists("config/debug", "enabled") ? FooXML.getBool(
 				"config/debug", "enabled") : false;
-		VISUAL = FooXML.exists("config/debug", "visual") ? FooXML.getBool(
-				"config/debug", "visual") : false;
 
 		// parsing command line arguments
 		// if argument is invalid, drop user shit and assume default
@@ -148,19 +146,6 @@ public class FooLoader {
 					run++;
 					if (args[run].equals("on") || args[run].equals("off")) {
 						FooLoader.DEBUG = args[run].equals("on");
-					} else {
-						exitWithError("please specify either on or off");
-					}
-				} catch (ArrayIndexOutOfBoundsException e) {
-					exitWithError("please specify either on or off");
-				}
-			}
-
-			else if (args[run].equals("--visual") || args[run].equals("-v")) {
-				try {
-					run++;
-					if (args[run].equals("on") || args[run].equals("off")) {
-						FooLoader.VISUAL = args[run].equals("on");
 					} else {
 						exitWithError("please specify either on or off");
 					}

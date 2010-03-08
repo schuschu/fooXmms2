@@ -21,8 +21,6 @@ This part is about the things that are wrong in the current version:
   
   Static icon
     
-  Create Debug from ViewElements
-    
   Create debug output for all relevant operations (values not just name) and
   maybe timing (needed ms)  
   
