@@ -51,6 +51,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	}
 	
 	public void setMaximized(boolean maximized) {
+		this.maximized=maximized;
 		shell.setMaximized(maximized);
 	}
 	
