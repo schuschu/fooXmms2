@@ -69,10 +69,10 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 			location = location.x<0 || location.y<0 ? null: location;
 			maximized = getMaximized();
 		} else {
-			setMaximized(maximized);
 			if (location != null) {
 				setLocation(location);
 			}
+			setMaximized(maximized);
 		}
 		setVisible(!getVisible());
 	}
