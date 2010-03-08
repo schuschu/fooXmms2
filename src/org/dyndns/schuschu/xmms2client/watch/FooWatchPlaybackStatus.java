@@ -20,7 +20,7 @@ public class FooWatchPlaybackStatus extends Thread implements FooInterfaceDebug{
 
 	private void debug(String message) {
 		if (DEBUG) {
-			if (FooLoader.VISUAL) {
+			if (FooLoader.DOUTPUT!=null) {
 				FooLoader.DOUTPUT.setForeground(debugForeground);
 				FooLoader.DOUTPUT.setBackground(debugBackground);
 			}

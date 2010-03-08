@@ -112,7 +112,6 @@ public class FooBackendDebug extends OutputStream implements
 		registerDebugFactory();
 
 		FooLoader.DOUTPUT = this;
-		FooLoader.VISUAL = true;
 
 	}
 

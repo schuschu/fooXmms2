@@ -22,7 +22,7 @@ public class FooWatchPlaybackPos extends Thread implements FooInterfaceDebug {
 
 	private void debug(String message, FooInterfacePlaybackPos backend) {
 		if (DEBUG) {
-			if (FooLoader.VISUAL) {
+			if (FooLoader.DOUTPUT!=null) {
 				FooColor fg = debugForeground.containsKey(backend) ? debugForeground.get(backend) : FooColor.WHITE;
 				FooColor bg = debugBackground.containsKey(backend) ? debugBackground.get(backend) : FooColor.RED;
 				FooLoader.DOUTPUT.setForeground(fg);

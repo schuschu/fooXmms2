@@ -20,7 +20,7 @@ public class FooFactory {
 
 	private static void debug(String message) {
 		if (DEBUG) {
-			if (FooLoader.VISUAL) {
+			if (FooLoader.DOUTPUT!=null) {
 				FooLoader.DOUTPUT.setForeground(FooColor.WHITE);
 				FooLoader.DOUTPUT.setBackground(FooColor.DARK_BLUE);
 			}

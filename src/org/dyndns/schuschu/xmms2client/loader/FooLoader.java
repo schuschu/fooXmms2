@@ -18,7 +18,6 @@ import se.fnord.xmms2.client.ClientStatus;
 public class FooLoader {
 
 	public static boolean DEBUG;
-	public static boolean VISUAL;
 
 	public static Client CLIENT;
 	public static FooBackendDebug DOUTPUT;

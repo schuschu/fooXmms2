@@ -47,7 +47,7 @@ public class FooBackendPlaylist implements Serializable,
 
 	private void debug(String message) {
 		if (DEBUG) {
-			if (FooLoader.VISUAL) {
+			if (FooLoader.DOUTPUT!=null) {
 				FooLoader.DOUTPUT.setForeground(getDebugForeground());
 				FooLoader.DOUTPUT.setBackground(getDebugBackground());
 			}
