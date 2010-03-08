@@ -19,10 +19,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.w3c.dom.Element;
 
-public class FooBackendDebug extends OutputStream implements FooInterfaceBackend  {
+public class FooBackendDebug extends OutputStream implements
+		FooInterfaceBackend {
 
 	private String name;
-	
+
 	// TODO: replace with fooview elements?
 
 	private final FooColor defForeground = FooColor.BLACK;
@@ -33,10 +34,13 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 
 	private boolean run = true;
 	private boolean pause = false;
-	
+
 	private boolean autoscroll = true;
 
-	private FooTable table;
+	private FooTable table = null;
+	private FooShell shell = null;
+
+	private boolean debugonly;
 
 	private StringBuffer sb;
 
@@ -45,10 +49,17 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 
 	private Thread updater;
 
-	public FooBackendDebug(FooTable table_, FooShell shell) {
+	private static FooBackendDebug instance = null;
 
-		table=table_;
-		
+	public static FooBackendDebug create() {
+		if (instance == null) {
+			instance = new FooBackendDebug();
+		}
+		return instance;
+	}
+
+	public FooBackendDebug() {
+
 		buffer = new Vector<BufferEntry>();
 		sb = new StringBuffer();
 		limit = 1000;
@@ -62,28 +73,27 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 			public void run() {
 				while (run) {
 					waiter();
-					if (!table.getTable().isDisposed()) {
+					if (table != null && !getTable().isDisposed()) {
 						Display.getDefault().syncExec(new Runnable() {
 							public void run() {
-								//TODO: sanity if shell closed?
+								if (!table.isDisposed()) {
+									TableItem item = new TableItem(getTable().getTable(),
+											SWT.NONE);
+									item.setText(buffer.get(0).getText());
 
-								TableItem item = new TableItem(table.getTable(), SWT.NONE);
-								item.setText(buffer.get(0).getText());
-								
-								item.setBackground(Display.getDefault()
-										.getSystemColor(buffer.get(0)
-												.getBackground().getCode()));
-								item.setForeground(Display.getDefault()
-										.getSystemColor(buffer.get(0)
-												.getForeground().getCode()));
-								buffer.remove(0);
-								
-								if (autoscroll) {
-									table.showItem(item);
-								}
-								
-								if (limit != 0 && table.getItemCount() > limit) {
-									table.remove(0);
+									item.setBackground(Display.getDefault().getSystemColor(
+											buffer.get(0).getBackground().getCode()));
+									item.setForeground(Display.getDefault().getSystemColor(
+											buffer.get(0).getForeground().getCode()));
+									buffer.remove(0);
+
+									if (autoscroll) {
+										getTable().showItem(item);
+									}
+
+									if (limit != 0 && getTable().getItemCount() > limit) {
+										getTable().remove(0);
+									}
 								}
 							}
 						});
@@ -94,13 +104,16 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 
 		updater = new Thread(runable);
 		updater.start();
-		
+
 		PrintStream out = new PrintStream(this);
 		System.setOut(out);
-		
+
+		// Register debug nodes
+		registerDebugFactory();
+
 		FooLoader.DOUTPUT = this;
 		FooLoader.VISUAL = true;
-		
+
 	}
 
 	public void done() {
@@ -136,8 +149,8 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 
 	@Override
 	public void write(int b) throws IOException {
-		//TODO: sanity checks
-		
+		// TODO: sanity checks
+
 		if ((char) b != '\n' && (char) b != '\r') {
 			sb.append((char) b);
 		} else {
@@ -146,95 +159,50 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 			}
 		}
 	}
-/*
-	public Listener createScrollbackListener() {
-		return new Listener() {
 
-			@Override
-			public void handleEvent(Event arg0) {
-				String temp = FooInputDialog.show(sShell,
-						"Please enter new scrollback limit (0 to disable)",
-						"scrollback", limit + "");
-				if (temp != null) {
-					try {
-						int i = Integer.parseInt(temp);
-						limit = i;
-						if (limit != 0) {
-							while (table.getItemCount() > limit) {
-								table.remove(0);
-							}
-						}
-					} catch (NumberFormatException e) {
-						FooMessageDialog.show(sShell,
-								"Please enter a valid number", "Error");
-					}
-				}
-			}
-		};
-	}
-*/
-	
-/*
-	public Listener createClearListener() {
-		return new Listener() {
+	/*
+	 * public Listener createScrollbackListener() { return new Listener() {
+	 * 
+	 * @Override public void handleEvent(Event arg0) { String temp =
+	 * FooInputDialog.show(sShell,
+	 * "Please enter new scrollback limit (0 to disable)", "scrollback", limit +
+	 * ""); if (temp != null) { try { int i = Integer.parseInt(temp); limit = i;
+	 * if (limit != 0) { while (table.getItemCount() > limit) { table.remove(0); }
+	 * } } catch (NumberFormatException e) { FooMessageDialog.show(sShell,
+	 * "Please enter a valid number", "Error"); } } } }; }
+	 */
 
-			@Override
-			public void handleEvent(Event arg0) {
-				table.clearAll();
-				table.setItemCount(0);
+	/*
+	 * public Listener createClearListener() { return new Listener() {
+	 * 
+	 * @Override public void handleEvent(Event arg0) { table.clearAll();
+	 * table.setItemCount(0);
+	 * 
+	 * } }; }
+	 */
 
-			}
-		};
-	}
-*/
-
-/*
-	public Listener createSaveListener() {
-		return new Listener() {
-
-			@Override
-			public void handleEvent(Event arg0) {
-				pause = true;
-				String selected = FooFileDialog.show(sShell,"Save logfile");
-
-				if (selected != null) {
-					try {
-						File file = new File(selected);
-
-						boolean write = true;
-
-						if (!file.createNewFile()) {
-							write = SWT.YES == FooConfirmationDialog
-									.show(
-											sShell,
-											file.getName()
-													+ " already exists. Do you want to replace it?",
-											"Replace file");
-						}
-
-						if (write) {
-							if (file.canWrite()) {
-								FileWriter fstream = new FileWriter(file);
-								BufferedWriter out = new BufferedWriter(fstream);
-								for (TableItem item : table.getItems()) {
-									out.write(item.getText() + "\n");
-								}
-								out.close();
-							} else {
-								FooMessageDialog.show(sShell,
-										"Can not write to file!", "Error");
-							}
-						}
-					} catch (IOException e) {
-						FooMessageDialog.show(sShell, e.getMessage(), "Error");
-					}
-				}
-				pause = false;
-				refresh();
-			}
-		};
-	}
-*/
+	/*
+	 * public Listener createSaveListener() { return new Listener() {
+	 * 
+	 * @Override public void handleEvent(Event arg0) { pause = true; String
+	 * selected = FooFileDialog.show(sShell,"Save logfile");
+	 * 
+	 * if (selected != null) { try { File file = new File(selected);
+	 * 
+	 * boolean write = true;
+	 * 
+	 * if (!file.createNewFile()) { write = SWT.YES == FooConfirmationDialog
+	 * .show( sShell, file.getName() +
+	 * " already exists. Do you want to replace it?", "Replace file"); }
+	 * 
+	 * if (write) { if (file.canWrite()) { FileWriter fstream = new
+	 * FileWriter(file); BufferedWriter out = new BufferedWriter(fstream); for
+	 * (TableItem item : table.getItems()) { out.write(item.getText() + "\n"); }
+	 * out.close(); } else { FooMessageDialog.show(sShell,
+	 * "Can not write to file!", "Error"); } } } catch (IOException e) {
+	 * FooMessageDialog.show(sShell, e.getMessage(), "Error"); } } pause = false;
+	 * refresh(); } }; }
+	 */
 
 	public void setForeground(FooColor foreground) {
 		this.foreground = foreground;
@@ -243,7 +211,7 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 	public void setBackground(FooColor background) {
 		this.background = background;
 	}
-	
+
 	public static void registerDebugFactory() {
 		FooFactorySub factory = new FooFactorySub() {
 
@@ -284,45 +252,53 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 
 	@Override
 	public Vector<String> getContent() {
-		//none
+		// none
 		return null;
 	}
 
 	@Override
 	public FooInterfaceView getView() {
-		return table;
+		return getTable();
 	}
 
 	@Override
 	public void selectionChanged() {
-		//ignore		
+		// ignore
 	}
-	
-	public static void registerFactory(){
+
+	public static void registerFactory() {
 		FooFactorySub factory = new FooFactorySub() {
-			
+
 			@Override
 			public Object create(Element element) {
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
-				
-				// get the parent nodes name for view (since backends are always direct
+
+				// get the parent nodes name for view (since backends are always
+				// direct
 				// below (hirachical) their view element)
 				Element father = (Element) element.getParentNode();
 				String view = father.getAttribute("name");
-				
+
+				// if debugonly is set the backend will close its shell if debug is not
+				// defined, default true
+				boolean debugonly = element.hasAttribute("debugonly") ? element.getAttribute("debugonly").equals("true") : true;
+
 				debug("creating FooBackendDebug " + name);
 
-				FooBackendDebug debugBackend = new FooBackendDebug(getViewText(view),getShell(element));
+				FooBackendDebug debugBackend = FooBackendDebug.create();
+				
+				debugBackend.setDebugonly(debugonly);
+				debugBackend.setTable(getViewText(view));
+				debugBackend.setShell(getShell(element));
+
 				debugBackend.setName(name);
 
 				FooFactory.putBackend(name, debugBackend);
-				
-				//Register debug nodes
-				registerDebugFactory();
-				
+
 				return debugBackend;
 			}
+
 			private FooTable getViewText(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooTable) {
@@ -330,6 +306,7 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 				}
 				return null;
 			}
+
 			private FooShell getShell(Element element) {
 				Element root = element;
 				do {
@@ -345,8 +322,9 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 
 			}
 		};
-		
+
 		FooFactory.factories.put("FooBackendDebug", factory);
+		FooBackendDebug.create();
 	}
 
 	public void setName(String name) {
@@ -356,7 +334,34 @@ public class FooBackendDebug extends OutputStream implements FooInterfaceBackend
 	public String getName() {
 		return name;
 	}
-	
+
+	public void setTable(FooTable table) {
+		this.table = table;
+	}
+
+	public FooTable getTable() {
+		return table;
+	}
+
+	public void setShell(FooShell shell) {
+		this.shell = shell;
+		if (!FooLoader.DEBUG && debugonly ) {
+			shell.close();
+		}
+	}
+
+	public FooShell getShell() {
+		return shell;
+	}
+
+	public void setDebugonly(boolean debugonly) {
+		this.debugonly = debugonly;
+	}
+
+	public boolean isDebugonly() {
+		return debugonly;
+	}
+
 }
 
 class BufferEntry {

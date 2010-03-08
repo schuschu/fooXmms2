@@ -9,18 +9,18 @@ public class FooSWT {
 	// Initialization for SWT
 
 	public static void init() {
-		
+
 		FooFactory.parse();
 
 		Display.getDefault().update();
-		
+
 		FooShell main = (FooShell) FooFactory.getView("main");
-				
-		if(main==null){
+
+		if (main == null) {
 			System.out.println("Please name the main shell main");
 			System.exit(1);
 		}
-		
+
 		while (!main.isDisposed()) {
 			if (!Display.getDefault().readAndDispatch()) {
 				Display.getDefault().sleep();
@@ -35,10 +35,9 @@ public class FooSWT {
 
 	public static void createDebug() {
 		if (FooLoader.DEBUG) {
+			FooLoader.DOUTPUT.setForeground(FooColor.RED);
 			System.out.println("Welcome to fooXmms2");
-			if (FooLoader.VISUAL) {
-				FooLoader.DOUTPUT.setForeground(FooColor.RED);
-			}
+			FooLoader.DOUTPUT.setForeground(FooColor.RED);
 			System.out.println("===================");
 		}
 	}

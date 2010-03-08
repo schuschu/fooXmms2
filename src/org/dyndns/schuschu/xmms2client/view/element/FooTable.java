@@ -192,6 +192,10 @@ public class FooTable implements FooInterfaceViewPlaylist, FooInterfaceControl,
 			break;
 		}
 	}
+	
+	public boolean isDisposed() {
+		return table.isDisposed();
+	}
 
 	public void showItem(TableItem item) {
 		table.showItem(item);

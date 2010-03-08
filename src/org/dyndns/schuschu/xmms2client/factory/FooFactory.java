@@ -27,7 +27,7 @@ public class FooFactory {
 			System.out.println("debug: FooFactory " + message);
 		}
 	}
-	
+
 	private static final HashMap<String, Object> views = new HashMap<String, Object>();
 	private static final HashMap<String, Object> backends = new HashMap<String, Object>();
 	private static final HashMap<String, Object> watches = new HashMap<String, Object>();
@@ -36,16 +36,19 @@ public class FooFactory {
 
 	private static final Vector<Element> layoutdata = new Vector<Element>();
 
-	public static void loadPlugins() {
+	public static void loadPlugins(Element base) {
 
-		debug("loading plugins");
-		
+		debug("loading " + base.getNodeName());
+		loadPluginsSilent(base);
+		debug(base.getNodeName() + " loaded");
+
+	}
+
+	public static void loadPluginsSilent(Element base) {
 		// TODO: sudo make it good
 		try {
 
-			Element plugins = FooXML.getElement("plugins");
-
-			NodeList children = plugins.getChildNodes();
+			NodeList children = base.getChildNodes();
 
 			for (int i = 0; i < children.getLength(); i++) {
 				Node node = children.item(i);
@@ -62,8 +65,6 @@ public class FooFactory {
 
 				}
 			}
-			
-			debug("plugins loaded");
 
 		} catch (SecurityException e) {
 			e.printStackTrace();
@@ -109,8 +110,8 @@ public class FooFactory {
 	public static Object getWatch(String name) {
 		return watches.get(name);
 	}
-	
-	public static void parse(){
+
+	public static void parse() {
 		debug("parsing xml window");
 		Element root = FooXML.getElement("GUI");
 		parse(root);
@@ -118,16 +119,15 @@ public class FooFactory {
 		finishLayout(root);
 		debug("xml window parsed");
 	}
-	
-	
-	private static void parse(Element root) {
-		
+
+	public static void parse(Element root) {
+
 		Element views = root;
 
 		NodeList nodes = views.getChildNodes();
-		
+
 		for (int i = 0; i < nodes.getLength(); i++) {
-			
+
 			Node node = nodes.item(i);
 
 			if (node instanceof Element) {
@@ -156,15 +156,14 @@ public class FooFactory {
 			return null;
 		}
 
-		if (!element.hasAttribute("type")
-				&& element.getNodeName().equals("action")) {
+		if (!element.hasAttribute("type") && element.getNodeName().equals("action")) {
 			type = getDefaultType(element);
 		}
 
 		// TODO: move debug
 		FooFactorySub sub = factories.get(type);
 		if (sub == null) {
-			debug("no factory for "+ type);
+			debug("no factory for " + type);
 			return null;
 		}
 
@@ -187,33 +186,35 @@ public class FooFactory {
 			}
 		}
 	}
-	
+
 	private static void finishLayout(Element root) {
-		
+
 		Element views = root;
 
 		NodeList nodes = views.getChildNodes();
-		
+
 		for (int i = 0; i < nodes.getLength(); i++) {
-			
+
 			Node node = nodes.item(i);
 
 			if (node instanceof Element) {
 
 				Element child = (Element) node;
 
-				if (child.getNodeName().equals("shell")){
+				if (child.getNodeName().equals("shell")) {
 					Object o = getView(child.getAttribute("name"));
-					if (o instanceof FooShell){
-						((FooShell) o).getShell().layout();
+					if (o instanceof FooShell) {
+						if (!((FooShell) o).isDisposed()) {
+							((FooShell) o).getShell().layout();
+						}
 					}
 				}
 
 				finishLayout(child);
 			}
-		}		
+		}
 	}
-	
+
 	private static String getDefaultType(Element element) {
 		Element root = element;
 		do {

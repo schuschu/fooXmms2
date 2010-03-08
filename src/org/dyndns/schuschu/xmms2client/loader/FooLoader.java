@@ -36,6 +36,8 @@ public class FooLoader {
 		// Params, core
 		parseXML();
 		parseArgs(args);
+		
+		FooFactory.loadPluginsSilent(FooXML.getElement("core"));
 
 		// GUI init (debug(
 		FooSWT.createDebug();
@@ -43,7 +45,7 @@ public class FooLoader {
 		createClient(args);
 
 		// Window elements
-		FooFactory.loadPlugins();
+		FooFactory.loadPlugins(FooXML.getElement("plugins"));
 
 		// Open window
 		FooSWT.init();
