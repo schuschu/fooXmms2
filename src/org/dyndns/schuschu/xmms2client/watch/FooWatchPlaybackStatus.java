@@ -14,7 +14,7 @@ import se.fnord.xmms2.client.types.PlaybackStatus;
 
 public class FooWatchPlaybackStatus extends Thread implements FooInterfaceDebug{
 
-	private static final boolean DEBUG = FooLoader.DEBUG;
+	private static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 	private FooColor debugForeground = FooColor.WHITE;
 	private FooColor debugBackground = FooColor.RED;
 

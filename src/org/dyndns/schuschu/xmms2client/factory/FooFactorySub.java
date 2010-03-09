@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 
 public abstract class FooFactorySub {
 	
-	protected static final boolean DEBUG = FooLoader.DEBUG;
+	protected static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 	protected FooColor debugForeground = FooColor.WHITE;
 	protected FooColor debugBackground = FooColor.BLUE;
 

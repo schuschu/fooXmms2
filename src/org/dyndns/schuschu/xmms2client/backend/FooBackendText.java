@@ -27,7 +27,7 @@ import se.fnord.xmms2.client.types.PlaybackStatus;
 
 public class FooBackendText implements FooInterfaceBackendText,FooInterfaceDebug {
 
-	private static final boolean DEBUG = FooLoader.DEBUG;
+	private static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 	private String name;
 
 	private FooColor debugForeground = FooColor.BLACK;

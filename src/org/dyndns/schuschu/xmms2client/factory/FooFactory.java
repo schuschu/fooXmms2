@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 
 public class FooFactory {
 
-	private static final boolean DEBUG = FooLoader.DEBUG;
+	private static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 
 	private static void debug(String message) {
 		if (DEBUG) {
@@ -134,14 +134,16 @@ public class FooFactory {
 
 				Element child = (Element) node;
 
-				// if debugonly the factory will only continue parsing if debug is true,
-				// default is false
-				boolean debugonly = child.hasAttribute("debugonly") ? child
-						.getAttribute("debugonly").equals("true") : false;
-						
-				boolean stop = debugonly && !FooLoader.DEBUG;
+				// if onlyif is defined, the Factory will check is such a attribute is
+				// defined and true, else it will stop parsing
+				boolean allowed = true;
+				if (child.hasAttribute("onlyif")) {
+					String string = child.getAttribute("onlyif");
+					allowed = FooLoader.containsArg(string) ? FooLoader
+							.getBooleanArg(string) : false;
+				}
 
-				if (!stop) {
+				if (allowed) {
 
 					try {
 						FooFactory.create(child);

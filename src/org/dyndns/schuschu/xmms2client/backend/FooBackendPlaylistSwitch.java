@@ -27,7 +27,7 @@ import se.fnord.xmms2.client.types.CollectionNamespace;
 public class FooBackendPlaylistSwitch extends Observable implements
 		Serializable, FooInterfaceBackend,FooInterfaceDebug {
 
-	private static final boolean DEBUG = FooLoader.DEBUG;
+	private static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 	private String name;
 
 	private FooColor debugForeground = FooColor.BLACK;

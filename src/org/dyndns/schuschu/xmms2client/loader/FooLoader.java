@@ -2,6 +2,7 @@ package org.dyndns.schuschu.xmms2client.loader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.dyndns.schuschu.xmms2client.backend.FooBackendDebug;
 import org.dyndns.schuschu.xmms2client.factory.FooFactory;
@@ -17,13 +18,33 @@ import se.fnord.xmms2.client.ClientStatus;
  */
 public class FooLoader {
 
-	public static boolean DEBUG;
+	// public static boolean DEBUG;
 
 	public static Client CLIENT;
 	public static FooBackendDebug DOUTPUT;
 
 	private static String host;
 	private static int port;
+	private static boolean debug;
+
+	private static HashMap<String, String> arguments;
+
+	public static boolean containsArg(String string) {
+		return arguments.containsKey(string);
+	}
+
+	public static boolean getBooleanArg(String string) {
+		return arguments.containsKey(string) ? arguments.get(string).equals("true")
+				: false;
+	}
+
+	public static String getStringArg(String string) {
+		return arguments.get(string);
+	}
+
+	public static int getIntArg(String string) {
+		return Integer.parseInt(getStringArg(string));
+	}
 
 	/**
 	 * parses command line arguments initializes main window
@@ -35,7 +56,7 @@ public class FooLoader {
 		// Params, core
 		parseXML();
 		parseArgs(args);
-		
+
 		FooFactory.loadPluginsSilent(FooXML.getElement("core"));
 
 		// GUI init (debug(
@@ -103,8 +124,7 @@ public class FooLoader {
 				"config/client", "ip") : "127.0.0.1";
 		port = FooXML.exists("config/client", "port") ? FooXML.getInt(
 				"config/client", "port") : 9667;
-
-		DEBUG = FooXML.exists("config/debug", "enabled") ? FooXML.getBool(
+		debug = FooXML.exists("config/debug", "enabled") ? FooXML.getBool(
 				"config/debug", "enabled") : false;
 
 		// parsing command line arguments
@@ -146,7 +166,7 @@ public class FooLoader {
 				try {
 					run++;
 					if (args[run].equals("on") || args[run].equals("off")) {
-						FooLoader.DEBUG = args[run].equals("on");
+						debug = args[run].equals("on");
 					} else {
 						exitWithError("please specify either on or off");
 					}
@@ -157,6 +177,11 @@ public class FooLoader {
 				exitWithError("unkown argument " + args[run]);
 			}
 		}
+		arguments = FooXML.getArguments("config/arguments");
+
+		arguments.put("host", host);
+		arguments.put("port", Integer.toString(port));
+		arguments.put("debug", Boolean.toString(debug));
 	}
 
 	private static void exitWithError(String message) {

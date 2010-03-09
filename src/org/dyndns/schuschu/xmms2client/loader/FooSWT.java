@@ -34,7 +34,7 @@ public class FooSWT {
 	}
 
 	public static void createDebug() {
-		if (FooLoader.DEBUG) {
+		if (FooLoader.getBooleanArg("debug")) {
 			FooLoader.DOUTPUT.setForeground(FooColor.RED);
 			System.out.println("Welcome to fooXmms2");
 			FooLoader.DOUTPUT.setForeground(FooColor.RED);

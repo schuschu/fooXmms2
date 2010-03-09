@@ -1,7 +1,7 @@
 <fooXmms2>
 	<config>
  		<client ip="127.0.0.1" port="9667"/>
-		<debug enabled="false"/>
+		<arguments debug="false" tray="true"/>
 	</config>
 	
 	<core>
@@ -40,7 +40,7 @@
 	</plugins>
 	
 	<GUI>
-		<shell type="FooShell" name="debug" width="400" heigth="400" text="debug console" debugonly="true">
+		<shell type="FooShell" name="debug" width="400" heigth="400" text="debug console" onlyif="debug">
 			<view type="FooTable" name="debugTable" style="FULL_SELECTION">
 				<backend type="FooBackendDebug" name="debugBackend"/>
 			</view>
@@ -76,7 +76,7 @@
 					<debug type="FooDebug" fg="RED" bg="CYAN"/>
 				</watch>
 			</backend>
-			<item type="FooTrayItem" name="tray">
+			<item type="FooTrayItem" name="tray" onlyif="tray">
 				<menu type="FooMenu" name="trayMenu" style="POP_UP">
 					<item type="FooMenuItem" name="trayPlay" style="PUSH" text="Play">
 						<action name="play" type="Playback"/>

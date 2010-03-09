@@ -39,7 +39,7 @@ import se.fnord.xmms2.client.types.InfoQuery;
 public class FooBackendPlaylist implements Serializable,
 		FooInterfaceBackendPlaylist,FooInterfaceDebug {
 
-	private static final boolean DEBUG = FooLoader.DEBUG;
+	private static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 	private String name;
 
 	private FooColor debugForeground = FooColor.BLACK;

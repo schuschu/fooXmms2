@@ -1,6 +1,7 @@
 package org.dyndns.schuschu.xmms2client.loader;
 
 import java.io.*;
+import java.util.HashMap;
 
 import javax.xml.parsers.*;
 
@@ -97,15 +98,14 @@ public class FooXML {
 		return item;
 	}
 
-	public static boolean exists(Element root, String elementPath,
-			String attrName) {
+	public static boolean exists(Element root, String elementPath, String attrName) {
 		Element item = getElement(root, elementPath);
 		return item.hasAttribute(attrName);
 	}
 
 	public static boolean exists(String elementPath, String attrName) {
 		Element item = getElement(elementPath);
-		if (item==null) {
+		if (item == null) {
 			return false;
 		}
 		return item.hasAttribute(attrName);
@@ -158,6 +158,18 @@ public class FooXML {
 		Node nValue = (Node) nlList.item(0);
 
 		return nValue.getNodeValue();
+
+	}
+
+	public static HashMap<String, String> getArguments(String elementPath) {
+		Element arguments = FooXML.getElement(elementPath);
+		NamedNodeMap map = arguments.getAttributes();
+		HashMap<String, String> hm = new HashMap<String, String>();
+		for (int i = 0; i < map.getLength(); i++) {
+			Node node = map.item(i);
+			hm.put(node.getNodeName(), node.getTextContent());
+		}
+		return hm;
 
 	}
 }

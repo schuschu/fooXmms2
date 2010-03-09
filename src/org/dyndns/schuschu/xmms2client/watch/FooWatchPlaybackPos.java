@@ -16,7 +16,7 @@ import se.fnord.xmms2.client.commands.Playback;
 
 public class FooWatchPlaybackPos extends Thread implements FooInterfaceDebug {
 
-	private static final boolean DEBUG = FooLoader.DEBUG;
+	private static final boolean DEBUG = FooLoader.getBooleanArg("debug");
 	private HashMap<FooInterfacePlaybackPos,FooColor> debugForeground;
 	private HashMap<FooInterfacePlaybackPos,FooColor> debugBackground;
 
