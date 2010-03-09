@@ -1,3 +1,7 @@
 [submodule "xmms2-java"]
 	path = xmms2-java
 	url = git@github.com:schuschu/xmms2-java.git
+
+[submodule "dbus-java"]
+  path = dbus-java
+  url = git://anongit.freedesktop.org/dbus/dbus-java
