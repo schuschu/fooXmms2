@@ -10,6 +10,7 @@ import org.dyndns.schuschu.xmms2client.interfaces.backend.FooInterfaceMenu;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceComposite;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceDecorations;
 import org.dyndns.schuschu.xmms2client.interfaces.view.FooInterfaceText;
+import org.dyndns.schuschu.xmms2client.loader.FooLoader;
 import org.dyndns.schuschu.xmms2client.view.layout.FooLayoutType;
 import org.dyndns.schuschu.xmms2client.view.menu.FooMenu;
 import org.eclipse.swt.graphics.Image;
@@ -146,9 +147,13 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 						.getAttribute("layout") : "FillLayout";
 
 				boolean maximized = element.hasAttribute("maximized") ? element
-						.getAttribute("maximized").equals("true") : false;
+						.getAttribute("maximized").equals("true")
+						|| (element.getAttribute("maximized").equals("global") && FooLoader
+								.getBooleanArg("maximized")) : false;
 				boolean visible = element.hasAttribute("visible") ? element
-						.getAttribute("visible").equals("true") : true;
+						.getAttribute("visible").equals("true")
+						|| (element.getAttribute("visible").equals("global") && FooLoader
+								.getBooleanArg("visible")) : true;
 
 				debug("creating FooShell " + name);
 

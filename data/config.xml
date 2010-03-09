@@ -1,7 +1,7 @@
 <fooXmms2>
 	<config>
  		<client ip="127.0.0.1" port="9667"/>
-		<arguments debug="false" tray="true"/>
+		<arguments debug="false" tray="true" visible="true"/>
 	</config>
 	
 	<core>
@@ -63,7 +63,7 @@
 				</menu>
 			</menubar>
 		</shell>
-		<shell type="FooShell" name="main" layout="FormLayout">
+		<shell type="FooShell" name="main" layout="FormLayout" visible="global">
 			<backend type="FooBackendText" name="windowtitleBackend" format="fooXmms2: (%status%) %artist% - %title%: %currentTime%/%duration%">
 				<debug type="FooDebug" fg="DARK_YELLOW"/>
 				<watch type="FooWatchCurrentTrack" name="watchWindowTrack">
