@@ -107,4 +107,9 @@ public class FooLabel implements FooInterfaceText, FooInterfaceControl {
 		FooFactory.factories.put("FooLabel", factory);
 	}
 
+	@Override
+	public boolean isDisposed() {
+		return label.isDisposed();
+	}
+
 }

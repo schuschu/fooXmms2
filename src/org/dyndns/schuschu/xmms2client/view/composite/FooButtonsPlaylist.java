@@ -115,4 +115,9 @@ public class FooButtonsPlaylist implements FooInterfaceControl{
 		FooFactory.factories.put("FooButtonsPlaylist", factory);
 	}
 
+	@Override
+	public boolean isDisposed() {
+		return composite.isDisposed();
+	}
+
 }

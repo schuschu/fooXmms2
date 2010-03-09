@@ -27,9 +27,13 @@ public class FooMenu implements FooInterfaceMenu {
 	public FooMenu(FooInterfaceDecorations parent, int style) {
 		setMenu(new Menu(parent.getDecorations(), style));
 	}
-	
+
 	public FooMenu(Decorations parent, int style) {
 		setMenu(new Menu(parent, style));
+	}
+
+	public boolean isDisposed() {
+		return menu.isDisposed();
 	}
 
 	public void setMenu(Menu menu) {
@@ -67,22 +71,21 @@ public class FooMenu implements FooInterfaceMenu {
 				if (element.hasAttribute("style")) {
 					String string = element.getAttribute("style");
 					int style = FooStyle.valueOf(string).getCode();
-					
+
 					switch (style) {
 					case SWT.BAR:
 						debug("creating menubar for " + view);
-						menu = new FooMenu(
-								getDecoration(view), style);
+						menu = new FooMenu(getDecoration(view), style);
 						getDecoration(view).setMenubar(menu);
 						break;
 					case SWT.DROP_DOWN:
 						debug("creating dropdown menu for " + view);
-						menu= new FooMenu(getShell(element), style);
+						menu = new FooMenu(getShell(element), style);
 						getView(view).setMenu(menu);
 						break;
 					case SWT.POP_UP:
 						debug("creating popup menu for " + view);
-						menu= new FooMenu(getDecoration(view), style);
+						menu = new FooMenu(getDecoration(view), style);
 						getView(view).setMenu(menu);
 					}
 				} else {
@@ -92,9 +95,9 @@ public class FooMenu implements FooInterfaceMenu {
 					menu = new FooMenu(getShell(element));
 					getView(view).setMenu(menu);
 				}
-				
+
 				FooFactory.putView(name, menu);
-				
+
 				return menu;
 			}
 
@@ -105,7 +108,7 @@ public class FooMenu implements FooInterfaceMenu {
 				}
 				return null;
 			}
-			
+
 			private FooShell getShell(Element element) {
 				Element root = element;
 				do {

@@ -40,60 +40,28 @@
 	</plugins>
 	
 	<GUI>
-		<shell type="FooShell" name="debug" width="400" heigth="400" text="debug console">
+		<shell type="FooShell" name="debug" width="400" heigth="400" text="debug console" debugonly="true">
+			<view type="FooTable" name="debugTable" style="FULL_SELECTION">
+				<backend type="FooBackendDebug" name="debugBackend"/>
+			</view>
 			<menubar type="FooMenu" name="menubar" style="BAR">
-				<menu type="FooMenuItem" name="fileHeader" style="CASCADE" text="&amp;File">
-					<menu type="FooMenu" name="fileMenu" style="DROP_DOWN">
-						<item type="FooMenuItem" name="fileAddDir" style="PUSH" text="Add Folder">
-							<action name="add_dir" type="MediaLib"/>
+				<menu type="FooMenuItem" name="debugFileHeader" style="CASCADE" text="&amp;File">
+					<menu type="FooMenu" name="debugFileMenu" style="DROP_DOWN">
+						<item type="FooMenuItem" name="debugSave" style="PUSH" text="Save log">
 						</item>
-						<item type="FooMenuItem" name="fileQuit" style="PUSH" text="Quit">
+						<item type="FooMenuItem" name="debugfileQuit" style="PUSH" text="Quit">
 							<action name="exit" type="System"/>
 						</item>
 					</menu>
 				</menu>
-				<menu type="FooMenuItem" name="playbackHeader" style="CASCADE" text="Play&amp;back">
-					<menu type="FooMenu" name="playbackMenu" style="DROP_DOWN">
-						<item type="FooMenuItem" name="playbackPlay" style="PUSH" text="Play">
-							<action name="play" type="Playback"/>
-						</item>
-						<item type="FooMenuItem" name="playbackPause" style="PUSH" text="Pause">
-							<action name="pause" type="Playback"/>
-						</item>
-						<item type="FooMenuItem" name="playbackStop" style="PUSH" text="Stop">
-							<action name="stop" type="Playback"/>
-						</item>
-						<item type="FooMenuItem" name="playbackPrev" style="PUSH" text="Prev">
-							<action name="prev" type="Playback"/>
-						</item>
-						<item type="FooMenuItem" name="playbackNext" style="PUSH" text="Next">
-							<action name="next" type="Playback"/>
-						</item>
-					</menu>
-				</menu>
-				<menu type="FooMenuItem" name="playlistHeader" style="CASCADE" text="Play&amp;list">
-					<menu type="FooMenu" name="playlistMenu" style="DROP_DOWN">
-						<item type="FooMenuItem" name="playlistAdd" style="PUSH" text="New">
-							<action name="newlist" type="Playlist"/>
-						</item>
-						<item type="FooMenuItem" name="playlistDel" style="PUSH" text="Delete">
-							<action name="delete" type="Playlist"/>
-						</item>
-						<item type="FooMenuItem" name="playlistSort" style="PUSH" text="Change order">
-							<action name="sort" type="Playlist"/>
-						</item>
-						<item type="FooMenuItem" name="playlistShuffle" style="PUSH" text="Shuffle">
-							<action name="shuffle" type="Playlist"/>
-						</item>
-						<item type="FooMenuItem" name="playlistSave" style="PUSH" text="Export">
-							<action name="save" type="Playlist"/>
+				<menu type="FooMenuItem" name="debugOptionsHeader" style="CASCADE" text="&amp;Options">
+					<menu type="FooMenu" name="debugOptionsMenu" style="DROP_DOWN">
+						<item type="FooMenuItem" name="debugClear" style="PUSH" text="Clear">
+							<action name="clear" type="debugBackend"/>
 						</item>
 					</menu>
 				</menu>
 			</menubar>
-			<view type="FooTable" name="debugTable" style="FULL_SELECTION">
-				<backend type="FooBackendDebug" name="debugBackend" debugonly="true"/>
-			</view>
 		</shell>
 		<shell type="FooShell" name="main" layout="FormLayout">
 			<backend type="FooBackendText" name="windowtitleBackend" format="fooXmms2: (%status%) %artist% - %title%: %currentTime%/%duration%">

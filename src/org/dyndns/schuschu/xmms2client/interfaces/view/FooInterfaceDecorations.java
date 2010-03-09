@@ -7,4 +7,6 @@ public interface FooInterfaceDecorations {
 	public Decorations getDecorations();
 	
 	public void setMenubar(FooMenu menu);
+	
+	public boolean isDisposed();
 }

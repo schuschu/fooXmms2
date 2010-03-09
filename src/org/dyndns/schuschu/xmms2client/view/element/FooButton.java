@@ -70,6 +70,11 @@ public class FooButton implements FooInterfaceControl {
 	public Control getControl() {
 		return button;
 	}
+
+	@Override
+	public boolean isDisposed() {
+		return button.isDisposed();
+	}
 	
 	//TODO: factories and registration
 

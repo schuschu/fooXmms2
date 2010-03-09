@@ -4,4 +4,6 @@ import org.eclipse.swt.widgets.Control;
 
 public interface FooInterfaceControl {
 	public Control getControl();
+	
+	public boolean isDisposed();
 }

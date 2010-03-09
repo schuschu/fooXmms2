@@ -88,4 +88,9 @@ public class FooSashForm implements FooInterfaceControl, FooInterfaceComposite {
 		return sash;
 	}
 
+	@Override
+	public boolean isDisposed() {
+		return sash.isDisposed();
+	}
+
 }

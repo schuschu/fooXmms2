@@ -148,4 +148,9 @@ public class FooTrayItem implements FooInterfaceMenu, FooInterfaceDecorations {
 		shell.setMenubar(menu);
 
 	}
+
+	@Override
+	public boolean isDisposed() {
+		return item.isDisposed();
+	}
 }

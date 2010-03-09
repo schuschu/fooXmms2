@@ -20,7 +20,7 @@ public class FooFactory {
 
 	private static void debug(String message) {
 		if (DEBUG) {
-			if (FooLoader.DOUTPUT!=null) {
+			if (FooLoader.DOUTPUT != null) {
 				FooLoader.DOUTPUT.setForeground(FooColor.WHITE);
 				FooLoader.DOUTPUT.setBackground(FooColor.DARK_BLUE);
 			}
@@ -134,12 +134,23 @@ public class FooFactory {
 
 				Element child = (Element) node;
 
-				try {
-					FooFactory.create(child);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
+				// if debugonly the factory will only continue parsing if debug is true,
+				// default is false
+				boolean debugonly = child.hasAttribute("debugonly") ? child
+						.getAttribute("debugonly").equals("true") : false;
+						
+				boolean stop = debugonly && !FooLoader.DEBUG;
+
+				if (!stop) {
+
+					try {
+						FooFactory.create(child);
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					}
+					parse(child);
+
 				}
-				parse(child);
 			}
 		}
 	}

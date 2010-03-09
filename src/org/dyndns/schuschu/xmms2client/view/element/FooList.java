@@ -220,4 +220,9 @@ public class FooList implements FooInterfaceView,FooInterfaceControl,FooInterfac
 		
 		FooFactory.factories.put("FooList", factory);
 	}
+
+	@Override
+	public boolean isDisposed() {
+		return list.isDisposed();
+	}
 }

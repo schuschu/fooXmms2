@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 import org.w3c.dom.Element;
 
-public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
+public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu {
 
 	private MenuItem item;
 	private Vector<FooAction> actions;
@@ -25,7 +25,6 @@ public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 	}
 
 	public FooMenuItem(FooMenu parent, int style) {
-
 		actions = new Vector<FooAction>();
 
 		item = new MenuItem(parent.getMenu(), style);
@@ -44,17 +43,17 @@ public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 			}
 		};
 	}
-	
-	//TODO: remove
-	public void addListener(int eventType, Listener listener){
+
+	// TODO: remove
+	public void addListener(int eventType, Listener listener) {
 		item.addListener(eventType, listener);
 	}
-	
-	public void setSelection(boolean selected){
+
+	public void setSelection(boolean selected) {
 		item.setSelection(selected);
 	}
-	
-	public boolean getSelection(){
+
+	public boolean getSelection() {
 		return item.getSelection();
 	}
 
@@ -65,33 +64,33 @@ public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 	@Override
 	public void addAction(FooSource source, FooAction action) {
 		actions.add(action);
-		
+
 	}
 
 	@Override
 	public void removeAction(FooSource source, FooAction action) {
 		actions.remove(action);
-		
+
 	}
-	
-	public static void registerFactory(){
+
+	public static void registerFactory() {
 		FooFactorySub factory = new FooFactorySub() {
-			
+
 			@Override
 			public Object create(Element element) {
-				//VIEW
-			
+				// VIEW
+
 				// get the parent nodes name for view (since menu are always direct
 				// below (hirachical) their view element)
-				Element father =(Element) element.getParentNode();
+				Element father = (Element) element.getParentNode();
 				String menu = father.getAttribute("name");
 
-				//text of the menuitem, no default
+				// text of the menuitem, no default
 				String text = element.getAttribute("text");
-				
+
 				// name equals variable name, no default
 				String name = element.getAttribute("name");
-				
+
 				// style attribute defines the look of the widget, default is
 				// none
 				int style = SWT.NONE;
@@ -104,15 +103,15 @@ public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 						style = style | i;
 					}
 				}
- 
-				FooMenuItem item = new FooMenuItem(getMenu(menu),style);
+
+				FooMenuItem item = new FooMenuItem(getMenu(menu), style);
 				item.setText(text);
-				
+
 				FooFactory.putView(name, item);
 
 				return menu;
 			}
-		
+
 			private FooMenu getMenu(String s) {
 				Object o = FooFactory.getView(s);
 				if (o instanceof FooMenu) {
@@ -126,7 +125,7 @@ public class FooMenuItem implements FooInterfaceAction, FooInterfaceMenu{
 
 	@Override
 	public void setMenu(FooMenu menu) {
-		item.setMenu(menu.getMenu());		
+		item.setMenu(menu.getMenu());
 	}
 
 }

@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 
 public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 		FooInterfaceDecorations, FooInterfaceText {
-	
+
 	private Shell shell;
 	private Point location;
 	private boolean maximized;
@@ -36,12 +36,12 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	public FooShell() {
 		shell = new Shell(Display.getDefault());
 	}
-	
-	public void open(){
+
+	public void open() {
 		shell.open();
 	}
-	
-	public void close(){
+
+	public void close() {
 		shell.close();
 	}
 
@@ -54,15 +54,15 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 		shell.setLayout(layout);
 	}
 
-	public boolean getMaximized(){
+	public boolean getMaximized() {
 		return shell.getMaximized();
 	}
-	
+
 	public void setMaximized(boolean maximized) {
-		this.maximized=maximized;
+		this.maximized = maximized;
 		shell.setMaximized(maximized);
 	}
-	
+
 	public void setVisible(boolean visible) {
 		shell.setVisible(visible);
 	}
@@ -74,7 +74,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 	public void toggleVisible() {
 		if (getVisible()) {
 			location = getLocation();
-			location = location.x<0 || location.y<0 ? null: location;
+			location = location.x < 0 || location.y < 0 ? null : location;
 			maximized = getMaximized();
 		} else {
 			if (location != null) {
@@ -163,19 +163,17 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 
 				// absolute values, one to default and windowmanager does the
 				// magic
-				String xstring = element.hasAttribute("x") ? element
-						.getAttribute("x") : "default";
-				String ystring = element.hasAttribute("y") ? element
-						.getAttribute("y") : "default";
+				String xstring = element.hasAttribute("x") ? element.getAttribute("x")
+						: "default";
+				String ystring = element.hasAttribute("y") ? element.getAttribute("y")
+						: "default";
 
 				if (!ystring.equals("default") || !xstring.equals("default")) {
 
 					int x = xstring.equals("center") ? bounds.x
-							+ (bounds.width - rect.width) / 2 : Integer
-							.parseInt(xstring);
+							+ (bounds.width - rect.width) / 2 : Integer.parseInt(xstring);
 					int y = ystring.equals("center") ? bounds.y
-							+ (bounds.height - rect.height) / 2 : Integer
-							.parseInt(ystring);
+							+ (bounds.height - rect.height) / 2 : Integer.parseInt(ystring);
 
 					// offset values
 					String xoffstring = element.hasAttribute("xoff") ? element
@@ -212,8 +210,7 @@ public class FooShell implements FooInterfaceComposite, FooInterfaceMenu,
 					}
 				} else {
 					// TODO: find better way to do this
-					image = new Image(Display.getDefault(),
-							"pixmaps/xmms2-128.png");
+					image = new Image(Display.getDefault(), "pixmaps/xmms2-128.png");
 				}
 
 				shell.setImage(image);

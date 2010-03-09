@@ -195,4 +195,9 @@ public class FooCombo implements FooInterfaceView, FooInterfaceControl {
 		};
 		FooFactory.factories.put("FooCombo", factory);
 	}
+
+	@Override
+	public boolean isDisposed() {
+		return combo.isDisposed();
+	}
 }
