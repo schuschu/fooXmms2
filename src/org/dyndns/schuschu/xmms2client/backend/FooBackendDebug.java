@@ -404,6 +404,9 @@ public class FooBackendDebug extends OutputStream implements
 				case clear:
 					action = ActionClear(code);
 					break;
+				case deselect:
+					action = ActionDeselect(code);
+					break;
 				}
 
 				view.addAction(source, action);
@@ -423,7 +426,7 @@ public class FooBackendDebug extends OutputStream implements
 	}
 
 	private enum ActionType {
-		clear;
+		clear, deselect;
 	}
 
 	public FooAction ActionClear(int code) {
@@ -444,6 +447,27 @@ public class FooBackendDebug extends OutputStream implements
 			backend.clearTable();
 		}
 	}
+	public FooAction ActionDeselect(int code) {
+		return new ActionDeselect(code, this);
+	}
+
+	private class ActionDeselect extends FooAction {
+
+		private final FooInterfaceBackend backend;
+
+		public ActionDeselect(int code, FooInterfaceBackend backend) {
+			super("deselect", code);
+			this.backend = backend;
+		}
+
+		@Override
+		public void execute() {
+			backend.getView().setSelection(new int[0]);
+			backend.selectionChanged();
+		}
+
+	}
+	
 }
 
 class BufferEntry {

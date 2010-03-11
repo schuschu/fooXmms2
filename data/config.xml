@@ -43,6 +43,7 @@
 		<shell type="FooShell" name="debug" width="400" heigth="400" text="debug console" onlyif="debug">
 			<view type="FooTable" name="debugTable" style="FULL_SELECTION">
 				<backend type="FooBackendDebug" name="debugBackend"/>
+				<action name="deselect" code="ESC" source="KEYBOARD"/>
 			</view>
 			<menubar type="FooMenu" name="menubar" style="BAR">
 				<menu type="FooMenuItem" name="debugFileHeader" style="CASCADE" text="&amp;File">
